@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
+    tools:context=".activity.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="#121276">
+
+            <ImageView
+                android:id="@+id/iv_genduo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:src="@drawable/genduo" />
+
+            <TextView
+                android:textSize="@dimen/text_font_20"
+                android:layout_centerInParent="true"
+                android:id="@+id/tv_tuichu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#fff"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <TextView
+            android:gravity="center"
+            android:textColor="@color/color_FFFFFF"
+            android:text="表单类型"
+            android:id="@+id/v_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_44"
+            android:background="#121276"/>
+
+       <ListView
+           android:layout_below="@id/v_view"
+           android:id="@+id/lv_title"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/padding_20"
+            android:layout_marginLeft="@dimen/padding_20"
+            android:background="@drawable/shape_red"
+            android:layout_marginBottom="@dimen/padding_20"
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_44"
+            android:gravity="center"
+            android:text="完成任务"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/padding_20" />
+
+    </RelativeLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>
