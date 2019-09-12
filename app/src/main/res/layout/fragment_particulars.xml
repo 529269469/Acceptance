@@ -6,8 +6,8 @@
     tools:context=".fragment.main.ParticularsFragment">
 
     <LinearLayout
-        android:paddingTop="@dimen/padding_16"
-        android:paddingLeft="@dimen/padding_16"
+        android:paddingTop="@dimen/padding_30"
+        android:paddingLeft="@dimen/padding_30"
         android:layout_width="@dimen/padding_0"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -17,25 +17,30 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <TextView
-                android:text="编号："
+                android:textColor="@color/color_000"
+                android:text="编        号："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:textColor="@color/color_000"
                 android:layout_marginTop="@dimen/padding_10"
-                android:text="创建者："
+                android:text="创  建  者："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:textColor="@color/color_000"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="责任单位："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:textColor="@color/color_000"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="产品名称："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:textColor="@color/color_000"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="型号代号："
                 android:layout_width="wrap_content"
@@ -75,8 +80,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:paddingTop="@dimen/padding_16"
-        android:paddingLeft="@dimen/padding_16"
+        android:paddingTop="@dimen/padding_30"
+        android:paddingLeft="@dimen/padding_30"
         android:layout_width="@dimen/padding_0"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -86,27 +91,32 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <TextView
-                android:text="名称："
+                android:textColor="@color/color_000"
+                android:text="名        称："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:textColor="@color/color_000"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="创建时间："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:textColor="@color/color_000"
                 android:layout_marginTop="@dimen/padding_10"
-                android:text="类型："
+                android:text="类        型："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:textColor="@color/color_000"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="产品类别："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:textColor="@color/color_000"
                 android:layout_marginTop="@dimen/padding_10"
-                android:text="批次："
+                android:text="批        次："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
