@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,13 +19,18 @@ import android.widget.Toast;
 
 import com.example.acceptance.R;
 import com.example.acceptance.base.BaseActivity;
+import com.example.acceptance.bean.DataPackageBean;
+import com.example.acceptance.utils.ZipUtils2;
 import com.example.acceptance.utils.command.ZipHelper;
 import com.example.acceptance.utils.command.ZipUtils;
 import com.example.acceptance.view.ChangeTextViewSpace;
+import com.thoughtworks.xstream.XStream;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipFile;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,8 +66,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     public void load() {
-        ZipHelper.loadBinary(this, "7zr");
-//        Toast.makeText(this, "加载7zr结果：" + result, Toast.LENGTH_SHORT).show();
+        boolean result = ZipHelper.loadBinary(this, "7zr");
+        Toast.makeText(this, "加载7zr结果：" + result, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -99,13 +105,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                                 startActivityForResult(intent,1);
 
-//                                ZipUtils.pack(LoginActivity.this,
-//                                        "新建文件夹",
-//                                        "新建文件夹.zip");
 
-//                                ZipUtils.unpack(LoginActivity.this,
-//                                        "新建文件夹.zip",
-//                                        "新建文件夹1");
                             }
 
                             @Override
@@ -142,6 +142,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (file.exists()) {
                             String upLoadFilePath = file.toString();
                             String upLoadFileName = file.getName();
+
+//                            try {
+//                                ZipUtils2.UnZipFolder(upLoadFilePath,Environment.getExternalStorageDirectory()+"/数据包/P011");
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+
+
+
+                            XStream xStream=new XStream();
+                            xStream.processAnnotations(DataPackageBean.class);//这里需要注解是你自己根据xml写的bean类(下面附代码解释xml)
+//                            DataPackageBean result = (DataPackageBean) xStream.fromXML(xmlStr);
+
+
+//                            Log.e("TGA", "onActivityResult: "+upLoadFilePath+"        "+ upLoadFileName);
+////                                ZipUtils.pack(LoginActivity.this,
+////                                        "数据包/"+upLoadFileName,
+////                                        "数据包/"+upLoadFileName+".zip");
+//
+//                                ZipUtils.unpack(LoginActivity.this,
+//                                        "数据包/"+upLoadFileName,
+//                                        "数据包/P011");
+
 
 
                         }

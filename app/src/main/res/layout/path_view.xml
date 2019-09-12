@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:textStyle="bold"
+        android:textColor="@color/color_FFFFFF"
+        android:background="@color/color_6DC8FF"
+        android:textSize="@dimen/text_font_30"
+        android:gravity="center"
+        android:text="签名"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_60" />
+
+
+    <com.example.acceptance.view.LinePathView
+        android:id="@+id/path_view"
+        android:layout_width="match_parent"
+        android:layout_height="390dp"
+        android:background="@color/color_FFFFFF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_60"
+        android:layout_marginLeft="@dimen/padding_16"
+        android:layout_marginRight="@dimen/padding_16">
+
+        <Button
+            android:id="@+id/m_btn_clear"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="清除"
+            android:textSize="@dimen/text_font_25" />
+
+        <Button
+            android:id="@+id/m_btn_save"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="保存"
+            android:textSize="@dimen/text_font_25" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_40">
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="1"
+            android:text="序号"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:background="@color/color_D0D0D0"
+            android:layout_width="@dimen/padding_1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="2"
+            android:text="文件类型"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:background="@color/color_D0D0D0"
+            android:layout_width="@dimen/padding_1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="2"
+            android:text="文件代号"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:background="@color/color_D0D0D0"
+            android:layout_width="@dimen/padding_1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="2"
+            android:text="文件名称"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:background="@color/color_D0D0D0"
+            android:layout_width="@dimen/padding_1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="2"
+            android:text="技术状态"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:background="@color/color_D0D0D0"
+            android:layout_width="@dimen/padding_1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="2"
+            android:text="批准人"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:background="@color/color_D0D0D0"
+            android:layout_width="@dimen/padding_1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="2"
+            android:text="批准日期"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:background="@color/color_D0D0D0"
+            android:layout_width="@dimen/padding_1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="2"
+            android:text="是否晒蓝"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:background="@color/color_D0D0D0"
+            android:layout_width="@dimen/padding_1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="3"
+            android:text="验收结论"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:background="@color/color_D0D0D0"
+            android:layout_width="@dimen/padding_1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="2"
+            android:text="备注"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:background="@color/color_D0D0D0"
+            android:layout_width="@dimen/padding_1"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:textSize="@dimen/text_font_13"
+            android:layout_weight="2"
+            android:text="操作"
+            android:gravity="center"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+    <View
+        android:background="@color/color_D0D0D0"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_1"/>
+
+</LinearLayout>

@@ -24,6 +24,8 @@ import com.example.acceptance.base.BaseActivity;
 import com.example.acceptance.bean.TitleBean;
 import com.example.acceptance.fragment.main.ApplyForFragment;
 import com.example.acceptance.fragment.main.ParticularsFragment;
+import com.example.acceptance.fragment.main.kitting.KittingFileFragment;
+import com.example.acceptance.fragment.main.kitting.KittingProductFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,8 @@ public class MainActivity extends BaseActivity {
     private TitleAdapter titleAdapter;
     private TitleAdapter titleAdapter2;
     private Title2Adapter titleAdapter3;
+    private KittingFileFragment kittingFileFragment;
+    private KittingProductFragment kittingProductFragment;
 
     public static Intent openIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -131,7 +135,7 @@ public class MainActivity extends BaseActivity {
                 case 1://验收申请
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
-                            transaction = getSupportFragmentManager().beginTransaction();
+                    transaction = getSupportFragmentManager().beginTransaction();
                     if (applyForFragment == null) {
                         applyForFragment = new ApplyForFragment();
                     }
@@ -151,6 +155,13 @@ public class MainActivity extends BaseActivity {
                     list2.add(new TitleBean("产品齐套性检查"));
                     list2.get(0).setCheck(true);
                     titleAdapter2.notifyDataSetChanged();
+
+                    transaction = getSupportFragmentManager().beginTransaction();
+                    if (kittingFileFragment == null) {
+                        kittingFileFragment = new KittingFileFragment();
+                    }
+                    transaction.replace(R.id.frame, kittingFileFragment);
+                    transaction.commit();
                     break;
                 case 4://过程检查
                     gvTwo.setVisibility(View.VISIBLE);
@@ -205,6 +216,14 @@ public class MainActivity extends BaseActivity {
             switch (position) {
                 case 0:
                     switch (one){
+                        case 3:
+                            transaction = getSupportFragmentManager().beginTransaction();
+                            if (kittingFileFragment == null) {
+                                kittingFileFragment = new KittingFileFragment();
+                            }
+                            transaction.replace(R.id.frame, kittingFileFragment);
+                            transaction.commit();
+                            break;
                         case 4:
                             gvThree.setNumColumns(5);
                             list3.clear();
@@ -223,6 +242,14 @@ public class MainActivity extends BaseActivity {
                     break;
                 case 1:
                     switch (one){
+                        case 3:
+                            transaction = getSupportFragmentManager().beginTransaction();
+                            if (kittingProductFragment == null) {
+                                kittingProductFragment = new KittingProductFragment();
+                            }
+                            transaction.replace(R.id.frame, kittingProductFragment);
+                            transaction.commit();
+                            break;
                         case 4:
                             gvThree.setNumColumns(5);
                             list3.clear();
