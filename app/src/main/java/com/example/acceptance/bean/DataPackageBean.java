@@ -17,6 +17,41 @@ public class DataPackageBean {
     private String productCode;
     private String productType;
     private String batch;
+    private String createTime;
+    private String path;
+
+    @Override
+    public String toString() {
+        return "DataPackageBean{" +
+                "name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", type='" + type + '\'' +
+                ", responseUnit='" + responseUnit + '\'' +
+                ", modalCode='" + modalCode + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productCode='" + productCode + '\'' +
+                ", productType='" + productType + '\'' +
+                ", batch='" + batch + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", path='" + path + '\'' +
+                '}';
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
     public String getName() {
         return name;

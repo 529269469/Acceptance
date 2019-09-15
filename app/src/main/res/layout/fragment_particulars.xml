@@ -52,25 +52,30 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <TextView
+                android:id="@+id/tv_code"
                 android:text="C021"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tv_creator"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="申工"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tv_responseUnit"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="699厂"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tv_productName"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="单机"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tv_modalCode"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="C"
                 android:layout_width="wrap_content"
@@ -126,25 +131,30 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <TextView
+                android:id="@+id/tv_name"
                 android:text="XX单位验收数据包"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tv_createTime"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="2019-9-9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tv_type"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="产品数据包"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tv_productType"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="电气产品"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tv_batch"
                 android:layout_marginTop="@dimen/padding_10"
                 android:text="1"
                 android:layout_width="wrap_content"

@@ -3,20 +3,29 @@ package com.example.acceptance.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.acceptance.R;
 import com.example.acceptance.adapter.Title2Adapter;
 import com.example.acceptance.adapter.TitleAdapter;
@@ -24,9 +33,14 @@ import com.example.acceptance.base.BaseActivity;
 import com.example.acceptance.bean.TitleBean;
 import com.example.acceptance.fragment.main.ApplyForFragment;
 import com.example.acceptance.fragment.main.ParticularsFragment;
+import com.example.acceptance.fragment.main.course.PreProductionFragment;
+import com.example.acceptance.fragment.main.course.StandardFragment;
 import com.example.acceptance.fragment.main.kitting.KittingFileFragment;
 import com.example.acceptance.fragment.main.kitting.KittingProductFragment;
+import com.example.acceptance.net.URLS;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,12 +67,17 @@ public class MainActivity extends BaseActivity {
     ImageView iv_up;
     @BindView(R.id.ll_title)
     LinearLayout ll_title;
+    @BindView(R.id.tv_operation)
+    TextView tvOperation;
 
     private TitleAdapter titleAdapter;
     private TitleAdapter titleAdapter2;
     private Title2Adapter titleAdapter3;
     private KittingFileFragment kittingFileFragment;
     private KittingProductFragment kittingProductFragment;
+    private StandardFragment standardFragment;
+    private PreProductionFragment preProductionFragment;
+    private PopupWindow popupWindow;
 
     public static Intent openIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -73,22 +92,29 @@ public class MainActivity extends BaseActivity {
     private ApplyForFragment applyForFragment;
     private int one;
     private int two;
+
     @Override
     protected void initView() {
         ivGenduo.setOnClickListener(view -> {
             finish();
         });
 
+        tvOperation.setOnClickListener(view -> {
+            operation();
+        });
+
         iv_up.setOnClickListener(view -> {
-            if (ll_title.getVisibility()==View.GONE){
+            if (ll_title.getVisibility() == View.GONE) {
                 ll_title.setVisibility(View.VISIBLE);
                 iv_up.setImageResource(R.drawable.up);
-            }else {
+            } else {
                 iv_up.setImageResource(R.drawable.down);
                 ll_title.setVisibility(View.GONE);
             }
 
         });
+
+        tvTuichu.setText("C021XX单位遥安分系统验收数据包");
         list.add(new TitleBean("详情信息"));
         list.add(new TitleBean("验收申请"));
         list.add(new TitleBean("验收任务单"));
@@ -119,8 +145,8 @@ public class MainActivity extends BaseActivity {
             }
             list.get(position).setCheck(true);
             titleAdapter.notifyDataSetChanged();
-            tvTuichu.setText(list.get(position).getTitle());
-            one=position;
+
+            one = position;
             switch (position) {
                 case 0://详情信息
                     gvTwo.setVisibility(View.GONE);
@@ -182,6 +208,15 @@ public class MainActivity extends BaseActivity {
                     list3.add(new TitleBean("检查结论"));
                     list3.get(0).setCheck(true);
                     titleAdapter3.notifyDataSetChanged();
+
+
+                    transaction = getSupportFragmentManager().beginTransaction();
+                    if (standardFragment == null) {
+                        standardFragment = new StandardFragment();
+                    }
+                    transaction.replace(R.id.frame, standardFragment);
+                    transaction.commit();
+
                     break;
                 case 5://技术类检查
                     gvTwo.setVisibility(View.VISIBLE);
@@ -211,11 +246,10 @@ public class MainActivity extends BaseActivity {
             }
             list2.get(position).setCheck(true);
             titleAdapter2.notifyDataSetChanged();
-            tvTuichu.setText(list2.get(position).getTitle());
-            two=position;
+            two = position;
             switch (position) {
                 case 0:
-                    switch (one){
+                    switch (one) {
                         case 3:
                             transaction = getSupportFragmentManager().beginTransaction();
                             if (kittingFileFragment == null) {
@@ -233,7 +267,14 @@ public class MainActivity extends BaseActivity {
                             list3.add(new TitleBean("产品质量问题归零情况"));
                             list3.add(new TitleBean("检查结论"));
                             list3.get(0).setCheck(true);
+
                             titleAdapter3.notifyDataSetChanged();
+                            transaction = getSupportFragmentManager().beginTransaction();
+                            if (standardFragment == null) {
+                                standardFragment = new StandardFragment();
+                            }
+                            transaction.replace(R.id.frame, standardFragment);
+                            transaction.commit();
                             break;
                         case 5:
                             gvThree.setVisibility(View.GONE);
@@ -241,7 +282,7 @@ public class MainActivity extends BaseActivity {
                     }
                     break;
                 case 1:
-                    switch (one){
+                    switch (one) {
                         case 3:
                             transaction = getSupportFragmentManager().beginTransaction();
                             if (kittingProductFragment == null) {
@@ -260,6 +301,13 @@ public class MainActivity extends BaseActivity {
                             list3.add(new TitleBean("检查结论"));
                             list3.get(0).setCheck(true);
                             titleAdapter3.notifyDataSetChanged();
+
+                            transaction = getSupportFragmentManager().beginTransaction();
+                            if (standardFragment == null) {
+                                standardFragment = new StandardFragment();
+                            }
+                            transaction.replace(R.id.frame, standardFragment);
+                            transaction.commit();
                             break;
                         case 5:
                             gvThree.setVisibility(View.VISIBLE);
@@ -279,7 +327,7 @@ public class MainActivity extends BaseActivity {
                     }
                     break;
                 case 2:
-                    switch (one){
+                    switch (one) {
                         case 5:
                             gvThree.setVisibility(View.VISIBLE);
                             gvThree.setNumColumns(4);
@@ -297,7 +345,7 @@ public class MainActivity extends BaseActivity {
                     }
                     break;
                 case 3:
-                    switch (one){
+                    switch (one) {
                         case 5:
                             gvThree.setVisibility(View.VISIBLE);
                             gvThree.setNumColumns(4);
@@ -328,8 +376,31 @@ public class MainActivity extends BaseActivity {
             tvTuichu.setText(list3.get(position).getTitle());
             switch (position) {
                 case 0:
+                    switch (one) {
+                        case 4:
+                            transaction = getSupportFragmentManager().beginTransaction();
+                            if (standardFragment == null) {
+                                standardFragment = new StandardFragment();
+                            }
+                            transaction.replace(R.id.frame, standardFragment);
+                            transaction.commit();
+                            break;
+
+                    }
                     break;
                 case 1:
+                    switch (one) {
+                        case 4:
+                            transaction = getSupportFragmentManager().beginTransaction();
+                            if (preProductionFragment == null) {
+                                preProductionFragment = new PreProductionFragment();
+                            }
+                            transaction.replace(R.id.frame, preProductionFragment);
+                            transaction.commit();
+                            break;
+
+                    }
+
                     break;
                 case 2:
                     break;
@@ -339,6 +410,28 @@ public class MainActivity extends BaseActivity {
                     break;
             }
         });
+    }
+
+    private void operation() {
+        View poview = getLayoutInflater().inflate(R.layout.tv_operation_view, null);
+        popupWindow = new PopupWindow(poview);
+        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        popupWindow.showAsDropDown(tvOperation);
+
+        popupWindow.setOnDismissListener(() -> {
+            WindowManager.LayoutParams lp1 = getWindow().getAttributes();
+            lp1.alpha = 1f;
+            getWindow().setAttributes(lp1);
+        });
+
+
     }
 
     @Override
@@ -405,10 +498,5 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

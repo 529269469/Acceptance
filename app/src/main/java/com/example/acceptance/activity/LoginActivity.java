@@ -26,8 +26,13 @@ import com.example.acceptance.utils.command.ZipUtils;
 import com.example.acceptance.view.ChangeTextViewSpace;
 import com.thoughtworks.xstream.XStream;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipFile;
@@ -66,8 +71,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     public void load() {
-        boolean result = ZipHelper.loadBinary(this, "7zr");
-        Toast.makeText(this, "加载7zr结果：" + result, Toast.LENGTH_SHORT).show();
+//        boolean result = ZipHelper.loadBinary(this, "7zr");
+//        Toast.makeText(this, "加载7zr结果：" + result, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -86,7 +91,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_new:
-                startActivity(MainActivity.openIntent(LoginActivity.this));
+                startActivity(NewActivity.openIntent(LoginActivity.this));
                 break;
             case R.id.ll_file:
                 List<PermissionItem> permissionItems1 = new ArrayList<PermissionItem>();
@@ -150,21 +155,35 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //                            }
 
 
+                            startActivity(MainActivity.openIntent(LoginActivity.this));
 
-                            XStream xStream=new XStream();
-                            xStream.processAnnotations(DataPackageBean.class);//这里需要注解是你自己根据xml写的bean类(下面附代码解释xml)
-//                            DataPackageBean result = (DataPackageBean) xStream.fromXML(xmlStr);
-
-
-//                            Log.e("TGA", "onActivityResult: "+upLoadFilePath+"        "+ upLoadFileName);
-////                                ZipUtils.pack(LoginActivity.this,
-////                                        "数据包/"+upLoadFileName,
-////                                        "数据包/"+upLoadFileName+".zip");
+//                            String content = ""; //文件内容字符串
+//                            File file1 = new File(Environment.getExternalStorageDirectory()+"/数据包/P011/单机产品数据包.xml");
+//                            try {
+//                                InputStream instream = new FileInputStream(file1);
+//                                InputStreamReader inputreader  = new InputStreamReader (instream,"gbk");
+//                                BufferedReader buffreader = new BufferedReader(inputreader);
+//                                String line;
+//                                //分行读取
+//                                while (( line = buffreader.readLine()) != null) {
+//                                    content += line + "\n";
+//                                }
 //
-//                                ZipUtils.unpack(LoginActivity.this,
-//                                        "数据包/"+upLoadFileName,
-//                                        "数据包/P011");
-
+//                                instream.close();
+//
+//
+//                            } catch (FileNotFoundException e) {
+//                                e.printStackTrace();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                            Log.e("TAG", "onActivityResult: "+content );
+//                            XStream xStream=new XStream();
+//                            xStream.processAnnotations(DataPackageBean.class);//这里需要注解是你自己根据xml写的bean类(下面附代码解释xml)
+//                            DataPackageBean result = (DataPackageBean) xStream.fromXML(content);
+//
+//                            Log.e("TAG", "onActivityResult: "+result.toString() );
 
 
                         }
