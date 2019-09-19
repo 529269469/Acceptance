@@ -20,11 +20,12 @@
             android:src="@drawable/left" />
 
         <TextView
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_left"
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="系统设置"
+            android:text="系统配置"
             android:textColor="#fff"
             android:textSize="@dimen/text_font_20"
             android:textStyle="bold" />

@@ -103,4 +103,5 @@ public class ParticularsFragment extends BaseFragment {
     protected int getLayoutId() {
         return R.layout.fragment_particulars;
     }
+
 }

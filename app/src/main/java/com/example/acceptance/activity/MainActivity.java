@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -20,32 +17,56 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.FragmentTransaction;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.acceptance.R;
 import com.example.acceptance.adapter.Title2Adapter;
 import com.example.acceptance.adapter.TitleAdapter;
 import com.example.acceptance.base.BaseActivity;
 import com.example.acceptance.bean.TitleBean;
+import com.example.acceptance.fragment.main.AcceptanceConclusionFragment;
 import com.example.acceptance.fragment.main.ApplyForFragment;
+import com.example.acceptance.fragment.main.DeliveryFragment;
+import com.example.acceptance.fragment.main.LegacyFragment;
 import com.example.acceptance.fragment.main.ParticularsFragment;
+import com.example.acceptance.fragment.main.TaskFragment;
+import com.example.acceptance.fragment.main.course.ConclusionsCourseFragment;
+import com.example.acceptance.fragment.main.course.MachineryFragment;
 import com.example.acceptance.fragment.main.course.PreProductionFragment;
+import com.example.acceptance.fragment.main.course.ProductInProductionFragment;
 import com.example.acceptance.fragment.main.course.StandardFragment;
+import com.example.acceptance.fragment.main.course.ZeroFragment;
 import com.example.acceptance.fragment.main.kitting.KittingFileFragment;
 import com.example.acceptance.fragment.main.kitting.KittingProductFragment;
-import com.example.acceptance.net.URLS;
+import com.example.acceptance.fragment.main.technology.TechnologyFileFragment;
+import com.example.acceptance.fragment.main.technology.cable.CableAppearanceFragment;
+import com.example.acceptance.fragment.main.technology.cable.CableConclusionFragment;
+import com.example.acceptance.fragment.main.technology.cable.CableConditionsFragment;
+import com.example.acceptance.fragment.main.technology.cable.CablePackagingFragment;
+import com.example.acceptance.fragment.main.technology.cable.CablePerformanceFragment;
+import com.example.acceptance.fragment.main.technology.cable.CableReportFragment;
+import com.example.acceptance.fragment.main.technology.cable.CableSignFragment;
+import com.example.acceptance.fragment.main.technology.electric.ElectricAppearanceFragment;
+import com.example.acceptance.fragment.main.technology.electric.ElectricConclusionFragment;
+import com.example.acceptance.fragment.main.technology.electric.ElectricConditionsFragment;
+import com.example.acceptance.fragment.main.technology.electric.ElectricEnvironmentFragment;
+import com.example.acceptance.fragment.main.technology.electric.ElectricPackagingFragment;
+import com.example.acceptance.fragment.main.technology.electric.ElectricPerformanceFragment;
+import com.example.acceptance.fragment.main.technology.electric.ElectricReportFragment;
+import com.example.acceptance.fragment.main.technology.electric.ElectricSignFragment;
+import com.example.acceptance.fragment.main.technology.machinery.MachineryAppearanceFragment;
+import com.example.acceptance.fragment.main.technology.machinery.MachineryConclusionFragment;
+import com.example.acceptance.fragment.main.technology.machinery.MachineryConditionsFragment;
+import com.example.acceptance.fragment.main.technology.machinery.MachineryPackagingFragment;
+import com.example.acceptance.fragment.main.technology.machinery.MachineryReportFragment;
+import com.example.acceptance.fragment.main.technology.machinery.MachinerySignFragment;
+import com.example.acceptance.fragment.main.technology.machinery.MachinerySizeFragment;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 主页
@@ -78,6 +99,37 @@ public class MainActivity extends BaseActivity {
     private StandardFragment standardFragment;
     private PreProductionFragment preProductionFragment;
     private PopupWindow popupWindow;
+    private ProductInProductionFragment productInProductionFragment;
+    private ZeroFragment zeroFragment;
+    private ConclusionsCourseFragment conclusionsCourseFragment;
+    private MachineryFragment machineryFragment;
+    private AcceptanceConclusionFragment acceptanceConclusionFragment;
+    private LegacyFragment legacyFragment;
+    private DeliveryFragment deliveryFragment;
+    private TaskFragment taskFragment;
+    private TechnologyFileFragment technologyFileFragment;
+    private ElectricConditionsFragment electricConditionsFragment;
+    private MachineryConditionsFragment machineryConditionsFragment;
+    private CableConditionsFragment cableConditionsFragment;
+    private ElectricAppearanceFragment electricAppearanceFragment;
+    private MachineryAppearanceFragment machineryAppearanceFragment;
+    private CableAppearanceFragment cableAppearanceFragment;
+    private ElectricPerformanceFragment electricPerformanceFragment;
+    private MachinerySizeFragment machinerySizeFragment;
+    private CablePerformanceFragment cablePerformanceFragment;
+    private ElectricEnvironmentFragment electricEnvironmentFragment;
+    private MachineryReportFragment machineryReportFragment;
+    private CableReportFragment cableReportFragment;
+    private ElectricReportFragment electricReportFragment;
+    private MachineryPackagingFragment machineryPackagingFragment;
+    private CablePackagingFragment cablePackagingFragment;
+    private ElectricPackagingFragment electricPackagingFragment;
+    private MachinerySignFragment machinerySignFragment;
+    private CableSignFragment cableSignFragment;
+    private ElectricSignFragment electricSignFragment;
+    private CableConclusionFragment cableConclusionFragment;
+    private MachineryConclusionFragment machineryConclusionFragment;
+    private ElectricConclusionFragment electricConclusionFragment;
 
     public static Intent openIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -114,7 +166,7 @@ public class MainActivity extends BaseActivity {
 
         });
 
-        tvTuichu.setText("C021XX单位遥安分系统验收数据包");
+        tvTuichu.setText("C021，XX单位遥安分系统验收数据包");
         list.add(new TitleBean("详情信息"));
         list.add(new TitleBean("验收申请"));
         list.add(new TitleBean("验收任务单"));
@@ -132,7 +184,7 @@ public class MainActivity extends BaseActivity {
         titleAdapter3 = new Title2Adapter(this, list3);
         gvThree.setAdapter(titleAdapter3);
 
-        tvTuichu.setText(list.get(0).getTitle());
+
 
         transaction = getSupportFragmentManager().beginTransaction();
         particularsFragment = new ParticularsFragment();
@@ -147,11 +199,11 @@ public class MainActivity extends BaseActivity {
             titleAdapter.notifyDataSetChanged();
 
             one = position;
+            transaction = getSupportFragmentManager().beginTransaction();
             switch (position) {
                 case 0://详情信息
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
-                    transaction = getSupportFragmentManager().beginTransaction();
                     if (particularsFragment == null) {
                         particularsFragment = new ParticularsFragment();
                     }
@@ -161,7 +213,6 @@ public class MainActivity extends BaseActivity {
                 case 1://验收申请
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
-                    transaction = getSupportFragmentManager().beginTransaction();
                     if (applyForFragment == null) {
                         applyForFragment = new ApplyForFragment();
                     }
@@ -171,6 +222,13 @@ public class MainActivity extends BaseActivity {
                 case 2://验收任务单
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
+
+                    if (taskFragment == null) {
+                        taskFragment = new TaskFragment();
+                    }
+                    transaction.replace(R.id.frame, taskFragment);
+                    transaction.commit();
+
                     break;
                 case 3://齐套性检查
                     gvTwo.setVisibility(View.VISIBLE);
@@ -182,7 +240,6 @@ public class MainActivity extends BaseActivity {
                     list2.get(0).setCheck(true);
                     titleAdapter2.notifyDataSetChanged();
 
-                    transaction = getSupportFragmentManager().beginTransaction();
                     if (kittingFileFragment == null) {
                         kittingFileFragment = new KittingFileFragment();
                     }
@@ -210,7 +267,6 @@ public class MainActivity extends BaseActivity {
                     titleAdapter3.notifyDataSetChanged();
 
 
-                    transaction = getSupportFragmentManager().beginTransaction();
                     if (standardFragment == null) {
                         standardFragment = new StandardFragment();
                     }
@@ -230,12 +286,44 @@ public class MainActivity extends BaseActivity {
                     list2.get(0).setCheck(true);
                     titleAdapter2.notifyDataSetChanged();
 
+                    if (technologyFileFragment == null) {
+                        technologyFileFragment = new TechnologyFileFragment();
+                    }
+                    transaction.replace(R.id.frame, technologyFileFragment);
+                    transaction.commit();
+
+
                     break;
                 case 6://验收结论
+                    gvTwo.setVisibility(View.GONE);
+                    gvThree.setVisibility(View.GONE);
+                    if (acceptanceConclusionFragment == null) {
+                        acceptanceConclusionFragment = new AcceptanceConclusionFragment();
+                    }
+                    transaction.replace(R.id.frame, acceptanceConclusionFragment);
+                    transaction.commit();
+
+                    break;
                 case 7://验收遗留问题落实
+
+                    gvTwo.setVisibility(View.GONE);
+                    gvThree.setVisibility(View.GONE);
+
+                    if (legacyFragment == null) {
+                        legacyFragment = new LegacyFragment();
+                    }
+                    transaction.replace(R.id.frame, legacyFragment);
+                    transaction.commit();
+                    break;
                 case 8://交付清单
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
+                    if (deliveryFragment == null) {
+                        deliveryFragment = new DeliveryFragment();
+                    }
+                    transaction.replace(R.id.frame, deliveryFragment);
+                    transaction.commit();
+
                     break;
 
             }
@@ -247,11 +335,13 @@ public class MainActivity extends BaseActivity {
             list2.get(position).setCheck(true);
             titleAdapter2.notifyDataSetChanged();
             two = position;
+            transaction = getSupportFragmentManager().beginTransaction();
+
             switch (position) {
                 case 0:
                     switch (one) {
                         case 3:
-                            transaction = getSupportFragmentManager().beginTransaction();
+                            //齐套性检查——依据文件检查
                             if (kittingFileFragment == null) {
                                 kittingFileFragment = new KittingFileFragment();
                             }
@@ -269,7 +359,7 @@ public class MainActivity extends BaseActivity {
                             list3.get(0).setCheck(true);
 
                             titleAdapter3.notifyDataSetChanged();
-                            transaction = getSupportFragmentManager().beginTransaction();
+                            //过程检查——电气产品——元器件，原材料，标准件检查
                             if (standardFragment == null) {
                                 standardFragment = new StandardFragment();
                             }
@@ -278,13 +368,18 @@ public class MainActivity extends BaseActivity {
                             break;
                         case 5:
                             gvThree.setVisibility(View.GONE);
+                            if (technologyFileFragment == null) {
+                                technologyFileFragment = new TechnologyFileFragment();
+                            }
+                            transaction.replace(R.id.frame, technologyFileFragment);
+                            transaction.commit();
                             break;
                     }
                     break;
                 case 1:
                     switch (one) {
                         case 3:
-                            transaction = getSupportFragmentManager().beginTransaction();
+                            //齐套性检查——产品齐套性检查
                             if (kittingProductFragment == null) {
                                 kittingProductFragment = new KittingProductFragment();
                             }
@@ -302,11 +397,10 @@ public class MainActivity extends BaseActivity {
                             list3.get(0).setCheck(true);
                             titleAdapter3.notifyDataSetChanged();
 
-                            transaction = getSupportFragmentManager().beginTransaction();
-                            if (standardFragment == null) {
-                                standardFragment = new StandardFragment();
+                            if (machineryFragment == null) {
+                                machineryFragment = new MachineryFragment();
                             }
-                            transaction.replace(R.id.frame, standardFragment);
+                            transaction.replace(R.id.frame, machineryFragment);
                             transaction.commit();
                             break;
                         case 5:
@@ -323,6 +417,13 @@ public class MainActivity extends BaseActivity {
                             list3.add(new TitleBean("检查结论"));
                             list3.get(0).setCheck(true);
                             titleAdapter3.notifyDataSetChanged();
+
+                            if (electricConditionsFragment == null) {
+                                electricConditionsFragment = new ElectricConditionsFragment();
+                            }
+                            transaction.replace(R.id.frame, electricConditionsFragment);
+                            transaction.commit();
+
                             break;
                     }
                     break;
@@ -341,6 +442,12 @@ public class MainActivity extends BaseActivity {
                             list3.add(new TitleBean("检查结论"));
                             list3.get(0).setCheck(true);
                             titleAdapter3.notifyDataSetChanged();
+
+                            if (machineryConditionsFragment == null) {
+                                machineryConditionsFragment = new MachineryConditionsFragment();
+                            }
+                            transaction.replace(R.id.frame, machineryConditionsFragment);
+                            transaction.commit();
                             break;
                     }
                     break;
@@ -359,6 +466,12 @@ public class MainActivity extends BaseActivity {
                             list3.add(new TitleBean("检查结论"));
                             list3.get(0).setCheck(true);
                             titleAdapter3.notifyDataSetChanged();
+
+                            if (cableConditionsFragment == null) {
+                                cableConditionsFragment = new CableConditionsFragment();
+                            }
+                            transaction.replace(R.id.frame, cableConditionsFragment);
+                            transaction.commit();
                             break;
                     }
                     break;
@@ -373,17 +486,55 @@ public class MainActivity extends BaseActivity {
             }
             list3.get(position).setCheck(true);
             titleAdapter3.notifyDataSetChanged();
-            tvTuichu.setText(list3.get(position).getTitle());
+
+            transaction = getSupportFragmentManager().beginTransaction();
+
             switch (position) {
                 case 0:
                     switch (one) {
                         case 4:
-                            transaction = getSupportFragmentManager().beginTransaction();
-                            if (standardFragment == null) {
-                                standardFragment = new StandardFragment();
+                            if (two == 0) {
+                                //过程检查——电气产品——元器件，原材料，标准件检查
+                                if (standardFragment == null) {
+                                    standardFragment = new StandardFragment();
+                                }
+                                transaction.replace(R.id.frame, standardFragment);
+                                transaction.commit();
+                            } else if (two == 1) {
+                                //过程检查—机械产品——原材料，标准件检查
+                                if (standardFragment == null) {
+                                    standardFragment = new StandardFragment();
+                                }
+                                transaction.replace(R.id.frame, standardFragment);
+                                transaction.commit();
                             }
-                            transaction.replace(R.id.frame, standardFragment);
-                            transaction.commit();
+
+                            break;
+                        case 5:
+                            switch (two){
+                                case 1:
+                                    if (electricConditionsFragment == null) {
+                                        electricConditionsFragment = new ElectricConditionsFragment();
+                                    }
+                                    transaction.replace(R.id.frame, electricConditionsFragment);
+                                    transaction.commit();
+                                    break;
+                                case 2:
+                                    if (machineryConditionsFragment == null) {
+                                        machineryConditionsFragment = new MachineryConditionsFragment();
+                                    }
+                                    transaction.replace(R.id.frame, machineryConditionsFragment);
+                                    transaction.commit();
+                                    break;
+                                case 3:
+                                    if (cableConditionsFragment == null) {
+                                        cableConditionsFragment = new CableConditionsFragment();
+                                    }
+                                    transaction.replace(R.id.frame, cableConditionsFragment);
+                                    transaction.commit();
+                                    break;
+
+                            }
                             break;
 
                     }
@@ -391,22 +542,266 @@ public class MainActivity extends BaseActivity {
                 case 1:
                     switch (one) {
                         case 4:
-                            transaction = getSupportFragmentManager().beginTransaction();
-                            if (preProductionFragment == null) {
-                                preProductionFragment = new PreProductionFragment();
+                            if (two == 0) {
+                                //过程检查——电气产品——产品生产前
+                                if (preProductionFragment == null) {
+                                    preProductionFragment = new PreProductionFragment();
+                                }
+                                transaction.replace(R.id.frame, preProductionFragment);
+                                transaction.commit();
+                            } else if (two == 1) {
+                                //过程检查——机械产品——产品生产前
+                                if (preProductionFragment == null) {
+                                    preProductionFragment = new PreProductionFragment();
+                                }
+                                transaction.replace(R.id.frame, preProductionFragment);
+                                transaction.commit();
                             }
-                            transaction.replace(R.id.frame, preProductionFragment);
-                            transaction.commit();
+
+                            break;
+                        case 5:
+                            switch (two){
+                                case 1:
+                                    if (electricAppearanceFragment == null) {
+                                        electricAppearanceFragment = new ElectricAppearanceFragment();
+                                    }
+                                    transaction.replace(R.id.frame, electricAppearanceFragment);
+                                    transaction.commit();
+                                    break;
+                                case 2:
+                                    if (machineryAppearanceFragment == null) {
+                                        machineryAppearanceFragment = new MachineryAppearanceFragment();
+                                    }
+                                    transaction.replace(R.id.frame, machineryAppearanceFragment);
+                                    transaction.commit();
+                                    break;
+                                case 3:
+                                    if (cableAppearanceFragment == null) {
+                                        cableAppearanceFragment = new CableAppearanceFragment();
+                                    }
+                                    transaction.replace(R.id.frame, cableAppearanceFragment);
+                                    transaction.commit();
+                                    break;
+
+                            }
                             break;
 
                     }
 
                     break;
                 case 2:
+
+                    switch (one) {
+                        case 4:
+                            if (two == 0) {
+                                //过程检查——电气产品——产品生产中
+                                if (productInProductionFragment == null) {
+                                    productInProductionFragment = new ProductInProductionFragment();
+                                }
+                                transaction.replace(R.id.frame, productInProductionFragment);
+                                transaction.commit();
+                            } else if (two == 1) {
+                                //过程检查——机械产品——产品生产中
+                                transaction = getSupportFragmentManager().beginTransaction();
+                                if (productInProductionFragment == null) {
+                                    productInProductionFragment = new ProductInProductionFragment();
+                                }
+                                transaction.replace(R.id.frame, productInProductionFragment);
+                                transaction.commit();
+                            }
+                            break;
+                        case 5:
+                            switch (two){
+                                case 1:
+                                    if (electricPerformanceFragment == null) {
+                                        electricPerformanceFragment = new ElectricPerformanceFragment();
+                                    }
+                                    transaction.replace(R.id.frame, electricPerformanceFragment);
+                                    transaction.commit();
+                                    break;
+                                case 2:
+                                    if (machinerySizeFragment == null) {
+                                        machinerySizeFragment = new MachinerySizeFragment();
+                                    }
+                                    transaction.replace(R.id.frame, machinerySizeFragment);
+                                    transaction.commit();
+                                    break;
+                                case 3:
+                                    if (cablePerformanceFragment == null) {
+                                        cablePerformanceFragment = new CablePerformanceFragment();
+                                    }
+                                    transaction.replace(R.id.frame, cablePerformanceFragment);
+                                    transaction.commit();
+                                    break;
+                            }
+                            break;
+
+                    }
                     break;
                 case 3:
+                    switch (one) {
+                        case 4:
+                            if (two == 0) {
+                                //过程检查——电气产品——产品质量问题归零情况
+                                if (zeroFragment == null) {
+                                    zeroFragment = new ZeroFragment();
+                                }
+                                transaction.replace(R.id.frame, zeroFragment);
+                                transaction.commit();
+                            } else if (two == 1) {
+                                //过程检查——机械产品——产品质量问题归零情况
+                                if (zeroFragment == null) {
+                                    zeroFragment = new ZeroFragment();
+                                }
+                                transaction.replace(R.id.frame, zeroFragment);
+                                transaction.commit();
+                            }
+
+                            break;
+                        case 5:
+                            switch (two){
+                                case 1:
+                                    if (electricEnvironmentFragment == null) {
+                                        electricEnvironmentFragment = new ElectricEnvironmentFragment();
+                                    }
+                                    transaction.replace(R.id.frame, electricEnvironmentFragment);
+                                    transaction.commit();
+                                    break;
+                                case 2:
+                                    if (machineryReportFragment == null) {
+                                        machineryReportFragment = new MachineryReportFragment();
+                                    }
+                                    transaction.replace(R.id.frame, machineryReportFragment);
+                                    transaction.commit();
+                                    break;
+                                case 3:
+                                    if (cableReportFragment == null) {
+                                        cableReportFragment = new CableReportFragment();
+                                    }
+                                    transaction.replace(R.id.frame, cableReportFragment);
+                                    transaction.commit();
+                                    break;
+                            }
+                            break;
+
+                    }
                     break;
                 case 4:
+                    switch (one) {
+                        case 4:
+                            if (two == 0) {
+                                //过程检查——电气产品——检查结论
+                                if (conclusionsCourseFragment == null) {
+                                    conclusionsCourseFragment = new ConclusionsCourseFragment();
+                                }
+                                transaction.replace(R.id.frame, conclusionsCourseFragment);
+                                transaction.commit();
+                            } else if (two == 1) {
+                                //过程检查——机械产品——检查结论
+                                if (conclusionsCourseFragment == null) {
+                                    conclusionsCourseFragment = new ConclusionsCourseFragment();
+                                }
+                                transaction.replace(R.id.frame, conclusionsCourseFragment);
+                                transaction.commit();
+                            }
+
+                            break;
+                        case 5:
+                            switch (two){
+                                case 1:
+                                    if (electricReportFragment == null) {
+                                        electricReportFragment = new ElectricReportFragment();
+                                    }
+                                    transaction.replace(R.id.frame, electricReportFragment);
+                                    transaction.commit();
+                                    break;
+                                case 2:
+                                    if (machineryPackagingFragment == null) {
+                                        machineryPackagingFragment = new MachineryPackagingFragment();
+                                    }
+                                    transaction.replace(R.id.frame, machineryPackagingFragment);
+                                    transaction.commit();
+                                    break;
+                                case 3:
+                                    if (cablePackagingFragment == null) {
+                                        cablePackagingFragment = new CablePackagingFragment();
+                                    }
+                                    transaction.replace(R.id.frame, cablePackagingFragment);
+                                    transaction.commit();
+                                    break;
+                            }
+                            break;
+                    }
+                    break;
+                case 5:
+                    if (one==5){
+                        switch (two){
+                            case 1:
+                                if (electricPackagingFragment == null) {
+                                    electricPackagingFragment = new ElectricPackagingFragment();
+                                }
+                                transaction.replace(R.id.frame, electricPackagingFragment);
+                                transaction.commit();
+                                break;
+                            case 2:
+                                if (machinerySignFragment == null) {
+                                    machinerySignFragment = new MachinerySignFragment();
+                                }
+                                transaction.replace(R.id.frame, machinerySignFragment);
+                                transaction.commit();
+                                break;
+                            case 3:
+                                if (cableSignFragment == null) {
+                                    cableSignFragment = new CableSignFragment();
+                                }
+                                transaction.replace(R.id.frame, cableSignFragment);
+                                transaction.commit();
+                                break;
+                        }
+                        break;
+                    }
+                    break;
+                case 6:
+                    if (one==5){
+                        switch (two){
+                            case 1:
+                                if (electricSignFragment == null) {
+                                    electricSignFragment = new ElectricSignFragment();
+                                }
+                                transaction.replace(R.id.frame, electricSignFragment);
+                                transaction.commit();
+                                break;
+                            case 2:
+                                if (machineryConclusionFragment == null) {
+                                    machineryConclusionFragment = new MachineryConclusionFragment();
+                                }
+                                transaction.replace(R.id.frame, machineryConclusionFragment);
+                                transaction.commit();
+                                break;
+                            case 3:
+                                if (cableConclusionFragment == null) {
+                                    cableConclusionFragment = new CableConclusionFragment();
+                                }
+                                transaction.replace(R.id.frame, cableConclusionFragment);
+                                transaction.commit();
+                                break;
+                        }
+                        break;
+                    }
+                    break;
+                case 7:
+                    if (one==5){
+                        switch (two){
+                            case 1:
+                                if (electricConclusionFragment == null) {
+                                    electricConclusionFragment = new ElectricConclusionFragment();
+                                }
+                                transaction.replace(R.id.frame, electricConclusionFragment);
+                                transaction.commit();
+                                break;
+                        }
+                        break;
+                    }
                     break;
             }
         });

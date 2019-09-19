@@ -44,7 +44,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
     @Override
     protected void initEventAndData() {
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             list.add("");
         }
 

@@ -17,24 +17,17 @@
         <Button
             android:layout_centerVertical="true"
             android:id="@+id/bt_relevance"
-            android:text="关联文件"
+            android:text="操作"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/padding_40"/>
-        <Button
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_10"
-            android:layout_toLeftOf="@id/bt_relevance"
-            android:id="@+id/bt_up"
-            android:text="上传文件"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/padding_40"/>
+
 
         <RadioGroup
-            android:layout_marginRight="@dimen/padding_10"
+            android:layout_marginRight="@dimen/padding_20"
             android:orientation="horizontal"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/bt_up"
+            android:layout_toLeftOf="@id/bt_relevance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <RadioButton

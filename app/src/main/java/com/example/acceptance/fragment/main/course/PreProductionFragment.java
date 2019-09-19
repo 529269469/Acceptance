@@ -11,7 +11,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 过程检查——电气产品——元器件，原材料，标准件检查
+ * 过程检查——电气产品——产品生产前
  */
 
 public class PreProductionFragment extends BaseFragment {
@@ -24,7 +24,7 @@ public class PreProductionFragment extends BaseFragment {
     private List<String> list=new ArrayList<>();
     @Override
     protected void initEventAndData() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             list.add("");
         }
 

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.main.technology.electric.ElectricConditionsFragment">
+
+    <LinearLayout
+        android:layout_margin="@dimen/padding_30"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_40">
+            <Button
+                android:text="增加检查项"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <Button
+                android:layout_marginLeft="@dimen/padding_16"
+                android:text="移除检查项"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <Button
+                android:layout_marginLeft="@dimen/padding_16"
+                android:text="编辑检查项"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="@dimen/padding_5"
+            android:background="@color/color_D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_1"/>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="编号："
+                android:textColor="@color/color_000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="C021-01"
+                android:textColor="@color/color_000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:text="名称："
+                android:textColor="@color/color_000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分系统验收申请"
+                android:textColor="@color/color_000" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_10"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_40">
+
+            <TextView
+                android:textColor="@color/color_000"
+                android:text="技术状态检查"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:layout_marginLeft="@dimen/padding_16"
+                android:text="上传文件"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <Button
+                android:layout_marginLeft="@dimen/padding_16"
+                android:text="关联文件"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="@dimen/padding_5"
+            android:background="@color/color_D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_1"/>
+
+        <com.example.acceptance.view.MyListView
+            android:id="@+id/lv_conditions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:layout_marginBottom="@dimen/padding_100"
+            android:layout_marginTop="@dimen/padding_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_marginRight="@dimen/padding_100"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/padding_16"
+                android:text="确定"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <Button
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/padding_16"
+                android:text="取消"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

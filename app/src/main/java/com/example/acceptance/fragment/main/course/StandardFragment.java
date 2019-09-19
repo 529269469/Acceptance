@@ -24,7 +24,7 @@ public class StandardFragment extends BaseFragment {
     private List<String> list=new ArrayList<>();
     @Override
     protected void initEventAndData() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             list.add("");
         }
 
