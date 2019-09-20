@@ -39,7 +39,7 @@ public class ElectricPerformanceFragment extends BaseFragment {
         list.add(performance1Fragment);
         list.add(performance2Fragment);
         list.add(performance3Fragment);
-        adapter = new VpAdapter(getActivity().getSupportFragmentManager(),list);
+        adapter = new VpAdapter(getChildFragmentManager(),list);
         vpEnvironment.setAdapter(adapter);
     }
 

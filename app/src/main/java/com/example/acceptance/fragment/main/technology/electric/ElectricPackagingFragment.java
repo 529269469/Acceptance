@@ -34,7 +34,7 @@ public class ElectricPackagingFragment extends BaseFragment {
 
         list.add(packaging1Fragment);
         list.add(packaging2Fragment);
-        adapter = new VpAdapter(getActivity().getSupportFragmentManager(),list);
+        adapter = new VpAdapter(getChildFragmentManager(),list);
         vpEnvironment.setAdapter(adapter);
     }
 

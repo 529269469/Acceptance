@@ -185,7 +185,6 @@ public class MainActivity extends BaseActivity {
         gvThree.setAdapter(titleAdapter3);
 
 
-
         transaction = getSupportFragmentManager().beginTransaction();
         particularsFragment = new ParticularsFragment();
         transaction.replace(R.id.frame, particularsFragment);
@@ -204,18 +203,18 @@ public class MainActivity extends BaseActivity {
                 case 0://详情信息
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
-                    if (particularsFragment == null) {
-                        particularsFragment = new ParticularsFragment();
-                    }
+                    particularsFragment = null;
+                    particularsFragment = new ParticularsFragment();
+
                     transaction.replace(R.id.frame, particularsFragment);
                     transaction.commit();
                     break;
                 case 1://验收申请
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
-                    if (applyForFragment == null) {
-                        applyForFragment = new ApplyForFragment();
-                    }
+                    applyForFragment = null;
+                    applyForFragment = new ApplyForFragment();
+
                     transaction.replace(R.id.frame, applyForFragment);
                     transaction.commit();
                     break;
@@ -223,9 +222,9 @@ public class MainActivity extends BaseActivity {
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
 
-                    if (taskFragment == null) {
-                        taskFragment = new TaskFragment();
-                    }
+                    taskFragment = null;
+                    taskFragment = new TaskFragment();
+
                     transaction.replace(R.id.frame, taskFragment);
                     transaction.commit();
 
@@ -240,9 +239,9 @@ public class MainActivity extends BaseActivity {
                     list2.get(0).setCheck(true);
                     titleAdapter2.notifyDataSetChanged();
 
-                    if (kittingFileFragment == null) {
-                        kittingFileFragment = new KittingFileFragment();
-                    }
+                    kittingFileFragment = null;
+                    kittingFileFragment = new KittingFileFragment();
+
                     transaction.replace(R.id.frame, kittingFileFragment);
                     transaction.commit();
                     break;
@@ -267,9 +266,9 @@ public class MainActivity extends BaseActivity {
                     titleAdapter3.notifyDataSetChanged();
 
 
-                    if (standardFragment == null) {
-                        standardFragment = new StandardFragment();
-                    }
+                    standardFragment = null;
+                    standardFragment = new StandardFragment();
+
                     transaction.replace(R.id.frame, standardFragment);
                     transaction.commit();
 
@@ -286,9 +285,9 @@ public class MainActivity extends BaseActivity {
                     list2.get(0).setCheck(true);
                     titleAdapter2.notifyDataSetChanged();
 
-                    if (technologyFileFragment == null) {
-                        technologyFileFragment = new TechnologyFileFragment();
-                    }
+                    technologyFileFragment = null;
+                    technologyFileFragment = new TechnologyFileFragment();
+
                     transaction.replace(R.id.frame, technologyFileFragment);
                     transaction.commit();
 
@@ -297,9 +296,9 @@ public class MainActivity extends BaseActivity {
                 case 6://验收结论
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
-                    if (acceptanceConclusionFragment == null) {
-                        acceptanceConclusionFragment = new AcceptanceConclusionFragment();
-                    }
+                    acceptanceConclusionFragment = null;
+                    acceptanceConclusionFragment = new AcceptanceConclusionFragment();
+
                     transaction.replace(R.id.frame, acceptanceConclusionFragment);
                     transaction.commit();
 
@@ -309,18 +308,18 @@ public class MainActivity extends BaseActivity {
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
 
-                    if (legacyFragment == null) {
-                        legacyFragment = new LegacyFragment();
-                    }
+                    legacyFragment = null;
+                    legacyFragment = new LegacyFragment();
+
                     transaction.replace(R.id.frame, legacyFragment);
                     transaction.commit();
                     break;
                 case 8://交付清单
                     gvTwo.setVisibility(View.GONE);
                     gvThree.setVisibility(View.GONE);
-                    if (deliveryFragment == null) {
-                        deliveryFragment = new DeliveryFragment();
-                    }
+                    deliveryFragment = null;
+                    deliveryFragment = new DeliveryFragment();
+
                     transaction.replace(R.id.frame, deliveryFragment);
                     transaction.commit();
 
@@ -342,9 +341,9 @@ public class MainActivity extends BaseActivity {
                     switch (one) {
                         case 3:
                             //齐套性检查——依据文件检查
-                            if (kittingFileFragment == null) {
-                                kittingFileFragment = new KittingFileFragment();
-                            }
+                            kittingFileFragment = null;
+                            kittingFileFragment = new KittingFileFragment();
+
                             transaction.replace(R.id.frame, kittingFileFragment);
                             transaction.commit();
                             break;
@@ -360,17 +359,17 @@ public class MainActivity extends BaseActivity {
 
                             titleAdapter3.notifyDataSetChanged();
                             //过程检查——电气产品——元器件，原材料，标准件检查
-                            if (standardFragment == null) {
-                                standardFragment = new StandardFragment();
-                            }
+                            standardFragment = null;
+                            standardFragment = new StandardFragment();
+
                             transaction.replace(R.id.frame, standardFragment);
                             transaction.commit();
                             break;
                         case 5:
                             gvThree.setVisibility(View.GONE);
-                            if (technologyFileFragment == null) {
-                                technologyFileFragment = new TechnologyFileFragment();
-                            }
+                            technologyFileFragment = null;
+                            technologyFileFragment = new TechnologyFileFragment();
+
                             transaction.replace(R.id.frame, technologyFileFragment);
                             transaction.commit();
                             break;
@@ -380,9 +379,9 @@ public class MainActivity extends BaseActivity {
                     switch (one) {
                         case 3:
                             //齐套性检查——产品齐套性检查
-                            if (kittingProductFragment == null) {
-                                kittingProductFragment = new KittingProductFragment();
-                            }
+                            kittingProductFragment = null;
+                            kittingProductFragment = new KittingProductFragment();
+
                             transaction.replace(R.id.frame, kittingProductFragment);
                             transaction.commit();
                             break;
@@ -396,10 +395,9 @@ public class MainActivity extends BaseActivity {
                             list3.add(new TitleBean("检查结论"));
                             list3.get(0).setCheck(true);
                             titleAdapter3.notifyDataSetChanged();
+                            machineryFragment = null;
+                            machineryFragment = new MachineryFragment();
 
-                            if (machineryFragment == null) {
-                                machineryFragment = new MachineryFragment();
-                            }
                             transaction.replace(R.id.frame, machineryFragment);
                             transaction.commit();
                             break;
@@ -418,9 +416,9 @@ public class MainActivity extends BaseActivity {
                             list3.get(0).setCheck(true);
                             titleAdapter3.notifyDataSetChanged();
 
-                            if (electricConditionsFragment == null) {
-                                electricConditionsFragment = new ElectricConditionsFragment();
-                            }
+                            electricConditionsFragment = null;
+                            electricConditionsFragment = new ElectricConditionsFragment();
+
                             transaction.replace(R.id.frame, electricConditionsFragment);
                             transaction.commit();
 
@@ -443,9 +441,9 @@ public class MainActivity extends BaseActivity {
                             list3.get(0).setCheck(true);
                             titleAdapter3.notifyDataSetChanged();
 
-                            if (machineryConditionsFragment == null) {
-                                machineryConditionsFragment = new MachineryConditionsFragment();
-                            }
+                            machineryConditionsFragment = null;
+                            machineryConditionsFragment = new MachineryConditionsFragment();
+
                             transaction.replace(R.id.frame, machineryConditionsFragment);
                             transaction.commit();
                             break;
@@ -467,9 +465,9 @@ public class MainActivity extends BaseActivity {
                             list3.get(0).setCheck(true);
                             titleAdapter3.notifyDataSetChanged();
 
-                            if (cableConditionsFragment == null) {
-                                cableConditionsFragment = new CableConditionsFragment();
-                            }
+                            cableConditionsFragment = null;
+                            cableConditionsFragment = new CableConditionsFragment();
+
                             transaction.replace(R.id.frame, cableConditionsFragment);
                             transaction.commit();
                             break;
@@ -495,41 +493,41 @@ public class MainActivity extends BaseActivity {
                         case 4:
                             if (two == 0) {
                                 //过程检查——电气产品——元器件，原材料，标准件检查
-                                if (standardFragment == null) {
-                                    standardFragment = new StandardFragment();
-                                }
+                                standardFragment = null;
+                                standardFragment = new StandardFragment();
+
                                 transaction.replace(R.id.frame, standardFragment);
                                 transaction.commit();
                             } else if (two == 1) {
                                 //过程检查—机械产品——原材料，标准件检查
-                                if (standardFragment == null) {
-                                    standardFragment = new StandardFragment();
-                                }
+                                standardFragment = null;
+                                standardFragment = new StandardFragment();
+
                                 transaction.replace(R.id.frame, standardFragment);
                                 transaction.commit();
                             }
 
                             break;
                         case 5:
-                            switch (two){
+                            switch (two) {
                                 case 1:
-                                    if (electricConditionsFragment == null) {
-                                        electricConditionsFragment = new ElectricConditionsFragment();
-                                    }
+                                    electricConditionsFragment = null;
+                                    electricConditionsFragment = new ElectricConditionsFragment();
+
                                     transaction.replace(R.id.frame, electricConditionsFragment);
                                     transaction.commit();
                                     break;
                                 case 2:
-                                    if (machineryConditionsFragment == null) {
-                                        machineryConditionsFragment = new MachineryConditionsFragment();
-                                    }
+                                    machineryConditionsFragment = null;
+                                    machineryConditionsFragment = new MachineryConditionsFragment();
+
                                     transaction.replace(R.id.frame, machineryConditionsFragment);
                                     transaction.commit();
                                     break;
                                 case 3:
-                                    if (cableConditionsFragment == null) {
-                                        cableConditionsFragment = new CableConditionsFragment();
-                                    }
+                                    cableConditionsFragment = null;
+                                    cableConditionsFragment = new CableConditionsFragment();
+
                                     transaction.replace(R.id.frame, cableConditionsFragment);
                                     transaction.commit();
                                     break;
@@ -544,41 +542,41 @@ public class MainActivity extends BaseActivity {
                         case 4:
                             if (two == 0) {
                                 //过程检查——电气产品——产品生产前
-                                if (preProductionFragment == null) {
-                                    preProductionFragment = new PreProductionFragment();
-                                }
+                                preProductionFragment = null;
+                                preProductionFragment = new PreProductionFragment();
+
                                 transaction.replace(R.id.frame, preProductionFragment);
                                 transaction.commit();
                             } else if (two == 1) {
                                 //过程检查——机械产品——产品生产前
-                                if (preProductionFragment == null) {
-                                    preProductionFragment = new PreProductionFragment();
-                                }
+                                preProductionFragment = null;
+                                preProductionFragment = new PreProductionFragment();
+
                                 transaction.replace(R.id.frame, preProductionFragment);
                                 transaction.commit();
                             }
 
                             break;
                         case 5:
-                            switch (two){
+                            switch (two) {
                                 case 1:
-                                    if (electricAppearanceFragment == null) {
-                                        electricAppearanceFragment = new ElectricAppearanceFragment();
-                                    }
+                                    electricAppearanceFragment = null;
+                                    electricAppearanceFragment = new ElectricAppearanceFragment();
+
                                     transaction.replace(R.id.frame, electricAppearanceFragment);
                                     transaction.commit();
                                     break;
                                 case 2:
-                                    if (machineryAppearanceFragment == null) {
-                                        machineryAppearanceFragment = new MachineryAppearanceFragment();
-                                    }
+                                    machineryAppearanceFragment = null;
+                                    machineryAppearanceFragment = new MachineryAppearanceFragment();
+
                                     transaction.replace(R.id.frame, machineryAppearanceFragment);
                                     transaction.commit();
                                     break;
                                 case 3:
-                                    if (cableAppearanceFragment == null) {
-                                        cableAppearanceFragment = new CableAppearanceFragment();
-                                    }
+                                    cableAppearanceFragment = null;
+                                    cableAppearanceFragment = new CableAppearanceFragment();
+
                                     transaction.replace(R.id.frame, cableAppearanceFragment);
                                     transaction.commit();
                                     break;
@@ -595,41 +593,41 @@ public class MainActivity extends BaseActivity {
                         case 4:
                             if (two == 0) {
                                 //过程检查——电气产品——产品生产中
-                                if (productInProductionFragment == null) {
-                                    productInProductionFragment = new ProductInProductionFragment();
-                                }
+                                productInProductionFragment = null;
+                                productInProductionFragment = new ProductInProductionFragment();
+
                                 transaction.replace(R.id.frame, productInProductionFragment);
                                 transaction.commit();
                             } else if (two == 1) {
                                 //过程检查——机械产品——产品生产中
                                 transaction = getSupportFragmentManager().beginTransaction();
-                                if (productInProductionFragment == null) {
-                                    productInProductionFragment = new ProductInProductionFragment();
-                                }
+                                productInProductionFragment = null;
+                                productInProductionFragment = new ProductInProductionFragment();
+
                                 transaction.replace(R.id.frame, productInProductionFragment);
                                 transaction.commit();
                             }
                             break;
                         case 5:
-                            switch (two){
+                            switch (two) {
                                 case 1:
-                                    if (electricPerformanceFragment == null) {
-                                        electricPerformanceFragment = new ElectricPerformanceFragment();
-                                    }
+                                    electricPerformanceFragment = null;
+                                    electricPerformanceFragment = new ElectricPerformanceFragment();
+
                                     transaction.replace(R.id.frame, electricPerformanceFragment);
                                     transaction.commit();
                                     break;
                                 case 2:
-                                    if (machinerySizeFragment == null) {
-                                        machinerySizeFragment = new MachinerySizeFragment();
-                                    }
+                                    machinerySizeFragment = null;
+                                    machinerySizeFragment = new MachinerySizeFragment();
+
                                     transaction.replace(R.id.frame, machinerySizeFragment);
                                     transaction.commit();
                                     break;
                                 case 3:
-                                    if (cablePerformanceFragment == null) {
-                                        cablePerformanceFragment = new CablePerformanceFragment();
-                                    }
+                                    cablePerformanceFragment = null;
+                                    cablePerformanceFragment = new CablePerformanceFragment();
+
                                     transaction.replace(R.id.frame, cablePerformanceFragment);
                                     transaction.commit();
                                     break;
@@ -643,41 +641,41 @@ public class MainActivity extends BaseActivity {
                         case 4:
                             if (two == 0) {
                                 //过程检查——电气产品——产品质量问题归零情况
-                                if (zeroFragment == null) {
-                                    zeroFragment = new ZeroFragment();
-                                }
+                                zeroFragment = null;
+                                zeroFragment = new ZeroFragment();
+
                                 transaction.replace(R.id.frame, zeroFragment);
                                 transaction.commit();
                             } else if (two == 1) {
                                 //过程检查——机械产品——产品质量问题归零情况
-                                if (zeroFragment == null) {
-                                    zeroFragment = new ZeroFragment();
-                                }
+                                zeroFragment = null;
+                                zeroFragment = new ZeroFragment();
+
                                 transaction.replace(R.id.frame, zeroFragment);
                                 transaction.commit();
                             }
 
                             break;
                         case 5:
-                            switch (two){
+                            switch (two) {
                                 case 1:
-                                    if (electricEnvironmentFragment == null) {
-                                        electricEnvironmentFragment = new ElectricEnvironmentFragment();
-                                    }
+                                    electricEnvironmentFragment = null;
+                                    electricEnvironmentFragment = new ElectricEnvironmentFragment();
+
                                     transaction.replace(R.id.frame, electricEnvironmentFragment);
                                     transaction.commit();
                                     break;
                                 case 2:
-                                    if (machineryReportFragment == null) {
-                                        machineryReportFragment = new MachineryReportFragment();
-                                    }
+                                    machineryReportFragment = null;
+                                    machineryReportFragment = new MachineryReportFragment();
+
                                     transaction.replace(R.id.frame, machineryReportFragment);
                                     transaction.commit();
                                     break;
                                 case 3:
-                                    if (cableReportFragment == null) {
-                                        cableReportFragment = new CableReportFragment();
-                                    }
+                                    cableReportFragment = null;
+                                    cableReportFragment = new CableReportFragment();
+
                                     transaction.replace(R.id.frame, cableReportFragment);
                                     transaction.commit();
                                     break;
@@ -691,41 +689,41 @@ public class MainActivity extends BaseActivity {
                         case 4:
                             if (two == 0) {
                                 //过程检查——电气产品——检查结论
-                                if (conclusionsCourseFragment == null) {
-                                    conclusionsCourseFragment = new ConclusionsCourseFragment();
-                                }
+                                conclusionsCourseFragment = null;
+                                conclusionsCourseFragment = new ConclusionsCourseFragment();
+
                                 transaction.replace(R.id.frame, conclusionsCourseFragment);
                                 transaction.commit();
                             } else if (two == 1) {
                                 //过程检查——机械产品——检查结论
-                                if (conclusionsCourseFragment == null) {
-                                    conclusionsCourseFragment = new ConclusionsCourseFragment();
-                                }
+                                conclusionsCourseFragment = null;
+                                conclusionsCourseFragment = new ConclusionsCourseFragment();
+
                                 transaction.replace(R.id.frame, conclusionsCourseFragment);
                                 transaction.commit();
                             }
 
                             break;
                         case 5:
-                            switch (two){
+                            switch (two) {
                                 case 1:
-                                    if (electricReportFragment == null) {
-                                        electricReportFragment = new ElectricReportFragment();
-                                    }
+                                    electricReportFragment = null;
+                                    electricReportFragment = new ElectricReportFragment();
+
                                     transaction.replace(R.id.frame, electricReportFragment);
                                     transaction.commit();
                                     break;
                                 case 2:
-                                    if (machineryPackagingFragment == null) {
-                                        machineryPackagingFragment = new MachineryPackagingFragment();
-                                    }
+                                    machineryPackagingFragment = null;
+                                    machineryPackagingFragment = new MachineryPackagingFragment();
+
                                     transaction.replace(R.id.frame, machineryPackagingFragment);
                                     transaction.commit();
                                     break;
                                 case 3:
-                                    if (cablePackagingFragment == null) {
-                                        cablePackagingFragment = new CablePackagingFragment();
-                                    }
+                                    cablePackagingFragment = null;
+                                    cablePackagingFragment = new CablePackagingFragment();
+
                                     transaction.replace(R.id.frame, cablePackagingFragment);
                                     transaction.commit();
                                     break;
@@ -734,26 +732,26 @@ public class MainActivity extends BaseActivity {
                     }
                     break;
                 case 5:
-                    if (one==5){
-                        switch (two){
+                    if (one == 5) {
+                        switch (two) {
                             case 1:
-                                if (electricPackagingFragment == null) {
-                                    electricPackagingFragment = new ElectricPackagingFragment();
-                                }
+                                electricPackagingFragment = null;
+                                electricPackagingFragment = new ElectricPackagingFragment();
+
                                 transaction.replace(R.id.frame, electricPackagingFragment);
                                 transaction.commit();
                                 break;
                             case 2:
-                                if (machinerySignFragment == null) {
-                                    machinerySignFragment = new MachinerySignFragment();
-                                }
+                                machinerySignFragment = null;
+                                machinerySignFragment = new MachinerySignFragment();
+
                                 transaction.replace(R.id.frame, machinerySignFragment);
                                 transaction.commit();
                                 break;
                             case 3:
-                                if (cableSignFragment == null) {
-                                    cableSignFragment = new CableSignFragment();
-                                }
+                                cableSignFragment = null;
+                                cableSignFragment = new CableSignFragment();
+
                                 transaction.replace(R.id.frame, cableSignFragment);
                                 transaction.commit();
                                 break;
@@ -762,26 +760,26 @@ public class MainActivity extends BaseActivity {
                     }
                     break;
                 case 6:
-                    if (one==5){
-                        switch (two){
+                    if (one == 5) {
+                        switch (two) {
                             case 1:
-                                if (electricSignFragment == null) {
-                                    electricSignFragment = new ElectricSignFragment();
-                                }
+                                electricSignFragment = null;
+                                electricSignFragment = new ElectricSignFragment();
+
                                 transaction.replace(R.id.frame, electricSignFragment);
                                 transaction.commit();
                                 break;
                             case 2:
-                                if (machineryConclusionFragment == null) {
-                                    machineryConclusionFragment = new MachineryConclusionFragment();
-                                }
+                                machineryConclusionFragment = null;
+                                machineryConclusionFragment = new MachineryConclusionFragment();
+
                                 transaction.replace(R.id.frame, machineryConclusionFragment);
                                 transaction.commit();
                                 break;
                             case 3:
-                                if (cableConclusionFragment == null) {
-                                    cableConclusionFragment = new CableConclusionFragment();
-                                }
+                                cableConclusionFragment = null;
+                                cableConclusionFragment = new CableConclusionFragment();
+
                                 transaction.replace(R.id.frame, cableConclusionFragment);
                                 transaction.commit();
                                 break;
@@ -790,12 +788,12 @@ public class MainActivity extends BaseActivity {
                     }
                     break;
                 case 7:
-                    if (one==5){
-                        switch (two){
+                    if (one == 5) {
+                        switch (two) {
                             case 1:
-                                if (electricConclusionFragment == null) {
-                                    electricConclusionFragment = new ElectricConclusionFragment();
-                                }
+                                electricConclusionFragment = null;
+                                electricConclusionFragment = new ElectricConclusionFragment();
+
                                 transaction.replace(R.id.frame, electricConclusionFragment);
                                 transaction.commit();
                                 break;

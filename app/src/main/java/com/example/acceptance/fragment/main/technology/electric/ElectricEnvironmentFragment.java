@@ -48,7 +48,7 @@ public class ElectricEnvironmentFragment extends BaseFragment {
         list.add(environment4Fragment);
         list.add(environment5Fragment);
 
-        adapter = new VpAdapter(getActivity().getSupportFragmentManager(),list);
+        adapter = new VpAdapter(getChildFragmentManager(),list);
         vpEnvironment.setAdapter(adapter);
     }
 

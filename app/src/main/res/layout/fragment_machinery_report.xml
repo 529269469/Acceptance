@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/padding_30"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_30"
+            android:background="@color/color_6DC8FF"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/padding_10"
+            android:text="机械产品外观，性能，试验检查" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp_environment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</LinearLayout>

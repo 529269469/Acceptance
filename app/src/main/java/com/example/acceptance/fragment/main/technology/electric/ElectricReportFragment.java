@@ -45,7 +45,7 @@ public class ElectricReportFragment extends BaseFragment {
         list.add(report3Fragment);
 
 
-        adapter = new VpAdapter(getActivity().getSupportFragmentManager(),list);
+        adapter = new VpAdapter(getChildFragmentManager(),list);
         vpEnvironment.setAdapter(adapter);
     }
 

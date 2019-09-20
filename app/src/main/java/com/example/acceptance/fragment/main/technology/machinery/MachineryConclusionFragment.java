@@ -16,6 +16,6 @@ public class MachineryConclusionFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_electric_conditions;
+        return R.layout.fragment_machinery_conclusion;
     }
 }

@@ -1,10 +1,10 @@
-package com.example.acceptance.fragment.main.technology.electric.appearance;
+package com.example.acceptance.fragment.main.technology.machinery.packaging;
 
 import com.example.acceptance.R;
 import com.example.acceptance.base.BaseFragment;
 
 
-public class Appearance3Fragment extends BaseFragment {
+public class Packaging2Fragment extends BaseFragment {
 
     @Override
     protected void initEventAndData() {
@@ -13,6 +13,6 @@ public class Appearance3Fragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_appearance1;
+        return R.layout.fragment_packaging2;
     }
 }

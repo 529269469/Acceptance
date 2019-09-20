@@ -8,7 +8,6 @@ import com.example.acceptance.adapter.VpAdapter;
 import com.example.acceptance.base.BaseFragment;
 import com.example.acceptance.fragment.main.technology.electric.appearance.Appearance1Fragment;
 import com.example.acceptance.fragment.main.technology.electric.appearance.Appearance2Fragment;
-import com.example.acceptance.fragment.main.technology.electric.appearance.Appearance3Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ public class ElectricAppearanceFragment extends BaseFragment {
         appearance2Fragment=new Appearance2Fragment();
         list.add(appearance1Fragment);
         list.add(appearance2Fragment);
-        adapter = new VpAdapter(getActivity().getSupportFragmentManager(),list);
+        adapter = new VpAdapter(getChildFragmentManager(),list);
         vpEnvironment.setAdapter(adapter);
 
     }

@@ -109,7 +109,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
         mBtnSave.setOnClickListener(v -> {
             if (mPathView.getTouched()) {
                 try {
-                    mPathView.save(URLS.SINGA + File.separator + path, true, 10);
+                    mPathView.save(URLS.SINGA + File.separator + path, true, 100);
                     Glide.with(getActivity())
                             .load(new File(URLS.SINGA + File.separator + path))
                             .skipMemoryCache(true)
