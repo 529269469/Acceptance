@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.example.acceptance.R;
 import com.example.acceptance.base.BaseFragment;
 import com.example.acceptance.bean.DataPackageBean;
+import com.example.acceptance.bean.DataPackageBean2;
 import com.example.acceptance.net.URLS;
 import com.example.acceptance.utils.OpenFileUtil;
 import com.thoughtworks.xstream.XStream;
@@ -47,26 +48,23 @@ public class ParticularsFragment extends BaseFragment {
     TextView tvProductType;
     @BindView(R.id.tv_batch)
     TextView tvBatch;
-    private DataPackageBean result;
+    private DataPackageBean2 result;
 
     @Override
     protected void initEventAndData() {
         input();
-        tvCode.setText(result.getCode());
-        tvResponseUnit.setText(result.getResponseUnit());
-        tvProductName.setText(result.getProductName());
-        tvModalCode.setText(result.getModalCode());
-        tvName.setText(result.getName());
-        tvCreateTime.setText(result.getCreateTime());
-        tvType.setText(result.getType());
-        tvProductType.setText(result.getProductType());
-        tvBatch.setText(result.getBatch());
+//        tvCode.setText(result.getCode());
+//        tvResponseUnit.setText(result.getResponseUnit());
+//        tvProductName.setText(result.getProductName());
+//        tvModalCode.setText(result.getModalCode());
+//        tvName.setText(result.getName());
+//        tvCreateTime.setText(result.getCreateTime());
+//        tvType.setText(result.getType());
+//        tvProductType.setText(result.getProductType());
+//        tvBatch.setText(result.getBatch());
 
 
-        tvCode.setOnClickListener(view -> {
-            startActivity(OpenFileUtil.openFile(Environment.getExternalStorageDirectory() + "/数据包/P011/"+result.getPath()));
 
-        });
     }
 
     private void input() {
@@ -91,12 +89,12 @@ public class ParticularsFragment extends BaseFragment {
             e.printStackTrace();
         }
 
-        Log.e("TAG", "onActivityResult: " + content);
-        XStream xStream = new XStream();
-        xStream.processAnnotations(DataPackageBean.class);//这里需要注解是你自己根据xml写的bean类(下面附代码解释xml)
-        result = (DataPackageBean) xStream.fromXML(content);
+//        Log.e("TAG", "onActivityResult: " + content);
+//        XStream xStream = new XStream();
+//        xStream.processAnnotations(DataPackageBean2.class);//这里需要注解是你自己根据xml写的bean类(下面附代码解释xml)
+//        result = (DataPackageBean2) xStream.fromXML(content);
 
-        Log.e("TAG", "onActivityResult: " + result.toString());
+//        Log.e("TAG", "onActivityResult: " + result.toString());
     }
 
     @Override

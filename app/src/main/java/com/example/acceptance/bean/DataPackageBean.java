@@ -1,6 +1,7 @@
 package com.example.acceptance.bean;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
  * @author :created by ${ WYW }
@@ -8,120 +9,27 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  */
 @XStreamAlias("DataPackage")
 public class DataPackageBean {
-    private String name;
-    private String code;
-    private String type;
-    private String responseUnit;
-    private String modalCode;
-    private String productName;
-    private String productCode;
-    private String productType;
-    private String batch;
-    private String createTime;
-    private String path;
+    @XStreamAsAttribute() @XStreamAlias("id") //属性注解
+    private String id;//数据包id
+    private String name;//数据包名称
+    private String code;//数据包编号
+    private String type;//数据包类型
+    private String description;//数据包说明
+    private String responseUnit;//责任单位
+    private String modalCode;//型号代号
+    private String productName;//产品名称
+    private String productCode;//产品代号
+    private String productType;//产品类别
+    private String batch;//批次
+    private String creator;//创建人
+    private String createTime;//创建时间
+    private CheckApplyBean checkApply;//验收申请单
 
-    @Override
-    public String toString() {
-        return "DataPackageBean{" +
-                "name='" + name + '\'' +
-                ", code='" + code + '\'' +
-                ", type='" + type + '\'' +
-                ", responseUnit='" + responseUnit + '\'' +
-                ", modalCode='" + modalCode + '\'' +
-                ", productName='" + productName + '\'' +
-                ", productCode='" + productCode + '\'' +
-                ", productType='" + productType + '\'' +
-                ", batch='" + batch + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", path='" + path + '\'' +
-                '}';
+
+
+    public static class CheckApplyBean{
+
+
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getResponseUnit() {
-        return responseUnit;
-    }
-
-    public void setResponseUnit(String responseUnit) {
-        this.responseUnit = responseUnit;
-    }
-
-    public String getModalCode() {
-        return modalCode;
-    }
-
-    public void setModalCode(String modalCode) {
-        this.modalCode = modalCode;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getProductCode() {
-        return productCode;
-    }
-
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
-    public String getProductType() {
-        return productType;
-    }
-
-    public void setProductType(String productType) {
-        this.productType = productType;
-    }
-
-    public String getBatch() {
-        return batch;
-    }
-
-    public void setBatch(String batch) {
-        this.batch = batch;
-    }
 }

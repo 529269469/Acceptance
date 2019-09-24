@@ -148,42 +148,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             String upLoadFilePath = file.toString();
                             String upLoadFileName = file.getName();
 
-//                            try {
-//                                ZipUtils2.UnZipFolder(upLoadFilePath,Environment.getExternalStorageDirectory()+"/数据包/P011");
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
+                            try {
+                                ZipUtils2.UnZipFolder(upLoadFilePath,Environment.getExternalStorageDirectory()+"/数据包/P011");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
 
                             startActivity(MainActivity.openIntent(LoginActivity.this));
-
-//                            String content = ""; //文件内容字符串
-//                            File file1 = new File(Environment.getExternalStorageDirectory()+"/数据包/P011/单机产品数据包.xml");
-//                            try {
-//                                InputStream instream = new FileInputStream(file1);
-//                                InputStreamReader inputreader  = new InputStreamReader (instream,"gbk");
-//                                BufferedReader buffreader = new BufferedReader(inputreader);
-//                                String line;
-//                                //分行读取
-//                                while (( line = buffreader.readLine()) != null) {
-//                                    content += line + "\n";
-//                                }
-//
-//                                instream.close();
-//
-//
-//                            } catch (FileNotFoundException e) {
-//                                e.printStackTrace();
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                            Log.e("TAG", "onActivityResult: "+content );
-//                            XStream xStream=new XStream();
-//                            xStream.processAnnotations(DataPackageBean.class);//这里需要注解是你自己根据xml写的bean类(下面附代码解释xml)
-//                            DataPackageBean result = (DataPackageBean) xStream.fromXML(content);
-//
-//                            Log.e("TAG", "onActivityResult: "+result.toString() );
 
 
                         }

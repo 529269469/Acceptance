@@ -32,4 +32,7 @@ public class Report4Fragment extends BaseFragment {
     protected int getLayoutId() {
         return R.layout.fragment_machinery_report4;
     }
+
+
+
 }
