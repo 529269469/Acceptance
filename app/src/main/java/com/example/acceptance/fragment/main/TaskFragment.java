@@ -1,26 +1,33 @@
 package com.example.acceptance.fragment.main;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.acceptance.R;
+import com.example.acceptance.adapter.ApplyForAdapter;
 import com.example.acceptance.base.BaseFragment;
+import com.example.acceptance.view.MyListView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * 验收任务单
  */
 public class TaskFragment extends BaseFragment {
 
+    @BindView(R.id.lv_list)
+    MyListView lvList;
+
+    private List<String> list=new ArrayList<>();
+    private ApplyForAdapter applyForAdapter;
+
     @Override
     protected void initEventAndData() {
-
+        for (int i = 0; i < 4; i++) {
+            list.add("");
+        }
+        applyForAdapter = new ApplyForAdapter(getActivity(),list);
+        lvList.setAdapter(applyForAdapter);
     }
 
     @Override

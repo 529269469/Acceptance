@@ -1,4 +1,4 @@
-package com.example.acceptance.fragment.main.course;
+package com.example.acceptance.fragment.main.technology.machinery;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -28,10 +28,9 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 过程检查——电气产品——元器件，原材料，标准件检查
+ * 齐套性检查——产品齐套性检查
  */
-
-public class StandardFragment extends BaseFragment implements View.OnClickListener {
+public class TechnologySizeFragment extends BaseFragment implements View.OnClickListener {
 
     @BindView(R.id.lv_product)
     MyListView lvProduct;
@@ -41,8 +40,10 @@ public class StandardFragment extends BaseFragment implements View.OnClickListen
 
     private ProductAdapter productAdapter;
     private List<String> list=new ArrayList<>();
+
     @Override
     protected void initEventAndData() {
+
         for (int i = 0; i < 2; i++) {
             list.add("");
         }
@@ -55,8 +56,9 @@ public class StandardFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_standard;
+        return R.layout.fragment_kitting_product;
     }
+
 
     @Override
     public void onClick(View view) {
@@ -103,7 +105,7 @@ public class StandardFragment extends BaseFragment implements View.OnClickListen
             mPathView.setPenColor(Color.BLACK);
         });
         //保存
-        String  path =  System.currentTimeMillis() + ".png";
+      String  path =  System.currentTimeMillis() + ".png";
         mBtnSave.setOnClickListener(v -> {
             if (mPathView.getTouched()) {
                 try {

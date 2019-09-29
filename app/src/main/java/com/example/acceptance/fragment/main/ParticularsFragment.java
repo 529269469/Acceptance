@@ -52,7 +52,7 @@ public class ParticularsFragment extends BaseFragment {
 
     @Override
     protected void initEventAndData() {
-        input();
+
 //        tvCode.setText(result.getCode());
 //        tvResponseUnit.setText(result.getResponseUnit());
 //        tvProductName.setText(result.getProductName());
@@ -67,35 +67,7 @@ public class ParticularsFragment extends BaseFragment {
 
     }
 
-    private void input() {
-        String content = ""; //文件内容字符串
-        File file1 = new File(Environment.getExternalStorageDirectory() + "/数据包/P011/单机产品数据包.xml");
-        try {
-            InputStream instream = new FileInputStream(file1);
-            InputStreamReader inputreader = new InputStreamReader(instream, "gbk");
-            BufferedReader buffreader = new BufferedReader(inputreader);
-            String line;
-            //分行读取
-            while ((line = buffreader.readLine()) != null) {
-                content += line + "\n";
-            }
 
-            instream.close();
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-//        Log.e("TAG", "onActivityResult: " + content);
-//        XStream xStream = new XStream();
-//        xStream.processAnnotations(DataPackageBean2.class);//这里需要注解是你自己根据xml写的bean类(下面附代码解释xml)
-//        result = (DataPackageBean2) xStream.fromXML(content);
-
-//        Log.e("TAG", "onActivityResult: " + result.toString());
-    }
 
     @Override
     protected int getLayoutId() {

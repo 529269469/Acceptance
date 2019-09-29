@@ -1,13 +1,14 @@
 package com.example.acceptance.fragment.main;
 
-import android.content.Intent;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.acceptance.R;
+import com.example.acceptance.adapter.ApplyForAdapter;
 import com.example.acceptance.base.BaseFragment;
-import com.example.acceptance.utils.PopupWindowUtils;
+import com.example.acceptance.view.MyListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -15,18 +16,25 @@ import butterknife.BindView;
  * 验收申请
  */
 
-public class ApplyForFragment extends BaseFragment implements View.OnClickListener {
+public class ApplyForFragment extends BaseFragment {
 
     @BindView(R.id.tv_conclusion)
     TextView tvConclusion;
-    @BindView(R.id.bt_up)
-    Button btUp;
+
     @BindView(R.id.tv_other)
     TextView tvOther;
+    @BindView(R.id.lv_list)
+    MyListView lvList;
+    private List<String> list=new ArrayList<>();
+    private ApplyForAdapter applyForAdapter;
 
     @Override
     protected void initEventAndData() {
-        btUp.setOnClickListener(this);
+        for (int i = 0; i < 4; i++) {
+            list.add("");
+        }
+        applyForAdapter = new ApplyForAdapter(getActivity(),list);
+        lvList.setAdapter(applyForAdapter);
     }
 
     @Override
@@ -34,18 +42,5 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
         return R.layout.fragment_apply_for;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.bt_up:
-                PopupWindowUtils.getInstance().getPopup(getActivity(),1);
-                break;
-        }
-    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
 }

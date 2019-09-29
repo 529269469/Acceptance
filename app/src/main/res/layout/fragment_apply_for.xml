@@ -43,337 +43,222 @@
                 android:text="分系统验收申请"
                 android:textColor="@color/color_000" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:text="合同编号："
+                android:textColor="@color/color_000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分系统验收申请"
+                android:textColor="@color/color_000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:text="合同名称："
+                android:textColor="@color/color_000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分系统验收申请"
+                android:textColor="@color/color_000" />
+
         </LinearLayout>
+
+        <TextView
+            android:textColor="@color/color_000"
+            android:text="验收申请"
+            android:layout_marginTop="@dimen/padding_30"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:background="@drawable/shape_ed"
+            android:layout_marginTop="@dimen/padding_10"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/padding_40">
 
-
-            <LinearLayout
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="序号"
+                android:gravity="center"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/padding_30"
-                android:paddingTop="@dimen/padding_30">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="合同编号："
-                        android:textColor="@color/color_000" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="合同名称："
-                        android:textColor="@color/color_000" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="产品代号："
-                        android:textColor="@color/color_000" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="产品名称："
-                        android:textColor="@color/color_000" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="产品编号："
-                        android:textColor="@color/color_000" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="产品状态："
-                        android:textColor="@color/color_000" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/padding_10"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:layout_width="@dimen/padding_300"
-                        android:layout_height="@dimen/padding_30"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_ed"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/padding_10"
-                        android:text="HT-10"
-                        android:textColor="@color/color_A4A4A4"
-                        android:textSize="@dimen/text_font_12" />
-
-                    <EditText
-                        android:layout_width="@dimen/padding_300"
-                        android:layout_height="@dimen/padding_30"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_ed"
-                        android:paddingLeft="@dimen/padding_10"
-                        android:text="遥安分系统生产"
-                        android:textColor="@color/color_A4A4A4"
-                        android:textSize="@dimen/text_font_12" />
-
-                    <EditText
-                        android:layout_width="@dimen/padding_300"
-                        android:layout_height="@dimen/padding_30"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_ed"
-                        android:paddingLeft="@dimen/padding_10"
-                        android:text="xxx1-10"
-                        android:textColor="@color/color_A4A4A4"
-                        android:textSize="@dimen/text_font_12" />
-
-                    <EditText
-                        android:layout_width="@dimen/padding_300"
-                        android:layout_height="@dimen/padding_30"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_ed"
-                        android:paddingLeft="@dimen/padding_10"
-                        android:text="遥安分系统"
-                        android:textColor="@color/color_A4A4A4"
-                        android:textSize="@dimen/text_font_12" />
-
-                    <EditText
-                        android:layout_width="@dimen/padding_300"
-                        android:layout_height="@dimen/padding_30"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_ed"
-                        android:text="xxx1-10"
-                        android:textColor="@color/color_A4A4A4"
-                        android:textSize="@dimen/text_font_12" />
-
-                    <EditText
-                        android:layout_width="@dimen/padding_300"
-                        android:layout_height="@dimen/padding_30"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_ed"
-                        android:paddingLeft="@dimen/padding_10"
-                        android:text="c"
-                        android:textColor="@color/color_A4A4A4"
-                        android:textSize="@dimen/text_font_12" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="产品代号"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="产品名称"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="产品编号"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="产品状态"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="投产数据量/已验收数量/验收数量"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="是否终检"
+                android:gravity="center"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/padding_30"
-                android:paddingTop="@dimen/padding_30">
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:orientation="vertical">
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="投产数量/已验收数量/验收数量："
-                        android:textColor="@color/color_000" />
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="是否军检"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="是否终检："
-                        android:textColor="@color/color_000" />
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="是否军检："
-                        android:textColor="@color/color_000" />
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="筛选试验是否完成"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="刷选试验是否完成："
-                        android:textColor="@color/color_000" />
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="例行试验是否完成："
-                        android:textColor="@color/color_000" />
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="例行试验是否完成"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_0"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="是否具备出产验收条件："
-                        android:textColor="@color/color_000" />
-                </LinearLayout>
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/padding_10"
-                    android:orientation="vertical">
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="是否具备出厂交付条件"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
 
-                    <EditText
-                        android:layout_width="@dimen/padding_100"
-                        android:layout_height="@dimen/padding_30"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_ed"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/padding_10"
-                        android:text="HT-10"
-                        android:textColor="@color/color_A4A4A4"
-                        android:textSize="@dimen/text_font_12" />
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_30">
-                        <TextView
-                            android:text="是"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                       <Switch
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"/>
-                        <TextView
-                            android:text="否"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-
-
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_30">
-                        <TextView
-                            android:text="是"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <Switch
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:text="否"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_30">
-                        <TextView
-                            android:text="是"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <Switch
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:text="否"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_30">
-                        <TextView
-                            android:text="是"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <Switch
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:text="否"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_30">
-                        <TextView
-                            android:text="是"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <Switch
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:text="否"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
+            <View
+                android:background="@color/color_D0D0D0"
+                android:layout_width="@dimen/padding_1"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:textSize="@dimen/text_font_12"
+                android:textColor="@color/color_000"
+                android:text="备注"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
+
+        <com.example.acceptance.view.MyListView
+            android:id="@+id/lv_list"
+            android:background="@drawable/shape_ed"
+            android:layout_marginRight="@dimen/padding_30"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:gravity="center_vertical"
@@ -450,15 +335,6 @@
                 android:layout_marginLeft="@dimen/padding_10"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/padding_100"/>
-
-            <Button
-                android:id="@+id/bt_up"
-                android:layout_marginRight="@dimen/padding_30"
-                android:layout_alignParentRight="true"
-                android:text="上传文件"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/padding_40"/>
-
 
 
         </RelativeLayout>

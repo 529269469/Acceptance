@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.acceptance.R;
 import com.example.acceptance.base.BaseActivity;
 import com.example.acceptance.bean.DataPackageBean;
+import com.example.acceptance.bean.DataPackageBean2;
 import com.example.acceptance.utils.ZipUtils2;
 import com.example.acceptance.utils.command.ZipHelper;
 import com.example.acceptance.utils.command.ZipUtils;
@@ -35,6 +36,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.zip.ZipFile;
 
 import butterknife.BindView;
@@ -71,8 +73,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     public void load() {
-//        boolean result = ZipHelper.loadBinary(this, "7zr");
-//        Toast.makeText(this, "加载7zr结果：" + result, Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -147,22 +148,69 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (file.exists()) {
                             String upLoadFilePath = file.toString();
                             String upLoadFileName = file.getName();
+                            Log.e("TAG", "upLoadFilePath: " + upLoadFilePath);
+                            Log.e("TAG", "upLoadFileName: " + upLoadFileName);
 
+                            String upLoadFile=upLoadFilePath.substring(0,upLoadFilePath.length()-4);
+                            Log.e("TAG", "upLoadFile: " + upLoadFile);
                             try {
-                                ZipUtils2.UnZipFolder(upLoadFilePath,Environment.getExternalStorageDirectory()+"/数据包/P011");
+                                ZipUtils2.UnZipFolder(upLoadFilePath,upLoadFile);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
-
-                            startActivity(MainActivity.openIntent(LoginActivity.this));
-
+                            filePath(upLoadFile);
 
                         }
                     }
                 }
             }
         }
+    }
+
+    private void filePath(String upLoadFile) {
+        File files = new File(upLoadFile);
+        File[] subFile = files.listFiles();
+        for (int i = 0; i < subFile.length; i++) {
+            String filename = subFile[i].getName();
+            File file = new File(filename);
+            /* 取得扩展名 */
+            String end = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()).toLowerCase(Locale.getDefault());
+            if (end.equals("xml")){
+                input(subFile[i]);
+                break;
+            }
+
+        }
+    }
+
+    private void input(File upLoadFile) {
+        String content="";
+        try {
+            InputStream instream = new FileInputStream(upLoadFile);
+            InputStreamReader inputreader = new InputStreamReader(instream);
+            BufferedReader buffreader = new BufferedReader(inputreader);
+            String line;
+            //分行读取
+            while ((line = buffreader.readLine()) != null) {
+                content += line + "\n";
+            }
+            instream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.e("TAG", "onActivityResult: " + upLoadFile);
+//        Log.e("TAG", "onActivityResult: " + content);
+        XStream xStream = new XStream();
+        xStream.processAnnotations(DataPackageBean.class);
+        DataPackageBean dataPackageBean = (DataPackageBean) xStream.fromXML(content);
+
+        Log.e("TAG", "onActivityResult: " + dataPackageBean.toString());
+
+
     }
 
 
@@ -175,11 +223,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             // ExternalStorageProvider
             if (isExternalStorageDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
-//                Log.i(TAG,"isExternalStorageDocument***"+uri.toString());
-//                Log.i(TAG,"docId***"+docId);
-//                以下是打印示例：
-//                isExternalStorageDocument***content://com.android.externalstorage.documents/document/primary%3ATset%2FROC2018421103253.wav
-//                docId***primary:Test/ROC2018421103253.wav
                 final String[] split = docId.split(":");
                 final String type = split[0];
 

@@ -13,27 +13,6 @@ import java.util.List;
  */
 @XStreamAlias("DataPackage")
 public class DataPackageBean2 {
-    /**
-     * -id : 337934853302988800
-     * name : 单机产品数据包
-     * code : P011
-     * type : 产品数据包
-     * responseUnit : 四部
-     * modalCode : string
-     * productName : 单机
-     * productCode : DD-2-0
-     * productType : 电气产品
-     * batch : Y-1
-     * checkApply : {"-id":"337934853672087552","name":"单机产品数据包验收申请","code":"P011-01","applicant":"申请人","applyCompany":"申请单位","phone":"136XXXXXXXXX","conclusion":"验收内部审查结论","description":"备注"}
-     * checkTask : {"-id":"337934853944717312","name":"单机产品数据包验收任务单","code":"P011-02","issuer":"q","issueDept":"q","accepter":"q","applicant":"申请人","applyCompany":"申请单位","phone":"136XXXXXXXXX"}
-     * ApplyItemSet : {"ApplyItem":{"isArmyCheck":"true","isCompleteChoice":"true","isCompleteRoutine":"true","isPureCheck":"false","isSatisfyRequire":"true","productCode":"bian-1","productCodeName":"d-12","productName":"产品1"}}
-     * CheckFileSet : {"CheckFile":[{"-id":"337934854364147712","name":"单机产品数据包齐套性检查","code":"P011-03","docType":"齐套性检查","conclusion":"齐套检查结论c","CheckGroupSet":{"CheckGroup":[{},{"groupName":"产品外观检查","CheckItemSet":{"CheckItem":[{"-checkGroupId":"353862513528516608","name":"string","options":"是,否","RelatedDocumentIdSet":{"RelatedDocumentId":"354086034652557312"}},{"-checkGroupId":"353862513528516608","name":"是否有摩擦","options":"是,否"}]}},{"groupName":"123","CheckItemSet":{"CheckItem":[{"-checkGroupId":"354200065260400640","name":"123","options":"是,否,有,无"},{"-checkGroupId":"354200065260400640","name":"123414","options":"否,有"}]}}]}},{"-id":"337934854582251520","name":"单机产品数据包过程检查","code":"P011-04","docType":"过程检查","conclusion":"过程检查结论","CheckGroupSet":{"CheckGroup":{"groupName":"qweqrt","CheckItemSet":{"CheckItem":{"-checkGroupId":"354182489243398144","name":"123","options":"是,否,有,无","RelatedDocumentIdSet":{"RelatedDocumentId":"354182582491164672"}}}}}},{"-id":"337934854762606592","name":"单机产品数据包技术类检查","code":"P011-05","docType":"技术类检查","CheckGroupSet":{"CheckGroup":{"groupName":"产品外观检查","CheckItemSet":{"CheckItem":[{"-checkGroupId":"350539759214645248","name":"是否平整","description":"string","checkSetVal":"string","checkConclusion":"string","questionDescription":"string","options":"是,否","selected":"是"},{"-checkGroupId":"350539759214645248","name":"本批验收产品是否一致","description":"string","checkSetVal":"string","checkConclusion":"string","questionDescription":"string","options":"是,否","selected":"是"}]}}}}]}
-     * AccordItemSet : {"AccordItem":[{"fileCodeName":"文件代号","fileName":"rrrryytt","techStatus":"111","approver":"批准人111","issl":"true","conclusion":"验收结论www","description":"备注qqq","checkType":"管理文件齐套性"},{"fileCodeName":"22","fileName":"11","techStatus":"33","approver":"44","issl":"true","conclusion":"66","description":"55","checkType":"技术文件齐套性"},{"fileName":"001.xlsx","checkType":"技术文件齐套性","RelatedDocumentIdList":{"RelatedDocumentId":["350842032097570816","350842314068045824","350843123123265536","350844104649121792"]}},{"checkType":"技术文件齐套性","RelatedDocumentIdList":{"RelatedDocumentId":["350830720286175232","350830720290369536"]}},{"fileName":"string","techStatus":"技术状态","issl":"false","conclusion":"通过","checkType":"管理文件齐套性"}]}
-     * checkVerd : {"-id":"337934855232368640","name":"单机产品数据包验收结论","code":"P011-06"}
-     * UnresolvedSet : {"Unresolved":[{"productCode":"003","question":"问题2","confirmer":"张三1","description":"55","fileId":"0"},{"productCode":"33","question":"33","confirmer":"33","description":"33","fileId":"0"},{"productCode":"went","question":"ee","confirmer":"ee","description":"ee","fileId":"0"}]}
-     * DeliveryLists : {"DeliveryList":[{"-id":"351895632832860160","isParent":"true","project":"验收依据文件","parentId":"null"},{"-id":"351895634586079232","isParent":"false","project":"合同","parentId":"351895632832860160","description":"无"},{"-id":"355898312194473984","isParent":"false","project":"任务书","parentId":"351895632832860160","description":"无"},{"-id":"355994406205403136","isParent":"false","project":"111","parentId":"351895632832860160","description":"string"}]}
-     * DocumentListSet : {"Document":[{"-id":"354088813618032640","code":"string","name":"合同文件","secret":"非密","payClassify":"合同","modalCode":"string","productCodeName":"string","productCode":"string","stage":"C1","FileSet":{"File":{"name":"001.xlsx","path":"5d4bd99e66dcfc301c7a8b07.xlsx"}}},{"-id":"354171389235736576","code":"string","name":"合同文件","secret":"非密","payClassify":"合同","modalCode":"string","productCodeName":"string","productCode":"string","stage":"C1"},{"-id":"354171714798211072","code":"string","name":"合同文件","secret":"非密","payClassify":"合同","modalCode":"string","productCodeName":"string","productCode":"string","stage":"C1","FileSet":{"File":{"name":"001.xlsx","path":"5d4bd99e66dcfc301c7a8b07.xlsx"}}}]}
-     */
 
     @XStreamAsAttribute()
     @XStreamAlias("id") //属性注解
@@ -50,23 +29,14 @@ public class DataPackageBean2 {
     private String batch;//批次
     private String creator;//创建人
     private String createTime;//创建时间
-    @XStreamImplicit(itemFieldName = "checkApply")//节点注解(必须写)
     private CheckApplyBean checkApply;//验收申请单
-    @XStreamImplicit(itemFieldName = "checkTask")
     private CheckTaskBean checkTask;//验收任务单
-    @XStreamImplicit(itemFieldName = "ApplyItemSet")
     private ApplyItemSetBean ApplyItemSet;//验收产品集
-    @XStreamImplicit(itemFieldName = "CheckFileSet")
     private CheckFileSetBean CheckFileSet;//检查单集
-    @XStreamImplicit(itemFieldName = "AccordItemSet")
     private AccordItemSetBean AccordItemSet;//依据文件集
-    @XStreamImplicit(itemFieldName = "checkVerd")
     private CheckVerdBean checkVerd;//验收结论
-    @XStreamImplicit(itemFieldName = "UnresolvedSet")
     private UnresolvedSetBean UnresolvedSet;//验收遗留问题集
-    @XStreamImplicit(itemFieldName = "DeliveryLists")
     private DeliveryListsBean DeliveryLists;//交付文档分类
-    @XStreamImplicit(itemFieldName = "DocumentListSet")
     private DocumentListSetBean DocumentListSet;
 
     public String getDescription() {
@@ -378,9 +348,16 @@ public class DataPackageBean2 {
         private String applicant;//申请人
         private String applyCompany;//申请单位
         private String phone;//联系电话
-        @XStreamImplicit(itemFieldName = "ApplyItemSet")
+        private String ApplyDeptSet;//联系电话
         private ApplyItemSetBean ApplyItemSet;//验收部门集
 
+        public String getApplyDeptSet() {
+            return ApplyDeptSet;
+        }
+
+        public void setApplyDeptSet(String applyDeptSet) {
+            ApplyDeptSet = applyDeptSet;
+        }
 
         public String getAcceptDate() {
             return acceptDate;
@@ -483,7 +460,6 @@ public class DataPackageBean2 {
         /**
          * ApplyItem : {"isArmyCheck":"true","isCompleteChoice":"true","isCompleteRoutine":"true","isPureCheck":"false","isSatisfyRequire":"true","productCode":"bian-1","productCodeName":"d-12","productName":"产品1"}
          */
-        @XStreamImplicit(itemFieldName = "ApplyItem")
         private ApplyItemBean ApplyItem;
 
         public ApplyItemBean getApplyItem() {
@@ -645,8 +621,16 @@ public class DataPackageBean2 {
             private String code;
             private String docType;
             private String conclusion;
-            @XStreamImplicit(itemFieldName = "CheckGroupSet")
+            private String description;
             private CheckGroupSetBean CheckGroupSet;
+
+            public String getDescription() {
+                return description;
+            }
+
+            public void setDescription(String description) {
+                this.description = description;
+            }
 
             public String getId() {
                 return id;
@@ -715,8 +699,36 @@ public class DataPackageBean2 {
                      */
 
                     private String groupName;
-                    @XStreamImplicit(itemFieldName = "CheckItemSet")
+                    private String checkGroupConclusion;
+                    private String checkPlace;
+                    private String special;
+
+
                     private CheckItemSetBean CheckItemSet;
+
+                    public String getCheckGroupConclusion() {
+                        return checkGroupConclusion;
+                    }
+
+                    public void setCheckGroupConclusion(String checkGroupConclusion) {
+                        this.checkGroupConclusion = checkGroupConclusion;
+                    }
+
+                    public String getCheckPlace() {
+                        return checkPlace;
+                    }
+
+                    public void setCheckPlace(String checkPlace) {
+                        this.checkPlace = checkPlace;
+                    }
+
+                    public String getSpecial() {
+                        return special;
+                    }
+
+                    public void setSpecial(String special) {
+                        this.special = special;
+                    }
 
                     public String getGroupName() {
                         return groupName;
@@ -759,8 +771,52 @@ public class DataPackageBean2 {
                             private String checkGroupId;
                             private String name;
                             private String options;
-                            @XStreamImplicit(itemFieldName = "RelatedDocumentIdSet")
+                            private String selected;
+                            private String description;
+                            private String checkSetVal;
+                            private String checkConclusion;
+                            private String questionDescription;
                             private RelatedDocumentIdSetBean RelatedDocumentIdSet;
+
+                            public String getQuestionDescription() {
+                                return questionDescription;
+                            }
+
+                            public void setQuestionDescription(String questionDescription) {
+                                this.questionDescription = questionDescription;
+                            }
+
+                            public String getCheckConclusion() {
+                                return checkConclusion;
+                            }
+
+                            public void setCheckConclusion(String checkConclusion) {
+                                this.checkConclusion = checkConclusion;
+                            }
+
+                            public String getCheckSetVal() {
+                                return checkSetVal;
+                            }
+
+                            public void setCheckSetVal(String checkSetVal) {
+                                this.checkSetVal = checkSetVal;
+                            }
+
+                            public String getDescription() {
+                                return description;
+                            }
+
+                            public void setDescription(String description) {
+                                this.description = description;
+                            }
+
+                            public String getSelected() {
+                                return selected;
+                            }
+
+                            public void setSelected(String selected) {
+                                this.selected = selected;
+                            }
 
                             public String getCheckGroupId() {
                                 return checkGroupId;
@@ -849,8 +905,16 @@ public class DataPackageBean2 {
             private String conclusion;
             private String description;
             private String checkType;
-            @XStreamImplicit(itemFieldName = "RelatedDocumentIdList")
+            private String approvalDate;
             private RelatedDocumentIdListBean RelatedDocumentIdList;
+
+            public String getApprovalDate() {
+                return approvalDate;
+            }
+
+            public void setApprovalDate(String approvalDate) {
+                this.approvalDate = approvalDate;
+            }
 
             public String getFileCodeName() {
                 return fileCodeName;
@@ -1154,7 +1218,6 @@ public class DataPackageBean2 {
             private String productCodeName;
             private String productCode;
             private String stage;
-            @XStreamImplicit(itemFieldName = "FileSet")
             private FileSetBean FileSet;
 
             public String getId() {
@@ -1241,7 +1304,6 @@ public class DataPackageBean2 {
                 /**
                  * File : {"name":"001.xlsx","path":"5d4bd99e66dcfc301c7a8b07.xlsx"}
                  */
-                @XStreamImplicit(itemFieldName = "File")
                 private FileBean File;
 
                 public FileBean getFile() {
