@@ -5,10 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.example.acceptance.R;
+import com.example.acceptance.greendao.bean.ApplyItemBean;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * @author :created by ${ WYW }
@@ -16,9 +21,9 @@ import java.util.List;
  */
 public class ApplyForAdapter extends BaseAdapter {
     private Context context;
-    private List<String> list;
+    private List<ApplyItemBean> list;
 
-    public ApplyForAdapter(Context context, List<String> list) {
+    public ApplyForAdapter(Context context, List<ApplyItemBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -40,19 +45,57 @@ public class ApplyForAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder=null;
-        if (view==null){
-            view= LayoutInflater.from(context).inflate(R.layout.apply_for_item,viewGroup,false);
-            viewHolder=new ViewHolder();
+        ViewHolder viewHolder = null;
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.apply_for_item, viewGroup, false);
+            viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
-        }else {
-            viewHolder= (ViewHolder) view.getTag();
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
         }
 
+        viewHolder.tvNum.setText(i+1+"");
+        viewHolder.tvProductCodeName.setText(list.get(i).getProductCodeName());
+        viewHolder.tvProductName.setText(list.get(i).getProductName());
+        viewHolder.tvProductCode.setText(list.get(i).getProductCode());
+        viewHolder.tvProductStatus.setText(list.get(i).getProductStatus());
+        viewHolder.tvIsPureCheck.setText(list.get(i).getIsPureCheck());
+        viewHolder.tvIsArmyCheck.setText(list.get(i).getIsArmyCheck());
+        viewHolder.tvIsCompleteChoice.setText(list.get(i).getIsCompleteChoice());
+        viewHolder.tvIsCompleteRoutine.setText(list.get(i).getIsCompleteRoutine());
+        viewHolder.tvIsSatisfyRequire.setText(list.get(i).getIsSatisfyRequire());
+        viewHolder.tvDescription.setText(list.get(i).getDescription());
         return view;
     }
 
-    static class ViewHolder{
+    static class ViewHolder {
+        @BindView(R.id.tv_num)
+        TextView tvNum;
+        @BindView(R.id.tv_productCodeName)
+        TextView tvProductCodeName;
+        @BindView(R.id.tv_productName)
+        TextView tvProductName;
+        @BindView(R.id.tv_productCode)
+        TextView tvProductCode;
+        @BindView(R.id.tv_productStatus)
+        TextView tvProductStatus;
+        @BindView(R.id.tv_checkCount)
+        TextView tvCheckCount;
+        @BindView(R.id.tv_isPureCheck)
+        TextView tvIsPureCheck;
+        @BindView(R.id.tv_isArmyCheck)
+        TextView tvIsArmyCheck;
+        @BindView(R.id.tv_isCompleteChoice)
+        TextView tvIsCompleteChoice;
+        @BindView(R.id.tv_isCompleteRoutine)
+        TextView tvIsCompleteRoutine;
+        @BindView(R.id.tv_isSatisfyRequire)
+        TextView tvIsSatisfyRequire;
+        @BindView(R.id.tv_description)
+        TextView tvDescription;
 
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

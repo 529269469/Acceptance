@@ -8,6 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.acceptance.R;
+import com.example.acceptance.base.MyApplication;
+import com.example.acceptance.greendao.bean.DeliveryListBean;
+import com.example.acceptance.greendao.db.DeliveryListBeanDao;
+import com.example.acceptance.view.MyListView;
 
 import java.util.List;
 
@@ -21,9 +25,9 @@ import butterknife.ButterKnife;
 public class DeliveryAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> list;
+    private List<DeliveryListBean> list;
 
-    public DeliveryAdapter(Context context, List<String> list) {
+    public DeliveryAdapter(Context context, List<DeliveryListBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -45,22 +49,42 @@ public class DeliveryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder=null;
+        ViewHolder viewHolder = null;
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.delivery_item, viewGroup, false);
-            viewHolder=new ViewHolder(view);
+            viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
-        }else {
-            viewHolder= (ViewHolder) view.getTag();
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
         }
 
+        viewHolder.tvProject.setText(list.get(i).getProject());
 
+        DeliveryListBeanDao deliveryListBeanDao= MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
+        List<DeliveryListBean> deliveryListBeans=deliveryListBeanDao.queryBuilder()
+                .where(DeliveryListBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                .where(DeliveryListBeanDao.Properties.ParentId.eq(list.get(i).getId()))
+                .list();
+
+        Delivery2Adapter legacyAdapter = new Delivery2Adapter(context, deliveryListBeans);
+        viewHolder.lv_list.setAdapter(legacyAdapter);
 
         return view;
     }
 
     static class ViewHolder {
-
+        @BindView(R.id.tv_project)
+        TextView tvProject;
+        @BindView(R.id.tv_name)
+        TextView tvName;
+        @BindView(R.id.tv_productCode)
+        TextView tvProductCode;
+        @BindView(R.id.tv_name_file)
+        TextView tvNameFile;
+        @BindView(R.id.tv_caozuo)
+        TextView tvCaozuo;
+        @BindView(R.id.lv_list)
+        MyListView lv_list;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

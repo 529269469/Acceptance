@@ -50,6 +50,7 @@ import butterknife.ButterKnife;
  * 主页
  */
 public class MainActivity extends BaseActivity {
+
     @BindView(R.id.iv_genduo)
     ImageView ivGenduo;
     @BindView(R.id.tv_tuichu)
@@ -58,8 +59,6 @@ public class MainActivity extends BaseActivity {
     ListView gvOne;
     @BindView(R.id.frame)
     FrameLayout frame;
-
-
     @BindView(R.id.ll_title)
     LinearLayout ll_title;
     @BindView(R.id.tv_operation)
@@ -106,11 +105,12 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public static Intent openIntent(Context context) {
+    public static Intent openIntent(Context context,String id) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("id",id);
         return intent;
     }
-
+    private String id;
     private List<TitleBean> list = new ArrayList<>();
 
     private FragmentTransaction transaction;
@@ -119,6 +119,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        id=getIntent().getStringExtra("id");
         ivGenduo.setOnClickListener(view -> {
             //显示侧滑菜单
             drawerLayout.openDrawer(GravityCompat.START);
@@ -145,6 +146,9 @@ public class MainActivity extends BaseActivity {
 
         transaction = getSupportFragmentManager().beginTransaction();
         particularsFragment = new ParticularsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", id);
+        particularsFragment.setArguments(bundle);
         transaction.add(R.id.frame, particularsFragment);
         transaction.commit();
 
@@ -171,6 +175,7 @@ public class MainActivity extends BaseActivity {
                 case 1://验收申请
                     if (applyForFragment == null){
                         applyForFragment = new ApplyForFragment();
+                        applyForFragment.setArguments(bundle);
                         transaction.add(R.id.frame, applyForFragment);
                     }else {
                         transaction.show(applyForFragment);
@@ -179,6 +184,7 @@ public class MainActivity extends BaseActivity {
                 case 2://验收任务单
                     if (taskFragment == null){
                         taskFragment = new TaskFragment();
+                        taskFragment.setArguments(bundle);
                         transaction.add(R.id.frame, taskFragment);
                     }else {
                         transaction.show(taskFragment);
@@ -187,6 +193,7 @@ public class MainActivity extends BaseActivity {
                 case 3://齐套性检查
                     if (kittingFragment ==null){
                         kittingFragment = new KittingFragment();
+                        kittingFragment.setArguments(bundle);
                         transaction.add(R.id.frame, kittingFragment);
                     }else {
                         transaction.show(kittingFragment);
@@ -195,6 +202,7 @@ public class MainActivity extends BaseActivity {
                 case 4://过程检查
                     if (courseFragment == null){
                         courseFragment = new CourseFragment();
+                        courseFragment.setArguments(bundle);
                         transaction.add(R.id.frame, courseFragment);
                     }else {
                         transaction.show(courseFragment);
@@ -203,6 +211,7 @@ public class MainActivity extends BaseActivity {
                 case 5://技术类检查
                     if (technologyFragment == null){
                         technologyFragment = new TechnologyFragment();
+                        technologyFragment.setArguments(bundle);
                         transaction.add(R.id.frame, technologyFragment);
                     }else {
                         transaction.show(technologyFragment);
@@ -211,6 +220,7 @@ public class MainActivity extends BaseActivity {
                 case 6://验收结论
                     if (acceptanceConclusionFragment == null){
                         acceptanceConclusionFragment = new AcceptanceConclusionFragment();
+                        acceptanceConclusionFragment.setArguments(bundle);
                         transaction.add(R.id.frame, acceptanceConclusionFragment);
                     }else {
                         transaction.show(acceptanceConclusionFragment);
@@ -219,6 +229,7 @@ public class MainActivity extends BaseActivity {
                 case 7://验收遗留问题落实
                     if (legacyFragment == null){
                         legacyFragment = new LegacyFragment();
+                        legacyFragment.setArguments(bundle);
                         transaction.add(R.id.frame, legacyFragment);
                     }else {
                         transaction.show(legacyFragment);
@@ -227,6 +238,7 @@ public class MainActivity extends BaseActivity {
                 case 8://交付清单
                     if (deliveryFragment == null){
                         deliveryFragment = new DeliveryFragment();
+                        deliveryFragment.setArguments(bundle);
                         transaction.add(R.id.frame, deliveryFragment);
                     }else {
                         transaction.show(deliveryFragment);

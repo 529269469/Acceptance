@@ -3,6 +3,7 @@ package com.example.acceptance.fragment.main.course;
 import com.example.acceptance.R;
 import com.example.acceptance.adapter.kitting.ProductAdapter;
 import com.example.acceptance.base.BaseFragment;
+import com.example.acceptance.greendao.bean.CheckItemBean;
 import com.example.acceptance.view.MyListView;
 
 import java.util.ArrayList;
@@ -21,12 +22,10 @@ public class MachineryFragment extends BaseFragment {
     MyListView lvStandard;
 
     private ProductAdapter productAdapter;
-    private List<String> list=new ArrayList<>();
+    private List<CheckItemBean> list=new ArrayList<>();
     @Override
     protected void initEventAndData() {
-        for (int i = 0; i < 5; i++) {
-            list.add("");
-        }
+
 
         productAdapter=new ProductAdapter(getActivity(),list);
         lvStandard.setAdapter(productAdapter);

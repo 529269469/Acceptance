@@ -4,15 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/beijing"
     tools:context=".activity.LoginActivity">
 
-    <ImageView
-        android:src="@drawable/app_name"
-        android:layout_marginTop="@dimen/padding_100"
-        android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/padding_300"
-        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:background="@drawable/ditu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_300">
+
+        <ImageView
+            android:id="@+id/iv_setup"
+            android:layout_margin="@dimen/padding_20"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/shezhi"
+            android:layout_width="@dimen/padding_33"
+            android:layout_height="@dimen/padding_33"/>
+
+        <com.example.acceptance.view.ChangeTextViewSpace
+            android:layout_centerInParent="true"
+            android:id="@+id/tv_tv"
+            android:textSize="28sp"
+            android:textColor="#EEEEEE"
+            android:text="欢迎登录下厂验收系统"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,76 +37,83 @@
         android:layout_centerVertical="true">
 
         <LinearLayout
+            android:layout_marginTop="@dimen/padding_40"
+            android:layout_marginLeft="@dimen/padding_100"
+            android:background="@drawable/a200"
             android:id="@+id/ll_new"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/padding_180"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/online_conference" />
+                android:layout_width="@dimen/padding_49"
+                android:layout_height="@dimen/padding_42"
+                android:src="@drawable/xinjian" />
 
             <TextView
+                android:textSize="@dimen/padding_21"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="新建任务"
-                android:textColor="#000" />
+                android:textColor="@color/color_FFFFFF" />
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="@dimen/padding_40"
+            android:layout_marginLeft="@dimen/padding_40"
+            android:background="@drawable/a201"
             android:id="@+id/ll_file"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/padding_180"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/file" />
+                android:layout_width="@dimen/padding_49"
+                android:layout_height="@dimen/padding_42"
+                android:src="@drawable/daochu" />
 
             <TextView
+                android:textSize="@dimen/padding_21"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="导入任务"
-                android:textColor="#000" />
+                android:textColor="@color/color_FFFFFF" />
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="@dimen/padding_40"
+            android:layout_marginRight="@dimen/padding_100"
+            android:layout_marginLeft="@dimen/padding_40"
+            android:background="@drawable/a202"
             android:id="@+id/ll_checklist"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/padding_180"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/checklist" />
+
+                android:layout_width="@dimen/padding_49"
+                android:layout_height="@dimen/padding_42"
+                android:src="@drawable/lishi" />
 
             <TextView
+                android:textSize="@dimen/padding_21"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="历史任务"
-                android:textColor="#000" />
+                android:textColor="@color/color_FFFFFF" />
         </LinearLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/iv_setup"
-        android:layout_margin="@dimen/padding_20"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/setup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
 
 </RelativeLayout>

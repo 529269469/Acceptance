@@ -7,20 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.acceptance.R;
+import com.example.acceptance.adapter.UnresolvedAdapter;
 import com.example.acceptance.base.BaseFragment;
+import com.example.acceptance.base.MyApplication;
+import com.example.acceptance.greendao.bean.CheckVerdBean;
+import com.example.acceptance.greendao.bean.UnresolvedBean;
+import com.example.acceptance.greendao.db.CheckVerdBeanDao;
+import com.example.acceptance.greendao.db.UnresolvedBeanDao;
 import com.example.acceptance.net.URLS;
 import com.example.acceptance.view.LinePathView;
 import com.example.acceptance.view.MyListView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -36,13 +45,45 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
     MyListView lvList2;
     @BindView(R.id.iv_signature)
     ImageView ivSignature;
+    @BindView(R.id.tv_code)
+    TextView tvCode;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.et_qConclusion)
+    EditText etQConclusion;
+    @BindView(R.id.et_gConclusion)
+    EditText etGConclusion;
+    @BindView(R.id.et_jConclusion)
+    EditText etJConclusion;
+    @BindView(R.id.tv_time)
+    TextView tvTime;
     private PopupWindow popupWindow;
     private LinePathView mPathView;
 
     @Override
     protected void initEventAndData() {
+        String id = getArguments().getString("id");
         ivSignature.setOnClickListener(this);
 
+        CheckVerdBeanDao checkVerdBeanDao= MyApplication.getInstances().getCheckVerdDaoSession().getCheckVerdBeanDao();
+        List<CheckVerdBean> checkVerdBeans=checkVerdBeanDao.queryBuilder()
+                .where(CheckVerdBeanDao.Properties.DataPackageId.eq(id))
+                .list();
+
+        tvCode.setText("编号："+checkVerdBeans.get(0).getCode());
+        tvName.setText("名称："+checkVerdBeans.get(0).getName());
+        etQConclusion.setText(checkVerdBeans.get(0).getQConclusion());
+        etGConclusion.setText(checkVerdBeans.get(0).getQConclusion());
+        etJConclusion.setText(checkVerdBeans.get(0).getQConclusion());
+
+
+        UnresolvedBeanDao unresolvedBeanDao=MyApplication.getInstances().getCheckUnresolvedDaoSession().getUnresolvedBeanDao();
+        List<UnresolvedBean> unresolvedBeans=unresolvedBeanDao.queryBuilder()
+                .where(UnresolvedBeanDao.Properties.DataPackageId.eq(id))
+                .list();
+
+        UnresolvedAdapter unresolvedAdapter=new UnresolvedAdapter(getActivity(),unresolvedBeans);
+        lvList2.setAdapter(unresolvedAdapter);
 
     }
 
@@ -53,7 +94,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_signature:
                 pathPopu();
                 break;
@@ -96,7 +137,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
             mPathView.setPenColor(Color.BLACK);
         });
         //保存
-        String  path =  System.currentTimeMillis() + ".png";
+        String path = System.currentTimeMillis() + ".png";
         mBtnSave.setOnClickListener(v -> {
             if (mPathView.getTouched()) {
                 try {

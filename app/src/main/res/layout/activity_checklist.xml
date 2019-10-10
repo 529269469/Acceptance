@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="#121276">
+        android:background="#2D7DF4">
 
         <ImageView
             android:id="@+id/iv_genduo"
@@ -31,138 +31,106 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
+
     <LinearLayout
-        android:background="@drawable/shape_ed"
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_40"
-        android:layout_marginLeft="@dimen/padding_50"
-        android:layout_marginTop="@dimen/padding_50"
-        android:layout_marginRight="@dimen/padding_50"
+        android:layout_marginLeft="@dimen/padding_24"
+        android:layout_marginTop="@dimen/padding_24"
+        android:layout_marginRight="@dimen/padding_24"
+        android:background="#EDF4FF"
         android:orientation="horizontal">
 
         <TextView
-            android:textColor="@color/color_000"
             android:layout_width="@dimen/padding_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="序号" />
+            android:text="序号"
+            android:textColor="#999999" />
 
-        <View
-            android:background="@color/color_D0D0D0"
-            android:layout_width="@dimen/padding_1"
-            android:layout_height="match_parent"/>
 
         <TextView
-            android:textColor="@color/color_000"
             android:layout_width="@dimen/padding_0"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:gravity="center"
-            android:text="名称" />
-
-        <View
-            android:background="@color/color_D0D0D0"
-            android:layout_width="@dimen/padding_1"
-            android:layout_height="match_parent"/>
+            android:text="名称"
+            android:textColor="#999999" />
 
         <TextView
-            android:textColor="@color/color_000"
             android:layout_width="@dimen/padding_0"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="编号" />
+            android:text="编号"
+            android:textColor="#999999" />
 
-        <View
-            android:background="@color/color_D0D0D0"
-            android:layout_width="@dimen/padding_1"
-            android:layout_height="match_parent"/>
 
         <TextView
-            android:textColor="@color/color_000"
             android:layout_width="@dimen/padding_0"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="类型" />
+            android:text="类型"
+            android:textColor="#999999" />
 
-        <View
-            android:background="@color/color_D0D0D0"
-            android:layout_width="@dimen/padding_1"
-            android:layout_height="match_parent"/>
 
         <TextView
-            android:textColor="@color/color_000"
             android:layout_width="@dimen/padding_0"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="责任单位" />
+            android:text="责任单位"
+            android:textColor="#999999" />
 
-        <View
-            android:background="@color/color_D0D0D0"
-            android:layout_width="@dimen/padding_1"
-            android:layout_height="match_parent"/>
 
         <TextView
-            android:textColor="@color/color_000"
             android:layout_width="@dimen/padding_0"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="产品名称" />
+            android:text="产品名称"
+            android:textColor="#999999" />
 
-        <View
-            android:background="@color/color_D0D0D0"
-            android:layout_width="@dimen/padding_1"
-            android:layout_height="match_parent"/>
 
         <TextView
-            android:textColor="@color/color_000"
             android:layout_width="@dimen/padding_0"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="产品编号" />
+            android:text="产品编号"
+            android:textColor="#999999" />
 
-        <View
-            android:background="@color/color_D0D0D0"
-            android:layout_width="@dimen/padding_1"
-            android:layout_height="match_parent"/>
 
         <TextView
-            android:textColor="@color/color_000"
             android:layout_width="@dimen/padding_0"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="批次" />
+            android:text="批次"
+            android:textColor="#999999" />
 
-        <View
-            android:background="@color/color_D0D0D0"
-            android:layout_width="@dimen/padding_1"
-            android:layout_height="match_parent"/>
 
         <TextView
-            android:textColor="@color/color_000"
             android:layout_width="@dimen/padding_0"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="创建时间" />
+            android:text="创建时间"
+            android:textColor="#999999" />
 
     </LinearLayout>
 
 
     <com.example.acceptance.view.MyListView
         android:id="@+id/lv_checklist"
-        android:background="@drawable/shape_ed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/padding_50"
-        android:layout_marginRight="@dimen/padding_50"
-        android:layout_marginBottom="@dimen/padding_100" />
+        android:layout_marginLeft="@dimen/padding_24"
+        android:layout_marginRight="@dimen/padding_24"
+        android:layout_marginBottom="@dimen/padding_100"
+        android:background="@drawable/shape_ed2" />
 
 
 </LinearLayout>

@@ -21,9 +21,9 @@ public class NewActivity extends BaseActivity {
     @BindView(R.id.tv_tuichu)
     TextView tvTuichu;
     @BindView(R.id.bt_yes)
-    Button btYes;
+    TextView btYes;
     @BindView(R.id.bt_no)
-    Button btNo;
+    TextView btNo;
 
     public static Intent openIntent(Context context) {
         Intent intent = new Intent(context, NewActivity.class);
@@ -33,7 +33,7 @@ public class NewActivity extends BaseActivity {
     @Override
     protected void initView() {
         btYes.setOnClickListener(view -> {
-            startActivity(MainActivity.openIntent(NewActivity.this));
+            startActivity(MainActivity.openIntent(NewActivity.this,""));
             finish();
         });
         btNo.setOnClickListener(view -> {

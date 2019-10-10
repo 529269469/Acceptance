@@ -38,17 +38,18 @@ public class TechnologyFragment extends BaseFragment {
     private TechnologySizeFragment technologySizeFragment;
     @Override
     protected void initEventAndData() {
+        String id = getArguments().getString("id");
         listTitle.add("依据文件检查");
+        listTitle.add("技术类检查");
+
+        Bundle bundle=new Bundle();
+        bundle.putString("id", id);
         technologyFileFragment=new TechnologyFileFragment();
+        technologyFileFragment.setArguments(bundle);
         list.add(technologyFileFragment);
-
-        for (int i = 0; i < 3; i++) {
-            listTitle.add(""+i);
-            technologySizeFragment=new TechnologySizeFragment();
-            list.add(technologySizeFragment);
-        }
-
-
+        technologySizeFragment=new TechnologySizeFragment();
+        technologySizeFragment.setArguments(bundle);
+        list.add(technologySizeFragment);
 
         adapter=new TbAdapter(getChildFragmentManager(),listTitle,list);
         vp.setAdapter(adapter);

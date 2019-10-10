@@ -2,153 +2,179 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/color_FFFFFF"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_margin="@dimen/padding_30"
+        android:background="@color/color_FFFFFF"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:background="@drawable/shape_ed2"
+            android:layout_margin="@dimen/padding_24"
             android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_40">
+
+            <TextView
+                android:layout_marginLeft="@dimen/padding_20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="编号：C021-01"
+                android:textColor="@color/color_333333" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_70"
+                android:text="名称：分系统验收申请"
+                android:textColor="@color/color_333333" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_marginRight="@dimen/padding_24"
+            android:layout_marginLeft="@dimen/padding_24"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_40">
+            <TextView
+                android:layout_centerVertical="true"
+                android:textColor="@color/color_333333"
+                android:text="齐套检查"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:gravity="center"
+                android:background="@drawable/shape_text"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="#2D7DF4"
+                android:text="添加检查项"
+                android:layout_width="@dimen/padding_100"
+                android:layout_height="@dimen/padding_36"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_10"
+            android:layout_marginRight="@dimen/padding_24"
+            android:layout_marginLeft="@dimen/padding_24"
+            android:background="@drawable/shape_ed2"
+            android:padding="@dimen/padding_10"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="编号："
-                android:textColor="@color/color_000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="C021-01"
-                android:textColor="@color/color_000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_20"
-                android:text="名称："
-                android:textColor="@color/color_000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="分系统验收申请"
-                android:textColor="@color/color_000" />
-
-            <LinearLayout
-                android:gravity="right"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:text="增加检查项"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/padding_40"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:textColor="@color/color_000"
-            android:text="齐套检查"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
         <com.example.acceptance.view.MyListView
-            android:layout_marginTop="@dimen/padding_10"
             android:id="@+id/lv_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <LinearLayout
-            android:layout_marginTop="@dimen/padding_20"
+            android:layout_marginTop="@dimen/padding_10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:textColor="@color/color_000"
-                android:text="检查结论："
+                android:layout_marginLeft="@dimen/padding_35"
+                android:textColor="@color/color_333333"
+                android:text="检查结论"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:layout_marginLeft="@dimen/padding_10"
                 android:gravity="top"
-                android:background="@drawable/shape_ed"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/padding_100"/>
+                android:background="@drawable/shape_edtext"
+                android:layout_width="700dp"
+                android:layout_height="@dimen/padding_90"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginRight="@dimen/padding_24"
+            android:layout_marginLeft="@dimen/padding_24"
             android:layout_marginTop="@dimen/padding_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:textColor="@color/color_000"
-                android:text="检查人签名："
+                android:textColor="@color/color_333333"
+                android:text="检查人签名"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <ImageView
-                android:background="@color/color_FFFFFF"
-                android:layout_marginLeft="@dimen/padding_16"
+                android:background="@drawable/shape_edtext"
+                android:layout_marginLeft="@dimen/padding_10"
                 android:scaleType="fitXY"
                 android:id="@+id/iv_zu_qianming"
-                android:layout_marginTop="@dimen/padding_10"
-                android:layout_width="@dimen/padding_250"
-                android:layout_height="@dimen/padding_150" />
+                android:layout_width="@dimen/padding_300"
+                android:layout_height="@dimen/padding_90" />
 
 
         </LinearLayout>
-
+        </LinearLayout>
         <View
             android:layout_marginTop="@dimen/padding_10"
             android:background="@color/color_000"
             android:layout_width="match_parent"
             android:layout_height="@dimen/padding_1"/>
+
+    <LinearLayout
+        android:background="@drawable/shape_ed2"
+        android:padding="@dimen/padding_10"
+        android:layout_margin="@dimen/padding_24"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
         <LinearLayout
+            android:layout_marginRight="@dimen/padding_24"
+            android:layout_marginLeft="@dimen/padding_24"
             android:layout_marginTop="@dimen/padding_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:textColor="@color/color_000"
-                android:text="*检查结论："
+                android:layout_marginLeft="@dimen/padding_30"
+                android:textColor="@color/color_333333"
+                android:text="检查结论"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <EditText
                 android:gravity="top"
-                android:background="@drawable/shape_ed"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/padding_100"/>
+                android:background="@drawable/shape_edtext"
+                android:layout_width="700dp"
+                android:layout_height="@dimen/padding_90"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginBottom="@dimen/padding_100"
+            android:layout_marginRight="@dimen/padding_24"
+            android:layout_marginLeft="@dimen/padding_24"
             android:layout_marginTop="@dimen/padding_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:textColor="@color/color_000"
-                android:text="*检查人签名："
+                android:textColor="@color/color_333333"
+                android:text="检查人签名"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <ImageView
-                android:background="@color/color_FFFFFF"
+                android:background="@drawable/shape_edtext"
                 android:layout_marginLeft="@dimen/padding_16"
                 android:scaleType="fitXY"
-                android:id="@+id/iv_qianming"
-                android:layout_marginTop="@dimen/padding_10"
-                android:layout_width="@dimen/padding_250"
-                android:layout_height="@dimen/padding_150" />
+                android:id="@+id/iv_zu_qianming2"
+                android:layout_width="@dimen/padding_300"
+                android:layout_height="@dimen/padding_90" />
 
 
         </LinearLayout>
-
+    </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

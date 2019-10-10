@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -15,15 +14,44 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.acceptance.R;
 import com.example.acceptance.base.BaseActivity;
+import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.bean.DataPackageBean;
-import com.example.acceptance.bean.DataPackageBean2;
+import com.example.acceptance.greendao.bean.ApplyItemBean;
+import com.example.acceptance.greendao.bean.CheckApplyBean;
+import com.example.acceptance.greendao.bean.CheckFileBean;
+import com.example.acceptance.greendao.bean.CheckGroupBean;
+import com.example.acceptance.greendao.bean.CheckItemBean;
+import com.example.acceptance.greendao.bean.CheckTaskBean;
+import com.example.acceptance.greendao.bean.CheckUnresolvedBean;
+import com.example.acceptance.greendao.bean.CheckVerdBean;
+import com.example.acceptance.greendao.bean.DataPackageDBean;
+import com.example.acceptance.greendao.bean.DeliveryListBean;
+import com.example.acceptance.greendao.bean.DocumentBean;
+import com.example.acceptance.greendao.bean.FileBean;
+import com.example.acceptance.greendao.bean.PropertyBean;
+import com.example.acceptance.greendao.bean.PropertyBeanX;
+import com.example.acceptance.greendao.bean.RelatedDocumentIdSetBean;
+import com.example.acceptance.greendao.bean.UnresolvedBean;
+import com.example.acceptance.greendao.db.ApplyItemBeanDao;
+import com.example.acceptance.greendao.db.CheckApplyBeanDao;
+import com.example.acceptance.greendao.db.CheckFileBeanDao;
+import com.example.acceptance.greendao.db.CheckGroupBeanDao;
+import com.example.acceptance.greendao.db.CheckItemBeanDao;
+import com.example.acceptance.greendao.db.CheckTaskBeanDao;
+import com.example.acceptance.greendao.db.CheckUnresolvedBeanDao;
+import com.example.acceptance.greendao.db.CheckVerdBeanDao;
+import com.example.acceptance.greendao.db.DataPackageDBeanDao;
+import com.example.acceptance.greendao.db.DeliveryListBeanDao;
+import com.example.acceptance.greendao.db.DocumentBeanDao;
+import com.example.acceptance.greendao.db.FileBeanDao;
+import com.example.acceptance.greendao.db.PropertyBeanDao;
+import com.example.acceptance.greendao.db.PropertyBeanXDao;
+import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
+import com.example.acceptance.greendao.db.UnresolvedBeanDao;
 import com.example.acceptance.utils.ZipUtils2;
-import com.example.acceptance.utils.command.ZipHelper;
-import com.example.acceptance.utils.command.ZipUtils;
 import com.example.acceptance.view.ChangeTextViewSpace;
 import com.thoughtworks.xstream.XStream;
 
@@ -37,10 +65,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.zip.ZipFile;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import me.weyye.hipermission.HiPermission;
 import me.weyye.hipermission.PermissionCallback;
 import me.weyye.hipermission.PermissionItem;
@@ -59,6 +85,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     LinearLayout llChecklist;
     @BindView(R.id.iv_setup)
     ImageView ivSetup;
+    @BindView(R.id.tv_tv)
+    ChangeTextViewSpace tvTv;
 
 
     @Override
@@ -68,6 +96,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         llFile.setOnClickListener(this);
         llChecklist.setOnClickListener(this);
         ivSetup.setOnClickListener(this);
+
+        tvTv.setSpacing(20);
+        tvTv.setText("欢迎登录下厂验收系统");
         load();
     }
 
@@ -109,7 +140,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                                 intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
                                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                                startActivityForResult(intent,1);
+                                startActivityForResult(intent, 1);
 
 
                             }
@@ -151,15 +182,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             Log.e("TAG", "upLoadFilePath: " + upLoadFilePath);
                             Log.e("TAG", "upLoadFileName: " + upLoadFileName);
 
-                            String upLoadFile=upLoadFilePath.substring(0,upLoadFilePath.length()-4);
+                            String upLoadFile = upLoadFilePath.substring(0, upLoadFilePath.length() - 4);
                             Log.e("TAG", "upLoadFile: " + upLoadFile);
+
+
+
                             try {
-                                ZipUtils2.UnZipFolder(upLoadFilePath,upLoadFile);
+                                ZipUtils2.UnZipFolder(upLoadFilePath, upLoadFile);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
-                            filePath(upLoadFile);
+                            filePath(upLoadFile,upLoadFileName);
 
                         }
                     }
@@ -168,7 +202,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    private void filePath(String upLoadFile) {
+    private void filePath(String upLoadFile,String upLoadFileName) {
         File files = new File(upLoadFile);
         File[] subFile = files.listFiles();
         for (int i = 0; i < subFile.length; i++) {
@@ -176,18 +210,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             File file = new File(filename);
             /* 取得扩展名 */
             String end = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()).toLowerCase(Locale.getDefault());
-            if (end.equals("xml")){
-                input(subFile[i]);
+            if (end.equals("xml")) {
+                input(subFile[i],upLoadFileName,upLoadFile);
                 break;
             }
 
         }
     }
 
-    private void input(File upLoadFile) {
-        String content="";
+    private void input(File subFile,String upLoadFileName,String upLoadFile) {
+        String content = "";
         try {
-            InputStream instream = new FileInputStream(upLoadFile);
+            InputStream instream = new FileInputStream(subFile);
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
             String line;
@@ -202,13 +236,259 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.e("TAG", "onActivityResult: " + upLoadFile);
+        Log.e("TAG", "onActivityResult: " + subFile);
 //        Log.e("TAG", "onActivityResult: " + content);
         XStream xStream = new XStream();
         xStream.processAnnotations(DataPackageBean.class);
         DataPackageBean dataPackageBean = (DataPackageBean) xStream.fromXML(content);
 
         Log.e("TAG", "onActivityResult: " + dataPackageBean.toString());
+
+
+        DataPackageDBeanDao dataPackageDBeanDao= MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+        DataPackageDBean dataPackageDBean=new DataPackageDBean(null,
+                upLoadFileName,
+                upLoadFile,
+                dataPackageBean.getId(),
+                dataPackageBean.getName(),
+                dataPackageBean.getCode(),
+                dataPackageBean.getType(),
+                dataPackageBean.getResponseUnit(),
+                dataPackageBean.getModalCode(),
+                dataPackageBean.getProductName(),
+                dataPackageBean.getProductCode(),
+                dataPackageBean.getProductType(),
+                dataPackageBean.getBatch(),
+                dataPackageBean.getCreator(),
+                dataPackageBean.getCreateTime());
+        dataPackageDBeanDao.insert(dataPackageDBean);
+
+        CheckApplyBeanDao checkApplyBeanDao=MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
+        CheckApplyBean checkApplyBean=new CheckApplyBean(null,
+                dataPackageBean.getId(),
+                dataPackageBean.getCheckApply().getId(),
+                dataPackageBean.getCheckApply().getName(),
+                dataPackageBean.getCheckApply().getCode(),
+                dataPackageBean.getCheckApply().getContractCode(),
+                dataPackageBean.getCheckApply().getContractName(),
+                dataPackageBean.getCheckApply().getApplicant(),
+                dataPackageBean.getCheckApply().getApplyCompany(),
+                dataPackageBean.getCheckApply().getPhone(),
+                dataPackageBean.getCheckApply().getConclusion(),
+                dataPackageBean.getCheckApply().getDescription());
+        checkApplyBeanDao.insert(checkApplyBean);
+
+        CheckTaskBeanDao checkTaskBeanDao=MyApplication.getInstances().getCheckTaskDaoSession().getCheckTaskBeanDao();
+        CheckTaskBean checkTaskBean=new CheckTaskBean(null,
+                dataPackageBean.getId(),
+                dataPackageBean.getCheckTask().getId(),
+                dataPackageBean.getCheckTask().getName(),
+                dataPackageBean.getCheckTask().getCode(),
+                dataPackageBean.getCheckTask().getIssuer(),
+                dataPackageBean.getCheckTask().getIssueDept(),
+                dataPackageBean.getCheckTask().getAccepter(),
+                dataPackageBean.getCheckTask().getAcceptDate(),
+                dataPackageBean.getCheckTask().getCheckDate(),
+                dataPackageBean.getCheckTask().getApplicant(),
+                dataPackageBean.getCheckTask().getApplyCompany(),
+                dataPackageBean.getCheckTask().getPhone(),
+                dataPackageBean.getCheckTask().getApplyDeptSet());
+        checkTaskBeanDao.insert(checkTaskBean);
+
+        ApplyItemBeanDao applyItemBeanDao=MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
+        for (int i = 0; i <dataPackageBean.getApplyItemSet().getApplyItem().size() ; i++) {
+            ApplyItemBean applyItemBean=new ApplyItemBean(null,
+                    dataPackageBean.getId(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getId(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductCodeName(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductCode(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductStatus(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsPureCheck(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsArmyCheck(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsCompleteChoice(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsCompleteRoutine(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsSatisfyRequire(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getDescription(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductName());
+            applyItemBeanDao.insert(applyItemBean);
+        }
+
+        CheckFileBeanDao checkFileBeanDao=MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
+        CheckGroupBeanDao checkGroupBeanDao=MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
+        PropertyBeanDao propertyBeanDao=MyApplication.getInstances().getPropertyDaoSession().getPropertyBeanDao();
+        CheckItemBeanDao checkItemBeanDao=MyApplication.getInstances().getCheckItemDaoSession().getCheckItemBeanDao();
+        PropertyBeanXDao propertyBeanXDao=MyApplication.getInstances().getPropertyXDaoSession().getPropertyBeanXDao();
+        RelatedDocumentIdSetBeanDao relatedDocumentIdSetBeanDao=MyApplication.getInstances().getRelatedDocumentIdSetDaoSession().getRelatedDocumentIdSetBeanDao();
+        for (int i = 0; i < dataPackageBean.getCheckFileSet().getCheckFile().size(); i++) {
+            CheckFileBean checkFileBean=new CheckFileBean(null,
+                    dataPackageBean.getId(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getName(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCode(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getDocType(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getConclusion(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckPerson());
+            checkFileBeanDao.insert(checkFileBean);
+            
+            for (int j = 0; j <dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().size() ; j++) {
+                CheckGroupBean checkGroupBean=new CheckGroupBean(null,
+                        dataPackageBean.getId(),
+                        dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                        dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                        dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getGroupName(),
+                        dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckGroupConclusion(),
+                        dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckPerson(),
+                        dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsConclusion(),
+                        dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsTable());
+                checkGroupBeanDao.insert(checkGroupBean);
+
+
+
+                try {
+                    PropertyBean propertyBean=new PropertyBean(null,
+                            dataPackageBean.getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getPropertySet().getProperty().getName(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getPropertySet().getProperty().getValue());
+                    propertyBeanDao.insert(propertyBean);
+                }catch (Exception o){
+
+                }
+
+
+                try {
+                    CheckItemBean checkItemBean=new CheckItemBean(null,
+                            dataPackageBean.getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getName(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getOptions(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getSelected());
+                    checkItemBeanDao.insert(checkItemBean);
+                }catch (Exception o){
+
+                }
+
+                try {
+                    PropertyBeanX propertyBeanX=new PropertyBeanX(null,
+                            dataPackageBean.getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getPropertySet().getProperty().getName(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getPropertySet().getProperty().getValue());
+                    propertyBeanXDao.insert(propertyBeanX);
+                }catch (Exception o){
+
+                }
+
+                try {
+                    RelatedDocumentIdSetBean relatedDocumentIdSetBean=new RelatedDocumentIdSetBean(null,
+                            dataPackageBean.getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getRelatedDocumentIdSet().getRelatedDocumentId());
+                    relatedDocumentIdSetBeanDao.insert(relatedDocumentIdSetBean);
+                }catch (Exception o){
+
+                }
+
+              
+            }
+
+
+
+            
+        }
+
+        CheckVerdBeanDao checkVerdBeanDao=MyApplication.getInstances().getCheckVerdDaoSession().getCheckVerdBeanDao();
+        CheckVerdBean checkVerdBean=new CheckVerdBean(null,
+                dataPackageBean.getId(),
+                dataPackageBean.getCheckVerd().getId(),
+                dataPackageBean.getCheckVerd().getName(),
+                dataPackageBean.getCheckVerd().getCode(),
+                dataPackageBean.getCheckVerd().getQConclusion(),
+                dataPackageBean.getCheckVerd().getgConclusion(),
+                dataPackageBean.getCheckVerd().getjConclusion(),
+                dataPackageBean.getCheckVerd().getConclusion(),
+                dataPackageBean.getCheckVerd().getCheckPerson());
+        checkVerdBeanDao.insert(checkVerdBean);
+
+        CheckUnresolvedBeanDao checkUnresolvedBeanDao=MyApplication.getInstances().getCheckUnresolvedDaoSession().getCheckUnresolvedBeanDao();
+        CheckUnresolvedBean checkUnresolvedBean=new CheckUnresolvedBean(null,
+                dataPackageBean.getId(),
+                dataPackageBean.getCheckUnresolved().getId(),
+                dataPackageBean.getCheckUnresolved().getName(),
+                dataPackageBean.getCheckUnresolved().getCode());
+        checkUnresolvedBeanDao.insert(checkUnresolvedBean);
+
+        UnresolvedBeanDao unresolvedBeanDao=MyApplication.getInstances().getCheckUnresolvedDaoSession().getUnresolvedBeanDao();
+        UnresolvedBean unresolvedBean=new UnresolvedBean(null,
+                dataPackageBean.getId(),
+                dataPackageBean.getUnresolvedSet().getUnresolved().getId(),
+                dataPackageBean.getUnresolvedSet().getUnresolved().getProductCode(),
+                dataPackageBean.getUnresolvedSet().getUnresolved().getQuestion(),
+                dataPackageBean.getUnresolvedSet().getUnresolved().getConfirmer(),
+                dataPackageBean.getUnresolvedSet().getUnresolved().getConfirmTime(),
+                dataPackageBean.getUnresolvedSet().getUnresolved().getFileId(),
+                dataPackageBean.getUnresolvedSet().getUnresolved().getFileSet());
+        unresolvedBeanDao.insert(unresolvedBean);
+
+        DeliveryListBeanDao deliveryListBeanDao=MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
+        for (int i = 0; i <dataPackageBean.getDeliveryLists().getDeliveryList().size() ; i++) {
+            try {
+                DeliveryListBean deliveryListBean=new DeliveryListBean(null,
+                        dataPackageBean.getId(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getId(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getIsParent(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getProject(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getParentId());
+                deliveryListBeanDao.insert(deliveryListBean);
+            }catch (Exception o){
+
+            }
+
+        }
+
+        DocumentBeanDao documentBeanDao=MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+        FileBeanDao fileBeanDao=MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+        for (int i = 0; i < dataPackageBean.getDocumentListSet().getDocument().size(); i++) {
+            DocumentBean documentBean=new DocumentBean(null,
+                    dataPackageBean.getId(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getId(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getCode(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getName(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getSecret(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getPayClassify(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getModalCode(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getProductCodeName(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getProductCode(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getStage(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getTechStatus(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getApprover(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getApprovalDate(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getIssl(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getConclusion(),
+                    dataPackageBean.getDocumentListSet().getDocument().get(i).getDescription());
+            documentBeanDao.insert(documentBean);
+
+            try {
+                FileBean fileBean=new FileBean(null,
+                        dataPackageBean.getId(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getId(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().getName(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().getPath(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().getType() );
+                fileBeanDao.insert(fileBean);
+            }catch (Exception o){
+
+            }
+
+        }
+
 
 
     }
@@ -317,6 +597,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
 
 
 }

@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.example.acceptance.R;
 import com.example.acceptance.adapter.ChecklistAdapter;
 import com.example.acceptance.base.BaseActivity;
+import com.example.acceptance.base.MyApplication;
+import com.example.acceptance.greendao.bean.DataPackageDBean;
+import com.example.acceptance.greendao.db.DataPackageDBeanDao;
 import com.example.acceptance.view.MyListView;
 
 import java.util.ArrayList;
@@ -38,18 +41,21 @@ public class ChecklistActivity extends BaseActivity {
     }
 
     private ChecklistAdapter checklistAdapter;
-    private List<String> list = new ArrayList<>();
+    private List<DataPackageDBean> list = new ArrayList<>();
 
     @Override
     protected void initView() {
-        for (int i = 0; i < 2; i++) {
-            list.add("");
-        }
+        ivGenduo.setOnClickListener(view -> finish());
+
+        DataPackageDBeanDao dataPackageDBeanDao= MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+        List<DataPackageDBean> dataPackageDBeans=dataPackageDBeanDao.loadAll();
+
+        list.addAll(dataPackageDBeans);
         checklistAdapter=new ChecklistAdapter(this,list);
         lvChecklist.setAdapter(checklistAdapter);
 
         lvChecklist.setOnItemClickListener((adapterView, view, i, l) -> {
-            startActivity(MainActivity.openIntent(ChecklistActivity.this));
+            startActivity(MainActivity.openIntent(ChecklistActivity.this,list.get(i).getId()));
         });
 
     }

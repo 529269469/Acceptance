@@ -49,16 +49,18 @@ public class TitleAdapter extends BaseAdapter {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.title, viewGroup, false);
             viewHolder = new ViewHolder(view);
-
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.tvTitle.setText(list.get(position).getTitle());
         if (list.get(position).isCheck()){
-            viewHolder.tvTitle.setBackgroundColor(context.getResources().getColor(R.color.color_65A4FA));
+
+            viewHolder.tvTitle.setBackground(context.getResources().getDrawable(R.drawable.shape_text2));
+            viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.color_FFFFFF));
         }else {
             viewHolder.tvTitle.setBackgroundColor(context.getResources().getColor(R.color.color_FFFFFF));
+            viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.color_333333));
         }
         return view;
     }

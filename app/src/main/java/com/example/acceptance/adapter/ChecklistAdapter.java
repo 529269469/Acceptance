@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.acceptance.R;
+import com.example.acceptance.greendao.bean.DataPackageDBean;
 
 import java.util.List;
 
@@ -20,9 +21,9 @@ import butterknife.ButterKnife;
  */
 public class ChecklistAdapter extends BaseAdapter {
     private Context context;
-    private List<String> list;
+    private List<DataPackageDBean> list;
 
-    public ChecklistAdapter(Context context, List<String> list) {
+    public ChecklistAdapter(Context context, List<DataPackageDBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -53,15 +54,15 @@ public class ChecklistAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-
-        if (position==0){
-            viewHolder.tvXuhao.setText("1");
-            viewHolder.tvName.setText("遥安分系统");
-        }else if (position==1){
-            viewHolder.tvXuhao.setText("2");
-            viewHolder.tvName.setText("遥安分系统2");
-        }
-
+        viewHolder.tvXuhao.setText(position + 1 + "");
+        viewHolder.tvName.setText(list.get(position).getName());
+        viewHolder.tvCode.setText(list.get(position).getCode());
+        viewHolder.tvType.setText(list.get(position).getType());
+        viewHolder.tvResponseUnit.setText(list.get(position).getResponseUnit());
+        viewHolder.tvProductName.setText(list.get(position).getProductName());
+        viewHolder.tvProductCode.setText(list.get(position).getProductCode());
+        viewHolder.tvBatch.setText(list.get(position).getBatch());
+        viewHolder.tvCreateTime.setText(list.get(position).getCreateTime());
         return view;
     }
 
@@ -70,20 +71,20 @@ public class ChecklistAdapter extends BaseAdapter {
         TextView tvXuhao;
         @BindView(R.id.tv_name)
         TextView tvName;
-        @BindView(R.id.tv_num)
-        TextView tvNum;
+        @BindView(R.id.tv_code)
+        TextView tvCode;
         @BindView(R.id.tv_type)
         TextView tvType;
-        @BindView(R.id.tv_zerendanwei)
-        TextView tvZerendanwei;
-        @BindView(R.id.tv_name2)
-        TextView tvName2;
-        @BindView(R.id.tv_num2)
-        TextView tvNum2;
-        @BindView(R.id.tv_pici)
-        TextView tvPici;
-        @BindView(R.id.tv_time)
-        TextView tvTime;
+        @BindView(R.id.tv_responseUnit)
+        TextView tvResponseUnit;
+        @BindView(R.id.tv_productName)
+        TextView tvProductName;
+        @BindView(R.id.tv_productCode)
+        TextView tvProductCode;
+        @BindView(R.id.tv_batch)
+        TextView tvBatch;
+        @BindView(R.id.tv_createTime)
+        TextView tvCreateTime;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

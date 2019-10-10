@@ -5,10 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.example.acceptance.R;
+import com.example.acceptance.base.MyApplication;
+import com.example.acceptance.greendao.bean.DeliveryListBean;
+import com.example.acceptance.greendao.bean.DocumentBean;
+import com.example.acceptance.greendao.db.DocumentBeanDao;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * @author :created by ${ WYW }
@@ -17,9 +25,9 @@ import java.util.List;
 public class LvFileAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> list;
+    private List<DeliveryListBean> list;
 
-    public LvFileAdapter(Context context, List<String> list) {
+    public LvFileAdapter(Context context, List<DeliveryListBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -41,19 +49,69 @@ public class LvFileAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder=null;
-        if (view==null){
-            view= LayoutInflater.from(context).inflate(R.layout.lv_file_kitting,viewGroup,false);
-            viewHolder=new ViewHolder();
+        ViewHolder viewHolder = null;
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.lv_file_kitting, viewGroup, false);
+            viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
-        }else {
-            viewHolder= (ViewHolder) view.getTag();
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
+        }
+        viewHolder.tvNum.setText(i+1+"");
+        viewHolder.tvProject.setText(list.get(i).getProject());
+
+        DocumentBeanDao documentBeanDao= MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+        List<DocumentBean> documentBeans=documentBeanDao.queryBuilder()
+                .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                .where(DocumentBeanDao.Properties.PayClassify.eq(list.get(i).getId()))
+                .list();
+        if (documentBeans!=null&&!documentBeans.isEmpty()){
+            viewHolder.tvCode.setText(documentBeans.get(i).getCode());
+            viewHolder.tvName.setText(documentBeans.get(i).getName());
+            viewHolder.tvTechStatus.setText(documentBeans.get(i).getTechStatus());
+            viewHolder.tvApprover.setText(documentBeans.get(i).getApprover());
+            viewHolder.tvApprovalDate.setText(documentBeans.get(i).getApprovalDate());
+            viewHolder.tvIssl.setText(documentBeans.get(i).getIssl());
+            viewHolder.tvConclusion.setText(documentBeans.get(i).getConclusion());
+            viewHolder.tvDescription.setText(documentBeans.get(i).getDescription());
         }
 
+
+        viewHolder.tvCaozuo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         return view;
     }
 
-    static class ViewHolder{
+    static class ViewHolder {
+        @BindView(R.id.tv_num)
+        TextView tvNum;
+        @BindView(R.id.tv_project)
+        TextView tvProject;
+        @BindView(R.id.tv_code)
+        TextView tvCode;
+        @BindView(R.id.tv_name)
+        TextView tvName;
+        @BindView(R.id.tv_techStatus)
+        TextView tvTechStatus;
+        @BindView(R.id.tv_approver)
+        TextView tvApprover;
+        @BindView(R.id.tv_approvalDate)
+        TextView tvApprovalDate;
+        @BindView(R.id.tv_issl)
+        TextView tvIssl;
+        @BindView(R.id.tv_conclusion)
+        TextView tvConclusion;
+        @BindView(R.id.tv_description)
+        TextView tvDescription;
+        @BindView(R.id.tv_caozuo)
+        TextView tvCaozuo;
 
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

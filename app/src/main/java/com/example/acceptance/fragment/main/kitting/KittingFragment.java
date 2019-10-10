@@ -1,5 +1,7 @@
 package com.example.acceptance.fragment.main.kitting;
 
+import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -30,10 +32,16 @@ public class KittingFragment extends BaseFragment {
     private KittingProductFragment kittingProductFragment;
     @Override
     protected void initEventAndData() {
+        String id=getArguments().getString("id");
+
         listTitle.add("依据文件检查");
         listTitle.add("产品齐套性检查");
         kittingFileFragment=new KittingFileFragment();
         kittingProductFragment=new KittingProductFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("id", id);
+        kittingFileFragment.setArguments(bundle);
+        kittingProductFragment.setArguments(bundle);
         list.add(kittingFileFragment);
         list.add(kittingProductFragment);
 

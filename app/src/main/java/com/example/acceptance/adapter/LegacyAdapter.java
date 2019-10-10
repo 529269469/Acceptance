@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.acceptance.R;
+import com.example.acceptance.greendao.bean.UnresolvedBean;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ import butterknife.ButterKnife;
 public class LegacyAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> list;
+    private List<UnresolvedBean> list;
 
-    public LegacyAdapter(Context context, List<String> list) {
+    public LegacyAdapter(Context context, List<UnresolvedBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -45,17 +46,20 @@ public class LegacyAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder=null;
+        ViewHolder viewHolder = null;
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.legacy_item, viewGroup, false);
-            viewHolder=new ViewHolder(view);
+            viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
-        }else {
-            viewHolder= (ViewHolder) view.getTag();
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.tvNub.setText(i+1+"");
-
-
+        viewHolder.tvNub.setText(i + 1 + "");
+        viewHolder.tvProductCode.setText(list.get(i).getProductCode());
+        viewHolder.tvQuestion.setText(list.get(i).getQuestion());
+        viewHolder.tvConfirmer.setText(list.get(i).getConfirmer());
+        viewHolder.tvConfirmTime.setText(list.get(i).getConfirmTime());
+//        viewHolder.tvDescription.setText(list.get(i).getFileSet());
         return view;
     }
 
@@ -63,6 +67,16 @@ public class LegacyAdapter extends BaseAdapter {
     static class ViewHolder {
         @BindView(R.id.tv_nub)
         TextView tvNub;
+        @BindView(R.id.tv_productCode)
+        TextView tvProductCode;
+        @BindView(R.id.tv_question)
+        TextView tvQuestion;
+        @BindView(R.id.tv_confirmer)
+        TextView tvConfirmer;
+        @BindView(R.id.tv_confirmTime)
+        TextView tvConfirmTime;
+        @BindView(R.id.tv_description)
+        TextView tvDescription;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

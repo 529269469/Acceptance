@@ -9,12 +9,33 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.acceptance.R;
+import com.example.acceptance.adapter.FileAdapter;
+import com.example.acceptance.adapter.GVproAdapetr;
+import com.example.acceptance.adapter.OptionsAdapter;
 import com.example.acceptance.base.MyApplication;
-import com.example.acceptance.net.Contents;
+import com.example.acceptance.bean.TitleBean;
+import com.example.acceptance.greendao.bean.CheckItemBean;
+import com.example.acceptance.greendao.bean.DataPackageDBean;
+import com.example.acceptance.greendao.bean.DocumentBean;
+import com.example.acceptance.greendao.bean.FileBean;
+import com.example.acceptance.greendao.bean.PropertyBean;
+import com.example.acceptance.greendao.bean.PropertyBeanX;
+import com.example.acceptance.greendao.bean.RelatedDocumentIdSetBean;
+import com.example.acceptance.greendao.db.CheckItemBeanDao;
+import com.example.acceptance.greendao.db.DataPackageDBeanDao;
+import com.example.acceptance.greendao.db.DocumentBeanDao;
+import com.example.acceptance.greendao.db.FileBeanDao;
+import com.example.acceptance.greendao.db.PropertyBeanDao;
+import com.example.acceptance.greendao.db.PropertyBeanXDao;
+import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
+import com.example.acceptance.utils.OpenFileUtil;
+import com.example.acceptance.view.HorizontalListView;
+import com.example.acceptance.view.MyGridView;
 import com.example.acceptance.view.MyListView;
 
 import java.util.ArrayList;
@@ -29,9 +50,9 @@ import butterknife.ButterKnife;
  */
 public class ProductAdapter extends BaseAdapter {
     private Context context;
-    private List<String> list;
+    private List<CheckItemBean> list;
 
-    public ProductAdapter(Context context, List<String> list) {
+    public ProductAdapter(Context context, List<CheckItemBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -63,16 +84,98 @@ public class ProductAdapter extends BaseAdapter {
         }
         viewHolder.btRelevance.setOnClickListener(view1 -> {
             showListDialog(view1);
-
         });
+        viewHolder.tvName.setText(list.get(i).getName());
+
+        String[] options=list.get(i).getOptions().split(",");
+        List<TitleBean> titleBeans=new ArrayList<>();
+        for (int j = 0; j < options.length; j++) {
+            titleBeans.add(new TitleBean(options[j]));
+        }
+        OptionsAdapter optionsAdapter=new OptionsAdapter(context,titleBeans);
+        viewHolder.lvYesNo.setAdapter(optionsAdapter);
+
+        viewHolder.lvYesNo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                for (int j = 0; j < titleBeans.size(); j++) {
+                    titleBeans.get(j).setCheck(false);
+                }
+                titleBeans.get(i).setCheck(true);
+                optionsAdapter.notifyDataSetChanged();
+            }
+        });
+
+        PropertyBeanXDao propertyBeanXDao=MyApplication.getInstances().getPropertyXDaoSession().getPropertyBeanXDao();
+        List<PropertyBeanX> propertyBeans=propertyBeanXDao.queryBuilder()
+                .where(PropertyBeanXDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                .where(PropertyBeanXDao.Properties.CheckFileId.eq(list.get(0).getCheckFileId()))
+                .where(PropertyBeanXDao.Properties.CheckGroupId.eq(list.get(0).getCheckGroupId()))
+                .where(PropertyBeanXDao.Properties.CheckItemId.eq(list.get(0).getId()))
+                .list();
+
+        GVproAdapetr gVproAdapetr=new GVproAdapetr(context,propertyBeans);
+        viewHolder.gvPro.setAdapter(gVproAdapetr);
+
+        RelatedDocumentIdSetBeanDao documentIdSetBeanDao=MyApplication.getInstances().getRelatedDocumentIdSetDaoSession().getRelatedDocumentIdSetBeanDao();
+        List<RelatedDocumentIdSetBean> relatedDocumentIdSetBeans=documentIdSetBeanDao.queryBuilder()
+                .where(RelatedDocumentIdSetBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                .where(RelatedDocumentIdSetBeanDao.Properties.CheckFileId.eq(list.get(0).getCheckFileId()))
+                .where(RelatedDocumentIdSetBeanDao.Properties.CheckGroupId.eq(list.get(0).getCheckGroupId()))
+                .where(RelatedDocumentIdSetBeanDao.Properties.CheckItemId.eq(list.get(0).getId()))
+                .list();
+
+
+        DocumentBeanDao documentBeanDao=MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+        List<DocumentBean> documentBeans=documentBeanDao.queryBuilder()
+                .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeans.get(0).getRelatedDocumentId()))
+                .list();
+
+        if (documentBeans!=null&&!documentBeans.isEmpty()){
+            FileBeanDao fileBeanDao=MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+            List<FileBean> fileBeans=fileBeanDao.queryBuilder()
+                    .where(FileBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
+                    .list();
+            FileAdapter fileAdapter=new FileAdapter(context,fileBeans);
+            viewHolder.lv_file.setAdapter(fileAdapter);
+
+            viewHolder.lv_file.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    DataPackageDBeanDao dataPackageDBeanDao=MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+                    List<DataPackageDBean> dataPackageDBeans=dataPackageDBeanDao.queryBuilder()
+                            .where(DataPackageDBeanDao.Properties.Id.eq(list.get(i).getDataPackageId()))
+                            .list();
+                    try {
+                        context.startActivity(OpenFileUtil.openFile(dataPackageDBeans.get(0).getUpLoadFile()+"/"+fileBeans.get(i).getPath()));
+                    }catch (Exception o){
+                        Toast.makeText(MyApplication.mContext, "不支持此类型", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+
+        }
+
 
 
         return view;
     }
 
+
     static class ViewHolder {
+        @BindView(R.id.tv_name)
+        TextView tvName;
         @BindView(R.id.bt_relevance)
-        Button btRelevance;
+        TextView btRelevance;
+        @BindView(R.id.lv_yes_no)
+        HorizontalListView lvYesNo;
+        @BindView(R.id.gv_pro)
+        MyGridView gvPro;
+        @BindView(R.id.lv_file)
+        MyListView lv_file;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -80,8 +183,9 @@ public class ProductAdapter extends BaseAdapter {
     }
 
 
+
     private void showListDialog(View view) {
-        View poview =LayoutInflater.from(context).inflate(R.layout.relevance, null);
+        View poview = LayoutInflater.from(context).inflate(R.layout.relevance, null);
         PopupWindow popupWindow = new PopupWindow(poview);
         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -102,6 +206,4 @@ public class ProductAdapter extends BaseAdapter {
 
 
     }
-
-
 }

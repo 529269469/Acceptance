@@ -11,40 +11,29 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:background="@drawable/shape_ed2"
+            android:layout_margin="@dimen/padding_24"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_30"
-            android:paddingTop="@dimen/padding_30">
+            android:layout_height="@dimen/padding_40">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="编号："
-                android:textColor="@color/color_000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="C021-01"
-                android:textColor="@color/color_000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_20"
-                android:text="名称："
-                android:textColor="@color/color_000" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="编号：C021-01"
+                android:textColor="@color/color_333333" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="分系统验收申请"
-                android:textColor="@color/color_000" />
+                android:layout_marginLeft="@dimen/padding_70"
+                android:text="名称：分系统验收申请"
+                android:textColor="@color/color_333333" />
+
 
         </LinearLayout>
-
         <TextView
-            android:layout_marginTop="@dimen/padding_30"
             android:layout_marginLeft="@dimen/padding_30"
             android:textColor="@color/color_000"
             android:text="管理文件齐套性"
@@ -52,7 +41,7 @@
             android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:background="@drawable/shape_ed"
+            android:background="#EDF4FF"
             android:layout_marginRight="@dimen/padding_30"
             android:layout_marginLeft="@dimen/padding_30"
             android:layout_marginTop="@dimen/padding_10"
@@ -61,137 +50,94 @@
             android:layout_height="@dimen/padding_30">
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="1"
                 android:text="序号"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="文件类型"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
-
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="文件代号"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
-
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="文件名称"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="技术状态"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="批准人"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="批准日期"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
-
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="是否晒蓝"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="3"
                 android:text="验收结论"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="备注"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="操作"
                 android:gravity="center"
@@ -217,7 +163,7 @@
             android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:background="@drawable/shape_ed"
+            android:background="#EDF4FF"
             android:layout_marginRight="@dimen/padding_30"
             android:layout_marginLeft="@dimen/padding_30"
             android:layout_marginTop="@dimen/padding_10"
@@ -226,137 +172,91 @@
             android:layout_height="@dimen/padding_30">
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="1"
                 android:text="序号"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
-
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="文件类型"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="文件代号"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
-
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="文件名称"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="技术状态"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
-
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="批准人"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
-
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="批准日期"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
-
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="是否晒蓝"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
-
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="3"
                 android:text="验收结论"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="备注"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-            <View
-                android:background="@color/color_D0D0D0"
-                android:layout_width="@dimen/padding_1"
-                android:layout_height="match_parent"/>
 
             <TextView
-                android:textColor="@color/color_000"
+                android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="操作"
                 android:gravity="center"

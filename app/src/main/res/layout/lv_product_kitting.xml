@@ -9,39 +9,52 @@
         android:layout_height="@dimen/padding_40">
 
         <TextView
+            android:id="@+id/tv_name"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:textColor="@color/color_333333"
             android:layout_centerVertical="true"
             android:text="例行产品是否接受"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <Button
+        <TextView
+            android:textColor="#2D7DF4"
+            android:background="@drawable/shape_text"
+            android:gravity="center"
             android:layout_centerVertical="true"
             android:id="@+id/bt_relevance"
             android:text="操作"
             android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/padding_40"/>
+            android:layout_width="@dimen/padding_60"
+            android:layout_height="@dimen/padding_30"/>
 
 
-        <RadioGroup
-            android:layout_marginRight="@dimen/padding_20"
+        <com.example.acceptance.view.HorizontalListView
+            android:id="@+id/lv_yes_no"
+            android:layout_marginLeft="@dimen/padding_20"
             android:orientation="horizontal"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/bt_relevance"
+            android:layout_toRightOf="@id/tv_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <RadioButton
-                android:text="是"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <RadioButton
-                android:text="否"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </RadioGroup>
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 
+
+
+    <com.example.acceptance.view.MyGridView
+        android:id="@+id/gv_pro"
+        android:layout_marginTop="@dimen/padding_10"
+        android:numColumns="2"
+        android:layout_marginLeft="@dimen/padding_100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.example.acceptance.view.MyListView
+        android:id="@+id/lv_file"
+        android:layout_marginLeft="@dimen/padding_100"
+        android:layout_marginTop="@dimen/padding_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

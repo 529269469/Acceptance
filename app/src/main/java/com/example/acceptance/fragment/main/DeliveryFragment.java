@@ -4,6 +4,9 @@ import com.example.acceptance.R;
 import com.example.acceptance.adapter.DeliveryAdapter;
 import com.example.acceptance.adapter.LegacyAdapter;
 import com.example.acceptance.base.BaseFragment;
+import com.example.acceptance.base.MyApplication;
+import com.example.acceptance.greendao.bean.DeliveryListBean;
+import com.example.acceptance.greendao.db.DeliveryListBeanDao;
 import com.example.acceptance.view.MyListView;
 
 import java.util.ArrayList;
@@ -17,14 +20,17 @@ import butterknife.BindView;
 public class DeliveryFragment extends BaseFragment {
     @BindView(R.id.lv_list)
     MyListView lvList;
-    private List<String> list = new ArrayList<>();
 
     @Override
     protected void initEventAndData() {
-        for (int i = 0; i < 5; i++) {
-            list.add("");
-        }
-        DeliveryAdapter legacyAdapter = new DeliveryAdapter(getActivity(), list);
+        String id = getArguments().getString("id");
+        DeliveryListBeanDao deliveryListBeanDao= MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
+        List<DeliveryListBean> deliveryListBeans=deliveryListBeanDao.queryBuilder()
+                .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
+                .where(DeliveryListBeanDao.Properties.ParentId.eq("null"))
+                .list();
+
+        DeliveryAdapter legacyAdapter = new DeliveryAdapter(getActivity(), deliveryListBeans);
         lvList.setAdapter(legacyAdapter);
 
     }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/color_FFFFFF"
     android:id="@+id/drawerlayout_drawer"
     tools:context=".activity.MainActivity">
 
@@ -15,7 +16,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="#121276">
+            android:background="#2D7DF4">
 
             <ImageView
                 android:id="@+id/iv_genduo"
@@ -45,8 +46,16 @@
                 android:gravity="center"
                 android:textColor="@color/color_FFFFFF"
                 android:text="操作"
-                android:layout_width="@dimen/padding_50"
-                android:layout_height="@dimen/padding_30"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_marginRight="@dimen/padding_10"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/tv_operation"
+                android:src="@drawable/caozuo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         </RelativeLayout>
 
@@ -68,10 +77,11 @@
                 android:textColor="@color/color_FFFFFF"
                 android:gravity="center"
                 android:text="菜单"
-                android:background="#121276"
+                android:background="#212D4D"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/padding_44"/>
             <ListView
+                android:divider="#00000000"
                 android:background="@color/color_FFFFFF"
                 android:id="@+id/gv_one"
                 android:layout_width="match_parent"

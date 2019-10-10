@@ -961,6 +961,50 @@ public class DataPackageBean {
         private String name;
         private String code;
         private String qConclusion;
+        private String gConclusion;
+        private String jConclusion;
+        private String conclusion;
+        private String checkPerson;
+
+        public String getgConclusion() {
+            return gConclusion;
+        }
+
+        public void setgConclusion(String gConclusion) {
+            this.gConclusion = gConclusion;
+        }
+
+        public String getjConclusion() {
+            return jConclusion;
+        }
+
+        public void setjConclusion(String jConclusion) {
+            this.jConclusion = jConclusion;
+        }
+
+        public String getConclusion() {
+            return conclusion;
+        }
+
+        public void setConclusion(String conclusion) {
+            this.conclusion = conclusion;
+        }
+
+        public String getCheckPerson() {
+            return checkPerson;
+        }
+
+        public void setCheckPerson(String checkPerson) {
+            this.checkPerson = checkPerson;
+        }
+
+        public String getqConclusion() {
+            return qConclusion;
+        }
+
+        public void setqConclusion(String qConclusion) {
+            this.qConclusion = qConclusion;
+        }
 
         public String getId() {
             return id;

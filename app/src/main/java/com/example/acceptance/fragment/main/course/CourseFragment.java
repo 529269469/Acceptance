@@ -1,5 +1,7 @@
 package com.example.acceptance.fragment.main.course;
 
+import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -34,10 +36,13 @@ public class CourseFragment extends BaseFragment {
     private StandardFragment standardFragment;
     @Override
     protected void initEventAndData() {
+        String id = getArguments().getString("id");
         listTitle.add("过程检查");
 
         standardFragment=new StandardFragment();
-
+        Bundle bundle=new Bundle();
+        bundle.putString("id", id);
+        standardFragment.setArguments(bundle);
         list.add(standardFragment);
 
         adapter=new TbAdapter(getChildFragmentManager(),listTitle,list);

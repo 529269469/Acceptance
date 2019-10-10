@@ -6,12 +6,15 @@
     android:orientation="horizontal">
 
     <TextView
-        android:paddingLeft="@dimen/padding_10"
+        android:layout_marginRight="@dimen/padding_12"
+        android:layout_marginLeft="@dimen/padding_12"
+        android:paddingLeft="@dimen/padding_60"
         android:paddingRight="@dimen/padding_10"
         android:gravity="center_vertical"
         android:layout_centerVertical="true"
-        android:textColor="@color/color_000"
+        android:textColor="@color/color_333333"
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
 </RelativeLayout>
