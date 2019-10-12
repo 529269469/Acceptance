@@ -38,18 +38,21 @@ public class ParticularsFragment extends BaseFragment {
     EditText tvProductType;
     @BindView(R.id.tv_batch)
     EditText tvBatch;
+    @BindView(R.id.tv_productCode)
+    EditText tvProductCode;
 
     private String id;
+
     @Override
     protected void initEventAndData() {
-        Bundle bundle=getArguments();
-        id=bundle.getString("id");
-        DataPackageDBeanDao dataPackageDBeanDao= MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
-        List<DataPackageDBean> list=dataPackageDBeanDao.queryBuilder()
+        Bundle bundle = getArguments();
+        id = bundle.getString("id");
+        DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+        List<DataPackageDBean> list = dataPackageDBeanDao.queryBuilder()
                 .where(DataPackageDBeanDao.Properties.Id.eq(id))
                 .list();
 
-        DataPackageDBean dataPackageDBean=list.get(0);
+        DataPackageDBean dataPackageDBean = list.get(0);
         tvCode.setText(dataPackageDBean.getCode());
         tvCreator.setText(dataPackageDBean.getCreator());
         tvResponseUnit.setText(dataPackageDBean.getResponseUnit());
@@ -60,8 +63,8 @@ public class ParticularsFragment extends BaseFragment {
         tvType.setText(dataPackageDBean.getType());
         tvProductType.setText(dataPackageDBean.getProductType());
         tvBatch.setText(dataPackageDBean.getBatch());
+        tvProductCode.setText(dataPackageDBean.getProductCode());
     }
-
 
 
     @Override

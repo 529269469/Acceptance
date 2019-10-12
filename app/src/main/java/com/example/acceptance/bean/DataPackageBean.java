@@ -480,6 +480,15 @@ public class DataPackageBean {
             private String isSatisfyRequire;
             private String description;
             private String productName;
+            private String checkCount;
+
+            public String getCheckCount() {
+                return checkCount;
+            }
+
+            public void setCheckCount(String checkCount) {
+                this.checkCount = checkCount;
+            }
 
             public String getId() {
                 return id;

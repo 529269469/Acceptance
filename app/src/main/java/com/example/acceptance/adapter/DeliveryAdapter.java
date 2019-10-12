@@ -4,13 +4,18 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.acceptance.R;
 import com.example.acceptance.base.MyApplication;
+import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.bean.DeliveryListBean;
+import com.example.acceptance.greendao.db.DataPackageDBeanDao;
 import com.example.acceptance.greendao.db.DeliveryListBeanDao;
+import com.example.acceptance.utils.OpenFileUtil;
 import com.example.acceptance.view.MyListView;
 
 import java.util.List;
@@ -68,6 +73,8 @@ public class DeliveryAdapter extends BaseAdapter {
 
         Delivery2Adapter legacyAdapter = new Delivery2Adapter(context, deliveryListBeans);
         viewHolder.lv_list.setAdapter(legacyAdapter);
+
+
 
         return view;
     }

@@ -32,7 +32,7 @@ public class OpenFileUtil {
             return getApkFileIntent(filePath);
         } else if (end.equals("ppt")) {
             return getPptFileIntent(filePath);
-        } else if (end.equals("xls")) {
+        } else if (end.equals("xls")||end.equals("xlsx")) {
             return getExcelFileIntent(filePath);
         } else if (end.equals("doc")||end.equals("docx")) {
             return getWordFileIntent(filePath);

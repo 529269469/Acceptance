@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="历史任务"
+                android:text="现有任务"
                 android:textColor="@color/color_FFFFFF" />
         </LinearLayout>
     </LinearLayout>

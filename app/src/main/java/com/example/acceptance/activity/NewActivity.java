@@ -33,7 +33,7 @@ public class NewActivity extends BaseActivity {
     @Override
     protected void initView() {
         btYes.setOnClickListener(view -> {
-            startActivity(MainActivity.openIntent(NewActivity.this,""));
+//            startActivity(MainActivity.openIntent(NewActivity.this,""));
             finish();
         });
         btNo.setOnClickListener(view -> {
