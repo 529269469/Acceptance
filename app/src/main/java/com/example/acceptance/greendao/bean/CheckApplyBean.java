@@ -23,11 +23,13 @@ public class CheckApplyBean {
     private String phone;
     private String conclusion;
     private String description;
-    @Generated(hash = 1355710963)
+    private String gridList;
+
+    @Generated(hash = 221144169)
     public CheckApplyBean(Long uId, String dataPackageId, String id, String name,
             String code, String contractCode, String contractName, String applicant,
             String applyCompany, String phone, String conclusion,
-            String description) {
+            String description, String gridList) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -40,10 +42,12 @@ public class CheckApplyBean {
         this.phone = phone;
         this.conclusion = conclusion;
         this.description = description;
+        this.gridList = gridList;
     }
     @Generated(hash = 113687566)
     public CheckApplyBean() {
     }
+
     public Long getUId() {
         return this.uId;
     }
@@ -115,6 +119,12 @@ public class CheckApplyBean {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public String getGridList() {
+        return this.gridList;
+    }
+    public void setGridList(String gridList) {
+        this.gridList = gridList;
     }
 
 

@@ -30,10 +30,12 @@ public class KittingFragment extends BaseFragment {
     private List<Fragment> list=new ArrayList<>();
     private KittingFileFragment kittingFileFragment;
     private KittingProductFragment kittingProductFragment;
+    private String id;
+    private boolean isDel;
     @Override
     protected void initEventAndData() {
-        String id=getArguments().getString("id");
-
+        id = getArguments().getString("id");
+        isDel= getArguments().getBoolean("isDel");
         listTitle.add("依据文件检查");
         listTitle.add("产品齐套性检查");
         kittingFileFragment=new KittingFileFragment();
@@ -45,10 +47,14 @@ public class KittingFragment extends BaseFragment {
         list.add(kittingFileFragment);
         list.add(kittingProductFragment);
 
+
         adapter=new TbAdapter(getChildFragmentManager(),listTitle,list);
         vp.setAdapter(adapter);
         tb.setTabMode(TabLayout.MODE_FIXED);
         tb.setupWithViewPager(vp);
+        if (isDel){
+            vp.setCurrentItem(1);
+        }
     }
 
     @Override

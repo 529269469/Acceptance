@@ -34,11 +34,14 @@
 
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_add"
+            android:gravity="center"
+            android:background="@drawable/shape_text"
             android:layout_marginLeft="@dimen/padding_30"
-            android:textColor="@color/color_000"
-            android:text="管理文件齐套性"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textColor="@color/color_5398F7"
+            android:text="添加管理文件"
+            android:layout_width="@dimen/padding_150"
+            android:layout_height="@dimen/padding_30"/>
 
         <LinearLayout
             android:background="#EDF4FF"
@@ -69,7 +72,7 @@
             <TextView
                 android:textColor="#999999"
                 android:layout_weight="2"
-                android:text="文件代号"
+                android:text="文件编号"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
@@ -82,6 +85,13 @@
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
+            <TextView
+                android:textColor="#999999"
+                android:layout_weight="1"
+                android:text="密级"
+                android:gravity="center"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:textColor="#999999"
@@ -131,15 +141,6 @@
                 android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="备注"
-                android:gravity="center"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="match_parent"/>
-
-
-            <TextView
-                android:textColor="#999999"
-                android:layout_weight="2"
-                android:text="操作"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
@@ -155,12 +156,14 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:background="@drawable/shape_text"
+            android:gravity="center"
             android:layout_marginTop="@dimen/padding_30"
             android:layout_marginLeft="@dimen/padding_30"
-            android:textColor="@color/color_000"
-            android:text="技术文件齐套性"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textColor="@color/color_5398F7"
+            android:text="技术文件"
+            android:layout_width="@dimen/padding_150"
+            android:layout_height="@dimen/padding_30"/>
 
         <LinearLayout
             android:background="#EDF4FF"
@@ -191,7 +194,7 @@
             <TextView
                 android:textColor="#999999"
                 android:layout_weight="2"
-                android:text="文件代号"
+                android:text="文件编号"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
@@ -204,7 +207,13 @@
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 
-
+            <TextView
+                android:textColor="#999999"
+                android:layout_weight="1"
+                android:text="密级"
+                android:gravity="center"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="match_parent"/>
             <TextView
                 android:textColor="#999999"
                 android:layout_weight="2"
@@ -250,15 +259,6 @@
                 android:textColor="#999999"
                 android:layout_weight="2"
                 android:text="备注"
-                android:gravity="center"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="match_parent"/>
-
-
-            <TextView
-                android:textColor="#999999"
-                android:layout_weight="2"
-                android:text="操作"
                 android:gravity="center"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>

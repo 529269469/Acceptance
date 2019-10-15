@@ -36,6 +36,7 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
         public final static Property Phone = new Property(9, String.class, "phone", false, "PHONE");
         public final static Property Conclusion = new Property(10, String.class, "conclusion", false, "CONCLUSION");
         public final static Property Description = new Property(11, String.class, "description", false, "DESCRIPTION");
+        public final static Property GridList = new Property(12, String.class, "gridList", false, "GRID_LIST");
     }
 
 
@@ -62,7 +63,8 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
                 "\"APPLY_COMPANY\" TEXT," + // 8: applyCompany
                 "\"PHONE\" TEXT," + // 9: phone
                 "\"CONCLUSION\" TEXT," + // 10: conclusion
-                "\"DESCRIPTION\" TEXT);"); // 11: description
+                "\"DESCRIPTION\" TEXT," + // 11: description
+                "\"GRID_LIST\" TEXT);"); // 12: gridList
     }
 
     /** Drops the underlying database table. */
@@ -134,6 +136,11 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
         if (description != null) {
             stmt.bindString(12, description);
         }
+ 
+        String gridList = entity.getGridList();
+        if (gridList != null) {
+            stmt.bindString(13, gridList);
+        }
     }
 
     @Override
@@ -199,6 +206,11 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
         if (description != null) {
             stmt.bindString(12, description);
         }
+ 
+        String gridList = entity.getGridList();
+        if (gridList != null) {
+            stmt.bindString(13, gridList);
+        }
     }
 
     @Override
@@ -220,7 +232,8 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // applyCompany
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // phone
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // conclusion
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11) // description
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // description
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // gridList
         );
         return entity;
     }
@@ -239,6 +252,7 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
         entity.setPhone(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setConclusion(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setDescription(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setGridList(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
      }
     
     @Override

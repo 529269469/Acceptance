@@ -272,11 +272,24 @@
           </LinearLayout>
 
         <TextView
-            android:layout_marginTop="@dimen/padding_30"
-            android:text="验收任务"
-            android:textColor="@color/color_000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_marginTop="@dimen/padding_10"
+            android:id="@+id/tv_save"
+            android:gravity="center"
+            android:textColor="@color/color_FFFFFF"
+            android:text="保存"
+            android:background="@drawable/shape_text2"
+            android:layout_gravity="right"
+            android:layout_width="@dimen/padding_60"
+            android:layout_height="@dimen/padding_30"/>
+
+        <TextView
+            android:id="@+id/tv_add"
+            android:gravity="center"
+            android:background="@drawable/shape_text"
+            android:text="添加验收项"
+            android:textColor="@color/color_5398F7"
+            android:layout_width="@dimen/padding_100"
+            android:layout_height="@dimen/padding_30"/>
 
         <LinearLayout
             android:background="#EDF4FF"
@@ -333,7 +346,7 @@
             <TextView
                 android:textSize="@dimen/text_font_12"
                 android:textColor="#999999"
-                android:text="投产数据量/已验收数量/验收数量"
+                android:text="投产数量/已验收数量/验收数量"
                 android:gravity="center"
                 android:layout_weight="2"
                 android:layout_width="@dimen/padding_0"
@@ -404,8 +417,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <TextView
+            android:layout_marginTop="@dimen/padding_16"
+            android:id="@+id/tv_add2"
+            android:gravity="center"
+            android:background="@drawable/shape_text"
+            android:text="添加验收人"
+            android:textColor="@color/color_5398F7"
+            android:layout_width="@dimen/padding_100"
+            android:layout_height="@dimen/padding_30"/>
+
         <LinearLayout
-            android:layout_marginBottom="@dimen/padding_100"
             android:background="#EDF4FF"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/padding_10"
@@ -437,6 +459,14 @@
                 android:layout_height="match_parent"/>
 
         </LinearLayout>
+
+        <com.example.acceptance.view.MyListView
+            android:layout_marginBottom="@dimen/padding_100"
+
+            android:id="@+id/lv_list2"
+            android:background="@drawable/shape_ed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

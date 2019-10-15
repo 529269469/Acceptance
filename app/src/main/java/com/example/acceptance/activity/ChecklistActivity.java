@@ -34,9 +34,10 @@ public class ChecklistActivity extends BaseActivity {
     TextView tvTuichu;
     @BindView(R.id.lv_checklist)
     MyListView lvChecklist;
-
-    public static Intent openIntent(Context context) {
+    private boolean isDel;
+    public static Intent openIntent(Context context,boolean isDel) {
         Intent intent = new Intent(context, ChecklistActivity.class);
+        intent.putExtra("isDel",isDel);
         return intent;
     }
 
@@ -46,6 +47,7 @@ public class ChecklistActivity extends BaseActivity {
     @Override
     protected void initView() {
         ivGenduo.setOnClickListener(view -> finish());
+        isDel=getIntent().getBooleanExtra("isDel",false);
 
         DataPackageDBeanDao dataPackageDBeanDao= MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
         List<DataPackageDBean> dataPackageDBeans=dataPackageDBeanDao.loadAll();
@@ -54,8 +56,12 @@ public class ChecklistActivity extends BaseActivity {
         checklistAdapter=new ChecklistAdapter(this,list);
         lvChecklist.setAdapter(checklistAdapter);
 
+        if (isDel){
+            startActivity(MainActivity.openIntent(ChecklistActivity.this,list.get(0).getId(),true));
+            finish();
+        }
         lvChecklist.setOnItemClickListener((adapterView, view, i, l) -> {
-            startActivity(MainActivity.openIntent(ChecklistActivity.this,list.get(i).getId()));
+            startActivity(MainActivity.openIntent(ChecklistActivity.this,list.get(i).getId(),false));
         });
 
     }

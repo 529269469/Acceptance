@@ -1,9 +1,12 @@
 package com.example.acceptance.adapter.kitting;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -82,6 +85,8 @@ public class ProductAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
+        viewHolder.tv_num.setText(i+1+"");
+
         viewHolder.btRelevance.setOnClickListener(view1 -> {
             showListDialog(view1);
         });
@@ -89,8 +94,12 @@ public class ProductAdapter extends BaseAdapter {
 
         String[] options=list.get(i).getOptions().split(",");
         List<TitleBean> titleBeans=new ArrayList<>();
+
         for (int j = 0; j < options.length; j++) {
             titleBeans.add(new TitleBean(options[j]));
+            if (list.get(i).getSelected().equals(options[j])){
+                titleBeans.get(j).setCheck(true);
+            }
         }
         OptionsAdapter optionsAdapter=new OptionsAdapter(context,titleBeans);
         viewHolder.lvYesNo.setAdapter(optionsAdapter);
@@ -111,7 +120,7 @@ public class ProductAdapter extends BaseAdapter {
                 .where(PropertyBeanXDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
                 .where(PropertyBeanXDao.Properties.CheckFileId.eq(list.get(0).getCheckFileId()))
                 .where(PropertyBeanXDao.Properties.CheckGroupId.eq(list.get(0).getCheckGroupId()))
-                .where(PropertyBeanXDao.Properties.CheckItemId.eq(list.get(0).getId()))
+                .where(PropertyBeanXDao.Properties.CheckItemId.eq(list.get(i).getId()))
                 .list();
 
         GVproAdapetr gVproAdapetr=new GVproAdapetr(context,propertyBeans);
@@ -122,42 +131,48 @@ public class ProductAdapter extends BaseAdapter {
                 .where(RelatedDocumentIdSetBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
                 .where(RelatedDocumentIdSetBeanDao.Properties.CheckFileId.eq(list.get(0).getCheckFileId()))
                 .where(RelatedDocumentIdSetBeanDao.Properties.CheckGroupId.eq(list.get(0).getCheckGroupId()))
-                .where(RelatedDocumentIdSetBeanDao.Properties.CheckItemId.eq(list.get(0).getId()))
+                .where(RelatedDocumentIdSetBeanDao.Properties.CheckItemId.eq(list.get(i).getId()))
                 .list();
-
-
-        DocumentBeanDao documentBeanDao=MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-        List<DocumentBean> documentBeans=documentBeanDao.queryBuilder()
-                .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
-                .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeans.get(0).getRelatedDocumentId()))
-                .list();
-
-        if (documentBeans!=null&&!documentBeans.isEmpty()){
-            FileBeanDao fileBeanDao=MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
-            List<FileBean> fileBeans=fileBeanDao.queryBuilder()
-                    .where(FileBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
-                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
-                    .list();
-            FileAdapter fileAdapter=new FileAdapter(context,fileBeans);
-            viewHolder.lv_file.setAdapter(fileAdapter);
-
-            viewHolder.lv_file.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    DataPackageDBeanDao dataPackageDBeanDao=MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
-                    List<DataPackageDBean> dataPackageDBeans=dataPackageDBeanDao.queryBuilder()
-                            .where(DataPackageDBeanDao.Properties.Id.eq(list.get(i).getDataPackageId()))
+        List<FileBean> fileBeanList=new ArrayList<>();
+        if (relatedDocumentIdSetBeans!=null&&!relatedDocumentIdSetBeans.isEmpty()){
+            DocumentBeanDao documentBeanDao=MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+            for (int j = 0; j <relatedDocumentIdSetBeans.size() ; j++) {
+                List<DocumentBean> documentBeans=documentBeanDao.queryBuilder()
+                        .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                        .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeans.get(j).getRelatedDocumentId()))
+                        .list();
+                if (documentBeans!=null&&!documentBeans.isEmpty()){
+                    FileBeanDao fileBeanDao=MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+                    List<FileBean> fileBeans=fileBeanDao.queryBuilder()
+                            .where(FileBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                            .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
                             .list();
-                    try {
-                        context.startActivity(OpenFileUtil.openFile(dataPackageDBeans.get(0).getUpLoadFile()+"/"+fileBeans.get(i).getPath()));
-                    }catch (Exception o){
-                        Toast.makeText(MyApplication.mContext, "不支持此类型", Toast.LENGTH_SHORT).show();
-                    }
-
+                    fileBeanList.addAll(fileBeans);
                 }
-            });
+            }
 
         }
+
+        FileAdapter fileAdapter=new FileAdapter(context,fileBeanList);
+        viewHolder.lv_file.setAdapter(fileAdapter);
+
+        viewHolder.lv_file.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                DataPackageDBeanDao dataPackageDBeanDao=MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+                List<DataPackageDBean> dataPackageDBeans=dataPackageDBeanDao.queryBuilder()
+                        .where(DataPackageDBeanDao.Properties.Id.eq(list.get(i).getDataPackageId()))
+                        .list();
+                try {
+                    context.startActivity(OpenFileUtil.openFile(dataPackageDBeans.get(0).getUpLoadFile()+"/"+fileBeanList.get(i).getPath()));
+                }catch (Exception o){
+                    Toast.makeText(MyApplication.mContext, "不支持此类型", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
 
 
 
@@ -171,11 +186,13 @@ public class ProductAdapter extends BaseAdapter {
         @BindView(R.id.bt_relevance)
         TextView btRelevance;
         @BindView(R.id.lv_yes_no)
-        HorizontalListView lvYesNo;
+        MyGridView lvYesNo;
         @BindView(R.id.gv_pro)
         MyGridView gvPro;
         @BindView(R.id.lv_file)
         MyListView lv_file;
+        @BindView(R.id.tv_num)
+        TextView tv_num;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -202,7 +219,7 @@ public class ProductAdapter extends BaseAdapter {
             MyApplication.mContext.getWindow().setAttributes(lp1);
         });
 
-        popupWindow.showAsDropDown(view);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
 
     }

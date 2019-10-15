@@ -55,13 +55,23 @@
 
         </LinearLayout>
 
-        <TextView
-            android:textColor="@color/color_000"
-            android:text="验收申请"
-            android:layout_marginTop="@dimen/padding_30"
-            android:layout_marginLeft="@dimen/padding_30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_10"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_30">
+
+            <TextView
+                android:layout_marginLeft="@dimen/padding_30"
+                android:id="@+id/tv_add"
+                android:textColor="@color/color_5398F7"
+                android:gravity="center"
+                android:background="@drawable/shape_text"
+                android:layout_marginRight="@dimen/padding_24"
+                android:text="添加验收项"
+                android:layout_width="@dimen/padding_100"
+                android:layout_height="@dimen/padding_30"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_marginRight="@dimen/padding_30"
@@ -126,7 +136,7 @@
             <TextView
                 android:textSize="@dimen/text_font_12"
                 android:textColor="#999999"
-                android:text="投产数据量/已验收数量/验收数量"
+                android:text="投产数量/已验收数量/验收数量"
                 android:gravity="center"
                 android:layout_weight="2"
                 android:layout_width="@dimen/padding_0"
@@ -272,7 +282,7 @@
 
             </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_marginLeft="@dimen/padding_30"
             android:layout_marginTop="@dimen/padding_20"
             android:layout_width="match_parent"
@@ -284,21 +294,42 @@
                 android:text="验收内部审查结论"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-
-            <EditText
-                android:textSize="@dimen/text_font_14"
-                android:id="@+id/et_conclusion"
-                android:gravity="top"
-                android:padding="@dimen/padding_5"
-                android:background="@drawable/shape_ed"
-                android:layout_marginRight="@dimen/padding_150"
+            <TextView
+                android:id="@+id/tv_paizhao"
+                android:textColor="@color/color_5398F7"
+                android:background="@drawable/shape_text"
+                android:gravity="center"
+                android:text="拍照"
+                android:layout_marginLeft="@dimen/padding_60"
+                android:layout_marginTop="@dimen/padding_10"
+                android:layout_below="@id/tv_conclusion"
+                android:layout_width="@dimen/padding_60"
+                android:layout_height="@dimen/padding_30"/>
+            <LinearLayout
                 android:layout_toRightOf="@id/tv_conclusion"
+                android:orientation="vertical"
                 android:layout_marginLeft="@dimen/padding_10"
-                android:layout_width="700dp"
-                android:layout_height="@dimen/padding_90"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:textSize="@dimen/text_font_14"
+                    android:id="@+id/et_conclusion"
+                    android:gravity="top"
+                    android:padding="@dimen/padding_5"
+                    android:background="@drawable/shape_ed"
+                    android:layout_width="700dp"
+                    android:layout_height="@dimen/padding_90"/>
+                <com.example.acceptance.view.MyGridView
+                    android:numColumns="5"
+                    android:id="@+id/gv_conclusion"
+                    android:horizontalSpacing="@dimen/padding_8"
+                    android:layout_width="700dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
 
-        </LinearLayout>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_marginBottom="@dimen/padding_40"
@@ -326,7 +357,23 @@
                 android:layout_height="@dimen/padding_90"/>
 
         </LinearLayout>
-
+            <RelativeLayout
+                android:layout_marginBottom="@dimen/padding_16"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_save"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/color_FFFFFF"
+                    android:gravity="center"
+                    android:background="@drawable/shape_text2"
+                    android:layout_marginRight="@dimen/padding_24"
+                    android:text="保存"
+                    android:layout_width="@dimen/padding_60"
+                    android:layout_height="@dimen/padding_30"/>
+            </RelativeLayout>
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

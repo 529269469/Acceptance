@@ -68,21 +68,22 @@ public class LvFileAdapter extends BaseAdapter {
         if (documentBeans!=null&&!documentBeans.isEmpty()){
             viewHolder.tvCode.setText(documentBeans.get(i).getCode());
             viewHolder.tvName.setText(documentBeans.get(i).getName());
+            viewHolder.tv_secret.setText(documentBeans.get(i).getSecret());
             viewHolder.tvTechStatus.setText(documentBeans.get(i).getTechStatus());
             viewHolder.tvApprover.setText(documentBeans.get(i).getApprover());
             viewHolder.tvApprovalDate.setText(documentBeans.get(i).getApprovalDate());
-            viewHolder.tvIssl.setText(documentBeans.get(i).getIssl());
+            if (documentBeans.get(i).getIssl().equals("true")){
+                viewHolder.tvIssl.setText("是");
+            }else {
+                viewHolder.tvIssl.setText("否");
+            }
+
             viewHolder.tvConclusion.setText(documentBeans.get(i).getConclusion());
             viewHolder.tvDescription.setText(documentBeans.get(i).getDescription());
         }
 
 
-        viewHolder.tvCaozuo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
         return view;
     }
 
@@ -95,6 +96,8 @@ public class LvFileAdapter extends BaseAdapter {
         TextView tvCode;
         @BindView(R.id.tv_name)
         TextView tvName;
+        @BindView(R.id.tv_secret)
+        TextView tv_secret;
         @BindView(R.id.tv_techStatus)
         TextView tvTechStatus;
         @BindView(R.id.tv_approver)
@@ -107,8 +110,6 @@ public class LvFileAdapter extends BaseAdapter {
         TextView tvConclusion;
         @BindView(R.id.tv_description)
         TextView tvDescription;
-        @BindView(R.id.tv_caozuo)
-        TextView tvCaozuo;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

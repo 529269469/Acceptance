@@ -34,10 +34,7 @@ import com.example.acceptance.fragment.main.LegacyFragment;
 import com.example.acceptance.fragment.main.ParticularsFragment;
 import com.example.acceptance.fragment.main.TaskFragment;
 import com.example.acceptance.fragment.main.course.CourseFragment;
-import com.example.acceptance.fragment.main.course.StandardFragment;
-import com.example.acceptance.fragment.main.kitting.KittingFileFragment;
 import com.example.acceptance.fragment.main.kitting.KittingFragment;
-import com.example.acceptance.fragment.main.technology.TechnologyFileFragment;
 import com.example.acceptance.fragment.main.technology.TechnologyFragment;
 
 import java.util.ArrayList;
@@ -104,10 +101,11 @@ public class MainActivity extends BaseActivity {
             transaction.hide(applyForFragment);
         }
     }
-
-    public static Intent openIntent(Context context,String id) {
+    private boolean isDel;
+    public static Intent openIntent(Context context,String id,boolean isDel) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("id",id);
+        intent.putExtra("isDel",isDel);
         return intent;
     }
     private String id;
@@ -120,6 +118,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView() {
         id=getIntent().getStringExtra("id");
+        isDel=getIntent().getBooleanExtra("isDel",false);
         ivGenduo.setOnClickListener(view -> {
             //显示侧滑菜单
             drawerLayout.openDrawer(GravityCompat.START);
@@ -130,7 +129,7 @@ public class MainActivity extends BaseActivity {
         });
 
 
-        tvTuichu.setText("C021，XX单位遥安分系统验收数据包");
+        tvTuichu.setText("详情信息");
         list.add(new TitleBean("详情信息"));
         list.add(new TitleBean("验收申请"));
         list.add(new TitleBean("验收任务单"));
@@ -143,14 +142,23 @@ public class MainActivity extends BaseActivity {
         list.get(0).setCheck(true);
         titleAdapter = new TitleAdapter(this, list);
         gvOne.setAdapter(titleAdapter);
-
-        transaction = getSupportFragmentManager().beginTransaction();
-        particularsFragment = new ParticularsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
-        particularsFragment.setArguments(bundle);
-        transaction.add(R.id.frame, particularsFragment);
-        transaction.commit();
+        if (isDel){
+            transaction = getSupportFragmentManager().beginTransaction();
+            kittingFragment = new KittingFragment();
+            kittingFragment.setArguments(bundle);
+            bundle.putBoolean("isDel", isDel);
+            transaction.add(R.id.frame, kittingFragment);
+            transaction.commit();
+        }else {
+            transaction = getSupportFragmentManager().beginTransaction();
+            particularsFragment = new ParticularsFragment();
+            particularsFragment.setArguments(bundle);
+            transaction.add(R.id.frame, particularsFragment);
+            transaction.commit();
+        }
+
 
         gvOne.setOnItemClickListener((adapterView, view, position, l) -> {
             drawerLayout.closeDrawers();

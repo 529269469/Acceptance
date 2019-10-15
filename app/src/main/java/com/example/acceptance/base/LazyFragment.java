@@ -44,7 +44,12 @@ public abstract class LazyFragment extends Fragment {
     @Override
     public void onDestroyView() {
         isPrepared = false;
-        super.onDestroyView();
+        try {
+            super.onDestroyView();
+        }catch (Exception o){
+
+        }
+
     }
 
     protected abstract void lazyLoad();

@@ -30,13 +30,14 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
         public final static Property ProductCodeName = new Property(3, String.class, "productCodeName", false, "PRODUCT_CODE_NAME");
         public final static Property ProductCode = new Property(4, String.class, "productCode", false, "PRODUCT_CODE");
         public final static Property ProductStatus = new Property(5, String.class, "productStatus", false, "PRODUCT_STATUS");
-        public final static Property IsPureCheck = new Property(6, String.class, "isPureCheck", false, "IS_PURE_CHECK");
-        public final static Property IsArmyCheck = new Property(7, String.class, "isArmyCheck", false, "IS_ARMY_CHECK");
-        public final static Property IsCompleteChoice = new Property(8, String.class, "isCompleteChoice", false, "IS_COMPLETE_CHOICE");
-        public final static Property IsCompleteRoutine = new Property(9, String.class, "isCompleteRoutine", false, "IS_COMPLETE_ROUTINE");
-        public final static Property IsSatisfyRequire = new Property(10, String.class, "isSatisfyRequire", false, "IS_SATISFY_REQUIRE");
-        public final static Property Description = new Property(11, String.class, "description", false, "DESCRIPTION");
-        public final static Property ProductName = new Property(12, String.class, "productName", false, "PRODUCT_NAME");
+        public final static Property CheckCount = new Property(6, String.class, "checkCount", false, "CHECK_COUNT");
+        public final static Property IsPureCheck = new Property(7, String.class, "isPureCheck", false, "IS_PURE_CHECK");
+        public final static Property IsArmyCheck = new Property(8, String.class, "isArmyCheck", false, "IS_ARMY_CHECK");
+        public final static Property IsCompleteChoice = new Property(9, String.class, "isCompleteChoice", false, "IS_COMPLETE_CHOICE");
+        public final static Property IsCompleteRoutine = new Property(10, String.class, "isCompleteRoutine", false, "IS_COMPLETE_ROUTINE");
+        public final static Property IsSatisfyRequire = new Property(11, String.class, "isSatisfyRequire", false, "IS_SATISFY_REQUIRE");
+        public final static Property Description = new Property(12, String.class, "description", false, "DESCRIPTION");
+        public final static Property ProductName = new Property(13, String.class, "productName", false, "PRODUCT_NAME");
     }
 
 
@@ -58,13 +59,14 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
                 "\"PRODUCT_CODE_NAME\" TEXT," + // 3: productCodeName
                 "\"PRODUCT_CODE\" TEXT," + // 4: productCode
                 "\"PRODUCT_STATUS\" TEXT," + // 5: productStatus
-                "\"IS_PURE_CHECK\" TEXT," + // 6: isPureCheck
-                "\"IS_ARMY_CHECK\" TEXT," + // 7: isArmyCheck
-                "\"IS_COMPLETE_CHOICE\" TEXT," + // 8: isCompleteChoice
-                "\"IS_COMPLETE_ROUTINE\" TEXT," + // 9: isCompleteRoutine
-                "\"IS_SATISFY_REQUIRE\" TEXT," + // 10: isSatisfyRequire
-                "\"DESCRIPTION\" TEXT," + // 11: description
-                "\"PRODUCT_NAME\" TEXT);"); // 12: productName
+                "\"CHECK_COUNT\" TEXT," + // 6: checkCount
+                "\"IS_PURE_CHECK\" TEXT," + // 7: isPureCheck
+                "\"IS_ARMY_CHECK\" TEXT," + // 8: isArmyCheck
+                "\"IS_COMPLETE_CHOICE\" TEXT," + // 9: isCompleteChoice
+                "\"IS_COMPLETE_ROUTINE\" TEXT," + // 10: isCompleteRoutine
+                "\"IS_SATISFY_REQUIRE\" TEXT," + // 11: isSatisfyRequire
+                "\"DESCRIPTION\" TEXT," + // 12: description
+                "\"PRODUCT_NAME\" TEXT);"); // 13: productName
     }
 
     /** Drops the underlying database table. */
@@ -107,39 +109,44 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
             stmt.bindString(6, productStatus);
         }
  
+        String checkCount = entity.getCheckCount();
+        if (checkCount != null) {
+            stmt.bindString(7, checkCount);
+        }
+ 
         String isPureCheck = entity.getIsPureCheck();
         if (isPureCheck != null) {
-            stmt.bindString(7, isPureCheck);
+            stmt.bindString(8, isPureCheck);
         }
  
         String isArmyCheck = entity.getIsArmyCheck();
         if (isArmyCheck != null) {
-            stmt.bindString(8, isArmyCheck);
+            stmt.bindString(9, isArmyCheck);
         }
  
         String isCompleteChoice = entity.getIsCompleteChoice();
         if (isCompleteChoice != null) {
-            stmt.bindString(9, isCompleteChoice);
+            stmt.bindString(10, isCompleteChoice);
         }
  
         String isCompleteRoutine = entity.getIsCompleteRoutine();
         if (isCompleteRoutine != null) {
-            stmt.bindString(10, isCompleteRoutine);
+            stmt.bindString(11, isCompleteRoutine);
         }
  
         String isSatisfyRequire = entity.getIsSatisfyRequire();
         if (isSatisfyRequire != null) {
-            stmt.bindString(11, isSatisfyRequire);
+            stmt.bindString(12, isSatisfyRequire);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(12, description);
+            stmt.bindString(13, description);
         }
  
         String productName = entity.getProductName();
         if (productName != null) {
-            stmt.bindString(13, productName);
+            stmt.bindString(14, productName);
         }
     }
 
@@ -177,39 +184,44 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
             stmt.bindString(6, productStatus);
         }
  
+        String checkCount = entity.getCheckCount();
+        if (checkCount != null) {
+            stmt.bindString(7, checkCount);
+        }
+ 
         String isPureCheck = entity.getIsPureCheck();
         if (isPureCheck != null) {
-            stmt.bindString(7, isPureCheck);
+            stmt.bindString(8, isPureCheck);
         }
  
         String isArmyCheck = entity.getIsArmyCheck();
         if (isArmyCheck != null) {
-            stmt.bindString(8, isArmyCheck);
+            stmt.bindString(9, isArmyCheck);
         }
  
         String isCompleteChoice = entity.getIsCompleteChoice();
         if (isCompleteChoice != null) {
-            stmt.bindString(9, isCompleteChoice);
+            stmt.bindString(10, isCompleteChoice);
         }
  
         String isCompleteRoutine = entity.getIsCompleteRoutine();
         if (isCompleteRoutine != null) {
-            stmt.bindString(10, isCompleteRoutine);
+            stmt.bindString(11, isCompleteRoutine);
         }
  
         String isSatisfyRequire = entity.getIsSatisfyRequire();
         if (isSatisfyRequire != null) {
-            stmt.bindString(11, isSatisfyRequire);
+            stmt.bindString(12, isSatisfyRequire);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(12, description);
+            stmt.bindString(13, description);
         }
  
         String productName = entity.getProductName();
         if (productName != null) {
-            stmt.bindString(13, productName);
+            stmt.bindString(14, productName);
         }
     }
 
@@ -227,13 +239,14 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // productCodeName
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // productCode
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // productStatus
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // isPureCheck
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // isArmyCheck
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // isCompleteChoice
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // isCompleteRoutine
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // isSatisfyRequire
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // description
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // productName
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // checkCount
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // isPureCheck
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // isArmyCheck
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // isCompleteChoice
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // isCompleteRoutine
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // isSatisfyRequire
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // description
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // productName
         );
         return entity;
     }
@@ -246,13 +259,14 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
         entity.setProductCodeName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setProductCode(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setProductStatus(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setIsPureCheck(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setIsArmyCheck(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setIsCompleteChoice(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setIsCompleteRoutine(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setIsSatisfyRequire(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setDescription(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setProductName(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setCheckCount(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setIsPureCheck(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setIsArmyCheck(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setIsCompleteChoice(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setIsCompleteRoutine(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setIsSatisfyRequire(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setDescription(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setProductName(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
      }
     
     @Override

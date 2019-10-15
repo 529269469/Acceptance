@@ -39,6 +39,9 @@ public class NewActivity extends BaseActivity {
         btNo.setOnClickListener(view -> {
             finish();
         });
+        ivGenduo.setOnClickListener(view -> {
+            finish();
+        });
     }
 
     @Override

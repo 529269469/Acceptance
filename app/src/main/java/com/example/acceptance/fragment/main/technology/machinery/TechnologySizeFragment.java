@@ -46,8 +46,8 @@ public class TechnologySizeFragment extends BaseFragment implements View.OnClick
     @BindView(R.id.tv_code)
     TextView tvCode;
     @BindView(R.id.tv_name)
-    TextView tvName;
-    @BindView(R.id.tv_groupName)
+//    TextView tvName;
+//    @BindView(R.id.tv_groupName)
     TextView tvGroupName;
     @BindView(R.id.lv_product)
     MyListView lvProduct;
@@ -92,7 +92,7 @@ public class TechnologySizeFragment extends BaseFragment implements View.OnClick
                 .list();
         list.addAll(checkItemBeans);
         tvCode.setText("编号：" + checkFileBeans.get(0).getCode());
-        tvName.setText("名称：" + checkFileBeans.get(0).getName());
+//        tvName.setText("名称：" + checkFileBeans.get(0).getName());
         tvGroupName.setText(checkGroupBeans.get(0).getGroupName());
         etCheckGroupConclusion.setText(checkGroupBeans.get(0).getCheckGroupConclusion());
         etConclusion.setText(checkFileBeans.get(0).getCheckPerson());

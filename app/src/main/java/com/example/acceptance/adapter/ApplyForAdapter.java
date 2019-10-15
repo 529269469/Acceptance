@@ -59,11 +59,34 @@ public class ApplyForAdapter extends BaseAdapter {
         viewHolder.tvProductName.setText(list.get(i).getProductName());
         viewHolder.tvProductCode.setText(list.get(i).getProductCode());
         viewHolder.tvProductStatus.setText(list.get(i).getProductStatus());
-        viewHolder.tvIsPureCheck.setText(list.get(i).getIsPureCheck());
-        viewHolder.tvIsArmyCheck.setText(list.get(i).getIsArmyCheck());
-        viewHolder.tvIsCompleteChoice.setText(list.get(i).getIsCompleteChoice());
-        viewHolder.tvIsCompleteRoutine.setText(list.get(i).getIsCompleteRoutine());
-        viewHolder.tvIsSatisfyRequire.setText(list.get(i).getIsSatisfyRequire());
+        viewHolder.tvCheckCount.setText(list.get(i).getCheckCount());
+
+        if (list.get(i).getIsPureCheck().equals("true")){
+            viewHolder.tvIsPureCheck.setText("是");
+        }else {
+            viewHolder.tvIsPureCheck.setText("否");
+        }
+        if (list.get(i).getIsArmyCheck().equals("true")){
+            viewHolder.tvIsArmyCheck.setText("是");
+        }else {
+            viewHolder.tvIsArmyCheck.setText("否");
+        }
+        if (list.get(i).getIsCompleteChoice().equals("true")){
+            viewHolder.tvIsCompleteChoice.setText("是");
+        }else {
+            viewHolder.tvIsCompleteChoice.setText("否");
+        }
+
+        if (list.get(i).getIsCompleteRoutine().equals("true")){
+            viewHolder.tvIsCompleteRoutine.setText("是");
+        }else {
+            viewHolder.tvIsCompleteRoutine.setText("否");
+        }
+        if (list.get(i).getIsSatisfyRequire().equals("true")){
+            viewHolder.tvIsSatisfyRequire.setText("是");
+        }else {
+            viewHolder.tvIsSatisfyRequire.setText("否");
+        }
         viewHolder.tvDescription.setText(list.get(i).getDescription());
         return view;
     }

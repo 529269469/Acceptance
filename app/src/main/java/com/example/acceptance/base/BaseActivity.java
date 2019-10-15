@@ -38,6 +38,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState != null){
+            String FRAGMENTS_TAG = "android:support:fragments";
+            // remove saved fragment, will new fragment in mPagerAdapter
+            savedInstanceState.remove(FRAGMENTS_TAG);
+        }
         MyApplication.mContext=this;
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);

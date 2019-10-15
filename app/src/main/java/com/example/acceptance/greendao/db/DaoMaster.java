@@ -37,6 +37,7 @@ public class DaoMaster extends AbstractDaoMaster {
         RelatedDocumentIdSetBeanDao.createTable(db, ifNotExists);
         UnresolvedBeanDao.createTable(db, ifNotExists);
         DataPackageDBeanDao.createTable(db, ifNotExists);
+        ApplyDeptBeanDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -57,6 +58,7 @@ public class DaoMaster extends AbstractDaoMaster {
         RelatedDocumentIdSetBeanDao.dropTable(db, ifExists);
         UnresolvedBeanDao.dropTable(db, ifExists);
         DataPackageDBeanDao.dropTable(db, ifExists);
+        ApplyDeptBeanDao.dropTable(db, ifExists);
     }
 
     /**
@@ -91,6 +93,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(RelatedDocumentIdSetBeanDao.class);
         registerDaoClass(UnresolvedBeanDao.class);
         registerDaoClass(DataPackageDBeanDao.class);
+        registerDaoClass(ApplyDeptBeanDao.class);
     }
 
     public DaoSession newSession() {

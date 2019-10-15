@@ -17,6 +17,7 @@ public class ApplyItemBean {
     private String productCodeName;
     private String productCode;
     private String productStatus;
+    private String checkCount;
     private String isPureCheck;
     private String isArmyCheck;
     private String isCompleteChoice;
@@ -24,18 +25,20 @@ public class ApplyItemBean {
     private String isSatisfyRequire;
     private String description;
     private String productName;
-    @Generated(hash = 244739353)
+
+    @Generated(hash = 1502775703)
     public ApplyItemBean(Long uId, String dataPackageId, String id,
             String productCodeName, String productCode, String productStatus,
-            String isPureCheck, String isArmyCheck, String isCompleteChoice,
-            String isCompleteRoutine, String isSatisfyRequire, String description,
-            String productName) {
+            String checkCount, String isPureCheck, String isArmyCheck,
+            String isCompleteChoice, String isCompleteRoutine,
+            String isSatisfyRequire, String description, String productName) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
         this.productCodeName = productCodeName;
         this.productCode = productCode;
         this.productStatus = productStatus;
+        this.checkCount = checkCount;
         this.isPureCheck = isPureCheck;
         this.isArmyCheck = isArmyCheck;
         this.isCompleteChoice = isCompleteChoice;
@@ -47,6 +50,7 @@ public class ApplyItemBean {
     @Generated(hash = 2067262448)
     public ApplyItemBean() {
     }
+   
     public Long getUId() {
         return this.uId;
     }
@@ -124,6 +128,12 @@ public class ApplyItemBean {
     }
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+    public String getCheckCount() {
+        return this.checkCount;
+    }
+    public void setCheckCount(String checkCount) {
+        this.checkCount = checkCount;
     }
 
 }

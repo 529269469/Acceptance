@@ -62,8 +62,8 @@ public class StandardFragment extends BaseFragment implements View.OnClickListen
     EditText etConclusion;
     @BindView(R.id.iv_checkPerson2)
     ImageView ivCheckPerson2;
-    @BindView(R.id.tv_groupName)
-    TextView tvGroupName;
+//    @BindView(R.id.tv_groupName)
+//    TextView tvGroupName;
     private PopupWindow popupWindow;
 
     private ProductAdapter productAdapter;
@@ -94,7 +94,7 @@ public class StandardFragment extends BaseFragment implements View.OnClickListen
         list.addAll(checkItemBeans);
         tvCode.setText("编号：" + checkFileBeans.get(0).getCode());
         tvName.setText("名称：" + checkFileBeans.get(0).getName());
-        tvGroupName.setText(checkGroupBeans.get(0).getGroupName());
+//        tvGroupName.setText(checkGroupBeans.get(0).getGroupName());
         etCheckGroupConclusion.setText(checkGroupBeans.get(0).getCheckGroupConclusion());
         etConclusion.setText(checkFileBeans.get(0).getCheckPerson());
 

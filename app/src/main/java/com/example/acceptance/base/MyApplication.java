@@ -105,7 +105,16 @@ public class MyApplication extends Application {
     private DaoMaster unresolvedMaster;
     private DaoSession unresolvedDaoSession;
 
+    private DaoMaster.DevOpenHelper applyDeptHelper;
+    private SQLiteDatabase applyDeptDb;
+    private DaoMaster applyDeptMaster;
+    private DaoSession applyDeptDaoSession;
+
     private void setDatabase() {
+        applyDeptHelper = new DaoMaster.DevOpenHelper(this, "applyDept.db");
+        applyDeptDb = applyDeptHelper.getWritableDatabase();
+        applyDeptMaster = new DaoMaster(applyDeptDb);
+        applyDeptDaoSession = applyDeptMaster.newSession();
 
         relatedDocumentIdSetHelper = new DaoMaster.DevOpenHelper(this, "relatedDocumentIdSet.db");
         relatedDocumentIdSetDb = relatedDocumentIdSetHelper.getWritableDatabase();
@@ -189,6 +198,9 @@ public class MyApplication extends Application {
 
     }
 
+    public DaoSession getApplyDeptDaoSession() {
+        return applyDeptDaoSession;
+    }
 
     public DaoSession getApplyItemDaoSession() {
         return applyItemDaoSession;

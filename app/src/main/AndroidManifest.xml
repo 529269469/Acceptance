@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.acceptance">
-
+    <!-- 调用相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
@@ -12,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activity.ToActivity"></activity>
         <activity
             android:name=".activity.NewActivity"
             android:screenOrientation="landscape" />
@@ -33,9 +37,6 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="landscape" />
-    </application> <!-- 调用相机权限 -->
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    </application>
 
 </manifest>
