@@ -19,6 +19,7 @@ import com.example.acceptance.base.BaseActivity;
 import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.bean.DataPackageBean;
 import com.example.acceptance.bean.PackageBean;
+import com.example.acceptance.greendao.bean.AcceptDeviceBean;
 import com.example.acceptance.greendao.bean.ApplyItemBean;
 import com.example.acceptance.greendao.bean.CheckApplyBean;
 import com.example.acceptance.greendao.bean.CheckFileBean;
@@ -35,6 +36,7 @@ import com.example.acceptance.greendao.bean.PropertyBean;
 import com.example.acceptance.greendao.bean.PropertyBeanX;
 import com.example.acceptance.greendao.bean.RelatedDocumentIdSetBean;
 import com.example.acceptance.greendao.bean.UnresolvedBean;
+import com.example.acceptance.greendao.db.AcceptDeviceBeanDao;
 import com.example.acceptance.greendao.db.ApplyItemBeanDao;
 import com.example.acceptance.greendao.db.CheckApplyBeanDao;
 import com.example.acceptance.greendao.db.CheckFileBeanDao;
@@ -56,6 +58,7 @@ import com.example.acceptance.view.MyListView;
 import com.thoughtworks.xstream.XStream;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -220,6 +223,13 @@ public class ToActivity extends BaseActivity {
         Log.e("TAG", "onActivityResult: " + dataPackageBean.toString());
 
         DataPackageDBeanDao dataPackageDBeanDao= MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+        List<DataPackageDBean> dataPackageDBeanList=dataPackageDBeanDao.queryBuilder()
+                .where(DataPackageDBeanDao.Properties.Id.eq(dataPackageBean.getId()))
+                .list();
+        if (dataPackageDBeanList!=null&&!dataPackageDBeanList.isEmpty()){
+            isPath=true;
+        }
+
 
         List<DataPackageDBean> dataPackageDBeans=dataPackageDBeanDao.queryBuilder()
                 .where(DataPackageDBeanDao.Properties.NamePackage.eq(upLoadFileName))
@@ -256,6 +266,9 @@ public class ToActivity extends BaseActivity {
                 checkApplyBeanDao.deleteByKey(beans.get(i).getUId());
             }
         }
+
+        try {
+
             CheckApplyBean checkApplyBean=new CheckApplyBean(null,
                     dataPackageBean.getId(),
                     dataPackageBean.getCheckApply().getId(),
@@ -269,7 +282,9 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getCheckApply().getConclusion(),
                     dataPackageBean.getCheckApply().getDescription(),"");
             checkApplyBeanDao.insert(checkApplyBean);
+        }catch (Exception o){
 
+        }
 
         CheckTaskBeanDao checkTaskBeanDao=MyApplication.getInstances().getCheckTaskDaoSession().getCheckTaskBeanDao();
         if (isPath){
@@ -292,8 +307,7 @@ public class ToActivity extends BaseActivity {
                 dataPackageBean.getCheckTask().getCheckDate(),
                 dataPackageBean.getCheckTask().getApplicant(),
                 dataPackageBean.getCheckTask().getApplyCompany(),
-                dataPackageBean.getCheckTask().getPhone(),
-                dataPackageBean.getCheckTask().getApplyDeptSet());
+                dataPackageBean.getCheckTask().getPhone());
         checkTaskBeanDao.insert(checkTaskBean);
 
         ApplyItemBeanDao applyItemBeanDao=MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
@@ -320,7 +334,8 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsCompleteRoutine(),
                     dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsSatisfyRequire(),
                     dataPackageBean.getApplyItemSet().getApplyItem().get(i).getDescription(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductName());
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductName(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getPassCheck());
             applyItemBeanDao.insert(applyItemBean);
         }
 
@@ -370,6 +385,16 @@ public class ToActivity extends BaseActivity {
                 propertyBeanXDao.deleteByKey(beans.get(i).getUId());
             }
         }
+        AcceptDeviceBeanDao acceptDeviceBeanDao=MyApplication.getInstances().getAcceptDeviceaDaoSession().getAcceptDeviceBeanDao();
+        if (isPath){
+            List<AcceptDeviceBean> beans=acceptDeviceBeanDao.queryBuilder()
+                    .where(AcceptDeviceBeanDao.Properties.DataPackageId.eq(dataPackageDBeans.get(0).getId()))
+                    .list();
+            for (int i = 0; i < beans.size(); i++) {
+                acceptDeviceBeanDao.deleteByKey(beans.get(i).getUId());
+            }
+        }
+
         RelatedDocumentIdSetBeanDao relatedDocumentIdSetBeanDao=MyApplication.getInstances().getRelatedDocumentIdSetDaoSession().getRelatedDocumentIdSetBeanDao();
         if (isPath){
             List<RelatedDocumentIdSetBean> beans=relatedDocumentIdSetBeanDao.queryBuilder()
@@ -390,6 +415,8 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckPerson());
             checkFileBeanDao.insert(checkFileBean);
 
+            try {
+
             for (int j = 0; j <dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().size() ; j++) {
                 CheckGroupBean checkGroupBean=new CheckGroupBean(null,
                         dataPackageBean.getId(),
@@ -402,64 +429,77 @@ public class ToActivity extends BaseActivity {
                         dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsTable());
                 checkGroupBeanDao.insert(checkGroupBean);
 
+                    try {
+                        for (int k = 0; k < dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getPropertySet().getProperty().size(); k++) {
+                            PropertyBean propertyBean=new PropertyBean(null,
+                                    dataPackageBean.getId(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getPropertySet().getProperty().get(k).getName(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getPropertySet().getProperty().get(k).getValue());
+                            propertyBeanDao.insert(propertyBean);
+                        }
+                    }catch (Exception o){
+
+                    }
 
 
-                try {
-                    PropertyBean propertyBean=new PropertyBean(null,
-                            dataPackageBean.getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getPropertySet().getProperty().getName(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getPropertySet().getProperty().getValue());
-                    propertyBeanDao.insert(propertyBean);
-                }catch (Exception o){
+               try {
 
-                }
+                   for (int k = 0; k <dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().size() ; k++) {
+                       CheckItemBean checkItemBean=new CheckItemBean(null,
+                               dataPackageBean.getId(),
+                               dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                               dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                               dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getId(),
+                               dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getName(),
+                               dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getOptions(),
+                               dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected(),
+                               dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getImgAndVideo());
+                       checkItemBeanDao.insert(checkItemBean);
+
+                       try {
+                           for (int l = 0; l < dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getPropertySet().getProperty().size(); l++) {
+                               PropertyBeanX propertyBeanX=new PropertyBeanX(null,
+                                       dataPackageBean.getId(),
+                                       dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                                       dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                                       dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getId(),
+                                       dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getPropertySet().getProperty().get(l).getName(),
+                                       dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getPropertySet().getProperty().get(l).getValue());
+                               propertyBeanXDao.insert(propertyBeanX);
+                           }
+                       }catch (Exception o){
+
+                       }
+                       try {
+                           for (int l = 0; l < dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getRelatedDocumentIdSet().getRelatedDocumentId().size(); l++) {
+                               RelatedDocumentIdSetBean relatedDocumentIdSetBean=new RelatedDocumentIdSetBean(null,
+                                       dataPackageBean.getId(),
+                                       dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                                       dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                                       dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getId(),
+                                       dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getRelatedDocumentIdSet().getRelatedDocumentId().get(l));
+                               relatedDocumentIdSetBeanDao.insert(relatedDocumentIdSetBean);
+                           }
+                       }catch (Exception o){
+
+                       }
 
 
-                try {
-                    CheckItemBean checkItemBean=new CheckItemBean(null,
-                            dataPackageBean.getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getName(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getOptions(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getSelected());
-                    checkItemBeanDao.insert(checkItemBean);
-                }catch (Exception o){
+                   }
 
-                }
+               }catch (Exception o){
 
-                try {
-                    PropertyBeanX propertyBeanX=new PropertyBeanX(null,
-                            dataPackageBean.getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getPropertySet().getProperty().getName(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getPropertySet().getProperty().getValue());
-                    propertyBeanXDao.insert(propertyBeanX);
-                }catch (Exception o){
+               }
 
-                }
-
-                try {
-                    RelatedDocumentIdSetBean relatedDocumentIdSetBean=new RelatedDocumentIdSetBean(null,
-                            dataPackageBean.getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getId(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().getRelatedDocumentIdSet().getRelatedDocumentId());
-                    relatedDocumentIdSetBeanDao.insert(relatedDocumentIdSetBean);
-                }catch (Exception o){
-
-                }
 
 
             }
 
+            }catch (Exception o){
 
+            }
 
 
         }
@@ -510,16 +550,48 @@ public class ToActivity extends BaseActivity {
                 unresolvedBeanDao.deleteByKey(beans.get(i).getUId());
             }
         }
-        UnresolvedBean unresolvedBean=new UnresolvedBean(null,
-                dataPackageBean.getId(),
-                dataPackageBean.getUnresolvedSet().getUnresolved().getId(),
-                dataPackageBean.getUnresolvedSet().getUnresolved().getProductCode(),
-                dataPackageBean.getUnresolvedSet().getUnresolved().getQuestion(),
-                dataPackageBean.getUnresolvedSet().getUnresolved().getConfirmer(),
-                dataPackageBean.getUnresolvedSet().getUnresolved().getConfirmTime(),
-                dataPackageBean.getUnresolvedSet().getUnresolved().getFileId(),
-                dataPackageBean.getUnresolvedSet().getUnresolved().getFileSet());
-        unresolvedBeanDao.insert(unresolvedBean);
+        FileBeanDao fileBeanDao=MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+        if (isPath){
+            List<FileBean> beans=fileBeanDao.queryBuilder()
+                    .where(FileBeanDao.Properties.DataPackageId.eq(dataPackageDBeans.get(0).getId()))
+                    .list();
+            for (int i = 0; i < beans.size(); i++) {
+                fileBeanDao.deleteByKey(beans.get(i).getUId());
+            }
+        }
+
+        try {
+
+        for (int i = 0; i < dataPackageBean.getUnresolvedSet().getUnresolved().size(); i++) {
+            UnresolvedBean unresolvedBean=new UnresolvedBean(null,
+                    dataPackageBean.getId(),
+                    dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getId(),
+                    dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getProductCode(),
+                    dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getQuestion(),
+                    dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getConfirmer(),
+                    dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getConfirmTime(),
+                    dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileId());
+            unresolvedBeanDao.insert(unresolvedBean);
+
+            try {
+                for (int j = 0; j < dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().size(); j++) {
+                    FileBean fileBean=new FileBean(null,
+                            dataPackageBean.getId(),
+                            dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getId(),
+                            dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getName(),
+                            dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getPath(),
+                            dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getType());
+                    fileBeanDao.insert(fileBean);
+                }
+            }catch (Exception o){
+
+            }
+
+
+        }
+        }catch (Exception o){
+
+        }
 
         DeliveryListBeanDao deliveryListBeanDao=MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
         if (isPath){
@@ -530,8 +602,9 @@ public class ToActivity extends BaseActivity {
                 deliveryListBeanDao.deleteByKey(beans.get(i).getUId());
             }
         }
+        try {
         for (int i = 0; i <dataPackageBean.getDeliveryLists().getDeliveryList().size() ; i++) {
-            try {
+
                 DeliveryListBean deliveryListBean=new DeliveryListBean(null,
                         dataPackageBean.getId(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getId(),
@@ -539,12 +612,10 @@ public class ToActivity extends BaseActivity {
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getProject(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getParentId());
                 deliveryListBeanDao.insert(deliveryListBean);
-            }catch (Exception o){
-
-            }
+        }
+        }catch (Exception o){
 
         }
-
         DocumentBeanDao documentBeanDao=MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
         if (isPath){
             List<DocumentBean> beans=documentBeanDao.queryBuilder()
@@ -554,15 +625,10 @@ public class ToActivity extends BaseActivity {
                 documentBeanDao.deleteByKey(beans.get(i).getUId());
             }
         }
-        FileBeanDao fileBeanDao=MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
-        if (isPath){
-            List<FileBean> beans=fileBeanDao.queryBuilder()
-                    .where(FileBeanDao.Properties.DataPackageId.eq(dataPackageDBeans.get(0).getId()))
-                    .list();
-            for (int i = 0; i < beans.size(); i++) {
-                fileBeanDao.deleteByKey(beans.get(i).getUId());
-            }
-        }
+
+        try {
+
+
         for (int i = 0; i < dataPackageBean.getDocumentListSet().getDocument().size(); i++) {
             DocumentBean documentBean=new DocumentBean(null,
                     dataPackageBean.getId(),
@@ -583,26 +649,28 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getDocumentListSet().getDocument().get(i).getDescription());
             documentBeanDao.insert(documentBean);
 
-            try {
+            for (int j = 0; j < dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().size(); j++) {
                 FileBean fileBean=new FileBean(null,
                         dataPackageBean.getId(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getId(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().getName(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().getPath(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().getType() );
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getName(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getPath(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getType() );
                 fileBeanDao.insert(fileBean);
-            }catch (Exception o){
-
             }
 
-        }
 
+
+        }
+        }catch (Exception o){
+
+        }
         DataPackageDBeanDao dataPackageDBeanDao2= MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
         List<DataPackageDBean> dataPackageDBeans2=dataPackageDBeanDao2.queryBuilder()
                 .where(DataPackageDBeanDao.Properties.NamePackage.eq(upLoadFileName))
                 .list();
-        startActivity(MainActivity.openIntent(ToActivity.this,dataPackageDBeans2.get(0).getId(),false));
-
+        startActivity(MainActivity.openIntent(ToActivity.this,dataPackageDBeans2.get(0).getId(),false,""));
+        finish();
     }
 
 }

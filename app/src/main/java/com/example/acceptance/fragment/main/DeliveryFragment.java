@@ -33,6 +33,9 @@ public class DeliveryFragment extends BaseFragment {
         DeliveryAdapter legacyAdapter = new DeliveryAdapter(getActivity(), deliveryListBeans);
         lvList.setAdapter(legacyAdapter);
 
+
+
+
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.acceptance.R;
 import com.example.acceptance.adapter.FileAdapter;
 import com.example.acceptance.adapter.GVproAdapetr;
+import com.example.acceptance.adapter.GridAdapter;
 import com.example.acceptance.adapter.OptionsAdapter;
 import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.bean.TitleBean;
@@ -36,7 +38,9 @@ import com.example.acceptance.greendao.db.FileBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanXDao;
 import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
+import com.example.acceptance.utils.FileUtils;
 import com.example.acceptance.utils.OpenFileUtil;
+import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.view.HorizontalListView;
 import com.example.acceptance.view.MyGridView;
 import com.example.acceptance.view.MyListView;
@@ -54,6 +58,8 @@ import butterknife.ButterKnife;
 public class ProductAdapter extends BaseAdapter {
     private Context context;
     private List<CheckItemBean> list;
+    private GVproAdapetr gVproAdapetr;
+
 
     public ProductAdapter(Context context, List<CheckItemBean> list) {
         this.context = context;
@@ -87,8 +93,11 @@ public class ProductAdapter extends BaseAdapter {
         }
         viewHolder.tv_num.setText(i+1+"");
 
-        viewHolder.btRelevance.setOnClickListener(view1 -> {
-            showListDialog(view1);
+        viewHolder.btRelevance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                relevance.setRelevance(i,view);
+            }
         });
         viewHolder.tvName.setText(list.get(i).getName());
 
@@ -106,12 +115,26 @@ public class ProductAdapter extends BaseAdapter {
 
         viewHolder.lvYesNo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
                 for (int j = 0; j < titleBeans.size(); j++) {
                     titleBeans.get(j).setCheck(false);
                 }
-                titleBeans.get(i).setCheck(true);
+                titleBeans.get(pos).setCheck(true);
                 optionsAdapter.notifyDataSetChanged();
+
+                CheckItemBeanDao checkItemBeanDao = MyApplication.getInstances().getCheckItemDaoSession().getCheckItemBeanDao();
+
+                CheckItemBean checkItemBean = new CheckItemBean(list.get(i).getUId(),
+                        list.get(i).getDataPackageId(),
+                        list.get(i).getCheckFileId(),
+                        list.get(i).getCheckGroupId(),
+                        list.get(i).getId(),
+                        list.get(i).getName(),
+                        list.get(i).getOptions(),
+                        titleBeans.get(pos).getTitle(),
+                        list.get(i).getImgAndVideo());
+                checkItemBeanDao.update(checkItemBean);
+
             }
         });
 
@@ -123,14 +146,14 @@ public class ProductAdapter extends BaseAdapter {
                 .where(PropertyBeanXDao.Properties.CheckItemId.eq(list.get(i).getId()))
                 .list();
 
-        GVproAdapetr gVproAdapetr=new GVproAdapetr(context,propertyBeans);
+        gVproAdapetr = new GVproAdapetr(context,propertyBeans);
         viewHolder.gvPro.setAdapter(gVproAdapetr);
 
         RelatedDocumentIdSetBeanDao documentIdSetBeanDao=MyApplication.getInstances().getRelatedDocumentIdSetDaoSession().getRelatedDocumentIdSetBeanDao();
         List<RelatedDocumentIdSetBean> relatedDocumentIdSetBeans=documentIdSetBeanDao.queryBuilder()
                 .where(RelatedDocumentIdSetBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
-                .where(RelatedDocumentIdSetBeanDao.Properties.CheckFileId.eq(list.get(0).getCheckFileId()))
-                .where(RelatedDocumentIdSetBeanDao.Properties.CheckGroupId.eq(list.get(0).getCheckGroupId()))
+                .where(RelatedDocumentIdSetBeanDao.Properties.CheckFileId.eq(list.get(i).getCheckFileId()))
+                .where(RelatedDocumentIdSetBeanDao.Properties.CheckGroupId.eq(list.get(i).getCheckGroupId()))
                 .where(RelatedDocumentIdSetBeanDao.Properties.CheckItemId.eq(list.get(i).getId()))
                 .list();
         List<FileBean> fileBeanList=new ArrayList<>();
@@ -156,6 +179,25 @@ public class ProductAdapter extends BaseAdapter {
         FileAdapter fileAdapter=new FileAdapter(context,fileBeanList);
         viewHolder.lv_file.setAdapter(fileAdapter);
 
+        List<String> gridList=new ArrayList<>();
+        if (!StringUtils.isBlank(list.get(i).getImgAndVideo())){
+            gridList.clear();
+            String[] imgs=list.get(i).getImgAndVideo().split(",");
+            for (int j = 0; j < imgs.length; j++) {
+                gridList.add(imgs[j]);
+            }
+        }
+        GridAdapter gridAdapter=new GridAdapter(gridList,context);
+        gridAdapter.setOnDel(new GridAdapter.OnDel() {
+            @Override
+            public void onDel(int position) {
+                geidDel.setGeidDel(position,i);
+                gridList.remove(position);
+                gridAdapter.notifyDataSetChanged();
+            }
+        });
+        viewHolder.gv_video.setAdapter(gridAdapter);
+
         viewHolder.lv_file.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -173,11 +215,10 @@ public class ProductAdapter extends BaseAdapter {
         });
 
 
-
-
-
         return view;
     }
+
+
 
 
     static class ViewHolder {
@@ -193,34 +234,32 @@ public class ProductAdapter extends BaseAdapter {
         MyListView lv_file;
         @BindView(R.id.tv_num)
         TextView tv_num;
+        @BindView(R.id.gv_video)
+        MyGridView gv_video;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
 
-
-
-    private void showListDialog(View view) {
-        View poview = LayoutInflater.from(context).inflate(R.layout.relevance, null);
-        PopupWindow popupWindow = new PopupWindow(poview);
-        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-        WindowManager.LayoutParams lp = MyApplication.mContext.getWindow().getAttributes();
-        lp.alpha = 0.7f;
-        MyApplication.mContext.getWindow().setAttributes(lp);
-
-        popupWindow.setOnDismissListener(() -> {
-            WindowManager.LayoutParams lp1 = MyApplication.mContext.getWindow().getAttributes();
-            lp1.alpha = 1f;
-            MyApplication.mContext.getWindow().setAttributes(lp1);
-        });
-
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-
+    public interface GeidDel{
+        void setGeidDel(int pos,int pos1);
     }
+
+    private GeidDel geidDel;
+
+    public void setGeidDel(GeidDel geidDel) {
+        this.geidDel = geidDel;
+    }
+
+    public interface Relevance{
+        void setRelevance(int pos, View view);
+    }
+
+    private Relevance relevance;
+
+    public void setRelevance(Relevance relevance) {
+        this.relevance = relevance;
+    }
+
 }

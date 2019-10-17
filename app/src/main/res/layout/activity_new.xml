@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/color_FFFFFF"
     android:gravity="center_horizontal"
     tools:context=".activity.NewActivity">
 
@@ -59,8 +60,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <EditText
-                android:background="@drawable/shape_ed"
+            <TextView
+                android:id="@+id/tv_moban"
+                android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="match_parent"/>
 
@@ -79,7 +81,8 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:background="@drawable/shape_ed"
+                android:id="@+id/tv_code"
+                android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="match_parent"/>
 
@@ -98,7 +101,8 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:background="@drawable/shape_ed"
+                android:id="@+id/tv_name"
+                android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="match_parent"/>
 
@@ -117,7 +121,8 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:background="@drawable/shape_ed"
+                android:id="@+id/tv_type"
+                android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="match_parent"/>
 
@@ -136,7 +141,8 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:background="@drawable/shape_ed"
+                android:id="@+id/tv_responseUnit"
+                android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="match_parent"/>
 
@@ -155,7 +161,48 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:background="@drawable/shape_ed"
+                android:id="@+id/tv_modelCode"
+                android:background="@drawable/shape_edtext"
+                android:layout_width="@dimen/padding_300"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_19"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/padding_36">
+
+            <TextView
+                android:textSize="@dimen/padding_15"
+                android:textColor="@color/color_333333"
+                android:text="产品名称："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/tv_productName"
+                android:background="@drawable/shape_edtext"
+                android:layout_width="@dimen/padding_300"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_19"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/padding_36">
+
+            <TextView
+                android:textSize="@dimen/padding_15"
+                android:textColor="@color/color_333333"
+                android:text="产品代号："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/tv_productCode"
+                android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="match_parent"/>
 
@@ -174,7 +221,8 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:background="@drawable/shape_ed"
+                android:id="@+id/tv_productType"
+                android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="match_parent"/>
 
@@ -193,7 +241,8 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:background="@drawable/shape_ed"
+                android:id="@+id/tv_batch"
+                android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="match_parent"/>
 
@@ -212,13 +261,15 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:background="@drawable/shape_ed"
+                android:id="@+id/tv_creator"
+                android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="match_parent"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_marginTop="@dimen/padding_19"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/padding_90">
@@ -231,7 +282,7 @@
                 android:layout_height="wrap_content"/>
 
             <ImageView
-                android:background="@drawable/shape_ed"
+                android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="@dimen/padding_90"/>
 

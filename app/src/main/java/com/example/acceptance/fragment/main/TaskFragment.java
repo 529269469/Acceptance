@@ -212,8 +212,7 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                         tvCheckDate.getText().toString().trim(),
                         tvApplicant.getText().toString().trim(),
                         tvApplyCompany.getText().toString().trim(),
-                        tvPhone.getText().toString().trim(),
-                        checkTaskBeans.get(0).getApplyDeptSet());
+                        tvPhone.getText().toString().trim());
                 checkTaskBeanDao.update(checkTaskBean);
                 ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
                 break;
@@ -361,9 +360,14 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
             }
             if (!StringUtils.isBlank(list.get(position).getCheckCount())){
                 String[] checkCoun = list.get(position).getCheckCount().split("/");
-                tv_checkCount.setText(checkCoun[0]);
-                tv_checkCount2.setText(checkCoun[1]);
-                tv_checkCount3.setText(checkCoun[2]);
+                try {
+                    tv_checkCount.setText(checkCoun[0]);
+                    tv_checkCount2.setText(checkCoun[1]);
+                    tv_checkCount3.setText(checkCoun[2]);
+                }catch (Exception o){
+
+                }
+
             }
 
         }
@@ -386,7 +390,8 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                             tv_isCompleteRoutine.isChecked() + "",
                             tv_isSatisfyRequire.isChecked() + "",
                             tv_description.getText().toString().trim(),
-                            tv_productName.getText().toString().trim());
+                            tv_productName.getText().toString().trim(),
+                            list.get(position).getPassCheck());
                     applyItemBeanDao.update(applyItemBean);
                 } else {
                     ApplyItemBean applyItemBean = new ApplyItemBean(null,
@@ -402,7 +407,8 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                             tv_isCompleteRoutine.isChecked() + "",
                             tv_isSatisfyRequire.isChecked() + "",
                             tv_description.getText().toString().trim(),
-                            tv_productName.getText().toString().trim());
+                            tv_productName.getText().toString().trim(),
+                            "");
                     applyItemBeanDao.insert(applyItemBean);
                 }
                 List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()

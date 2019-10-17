@@ -32,7 +32,6 @@ public class UnresolvedBeanDao extends AbstractDao<UnresolvedBean, Long> {
         public final static Property Confirmer = new Property(5, String.class, "confirmer", false, "CONFIRMER");
         public final static Property ConfirmTime = new Property(6, String.class, "confirmTime", false, "CONFIRM_TIME");
         public final static Property FileId = new Property(7, String.class, "fileId", false, "FILE_ID");
-        public final static Property FileSet = new Property(8, String.class, "FileSet", false, "FILE_SET");
     }
 
 
@@ -55,8 +54,7 @@ public class UnresolvedBeanDao extends AbstractDao<UnresolvedBean, Long> {
                 "\"QUESTION\" TEXT," + // 4: question
                 "\"CONFIRMER\" TEXT," + // 5: confirmer
                 "\"CONFIRM_TIME\" TEXT," + // 6: confirmTime
-                "\"FILE_ID\" TEXT," + // 7: fileId
-                "\"FILE_SET\" TEXT);"); // 8: FileSet
+                "\"FILE_ID\" TEXT);"); // 7: fileId
     }
 
     /** Drops the underlying database table. */
@@ -108,11 +106,6 @@ public class UnresolvedBeanDao extends AbstractDao<UnresolvedBean, Long> {
         if (fileId != null) {
             stmt.bindString(8, fileId);
         }
- 
-        String FileSet = entity.getFileSet();
-        if (FileSet != null) {
-            stmt.bindString(9, FileSet);
-        }
     }
 
     @Override
@@ -158,11 +151,6 @@ public class UnresolvedBeanDao extends AbstractDao<UnresolvedBean, Long> {
         if (fileId != null) {
             stmt.bindString(8, fileId);
         }
- 
-        String FileSet = entity.getFileSet();
-        if (FileSet != null) {
-            stmt.bindString(9, FileSet);
-        }
     }
 
     @Override
@@ -180,8 +168,7 @@ public class UnresolvedBeanDao extends AbstractDao<UnresolvedBean, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // question
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // confirmer
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // confirmTime
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // fileId
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // FileSet
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // fileId
         );
         return entity;
     }
@@ -196,7 +183,6 @@ public class UnresolvedBeanDao extends AbstractDao<UnresolvedBean, Long> {
         entity.setConfirmer(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setConfirmTime(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setFileId(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setFileSet(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
      }
     
     @Override

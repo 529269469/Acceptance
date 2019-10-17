@@ -40,7 +40,8 @@
 
 
         <com.example.acceptance.view.MyGridView
-            android:numColumns="10"
+            android:layout_toLeftOf="@id/bt_relevance"
+            android:numColumns="4"
             android:id="@+id/lv_yes_no"
             android:layout_marginLeft="@dimen/padding_20"
             android:layout_centerVertical="true"
@@ -64,6 +65,14 @@
         android:id="@+id/lv_file"
         android:layout_marginLeft="@dimen/padding_100"
         android:layout_marginTop="@dimen/padding_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.example.acceptance.view.MyGridView
+        android:id="@+id/gv_video"
+        android:layout_marginTop="@dimen/padding_10"
+        android:numColumns="6"
+        android:layout_marginLeft="@dimen/padding_100"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

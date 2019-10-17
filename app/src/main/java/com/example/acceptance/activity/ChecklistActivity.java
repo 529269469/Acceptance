@@ -35,9 +35,11 @@ public class ChecklistActivity extends BaseActivity {
     @BindView(R.id.lv_checklist)
     MyListView lvChecklist;
     private boolean isDel;
-    public static Intent openIntent(Context context,boolean isDel) {
+    private String type;
+    public static Intent openIntent(Context context,boolean isDel,String type) {
         Intent intent = new Intent(context, ChecklistActivity.class);
         intent.putExtra("isDel",isDel);
+        intent.putExtra("type",type);
         return intent;
     }
 
@@ -48,7 +50,7 @@ public class ChecklistActivity extends BaseActivity {
     protected void initView() {
         ivGenduo.setOnClickListener(view -> finish());
         isDel=getIntent().getBooleanExtra("isDel",false);
-
+        type=getIntent().getStringExtra("type");
         DataPackageDBeanDao dataPackageDBeanDao= MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
         List<DataPackageDBean> dataPackageDBeans=dataPackageDBeanDao.loadAll();
 
@@ -57,11 +59,11 @@ public class ChecklistActivity extends BaseActivity {
         lvChecklist.setAdapter(checklistAdapter);
 
         if (isDel){
-            startActivity(MainActivity.openIntent(ChecklistActivity.this,list.get(0).getId(),true));
+            startActivity(MainActivity.openIntent(ChecklistActivity.this,list.get(0).getId(),true,type));
             finish();
         }
         lvChecklist.setOnItemClickListener((adapterView, view, i, l) -> {
-            startActivity(MainActivity.openIntent(ChecklistActivity.this,list.get(i).getId(),false));
+            startActivity(MainActivity.openIntent(ChecklistActivity.this,list.get(i).getId(),false,""));
         });
 
     }

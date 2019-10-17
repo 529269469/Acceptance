@@ -25,13 +25,16 @@ public class ApplyItemBean {
     private String isSatisfyRequire;
     private String description;
     private String productName;
+    private String passCheck;
 
-    @Generated(hash = 1502775703)
+
+    @Generated(hash = 523674849)
     public ApplyItemBean(Long uId, String dataPackageId, String id,
             String productCodeName, String productCode, String productStatus,
             String checkCount, String isPureCheck, String isArmyCheck,
             String isCompleteChoice, String isCompleteRoutine,
-            String isSatisfyRequire, String description, String productName) {
+            String isSatisfyRequire, String description, String productName,
+            String passCheck) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -46,11 +49,13 @@ public class ApplyItemBean {
         this.isSatisfyRequire = isSatisfyRequire;
         this.description = description;
         this.productName = productName;
+        this.passCheck = passCheck;
     }
     @Generated(hash = 2067262448)
     public ApplyItemBean() {
     }
-   
+    
+
     public Long getUId() {
         return this.uId;
     }
@@ -134,6 +139,12 @@ public class ApplyItemBean {
     }
     public void setCheckCount(String checkCount) {
         this.checkCount = checkCount;
+    }
+    public String getPassCheck() {
+        return this.passCheck;
+    }
+    public void setPassCheck(String passCheck) {
+        this.passCheck = passCheck;
     }
 
 }

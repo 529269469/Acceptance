@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,9 @@ import com.example.acceptance.fragment.main.TaskFragment;
 import com.example.acceptance.fragment.main.course.CourseFragment;
 import com.example.acceptance.fragment.main.kitting.KittingFragment;
 import com.example.acceptance.fragment.main.technology.TechnologyFragment;
+import com.example.acceptance.utils.DaoUtils;
+import com.example.acceptance.utils.StringUtils;
+import com.example.acceptance.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,10 +106,12 @@ public class MainActivity extends BaseActivity {
         }
     }
     private boolean isDel;
-    public static Intent openIntent(Context context,String id,boolean isDel) {
+    private String type;
+    public static Intent openIntent(Context context,String id,boolean isDel,String type) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("id",id);
         intent.putExtra("isDel",isDel);
+        intent.putExtra("type",type);
         return intent;
     }
     private String id;
@@ -119,6 +125,7 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         id=getIntent().getStringExtra("id");
         isDel=getIntent().getBooleanExtra("isDel",false);
+        type=getIntent().getStringExtra("type");
         ivGenduo.setOnClickListener(view -> {
             //显示侧滑菜单
             drawerLayout.openDrawer(GravityCompat.START);
@@ -145,12 +152,35 @@ public class MainActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
         if (isDel){
-            transaction = getSupportFragmentManager().beginTransaction();
-            kittingFragment = new KittingFragment();
-            kittingFragment.setArguments(bundle);
-            bundle.putBoolean("isDel", isDel);
-            transaction.add(R.id.frame, kittingFragment);
-            transaction.commit();
+            switch (type){
+                case "2":
+                    tvTuichu.setText("齐套性检查");
+                    transaction = getSupportFragmentManager().beginTransaction();
+                    kittingFragment = new KittingFragment();
+                    bundle.putBoolean("isDel", isDel);
+                    kittingFragment.setArguments(bundle);
+                    transaction.add(R.id.frame, kittingFragment);
+                    transaction.commit();
+                    break;
+                case "3":
+                    tvTuichu.setText("过程检查");
+                    transaction = getSupportFragmentManager().beginTransaction();
+                    courseFragment = new CourseFragment();
+                    bundle.putBoolean("isDel", isDel);
+                    courseFragment.setArguments(bundle);
+                    transaction.add(R.id.frame, courseFragment);
+                    transaction.commit();
+                    break;
+                case "4":
+                    tvTuichu.setText("技术类检查");
+                    transaction = getSupportFragmentManager().beginTransaction();
+                    technologyFragment = new TechnologyFragment();
+                    bundle.putBoolean("isDel", isDel);
+                    technologyFragment.setArguments(bundle);
+                    transaction.add(R.id.frame, technologyFragment);
+                    transaction.commit();
+                    break;
+            }
         }else {
             transaction = getSupportFragmentManager().beginTransaction();
             particularsFragment = new ParticularsFragment();
@@ -174,6 +204,7 @@ public class MainActivity extends BaseActivity {
                 case 0://详情信息
                     if ( particularsFragment == null){
                         particularsFragment = new ParticularsFragment();
+                        applyForFragment.setArguments(bundle);
                         transaction.add(R.id.frame, particularsFragment);
                     }else {
                         transaction.show(particularsFragment);
@@ -276,7 +307,72 @@ public class MainActivity extends BaseActivity {
             lp1.alpha = 1f;
             getWindow().setAttributes(lp1);
         });
+        TextView tv_daochu1=poview.findViewById(R.id.tv_daochu1);
+        TextView tv_daochu2=poview.findViewById(R.id.tv_daochu2);
 
+        tv_daochu1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DaoUtils.setDao(id);
+                ToastUtils.getInstance().showTextToast(MainActivity.this,"数据包已导出");
+                popupWindow.dismiss();
+                MainActivity.this.startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                finish();
+            }
+        });
+
+        tv_daochu2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                popupWindow.dismiss();
+                daochumpban();
+            }
+        });
+
+    }
+
+    private void daochumpban() {
+        View poview = getLayoutInflater().inflate(R.layout.moban, null);
+        PopupWindow daochu = new PopupWindow(poview);
+        daochu.setHeight(300);
+        daochu.setWidth(600);
+        daochu.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        daochu.setOutsideTouchable(true);
+        daochu.setFocusable(true);
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        daochu.showAtLocation(tvOperation, Gravity.CENTER,0,0);
+
+        daochu.setOnDismissListener(() -> {
+            WindowManager.LayoutParams lp1 = getWindow().getAttributes();
+            lp1.alpha = 1f;
+            getWindow().setAttributes(lp1);
+        });
+
+        EditText edit_name=poview.findViewById(R.id.edit_name);
+        TextView tv_no=poview.findViewById(R.id.tv_no);
+        TextView tv_yes=poview.findViewById(R.id.tv_yes);
+
+        tv_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                daochu.dismiss();
+            }
+        });
+        tv_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (StringUtils.isBlank(edit_name.getText().toString().trim())){
+                    ToastUtils.getInstance().showTextToast(MainActivity.this,"请输入模板名称");
+                    return;
+                }
+                DaoUtils.setmoban(id,edit_name.getText().toString().trim());
+                ToastUtils.getInstance().showTextToast(MainActivity.this,"模板已导出");
+                daochu.dismiss();
+            }
+        });
 
     }
 

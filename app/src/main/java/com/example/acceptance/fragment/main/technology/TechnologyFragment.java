@@ -39,11 +39,13 @@ public class TechnologyFragment extends BaseFragment {
     @Override
     protected void initEventAndData() {
         String id = getArguments().getString("id");
+        boolean isDel = getArguments().getBoolean("isDel");
         listTitle.add("依据文件检查");
         listTitle.add("技术类检查");
 
         Bundle bundle=new Bundle();
         bundle.putString("id", id);
+        bundle.putString("type", "4");
         technologyFileFragment=new TechnologyFileFragment();
         technologyFileFragment.setArguments(bundle);
         list.add(technologyFileFragment);
@@ -55,6 +57,10 @@ public class TechnologyFragment extends BaseFragment {
         vp.setAdapter(adapter);
         tb.setTabMode(TabLayout.MODE_FIXED);
         tb.setupWithViewPager(vp);
+
+        if (isDel){
+            vp.setCurrentItem(1);
+        }
     }
 
     @Override

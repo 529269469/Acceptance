@@ -14,7 +14,7 @@
 
 
         <LinearLayout
-
+            android:visibility="gone"
             android:paddingLeft="@dimen/padding_10"
             android:background="@drawable/shape_ed2"
             android:layout_width="match_parent"
@@ -56,7 +56,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="@dimen/padding_10"
+            android:focusable="true"
+            android:layout_marginTop="@dimen/padding_24"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/padding_30">

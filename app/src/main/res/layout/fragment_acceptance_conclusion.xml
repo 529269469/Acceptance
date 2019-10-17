@@ -14,6 +14,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:visibility="gone"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
@@ -104,7 +105,7 @@
 
             <TextView
                 android:textColor="@color/color_000"
-                android:text="外观性能检查结论"
+                android:text="   技术类检查结论"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -120,38 +121,30 @@
 
         </LinearLayout>
 
+            <TextView
+                android:background="@drawable/shape_text"
+                android:id="@+id/tv_save"
+                android:layout_marginRight="@dimen/padding_24"
+                android:layout_marginTop="@dimen/padding_10"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:text="保存"
+                android:textColor="@color/color_5398F7"
+                android:layout_width="@dimen/padding_60"
+                android:layout_height="@dimen/padding_30"/>
+
         </LinearLayout>
         <RelativeLayout
+            android:layout_marginTop="@dimen/padding_10"
             android:layout_width="match_parent"
             android:layout_height="@dimen/padding_40">
             <TextView
                 android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/padding_10"
                 android:textColor="@color/color_000"
                 android:text="产品验收情况："
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <TextView
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:gravity="center"
-                android:layout_marginRight="@dimen/padding_100"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/padding_10"
-                android:text="添加"
-                android:layout_width="@dimen/padding_60"
-                android:layout_height="@dimen/padding_30"/>
-            <TextView
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:gravity="center"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/padding_10"
-                android:text="移除"
-                android:layout_width="@dimen/padding_60"
-                android:layout_height="@dimen/padding_30"/>
+
         </RelativeLayout>
 
 
@@ -208,33 +201,15 @@
             android:layout_height="@dimen/padding_40">
 
             <TextView
+                android:gravity="center"
+                android:background="@drawable/shape_text"
+                android:id="@+id/tv_add2"
                 android:layout_centerVertical="true"
-                android:textColor="@color/color_000"
-                android:text="产品验收遗留问题："
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textColor="@color/color_5398F7"
+                android:text="添加验收遗留问题"
+                android:layout_width="@dimen/padding_150"
+                android:layout_height="@dimen/padding_30"/>
 
-            <TextView
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:gravity="center"
-                android:layout_marginRight="@dimen/padding_100"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/padding_10"
-                android:text="添加"
-                android:layout_width="@dimen/padding_60"
-                android:layout_height="@dimen/padding_30"/>
-            <TextView
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:gravity="center"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/padding_10"
-                android:text="移除"
-                android:layout_width="@dimen/padding_60"
-                android:layout_height="@dimen/padding_30"/>
         </RelativeLayout>
 
 
@@ -288,6 +263,7 @@
 
 
         <LinearLayout
+            android:layout_marginBottom="@dimen/padding_100"
             android:layout_marginTop="@dimen/padding_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -308,6 +284,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/padding_100"
             android:layout_marginTop="@dimen/padding_16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -317,7 +295,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/tv_time"
                 android:layout_marginLeft="@dimen/padding_10"
                 android:background="@drawable/shape_edtext"
@@ -327,9 +305,10 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_marginTop="@dimen/padding_16"
             android:gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/padding_100"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView

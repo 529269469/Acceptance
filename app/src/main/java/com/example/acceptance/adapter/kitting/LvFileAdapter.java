@@ -12,6 +12,7 @@ import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.greendao.bean.DeliveryListBean;
 import com.example.acceptance.greendao.bean.DocumentBean;
 import com.example.acceptance.greendao.db.DocumentBeanDao;
+import com.example.acceptance.utils.StringUtils;
 
 import java.util.List;
 
@@ -57,31 +58,39 @@ public class LvFileAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.tvNum.setText(i+1+"");
+        viewHolder.tvNum.setText(i + 1 + "");
         viewHolder.tvProject.setText(list.get(i).getProject());
 
-        DocumentBeanDao documentBeanDao= MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-        List<DocumentBean> documentBeans=documentBeanDao.queryBuilder()
+        DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+        List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
                 .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
                 .where(DocumentBeanDao.Properties.PayClassify.eq(list.get(i).getId()))
                 .list();
-        if (documentBeans!=null&&!documentBeans.isEmpty()){
-            viewHolder.tvCode.setText(documentBeans.get(i).getCode());
-            viewHolder.tvName.setText(documentBeans.get(i).getName());
-            viewHolder.tv_secret.setText(documentBeans.get(i).getSecret());
-            viewHolder.tvTechStatus.setText(documentBeans.get(i).getTechStatus());
-            viewHolder.tvApprover.setText(documentBeans.get(i).getApprover());
-            viewHolder.tvApprovalDate.setText(documentBeans.get(i).getApprovalDate());
-            if (documentBeans.get(i).getIssl().equals("true")){
+        if (documentBeans != null && !documentBeans.isEmpty()) {
+            viewHolder.tvCode.setText(documentBeans.get(0).getCode());
+            viewHolder.tvName.setText(documentBeans.get(0).getName());
+            viewHolder.tv_secret.setText(documentBeans.get(0).getSecret());
+            viewHolder.tvTechStatus.setText(documentBeans.get(0).getTechStatus());
+            viewHolder.tvApprover.setText(documentBeans.get(0).getApprover());
+            viewHolder.tvApprovalDate.setText(documentBeans.get(0).getApprovalDate());
+            if (!StringUtils.isBlank(documentBeans.get(0).getIssl())&&documentBeans.get(0).getIssl().equals("true")) {
                 viewHolder.tvIssl.setText("是");
-            }else {
+            } else {
                 viewHolder.tvIssl.setText("否");
             }
+            viewHolder.tvConclusion.setText(documentBeans.get(0).getConclusion());
+            viewHolder.tvDescription.setText(documentBeans.get(0).getDescription());
 
-            viewHolder.tvConclusion.setText(documentBeans.get(i).getConclusion());
-            viewHolder.tvDescription.setText(documentBeans.get(i).getDescription());
+        }else {
+            viewHolder.tvCode.setText("");
+            viewHolder.tvName.setText("");
+            viewHolder.tv_secret.setText("");
+            viewHolder.tvTechStatus.setText("");
+            viewHolder.tvApprover.setText("");
+            viewHolder.tvApprovalDate.setText("");
+            viewHolder.tvConclusion.setText("");
+            viewHolder.tvDescription.setText("");
         }
-
 
 
         return view;

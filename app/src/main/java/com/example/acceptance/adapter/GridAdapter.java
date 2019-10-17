@@ -26,7 +26,6 @@ import java.util.Locale;
 public class GridAdapter extends BaseAdapter {
     private List<String> list;
     private Context context;
-    private String end;
 
     public GridAdapter(List<String> list, Context context) {
         this.list = list;
@@ -63,9 +62,9 @@ public class GridAdapter extends BaseAdapter {
             viewHolde = (ViewHolde) convertView.getTag();
         }
 
-        File file = new File(list.get(position));
+
         /* 取得扩展名 */
-        end = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()).toLowerCase(Locale.getDefault());
+       String end = list.get(position).substring(list.get(position).lastIndexOf(".") + 1, list.get(position).length()).toLowerCase(Locale.getDefault());
         if (end.equals("m4a") ||
                 end.equals("mp3") ||
                 end.equals("mid") ||
@@ -88,9 +87,7 @@ public class GridAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-
                 if (end.equals("jpg") || end.equals("gif") || end.equals("png") || end.equals("jpeg") || end.equals("bmp")) {
-
                     View poview = LayoutInflater.from(context).inflate(R.layout.image_view, null);
                     popupWindow = null;
                     popupWindow = new PopupWindow(poview);
@@ -109,8 +106,6 @@ public class GridAdapter extends BaseAdapter {
                     Glide.with(context)
                             .load(new File(list.get(position)))
                             .into(iv_image);
-
-
                     popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {

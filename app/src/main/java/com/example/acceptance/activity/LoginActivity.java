@@ -153,7 +153,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 break;
             case R.id.ll_checklist:
-                startActivity(ChecklistActivity.openIntent(LoginActivity.this,false));
+                startActivity(ChecklistActivity.openIntent(LoginActivity.this,false,""));
                 break;
             case R.id.iv_setup:
                 startActivity(SetupActivity.openIntent(LoginActivity.this));

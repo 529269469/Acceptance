@@ -19,6 +19,7 @@ import com.example.acceptance.greendao.db.DocumentBeanDao;
 import com.example.acceptance.greendao.db.FileBeanDao;
 import com.example.acceptance.utils.OpenFileUtil;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,6 +33,7 @@ public class Delivery2Adapter extends BaseAdapter {
 
     private Context context;
     private List<DeliveryListBean> list;
+    private List<FileBean> fileBeans;
 
     public Delivery2Adapter(Context context, List<DeliveryListBean> list) {
         this.context = context;
@@ -70,19 +72,49 @@ public class Delivery2Adapter extends BaseAdapter {
                 .list();
 
         if (documentBeans!=null&&!documentBeans.isEmpty()){
-            viewHolder.tvName.setText(documentBeans.get(i).getName());
-            viewHolder.tvProductCode.setText(documentBeans.get(i).getProductCode());
+
+            viewHolder.tvName.setText(documentBeans.get(0).getName());
+            viewHolder.tvProductCode.setText(documentBeans.get(0).getCode());
 
             FileBeanDao fileBeanDao=MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
-            List<FileBean> fileBeans=fileBeanDao.queryBuilder()
+            List<FileBean> fileBeans= fileBeanDao.queryBuilder()
                     .where(FileBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
-                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(i).getId()))
+                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
                     .list();
+
             if (fileBeans!=null&&!fileBeans.isEmpty()){
                 viewHolder.tvNameFile.setText(fileBeans.get(0).getName());
             }
+            viewHolder.tvNameFile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+                    List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
+                            .where(DataPackageDBeanDao.Properties.Id.eq(list.get(0).getDataPackageId()))
+                            .list();
+                    File file = new File(dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeans.get(0).getPath());
+                    if (file.isFile() && file.exists()) {
+                        try {
+                            context.startActivity(OpenFileUtil.openFile(dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeans.get(0).getPath()));
+                        } catch (Exception o) {
+                        }
+                    } else {
+                        try {
+                            context.startActivity(OpenFileUtil.openFile(fileBeans.get(0).getPath()));
+                        } catch (Exception o) {
+                        }
+                    }
 
+                }
+            });
+
+
+        }else {
+            viewHolder.tvName.setText("");
+            viewHolder.tvProductCode.setText("");
+            viewHolder.tvNameFile.setText("");
         }
+
 
 
 

@@ -5,6 +5,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -341,14 +342,14 @@ public class DataPackageBean {
         private String applicant;
         private String applyCompany;
         private String phone;
-        private String ApplyDeptSet;
+        private ApplyDeptSetBean ApplyDeptSet;
 
-        public String getApplyDeptSet() {
+        public ApplyDeptSetBean getApplyDeptSet() {
             return ApplyDeptSet;
         }
 
-        public void setApplyDeptSet(String applyDeptSet) {
-            ApplyDeptSet = applyDeptSet;
+        public void setApplyDeptSet(ApplyDeptSetBean applyDeptSet) {
+            applyDeptSet = applyDeptSet;
         }
 
         public String getId() {
@@ -438,6 +439,62 @@ public class DataPackageBean {
         public void setPhone(String phone) {
             this.phone = phone;
         }
+
+        public static class ApplyDeptSetBean {
+            @XStreamImplicit(itemFieldName = "applyDept")
+            private List<ApplyDeptBean> ApplyDept;
+
+            public List<ApplyDeptBean> getApplyDept() {
+                return ApplyDept;
+            }
+
+            public void setApplyDept(List<ApplyDeptBean> applyDept) {
+                ApplyDept = applyDept;
+            }
+
+            public static class ApplyDeptBean {
+                @XStreamAsAttribute()
+                @XStreamAlias("id") //属性注解
+                private String id;
+                private String department;
+                private String acceptor;
+                private String other;
+
+                public String getId() {
+                    return id;
+                }
+
+                public void setId(String id) {
+                    this.id = id;
+                }
+
+                public String getDepartment() {
+                    return department;
+                }
+
+                public void setDepartment(String department) {
+                    this.department = department;
+                }
+
+                public String getAcceptor() {
+                    return acceptor;
+                }
+
+                public void setAcceptor(String acceptor) {
+                    this.acceptor = acceptor;
+                }
+
+                public String getOther() {
+                    return other;
+                }
+
+                public void setOther(String other) {
+                    this.other = other;
+                }
+            }
+
+        }
+
     }
 
     public static class ApplyItemSetBean {
@@ -481,6 +538,15 @@ public class DataPackageBean {
             private String description;
             private String productName;
             private String checkCount;
+            private String passCheck;
+
+            public String getPassCheck() {
+                return passCheck;
+            }
+
+            public void setPassCheck(String passCheck) {
+                this.passCheck = passCheck;
+            }
 
             public String getCheckCount() {
                 return checkCount;
@@ -703,6 +769,15 @@ public class DataPackageBean {
                     private String isTable;
                     private PropertySetBean PropertySet;
                     private CheckItemSetBean CheckItemSet;
+                    private AcceptDeviceSet acceptDeviceSet;
+
+                    public AcceptDeviceSet getAcceptDeviceSet() {
+                        return acceptDeviceSet;
+                    }
+
+                    public void setAcceptDeviceSet(AcceptDeviceSet acceptDeviceSet) {
+                        this.acceptDeviceSet = acceptDeviceSet;
+                    }
 
                     public String getId() {
                         return id;
@@ -768,18 +843,91 @@ public class DataPackageBean {
                         this.CheckItemSet = CheckItemSet;
                     }
 
+                    public static class AcceptDeviceSet {
+                        @XStreamImplicit(itemFieldName = "AcceptDevice")
+                        private List<AcceptDevice> AcceptDevice;
+
+                        public List<AcceptDevice> getAcceptDevice() {
+                            return AcceptDevice;
+                        }
+
+                        public void setAcceptDevice(List<AcceptDevice> acceptDevice) {
+                            AcceptDevice = acceptDevice;
+                        }
+
+                        public static class AcceptDevice {
+                            @XStreamAsAttribute()
+                            @XStreamAlias("id") //属性注解
+                            private String id;
+                            private String name;
+                            private String specification;
+                            private String accuracy;
+                            private String certificate;
+                            private String description;
+
+                            public String getId() {
+                                return id;
+                            }
+
+                            public void setId(String id) {
+                                this.id = id;
+                            }
+
+                            public String getName() {
+                                return name;
+                            }
+
+                            public void setName(String name) {
+                                this.name = name;
+                            }
+
+                            public String getSpecification() {
+                                return specification;
+                            }
+
+                            public void setSpecification(String specification) {
+                                this.specification = specification;
+                            }
+
+                            public String getAccuracy() {
+                                return accuracy;
+                            }
+
+                            public void setAccuracy(String accuracy) {
+                                this.accuracy = accuracy;
+                            }
+
+                            public String getCertificate() {
+                                return certificate;
+                            }
+
+                            public void setCertificate(String certificate) {
+                                this.certificate = certificate;
+                            }
+
+                            public String getDescription() {
+                                return description;
+                            }
+
+                            public void setDescription(String description) {
+                                this.description = description;
+                            }
+                        }
+
+                    }
+
                     public static class PropertySetBean {
                         /**
                          * Property : {"name":"扩展属性一","value":"检查组扩展属性值"}
                          */
+                        @XStreamImplicit(itemFieldName = "Property")
+                        private List<PropertyBean> Property;
 
-                        private PropertyBean Property;
-
-                        public PropertyBean getProperty() {
+                        public List<PropertyBean> getProperty() {
                             return Property;
                         }
 
-                        public void setProperty(PropertyBean Property) {
+                        public void setProperty(List<PropertyBean> Property) {
                             this.Property = Property;
                         }
 
@@ -814,14 +962,14 @@ public class DataPackageBean {
                         /**
                          * CheckItem : {"-id":"361408582131216384","name":"测试检查xiang","options":"是,否,有","selected":"是","PropertySet":{"Property":{"name":"扩展属性一","value":"扩展值"}},"RelatedDocumentIdSet":{"RelatedDocumentId":"361439270231687168"}}
                          */
+                        @XStreamImplicit(itemFieldName = "CheckItem")
+                        private List<CheckItemBean> CheckItem;
 
-                        private CheckItemBean CheckItem;
-
-                        public CheckItemBean getCheckItem() {
+                        public List<CheckItemBean> getCheckItem() {
                             return CheckItem;
                         }
 
-                        public void setCheckItem(CheckItemBean CheckItem) {
+                        public void setCheckItem(List<CheckItemBean> CheckItem) {
                             this.CheckItem = CheckItem;
                         }
 
@@ -841,8 +989,17 @@ public class DataPackageBean {
                             private String name;
                             private String options;
                             private String selected;
+                            private String imgAndVideo;
                             private PropertySetBeanX PropertySet;
                             private RelatedDocumentIdSetBean RelatedDocumentIdSet;
+
+                            public String getImgAndVideo() {
+                                return imgAndVideo;
+                            }
+
+                            public void setImgAndVideo(String imgAndVideo) {
+                                this.imgAndVideo = imgAndVideo;
+                            }
 
                             public String getId() {
                                 return id;
@@ -897,13 +1054,14 @@ public class DataPackageBean {
                                  * Property : {"name":"扩展属性一","value":"扩展值"}
                                  */
 
-                                private PropertyBeanX Property;
+                                @XStreamImplicit(itemFieldName = "Property")
+                                private List<PropertyBeanX> Property;
 
-                                public PropertyBeanX getProperty() {
+                                public List<PropertyBeanX> getProperty() {
                                     return Property;
                                 }
 
-                                public void setProperty(PropertyBeanX Property) {
+                                public void setProperty(List<PropertyBeanX> Property) {
                                     this.Property = Property;
                                 }
 
@@ -938,14 +1096,14 @@ public class DataPackageBean {
                                 /**
                                  * RelatedDocumentId : 361439270231687168
                                  */
+                                @XStreamImplicit(itemFieldName = "RelatedDocumentId")
+                                private List<String> RelatedDocumentId;
 
-                                private String RelatedDocumentId;
-
-                                public String getRelatedDocumentId() {
+                                public List<String> getRelatedDocumentId() {
                                     return RelatedDocumentId;
                                 }
 
-                                public void setRelatedDocumentId(String RelatedDocumentId) {
+                                public void setRelatedDocumentId(List<String> RelatedDocumentId) {
                                     this.RelatedDocumentId = RelatedDocumentId;
                                 }
                             }
@@ -1090,14 +1248,14 @@ public class DataPackageBean {
         /**
          * Unresolved : {"-id":"361408814164307968","productCode":"cpbh","question":"测试遗留问题","confirmer":"张三","confirmTime":"2019-09-27","fileId":"null"}
          */
+        @XStreamImplicit(itemFieldName = "Unresolved")
+        private List<UnresolvedBean> Unresolved;
 
-        private UnresolvedBean Unresolved;
-
-        public UnresolvedBean getUnresolved() {
+        public List<UnresolvedBean> getUnresolved() {
             return Unresolved;
         }
 
-        public void setUnresolved(UnresolvedBean Unresolved) {
+        public void setUnresolved(List<UnresolvedBean> Unresolved) {
             this.Unresolved = Unresolved;
         }
 
@@ -1119,13 +1277,13 @@ public class DataPackageBean {
             private String confirmer;
             private String confirmTime;
             private String fileId;
-            private String FileSet;
+            private DocumentListSetBean.DocumentBean.FileSetBean FileSet;
 
-            public String getFileSet() {
+            public DocumentListSetBean.DocumentBean.FileSetBean getFileSet() {
                 return FileSet;
             }
 
-            public void setFileSet(String fileSet) {
+            public void setFileSet(DocumentListSetBean.DocumentBean.FileSetBean fileSet) {
                 FileSet = fileSet;
             }
 
@@ -1424,13 +1582,15 @@ public class DataPackageBean {
                  * File : {"name":"工单.xlsx","path":"5d8b2ea15eefa31a2cdad120.xlsx","type":"主内容"}
                  */
 
-                private FileBean File;
 
-                public FileBean getFile() {
+                @XStreamImplicit(itemFieldName = "File")
+                private List<FileBean> File;
+
+                public List<FileBean> getFile() {
                     return File;
                 }
 
-                public void setFile(FileBean File) {
+                public void setFile(List<FileBean> File) {
                     this.File = File;
                 }
 

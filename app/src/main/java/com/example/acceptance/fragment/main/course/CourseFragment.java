@@ -42,6 +42,7 @@ public class CourseFragment extends BaseFragment {
         standardFragment=new StandardFragment();
         Bundle bundle=new Bundle();
         bundle.putString("id", id);
+        bundle.putString("type", "3");
         standardFragment.setArguments(bundle);
         list.add(standardFragment);
 

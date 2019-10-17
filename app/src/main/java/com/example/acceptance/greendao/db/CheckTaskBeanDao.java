@@ -37,7 +37,6 @@ public class CheckTaskBeanDao extends AbstractDao<CheckTaskBean, Long> {
         public final static Property Applicant = new Property(10, String.class, "applicant", false, "APPLICANT");
         public final static Property ApplyCompany = new Property(11, String.class, "applyCompany", false, "APPLY_COMPANY");
         public final static Property Phone = new Property(12, String.class, "phone", false, "PHONE");
-        public final static Property ApplyDeptSet = new Property(13, String.class, "ApplyDeptSet", false, "APPLY_DEPT_SET");
     }
 
 
@@ -65,8 +64,7 @@ public class CheckTaskBeanDao extends AbstractDao<CheckTaskBean, Long> {
                 "\"CHECK_DATE\" TEXT," + // 9: checkDate
                 "\"APPLICANT\" TEXT," + // 10: applicant
                 "\"APPLY_COMPANY\" TEXT," + // 11: applyCompany
-                "\"PHONE\" TEXT," + // 12: phone
-                "\"APPLY_DEPT_SET\" TEXT);"); // 13: ApplyDeptSet
+                "\"PHONE\" TEXT);"); // 12: phone
     }
 
     /** Drops the underlying database table. */
@@ -143,11 +141,6 @@ public class CheckTaskBeanDao extends AbstractDao<CheckTaskBean, Long> {
         if (phone != null) {
             stmt.bindString(13, phone);
         }
- 
-        String ApplyDeptSet = entity.getApplyDeptSet();
-        if (ApplyDeptSet != null) {
-            stmt.bindString(14, ApplyDeptSet);
-        }
     }
 
     @Override
@@ -218,11 +211,6 @@ public class CheckTaskBeanDao extends AbstractDao<CheckTaskBean, Long> {
         if (phone != null) {
             stmt.bindString(13, phone);
         }
- 
-        String ApplyDeptSet = entity.getApplyDeptSet();
-        if (ApplyDeptSet != null) {
-            stmt.bindString(14, ApplyDeptSet);
-        }
     }
 
     @Override
@@ -245,8 +233,7 @@ public class CheckTaskBeanDao extends AbstractDao<CheckTaskBean, Long> {
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // checkDate
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // applicant
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // applyCompany
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // phone
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // ApplyDeptSet
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // phone
         );
         return entity;
     }
@@ -266,7 +253,6 @@ public class CheckTaskBeanDao extends AbstractDao<CheckTaskBean, Long> {
         entity.setApplicant(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setApplyCompany(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setPhone(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setApplyDeptSet(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
      }
     
     @Override

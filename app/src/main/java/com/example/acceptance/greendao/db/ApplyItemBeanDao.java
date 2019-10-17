@@ -38,6 +38,7 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
         public final static Property IsSatisfyRequire = new Property(11, String.class, "isSatisfyRequire", false, "IS_SATISFY_REQUIRE");
         public final static Property Description = new Property(12, String.class, "description", false, "DESCRIPTION");
         public final static Property ProductName = new Property(13, String.class, "productName", false, "PRODUCT_NAME");
+        public final static Property PassCheck = new Property(14, String.class, "passCheck", false, "PASS_CHECK");
     }
 
 
@@ -66,7 +67,8 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
                 "\"IS_COMPLETE_ROUTINE\" TEXT," + // 10: isCompleteRoutine
                 "\"IS_SATISFY_REQUIRE\" TEXT," + // 11: isSatisfyRequire
                 "\"DESCRIPTION\" TEXT," + // 12: description
-                "\"PRODUCT_NAME\" TEXT);"); // 13: productName
+                "\"PRODUCT_NAME\" TEXT," + // 13: productName
+                "\"PASS_CHECK\" TEXT);"); // 14: passCheck
     }
 
     /** Drops the underlying database table. */
@@ -148,6 +150,11 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
         if (productName != null) {
             stmt.bindString(14, productName);
         }
+ 
+        String passCheck = entity.getPassCheck();
+        if (passCheck != null) {
+            stmt.bindString(15, passCheck);
+        }
     }
 
     @Override
@@ -223,6 +230,11 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
         if (productName != null) {
             stmt.bindString(14, productName);
         }
+ 
+        String passCheck = entity.getPassCheck();
+        if (passCheck != null) {
+            stmt.bindString(15, passCheck);
+        }
     }
 
     @Override
@@ -246,7 +258,8 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // isCompleteRoutine
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // isSatisfyRequire
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // description
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // productName
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // productName
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14) // passCheck
         );
         return entity;
     }
@@ -267,6 +280,7 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
         entity.setIsSatisfyRequire(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setDescription(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setProductName(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setPassCheck(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
      }
     
     @Override

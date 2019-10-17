@@ -24,12 +24,12 @@ public class CheckTaskBean {
     private String applicant;
     private String applyCompany;
     private String phone;
-    private String ApplyDeptSet;
-    @Generated(hash = 994896207)
+
+    @Generated(hash = 20242446)
     public CheckTaskBean(Long uId, String dataPackageId, String id, String name,
             String code, String issuer, String issueDept, String accepter,
             String acceptDate, String checkDate, String applicant,
-            String applyCompany, String phone, String ApplyDeptSet) {
+            String applyCompany, String phone) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -43,11 +43,11 @@ public class CheckTaskBean {
         this.applicant = applicant;
         this.applyCompany = applyCompany;
         this.phone = phone;
-        this.ApplyDeptSet = ApplyDeptSet;
     }
     @Generated(hash = 199812404)
     public CheckTaskBean() {
     }
+
     public Long getUId() {
         return this.uId;
     }
@@ -126,11 +126,6 @@ public class CheckTaskBean {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public String getApplyDeptSet() {
-        return this.ApplyDeptSet;
-    }
-    public void setApplyDeptSet(String ApplyDeptSet) {
-        this.ApplyDeptSet = ApplyDeptSet;
-    }
+
 
 }

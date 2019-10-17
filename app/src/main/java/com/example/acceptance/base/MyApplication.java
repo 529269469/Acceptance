@@ -110,7 +110,18 @@ public class MyApplication extends Application {
     private DaoMaster applyDeptMaster;
     private DaoSession applyDeptDaoSession;
 
+    private DaoMaster.DevOpenHelper acceptDeviceaHelper;
+    private SQLiteDatabase acceptDeviceaDb;
+    private DaoMaster acceptDeviceaMaster;
+    private DaoSession acceptDeviceaDaoSession;
+
     private void setDatabase() {
+        acceptDeviceaHelper = new DaoMaster.DevOpenHelper(this, "acceptDevicea.db");
+        acceptDeviceaDb = acceptDeviceaHelper.getWritableDatabase();
+        acceptDeviceaMaster = new DaoMaster(acceptDeviceaDb);
+        acceptDeviceaDaoSession = acceptDeviceaMaster.newSession();
+
+
         applyDeptHelper = new DaoMaster.DevOpenHelper(this, "applyDept.db");
         applyDeptDb = applyDeptHelper.getWritableDatabase();
         applyDeptMaster = new DaoMaster(applyDeptDb);
@@ -196,6 +207,10 @@ public class MyApplication extends Application {
         checkApplyDaoMaster = new DaoMaster(checkApplyDb);
         checkApplyDaoSession = checkApplyDaoMaster.newSession();
 
+    }
+
+    public DaoSession getAcceptDeviceaDaoSession() {
+        return acceptDeviceaDaoSession;
     }
 
     public DaoSession getApplyDeptDaoSession() {

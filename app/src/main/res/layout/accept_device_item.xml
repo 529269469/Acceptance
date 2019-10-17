@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/padding_40">
+
+    <TextView
+        android:id="@+id/tv_num"
+        android:textColor="@color/color_333333"
+        android:gravity="center"
+        android:text="序号"
+        android:layout_weight="1"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:textColor="@color/color_333333"
+        android:gravity="center"
+        android:text="名称"
+        android:layout_weight="4"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/tv_specification"
+        android:textColor="@color/color_333333"
+        android:gravity="center"
+        android:text="型号规格"
+        android:layout_weight="4"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/tv_accuracy"
+        android:textColor="@color/color_333333"
+        android:gravity="center"
+        android:text="精度"
+        android:layout_weight="4"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/tv_certificate"
+        android:textColor="@color/color_333333"
+        android:gravity="center"
+        android:text="合格证和有效期"
+        android:layout_weight="4"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="match_parent"/>
+</LinearLayout>

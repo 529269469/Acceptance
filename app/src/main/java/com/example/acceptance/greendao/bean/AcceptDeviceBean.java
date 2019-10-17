@@ -6,10 +6,10 @@ import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * @author :created by ${ WYW }
- * 时间：2019/10/9 10
+ * 时间：2019/10/16 09
  */
 @Entity
-public class CheckItemBean {
+public class AcceptDeviceBean {
     @Id(autoincrement = true)
     private Long uId;
     private String dataPackageId;
@@ -17,28 +17,28 @@ public class CheckItemBean {
     private String checkGroupId;
     private String id;
     private String name;
-    private String options;
-    private String selected;
-    private String imgAndVideo;
-
-    @Generated(hash = 791691591)
-    public CheckItemBean(Long uId, String dataPackageId, String checkFileId,
-            String checkGroupId, String id, String name, String options,
-            String selected, String imgAndVideo) {
+    private String specification;
+    private String accuracy;
+    private String certificate;
+    private String description;
+    @Generated(hash = 300549178)
+    public AcceptDeviceBean(Long uId, String dataPackageId, String checkFileId,
+            String checkGroupId, String id, String name, String specification,
+            String accuracy, String certificate, String description) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.checkFileId = checkFileId;
         this.checkGroupId = checkGroupId;
         this.id = id;
         this.name = name;
-        this.options = options;
-        this.selected = selected;
-        this.imgAndVideo = imgAndVideo;
+        this.specification = specification;
+        this.accuracy = accuracy;
+        this.certificate = certificate;
+        this.description = description;
     }
-    @Generated(hash = 1394073385)
-    public CheckItemBean() {
+    @Generated(hash = 1081029027)
+    public AcceptDeviceBean() {
     }
-  
     public Long getUId() {
         return this.uId;
     }
@@ -75,24 +75,31 @@ public class CheckItemBean {
     public void setName(String name) {
         this.name = name;
     }
-    public String getOptions() {
-        return this.options;
+    public String getSpecification() {
+        return this.specification;
     }
-    public void setOptions(String options) {
-        this.options = options;
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
-    public String getSelected() {
-        return this.selected;
+    public String getAccuracy() {
+        return this.accuracy;
     }
-    public void setSelected(String selected) {
-        this.selected = selected;
+    public void setAccuracy(String accuracy) {
+        this.accuracy = accuracy;
     }
-    public String getImgAndVideo() {
-        return this.imgAndVideo;
+    public String getCertificate() {
+        return this.certificate;
     }
-    public void setImgAndVideo(String imgAndVideo) {
-        this.imgAndVideo = imgAndVideo;
+    public void setCertificate(String certificate) {
+        this.certificate = certificate;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
+    
 
 }

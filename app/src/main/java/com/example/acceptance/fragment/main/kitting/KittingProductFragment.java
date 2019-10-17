@@ -17,41 +17,32 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.acceptance.R;
 import com.example.acceptance.activity.ChecklistActivity;
 import com.example.acceptance.adapter.AddZuAdapter;
-import com.example.acceptance.adapter.HorAdapter;
-import com.example.acceptance.adapter.Tb2Adapter;
 import com.example.acceptance.adapter.TbAdapter;
 import com.example.acceptance.base.BaseFragment;
 import com.example.acceptance.base.MyApplication;
-import com.example.acceptance.bean.TitleBean;
 import com.example.acceptance.greendao.bean.CheckFileBean;
 import com.example.acceptance.greendao.bean.CheckGroupBean;
 import com.example.acceptance.greendao.bean.CheckItemBean;
 import com.example.acceptance.greendao.bean.PropertyBean;
-import com.example.acceptance.greendao.db.ApplyItemBeanDao;
 import com.example.acceptance.greendao.db.CheckFileBeanDao;
 import com.example.acceptance.greendao.db.CheckGroupBeanDao;
 import com.example.acceptance.greendao.db.CheckItemBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanDao;
 import com.example.acceptance.net.URLS;
+import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
 import com.example.acceptance.view.ContentViewPager;
-import com.example.acceptance.view.HorizontalListView;
 import com.example.acceptance.view.LinePathView;
 import com.example.acceptance.view.MyListView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,6 +66,8 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
     ImageView ivCheckPerson2;
     @BindView(R.id.tv_add)
     TextView tvAdd;
+    @BindView(R.id.tv_save)
+    TextView tvSave;
 
 
     private String id;
@@ -84,19 +77,20 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
     private List<CheckGroupBean> checkGroupBeans;
     private TbAdapter adapter;
     private KittingProduct2Fragment kittingProduct2Fragment;
-
+    private String type;
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
-
+        type= getArguments().getString("type");
 
         addData();
-        adapter = new TbAdapter(getChildFragmentManager(),listTitle,list);
+        adapter = new TbAdapter(getChildFragmentManager(), listTitle, list);
         vp.setAdapter(adapter);
         tb.setTabMode(TabLayout.MODE_FIXED);
         tb.setupWithViewPager(vp);
 
         ivCheckPerson2.setOnClickListener(this);
+        tvSave.setOnClickListener(this);
         tvAdd.setOnClickListener(view ->
                 addPopup());
 
@@ -108,6 +102,12 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                 .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
                 .where(CheckFileBeanDao.Properties.DocType.eq("齐套性检查"))
                 .list();
+
+        Glide.with(getActivity())
+                .load(checkFileBeans.get(0).getCheckPerson())
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(ivCheckPerson2);
         checkFileId = checkFileBeans.get(0).getId();
         CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
         checkGroupBeans = checkGroupBeanDao.queryBuilder()
@@ -125,6 +125,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
             Bundle bundle = new Bundle();
             bundle.putString("id", id);
             bundle.putString("checkFileId", checkFileId);
+            bundle.putString("type", type);
             bundle.putInt("position", i);
             kittingProduct2Fragment.setArguments(bundle);
             list.add(kittingProduct2Fragment);
@@ -183,7 +184,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
             @Override
             public void onClick(View view) {
 
-                if (StringUtils.isBlank(tv_groupName.getText().toString().trim())){
+                if (StringUtils.isBlank(tv_groupName.getText().toString().trim())) {
                     ToastUtils.getInstance().showTextToast(getActivity(), "请输入检查组名称");
                     return;
                 }
@@ -202,8 +203,10 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                 PropertyBeanDao propertyBeanDao = MyApplication.getInstances().getPropertyDaoSession().getPropertyBeanDao();
 
                 for (int j = 0; j < propertyList.size(); j++) {
-                    PropertyBean propertyBean = new PropertyBean(null, id, checkFileId, CheckGroupId, addZuAdapter.getList().get(j), "");
-                    propertyBeanDao.insert(propertyBean);
+                    if (!StringUtils.isBlank(addZuAdapter.getList().get(j))){
+                        PropertyBean propertyBean = new PropertyBean(null, id, checkFileId, CheckGroupId, addZuAdapter.getList().get(j), "");
+                        propertyBeanDao.insert(propertyBean);
+                    }
                 }
                 addData();
                 adapter.notifyDataSetChanged();
@@ -227,6 +230,23 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
         switch (view.getId()) {
             case R.id.iv_checkPerson2:
                 pathPopu(ivCheckPerson2);
+                break;
+            case R.id.tv_save:
+                CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
+                List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
+                        .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
+                        .where(CheckFileBeanDao.Properties.DocType.eq("齐套性检查"))
+                        .list();
+                CheckFileBean checkFileBean=new CheckFileBean(checkFileBeans.get(0).getUId(),
+                        checkFileBeans.get(0).getDataPackageId(),
+                        checkFileBeans.get(0).getId(),
+                        checkFileBeans.get(0).getName(),
+                        checkFileBeans.get(0).getCode(),
+                        checkFileBeans.get(0).getDocType(),
+                        etConclusion.getText().toString().trim(),
+                        checkFileBeans.get(0).getCheckPerson());
+                checkFileBeanDao.update(checkFileBean);
+                ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
                 break;
         }
     }
@@ -253,8 +273,8 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
         });
 
         mPathView = poview.findViewById(R.id.path_view);
-        Button mBtnClear = poview.findViewById(R.id.m_btn_clear);
-        Button mBtnSave = poview.findViewById(R.id.m_btn_save);
+        TextView mBtnClear = poview.findViewById(R.id.m_btn_clear);
+        TextView mBtnSave = poview.findViewById(R.id.m_btn_save);
 
         //修改背景、笔宽、颜色
         mPathView.setBackColor(Color.WHITE);
@@ -272,14 +292,29 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
         mBtnSave.setOnClickListener(v -> {
             if (mPathView.getTouched()) {
                 try {
-                    mPathView.save(URLS.SINGA + File.separator + path, true, 100);
+                    mPathView.save(SPUtils.get(getActivity(), "path", "") + File.separator + path, true, 100);
                     Glide.with(getActivity())
-                            .load(new File(URLS.SINGA + File.separator + path))
+                            .load(new File(SPUtils.get(getActivity(), "path", "") + File.separator + path))
                             .skipMemoryCache(true)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .into(iv);
                     Toast.makeText(getActivity(), "签名成功~", Toast.LENGTH_SHORT).show();
+                    CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
+                    List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
+                            .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
+                            .where(CheckFileBeanDao.Properties.DocType.eq("齐套性检查"))
+                            .list();
+                    CheckFileBean checkFileBean=new CheckFileBean(checkFileBeans.get(0).getUId(),
+                            checkFileBeans.get(0).getDataPackageId(),
+                            checkFileBeans.get(0).getId(),
+                            checkFileBeans.get(0).getName(),
+                            checkFileBeans.get(0).getCode(),
+                            checkFileBeans.get(0).getDocType(),
+                            checkFileBeans.get(0).getConclusion(),
+                            SPUtils.get(getActivity(), "path", "") + File.separator + path);
+                    checkFileBeanDao.update(checkFileBean);
                     popupWindow.dismiss();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -298,26 +333,26 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
-                List<CheckGroupBean> checkGroupBeanList=checkGroupBeanDao.queryBuilder()
+                List<CheckGroupBean> checkGroupBeanList = checkGroupBeanDao.queryBuilder()
                         .where(CheckGroupBeanDao.Properties.DataPackageId.eq(checkGroupBeans.get(position).getDataPackageId()))
                         .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkGroupBeans.get(position).getCheckFileId()))
                         .where(CheckGroupBeanDao.Properties.Id.eq(checkGroupBeans.get(position).getId()))
                         .list();
 
-                CheckItemBeanDao checkItemBeanDao=MyApplication.getInstances().getCheckItemDaoSession().getCheckItemBeanDao();
-                List<CheckItemBean> checkItemBeanList=checkItemBeanDao.queryBuilder()
+                CheckItemBeanDao checkItemBeanDao = MyApplication.getInstances().getCheckItemDaoSession().getCheckItemBeanDao();
+                List<CheckItemBean> checkItemBeanList = checkItemBeanDao.queryBuilder()
                         .where(CheckItemBeanDao.Properties.DataPackageId.eq(checkGroupBeanList.get(0).getDataPackageId()))
                         .where(CheckItemBeanDao.Properties.CheckFileId.eq(checkGroupBeanList.get(0).getCheckFileId()))
                         .where(CheckItemBeanDao.Properties.CheckGroupId.eq(checkGroupBeanList.get(0).getId()))
                         .list();
 
-                for (int i = 0; i <checkItemBeanList.size() ; i++) {
+                for (int i = 0; i < checkItemBeanList.size(); i++) {
                     checkItemBeanDao.deleteByKey(checkItemBeanList.get(i).getUId());
                 }
 
                 checkGroupBeanDao.deleteByKey(checkGroupBeans.get(position).getUId());
 
-                getActivity().startActivity(ChecklistActivity.openIntent(getContext(),true));
+                getActivity().startActivity(ChecklistActivity.openIntent(getContext(), true,type));
                 getActivity().finish();
 //                list.remove(position);
 //                listTitle.remove(position);
@@ -367,24 +402,22 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
         TextView tv_save = poview.findViewById(R.id.tv_save);
 
 
-
-
         tv_groupName.setText(checkGroupBeans.get(position).getGroupName());
 
-        if (checkGroupBeans.get(position).getIsConclusion().equals("true")){
+        if (checkGroupBeans.get(position).getIsConclusion().equals("true")) {
             tv_isConclusion.setChecked(true);
-        }else {
+        } else {
             tv_isConclusion.setChecked(false);
         }
-        if (checkGroupBeans.get(position).getIsTable().equals("true")){
+        if (checkGroupBeans.get(position).getIsTable().equals("true")) {
             tv_isTable.setChecked(true);
-        }else {
+        } else {
             tv_isTable.setChecked(false);
         }
 
         List<String> propertyList = new ArrayList<>();
         PropertyBeanDao propertyBeanDao = MyApplication.getInstances().getPropertyDaoSession().getPropertyBeanDao();
-        List<PropertyBean> propertyBeans=propertyBeanDao.queryBuilder()
+        List<PropertyBean> propertyBeans = propertyBeanDao.queryBuilder()
                 .where(PropertyBeanDao.Properties.DataPackageId.eq(id))
                 .where(PropertyBeanDao.Properties.CheckFileId.eq(checkFileId))
                 .where(PropertyBeanDao.Properties.CheckGroupId.eq(checkGroupBeans.get(position).getId()))
@@ -398,7 +431,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
             @Override
             public void onDel(int position) {
                 for (int i = 0; i < propertyBeans.size(); i++) {
-                    if (propertyList.get(position).equals(propertyBeans.get(i).getName())){
+                    if (propertyList.get(position).equals(propertyBeans.get(i).getName())) {
                         propertyBeanDao.deleteByKey(propertyBeans.get(i).getUId());
                         break;
                     }
@@ -420,12 +453,12 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
         tv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (StringUtils.isBlank(tv_groupName.getText().toString().trim())){
+                if (StringUtils.isBlank(tv_groupName.getText().toString().trim())) {
                     ToastUtils.getInstance().showTextToast(getActivity(), "请输入检查组名称");
                     return;
                 }
                 CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
-                List<CheckGroupBean> checkGroupBeans2=checkGroupBeanDao.queryBuilder()
+                List<CheckGroupBean> checkGroupBeans2 = checkGroupBeanDao.queryBuilder()
                         .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
                         .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
                         .where(CheckGroupBeanDao.Properties.Id.eq(checkGroupBeans.get(position).getId()))
@@ -442,21 +475,21 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                 checkGroupBeanDao.update(checkGroupBean);
 
                 PropertyBeanDao propertyBeanDao = MyApplication.getInstances().getPropertyDaoSession().getPropertyBeanDao();
-                List<PropertyBean> propertyBeans=propertyBeanDao.queryBuilder()
+                List<PropertyBean> propertyBeans = propertyBeanDao.queryBuilder()
                         .where(PropertyBeanDao.Properties.DataPackageId.eq(id))
                         .where(PropertyBeanDao.Properties.CheckFileId.eq(checkFileId))
                         .where(PropertyBeanDao.Properties.CheckGroupId.eq(checkGroupBeans.get(position).getId()))
                         .list();
                 for (int j = 0; j < propertyList.size(); j++) {
-                    boolean isAdddd=false;
-                    int posiii=0;
+                    boolean isAdddd = false;
+                    int posiii = 0;
                     for (int i = 0; i < propertyBeans.size(); i++) {
-                        if (propertyList.get(j).equals(propertyBeans.get(i).getName())){
-                            isAdddd=true;
-                            posiii=i;
+                        if (propertyList.get(j).equals(propertyBeans.get(i).getName())) {
+                            isAdddd = true;
+                            posiii = i;
                         }
                     }
-                    if (isAdddd){
+                    if (isAdddd) {
                         PropertyBean propertyBean = new PropertyBean(propertyBeans.get(posiii).getUId(),
                                 id,
                                 checkFileId,
@@ -464,7 +497,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                                 addZuAdapter.getList().get(j),
                                 propertyBeans.get(posiii).getValue());
                         propertyBeanDao.update(propertyBean);
-                    }else {
+                    } else {
                         PropertyBean propertyBean = new PropertyBean(null,
                                 id,
                                 checkFileId,

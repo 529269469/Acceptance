@@ -42,6 +42,7 @@ public class KittingFragment extends BaseFragment {
         kittingProductFragment=new KittingProductFragment();
         Bundle bundle=new Bundle();
         bundle.putString("id", id);
+        bundle.putString("type", "2");
         kittingFileFragment.setArguments(bundle);
         kittingProductFragment.setArguments(bundle);
         list.add(kittingFileFragment);

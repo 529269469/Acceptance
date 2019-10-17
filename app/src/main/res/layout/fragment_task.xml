@@ -13,6 +13,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:visibility="gone"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
@@ -39,6 +40,7 @@
         </LinearLayout>
 
           <LinearLayout
+              android:focusable="true"
               android:layout_marginTop="@dimen/padding_24"
               android:background="@drawable/shape_ed2"
               android:layout_width="match_parent"
@@ -462,7 +464,6 @@
 
         <com.example.acceptance.view.MyListView
             android:layout_marginBottom="@dimen/padding_100"
-
             android:id="@+id/lv_list2"
             android:background="@drawable/shape_ed"
             android:layout_width="match_parent"

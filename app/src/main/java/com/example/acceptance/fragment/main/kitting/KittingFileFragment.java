@@ -76,7 +76,7 @@ public class KittingFileFragment extends BaseFragment {
     private String id;
     private LvFileAdapter lvFileAdapter;
     private LvFileAdapter lvFileAdapter2;
-
+    private String parentId;
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
@@ -84,11 +84,27 @@ public class KittingFileFragment extends BaseFragment {
         DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
         List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao.queryBuilder()
                 .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
-                .where(DeliveryListBeanDao.Properties.ParentId.notEq("null"))
+                .where(DeliveryListBeanDao.Properties.IsParent.notEq("true"))
                 .whereOr(DeliveryListBeanDao.Properties.Project.eq("合同"),
                         DeliveryListBeanDao.Properties.Project.eq("明细表"),
                         DeliveryListBeanDao.Properties.Project.eq("任务书"))
                 .list();
+        List<DeliveryListBean> parentIdList = deliveryListBeanDao.queryBuilder()
+                .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
+                .where(DeliveryListBeanDao.Properties.Project.eq("依据文件检查"))
+                .list();
+        if (parentIdList!=null&&!parentIdList.isEmpty()){
+            parentId=parentIdList.get(0).getId();
+        }else {
+            parentId=System.currentTimeMillis() + "";
+            DeliveryListBean deliveryListBean=new DeliveryListBean(null,
+                    id,
+                    parentId,
+                    true+"",
+                    "依据文件检查","");
+            deliveryListBeanDao.insert(deliveryListBean);
+        }
+
         list.addAll(deliveryListBeans);
         lvFileAdapter = new LvFileAdapter(getActivity(), list);
         lvFileKitting.setAdapter(lvFileAdapter);
@@ -96,6 +112,7 @@ public class KittingFileFragment extends BaseFragment {
 
         List<DeliveryListBean> deliveryListBeanList = deliveryListBeanDao.queryBuilder()
                 .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
+                .where(DeliveryListBeanDao.Properties.IsParent.notEq("true"))
                 .where(DeliveryListBeanDao.Properties.Project.notEq("合同"),
                         DeliveryListBeanDao.Properties.Project.notEq("明细表"),
                         DeliveryListBeanDao.Properties.Project.notEq("任务书"))
@@ -158,7 +175,7 @@ public class KittingFileFragment extends BaseFragment {
                         DeliveryListBeanDao deliveryListBeanDao2 = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
                         List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao2.queryBuilder()
                                 .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
-                                .where(DeliveryListBeanDao.Properties.ParentId.notEq("null"))
+                                .where(DeliveryListBeanDao.Properties.IsParent.notEq("true"))
                                 .whereOr(DeliveryListBeanDao.Properties.Project.eq("合同"),
                                         DeliveryListBeanDao.Properties.Project.eq("明细表"),
                                         DeliveryListBeanDao.Properties.Project.eq("任务书"))
@@ -222,30 +239,31 @@ public class KittingFileFragment extends BaseFragment {
         DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
         List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
                 .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
-                .where(DocumentBeanDao.Properties.PayClassify.eq(list2.get(position).getId()))
+                .where(DocumentBeanDao.Properties.PayClassify.eq(!list2.isEmpty()?list2.get(position).getId():"00000"))
                 .list();
-        tv_payClassify.setText(list2.get(position).getProject());
+        fileBeans.clear();
         if (isAdd && documentBeans != null && !documentBeans.isEmpty()) {
-            tv_code.setText(documentBeans.get(position).getCode());
-            tv_name.setText(documentBeans.get(position).getName());
-            tv_secret.setText(documentBeans.get(position).getSecret());
-            tv_techStatus.setText(documentBeans.get(position).getTechStatus());
-            tv_approver.setText(documentBeans.get(position).getApprover());
-            tv_approvalDate.setText(documentBeans.get(position).getApprovalDate());
-            if (documentBeans.get(position).getIssl().equals("true")) {
+            tv_payClassify.setText(list2.get(0).getProject());
+            tv_code.setText(documentBeans.get(0).getCode());
+            tv_name.setText(documentBeans.get(0).getName());
+            tv_secret.setText(documentBeans.get(0).getSecret());
+            tv_techStatus.setText(documentBeans.get(0).getTechStatus());
+            tv_approver.setText(documentBeans.get(0).getApprover());
+            tv_approvalDate.setText(documentBeans.get(0).getApprovalDate());
+            if (documentBeans.get(0).getIssl().equals("true")) {
                 tv_issl.setChecked(true);
             } else {
                 tv_issl.setChecked(false);
             }
-            tv_conclusion.setText(documentBeans.get(position).getConclusion());
-            tv_description.setText(documentBeans.get(position).getDescription());
+            tv_conclusion.setText(documentBeans.get(0).getConclusion());
+            tv_description.setText(documentBeans.get(0).getDescription());
 
             FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
             List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                     .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(position).getId()))
+                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
                     .list();
-            fileBeans.clear();
+
             fileBeans.addAll(fileBeanList);
         }
         fileAdapter = new File2Adapter(getActivity(), fileBeans);
@@ -300,10 +318,10 @@ public class KittingFileFragment extends BaseFragment {
                 } else {
                     DeliveryListBean deliveryListBean = new DeliveryListBean(null,
                             id,
-                            list.get(position).getId(),
+                            deliveryListParentId,
                             false + "",
                             tv_payClassify.getText().toString(),
-                            deliveryListParentId);
+                            parentId);
                     deliveryListBeanDao.insert(deliveryListBean);
                 }
 
@@ -437,32 +455,34 @@ public class KittingFileFragment extends BaseFragment {
 
 
         DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+
         List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
                 .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
-                .where(DocumentBeanDao.Properties.PayClassify.eq(list.get(position).getId()))
+                .where(DocumentBeanDao.Properties.PayClassify.eq(!list.isEmpty()?list.get(position).getId():"00000"))
                 .list();
-        tv_payClassify.setText(list.get(position).getProject());
+        fileBeans.clear();
         if (isAdd && documentBeans != null && !documentBeans.isEmpty()) {
-            tv_code.setText(documentBeans.get(position).getCode());
-            tv_name.setText(documentBeans.get(position).getName());
-            tv_secret.setText(documentBeans.get(position).getSecret());
-            tv_techStatus.setText(documentBeans.get(position).getTechStatus());
-            tv_approver.setText(documentBeans.get(position).getApprover());
-            tv_approvalDate.setText(documentBeans.get(position).getApprovalDate());
-            if (documentBeans.get(position).getIssl().equals("true")) {
+            tv_payClassify.setText(list.get(position).getProject());
+            tv_code.setText(documentBeans.get(0).getCode());
+            tv_name.setText(documentBeans.get(0).getName());
+            tv_secret.setText(documentBeans.get(0).getSecret());
+            tv_techStatus.setText(documentBeans.get(0).getTechStatus());
+            tv_approver.setText(documentBeans.get(0).getApprover());
+            tv_approvalDate.setText(documentBeans.get(0).getApprovalDate());
+            if (documentBeans.get(0).getIssl().equals("true")) {
                 tv_issl.setChecked(true);
             } else {
                 tv_issl.setChecked(false);
             }
-            tv_conclusion.setText(documentBeans.get(position).getConclusion());
-            tv_description.setText(documentBeans.get(position).getDescription());
+            tv_conclusion.setText(documentBeans.get(0).getConclusion());
+            tv_description.setText(documentBeans.get(0).getDescription());
 
             FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
             List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                     .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(position).getId()))
+                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
                     .list();
-            fileBeans.clear();
+
             fileBeans.addAll(fileBeanList);
         }
         fileAdapter = new File2Adapter(getActivity(), fileBeans);
@@ -546,21 +566,21 @@ public class KittingFileFragment extends BaseFragment {
                 } else {
                     DeliveryListBean deliveryListBean = new DeliveryListBean(null,
                             id,
-                            list.get(position).getId(),
+                            deliveryListParentId,
                             false + "",
                             tv_payClassify.getText().toString(),
-                            deliveryListParentId);
+                            parentId);
                     deliveryListBeanDao.insert(deliveryListBean);
                 }
 
 
                 DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-                List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
-                        .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(position).getDataPackageId()))
-                        .where(DocumentBeanDao.Properties.PayClassify.eq(list.get(position).getId()))
-                        .list();
                 String documentId = System.currentTimeMillis() + "";
                 if (isAdd) {
+                    List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
+                            .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(position).getDataPackageId()))
+                            .where(DocumentBeanDao.Properties.PayClassify.eq(list.get(position).getId()))
+                            .list();
                     DocumentBean documentBean = new DocumentBean(documentBeans.get(0).getUId(),
                             id,
                             documentBeans.get(0).getId(),
@@ -602,22 +622,38 @@ public class KittingFileFragment extends BaseFragment {
 
 
                 FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
-                List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
-                        .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                        .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
-                        .list();
+
 
                 for (int i = 0; i < fileBeans.size(); i++) {
                     boolean isFile = false;
-                    for (int j = 0; j < fileBeanList.size(); j++) {
-                        if (fileBeans.get(i).getName().equals(fileBeanList.get(j).getName())) {
-                            isFile = true;
+                    if (isAdd){
+                        List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
+                                .where(FileBeanDao.Properties.DataPackageId.eq(id))
+                                .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
+                                .list();
+                        for (int j = 0; j < fileBeanList.size(); j++) {
+                            if (fileBeans.get(i).getName().equals(fileBeanList.get(j).getName())) {
+                                isFile = true;
+                            }
                         }
-                    }
-                    if (!isFile) {
+                        if (!isFile) {
+                            FileBean fileBean = new FileBean(null,
+                                    id,
+                                    documentBeans.get(0).getId(),
+                                    fileBeans.get(i).getName(),
+                                    fileBeans.get(i).getName(),
+                                    "");
+                            fileBeanDao.insert(fileBean);
+                            DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+                            List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
+                                    .where(DataPackageDBeanDao.Properties.Id.eq(id))
+                                    .list();
+                            FileUtils.copyFile(fileBeans.get(i).getPath(), dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeans.get(i).getName());
+                        }
+                    }else {
                         FileBean fileBean = new FileBean(null,
                                 id,
-                                documentBeans.get(0).getId(),
+                                documentId,
                                 fileBeans.get(i).getName(),
                                 fileBeans.get(i).getName(),
                                 "");
@@ -629,11 +665,12 @@ public class KittingFileFragment extends BaseFragment {
                         FileUtils.copyFile(fileBeans.get(i).getPath(), dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeans.get(i).getName());
                     }
 
+
                 }
                 DeliveryListBeanDao deliveryListBeanDao2 = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
                 List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao2.queryBuilder()
                         .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
-                        .where(DeliveryListBeanDao.Properties.ParentId.notEq("null"))
+                        .where(DeliveryListBeanDao.Properties.IsParent.notEq("true"))
                         .whereOr(DeliveryListBeanDao.Properties.Project.eq("合同"),
                                 DeliveryListBeanDao.Properties.Project.eq("明细表"),
                                 DeliveryListBeanDao.Properties.Project.eq("任务书"))

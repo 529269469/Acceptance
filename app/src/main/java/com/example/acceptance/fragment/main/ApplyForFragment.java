@@ -338,9 +338,13 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
             }
             if (!StringUtils.isBlank(list.get(position).getCheckCount())){
                 String[] checkCoun = list.get(position).getCheckCount().split("/");
-                tv_checkCount.setText(checkCoun[0]);
-                tv_checkCount2.setText(checkCoun[1]);
-                tv_checkCount3.setText(checkCoun[2]);
+                try {
+                    tv_checkCount.setText(checkCoun[0]);
+                    tv_checkCount2.setText(checkCoun[1]);
+                    tv_checkCount3.setText(checkCoun[2]);
+                }catch (Exception o){
+
+                }
             }
 
         }
@@ -363,7 +367,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                             tv_isCompleteRoutine.isChecked() + "",
                             tv_isSatisfyRequire.isChecked() + "",
                             tv_description.getText().toString().trim(),
-                            tv_productName.getText().toString().trim());
+                            tv_productName.getText().toString().trim(),list.get(position).getPassCheck());
                     applyItemBeanDao.update(applyItemBean);
                 } else {
                     ApplyItemBean applyItemBean = new ApplyItemBean(null,
@@ -379,7 +383,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                             tv_isCompleteRoutine.isChecked() + "",
                             tv_isSatisfyRequire.isChecked() + "",
                             tv_description.getText().toString().trim(),
-                            tv_productName.getText().toString().trim());
+                            tv_productName.getText().toString().trim(),"");
                     applyItemBeanDao.insert(applyItemBean);
                 }
                 List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()
