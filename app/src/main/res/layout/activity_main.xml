@@ -9,6 +9,10 @@
     android:id="@+id/drawerlayout_drawer"
     tools:context=".activity.MainActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -64,9 +68,23 @@
             android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+
     </LinearLayout>
-
-
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/help_loading"
+            android:background="#7e000000"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.example.acceptance.loding.LoadingView
+                style="@style/CustomProgressBar_Small"
+                android:layout_width="@dimen/padding_100"
+                android:layout_height="@dimen/padding_100"
+                android:layout_centerInParent="true"
+                android:visibility="visible"/>
+        </RelativeLayout>
+    </RelativeLayout>
         <LinearLayout
             android:layout_gravity="left"
             android:id="@+id/ll_title"

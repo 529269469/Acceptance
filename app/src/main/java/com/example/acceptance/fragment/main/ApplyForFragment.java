@@ -11,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -36,6 +38,7 @@ import com.example.acceptance.base.BaseFragment;
 import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.greendao.bean.ApplyItemBean;
 import com.example.acceptance.greendao.bean.CheckApplyBean;
+import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.db.ApplyItemBeanDao;
 import com.example.acceptance.greendao.db.CheckApplyBeanDao;
 import com.example.acceptance.greendao.db.DataPackageDBeanDao;
@@ -101,6 +104,51 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
     private Uri uri;
     private GridAdapter gridAdapter;
 
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String words= editable.toString();
+            if (!StringUtils.isBlank(words)) {
+                CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
+                List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
+                        .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
+                        .list();
+                StringBuffer gridStringBuffer=new StringBuffer();
+                for (int i = 0; i < gridList.size(); i++) {
+                    gridStringBuffer.append(gridList.get(i)).append(",");
+                }
+                if (!StringUtils.isBlank(gridStringBuffer.toString())){
+                    gridString=gridStringBuffer.toString().substring(0,gridStringBuffer.toString().length()-1);
+                }
+                CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
+                        checkApplyBeans.get(0).getDataPackageId(),
+                        checkApplyBeans.get(0).getId(),
+                        checkApplyBeans.get(0).getName(),
+                        checkApplyBeans.get(0).getCode(),
+                        checkApplyBeans.get(0).getContractCode(),
+                        checkApplyBeans.get(0).getContractName(),
+                        etApplicant.getText().toString().trim(),
+                        etApplyCompany.getText().toString().trim(),
+                        etPhone.getText().toString().trim(),
+                        etConclusion.getText().toString().trim(),
+                        etDescription.getText().toString().trim(),
+                        gridString);
+                checkApplyBeanDao.update(checkApplyBean);
+            }
+
+        }
+    };
+
     @Override
     protected void initEventAndData() {
         Bundle bundle = getArguments();
@@ -123,8 +171,8 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
         etConclusion.setText(checkApplyBean.getConclusion());
         etDescription.setText(checkApplyBean.getDescription());
 
-        if (!StringUtils.isBlank(checkApplyBean.getGridList())){
-            String[] strings = checkApplyBean.getGridList().split(",");
+        if (!StringUtils.isBlank(checkApplyBean.getImgAndVideoList())){
+            String[] strings = checkApplyBean.getImgAndVideoList().split(",");
             for (int i = 0; i < strings.length; i++) {
                 gridList.add(strings[i]);
             }
@@ -172,6 +220,12 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
         applyForAdapter = new ApplyForAdapter(getActivity(), list);
         lvList.setAdapter(applyForAdapter);
 
+        etApplicant.addTextChangedListener(textWatcher);
+        etApplyCompany.addTextChangedListener(textWatcher);
+        etPhone.addTextChangedListener(textWatcher);
+        etConclusion.addTextChangedListener(textWatcher);
+        etDescription.addTextChangedListener(textWatcher);
+
         tv_add.setOnClickListener(this);
         tv_save.setOnClickListener(this);
         tv_paizhao.setOnClickListener(this);
@@ -216,6 +270,8 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
     }
 
 
+
+
     private String gridString="";
     @Override
     public void onClick(View view) {
@@ -232,8 +288,8 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                 for (int i = 0; i < gridList.size(); i++) {
                     gridStringBuffer.append(gridList.get(i)).append(",");
                 }
-                if (!StringUtils.isBlank(gridString.toString())){
-                    gridString=gridString.toString().substring(0,gridString.toString().length()-1);
+                if (!StringUtils.isBlank(gridStringBuffer.toString())){
+                    gridString=gridStringBuffer.toString().substring(0,gridStringBuffer.toString().length()-1);
                 }
                 CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
                         checkApplyBeans.get(0).getDataPackageId(),
@@ -269,6 +325,33 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
             gridList.add(photoPath);
             gridAdapter.notifyDataSetChanged();
             Log.e("拍照返回图片路径:", photoPath);
+
+            CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
+            List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
+                    .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
+                    .list();
+            StringBuffer gridStringBuffer=new StringBuffer();
+            for (int i = 0; i < gridList.size(); i++) {
+                gridStringBuffer.append(gridList.get(i)).append(",");
+            }
+            if (!StringUtils.isBlank(gridStringBuffer.toString())){
+                gridString=gridStringBuffer.toString().substring(0,gridStringBuffer.toString().length()-1);
+            }
+            CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
+                    checkApplyBeans.get(0).getDataPackageId(),
+                    checkApplyBeans.get(0).getId(),
+                    checkApplyBeans.get(0).getName(),
+                    checkApplyBeans.get(0).getCode(),
+                    checkApplyBeans.get(0).getContractCode(),
+                    checkApplyBeans.get(0).getContractName(),
+                    etApplicant.getText().toString().trim(),
+                    etApplyCompany.getText().toString().trim(),
+                    etPhone.getText().toString().trim(),
+                    etConclusion.getText().toString().trim(),
+                    etDescription.getText().toString().trim(),
+                    gridString);
+            checkApplyBeanDao.update(checkApplyBean);
+            ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
         }
     }
 

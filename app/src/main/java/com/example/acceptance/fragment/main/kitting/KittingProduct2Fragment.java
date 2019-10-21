@@ -13,6 +13,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -246,6 +248,8 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
         productAdapter.setGeidDel(this);
         lvProduct.setAdapter(productAdapter);
 
+        etCheckGroupConclusion.addTextChangedListener(textWatcher);
+
         ivCheckPerson.setOnClickListener(this);
         tvDel.setOnClickListener(this);
         tvXiugai.setOnClickListener(this);
@@ -258,6 +262,43 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
     protected int getLayoutId() {
         return R.layout.fragment_kitting_product2;
     }
+
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String words= editable.toString();
+            if (!StringUtils.isBlank(words)) {
+                CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
+                List<CheckGroupBean> checkGroupBeans = checkGroupBeanDao.queryBuilder()
+                        .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
+                        .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
+                        .where(CheckGroupBeanDao.Properties.Id.eq(checkGroupId))
+                        .list();
+                CheckGroupBean checkGroupBean=new CheckGroupBean(
+                        checkGroupBeans.get(0).getUId(),
+                        checkGroupBeans.get(0).getDataPackageId(),
+                        checkGroupBeans.get(0).getCheckFileId(),
+                        checkGroupBeans.get(0).getId(),
+                        checkGroupBeans.get(0).getGroupName(),
+                        etCheckGroupConclusion.getText().toString().trim(),
+                        checkGroupBeans.get(0).getCheckPerson(),
+                        checkGroupBeans.get(0).getIsConclusion(),
+                        checkGroupBeans.get(0).getIsTable());
+                checkGroupBeanDao.update(checkGroupBean);
+            }
+
+        }
+    };
 
 
     @Override
@@ -319,6 +360,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                 break;
         }
     }
+
 
     private void addAcceptDevicea(boolean isAdd, int positions) {
         View poview = getLayoutInflater().inflate(R.layout.add_accept_devicea, null);

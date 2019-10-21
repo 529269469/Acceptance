@@ -13,6 +13,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -37,6 +39,7 @@ import com.example.acceptance.adapter.UnresolvedAdapter2;
 import com.example.acceptance.base.BaseFragment;
 import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.greendao.bean.ApplyItemBean;
+import com.example.acceptance.greendao.bean.CheckFileBean;
 import com.example.acceptance.greendao.bean.CheckVerdBean;
 import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.bean.DeliveryListBean;
@@ -44,6 +47,7 @@ import com.example.acceptance.greendao.bean.DocumentBean;
 import com.example.acceptance.greendao.bean.FileBean;
 import com.example.acceptance.greendao.bean.UnresolvedBean;
 import com.example.acceptance.greendao.db.ApplyItemBeanDao;
+import com.example.acceptance.greendao.db.CheckFileBeanDao;
 import com.example.acceptance.greendao.db.CheckVerdBeanDao;
 import com.example.acceptance.greendao.db.DataPackageDBeanDao;
 import com.example.acceptance.greendao.db.DeliveryListBeanDao;
@@ -101,6 +105,43 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
     private File2Adapter fileAdapter;
     private List<FileBean> fileBeans = new ArrayList<>();
 
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String words= editable.toString();
+            if (!StringUtils.isBlank(words)) {
+                CheckVerdBeanDao checkVerdBeanDao = MyApplication.getInstances().getCheckVerdDaoSession().getCheckVerdBeanDao();
+                List<CheckVerdBean> checkVerdBeans = checkVerdBeanDao.queryBuilder()
+                        .where(CheckVerdBeanDao.Properties.DataPackageId.eq(id))
+                        .list();
+                if (checkVerdBeans != null && !checkVerdBeans.isEmpty()) {
+                    CheckVerdBean checkVerdBean = new CheckVerdBean(checkVerdBeans.get(0).getUId(),
+                            id,
+                            checkVerdBeans.get(0).getId(),
+                            checkVerdBeans.get(0).getName(),
+                            checkVerdBeans.get(0).getCode(),
+                            etQConclusion.getText().toString().trim(),
+                            etGConclusion.getText().toString().trim(),
+                            etJConclusion.getText().toString().trim(),
+                            checkVerdBeans.get(0).getConclusion(),
+                            checkVerdBeans.get(0).getCheckPerson());
+                    checkVerdBeanDao.update(checkVerdBean);
+                }
+            }
+
+        }
+    };
+
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
@@ -117,6 +158,10 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
         etQConclusion.setText(checkVerdBeans.get(0).getQConclusion());
         etGConclusion.setText(checkVerdBeans.get(0).getGConclusion());
         etJConclusion.setText(checkVerdBeans.get(0).getJConclusion());
+
+        etQConclusion.addTextChangedListener(textWatcher);
+        etGConclusion.addTextChangedListener(textWatcher);
+        etJConclusion.addTextChangedListener(textWatcher);
 
         if (!StringUtils.isBlank(checkVerdBeans.get(0).getCheckPerson())) {
             Glide.with(getActivity())
@@ -257,14 +302,14 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
             tv_confirmTime.setText(beanList.get(pos).getConfirmTime());
 
             try {
-
-            }catch (Exception o){
                 FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
                 List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                         .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                        .where(FileBeanDao.Properties.DocumentId.eq(beanList.get(0).getFileId()))
+                        .where(FileBeanDao.Properties.DocumentId.eq(beanList.get(pos).getFileId()))
                         .list();
                 fileBeans.addAll(fileBeanList);
+            }catch (Exception o){
+
             }
 
         }

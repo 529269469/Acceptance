@@ -13,7 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.acceptance.R;
+import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.greendao.bean.PropertyBean;
+import com.example.acceptance.greendao.db.PropertyBeanDao;
 import com.example.acceptance.utils.StringUtils;
 
 import java.util.List;
@@ -97,6 +99,25 @@ public class ProductSetAdapter extends BaseAdapter {
                                 list.get(i).getCheckGroupId(),
                                 list.get(i).getName(),
                                 words));
+                        PropertyBeanDao propertyBeanDao = MyApplication.getInstances().getPropertyDaoSession().getPropertyBeanDao();
+                        List<PropertyBean> propertyBeans = propertyBeanDao.queryBuilder()
+                                .where(PropertyBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                                .where(PropertyBeanDao.Properties.CheckFileId.eq(list.get(i).getCheckFileId()))
+                                .where(PropertyBeanDao.Properties.CheckGroupId.eq(list.get(i).getCheckGroupId()))
+                                .list();
+                        for (int i = 0; i <propertyBeans.size() ; i++) {
+                            PropertyBean propertyBean=new PropertyBean(
+                                    propertyBeans.get(i).getUId(),
+                                    propertyBeans.get(i).getDataPackageId(),
+                                    propertyBeans.get(i).getCheckFileId(),
+                                    propertyBeans.get(i).getCheckGroupId(),
+                                    list.get(i).getName(),
+                                    words);
+                            propertyBeanDao.update(propertyBean);
+                        }
+
+
+
 
                     }
                 }

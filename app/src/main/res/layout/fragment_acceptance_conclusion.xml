@@ -122,6 +122,7 @@
         </LinearLayout>
 
             <TextView
+                android:visibility="gone"
                 android:background="@drawable/shape_text"
                 android:id="@+id/tv_save"
                 android:layout_marginRight="@dimen/padding_24"

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.acceptance.R;
 import com.example.acceptance.adapter.File2Adapter;
+import com.example.acceptance.adapter.FileAdapter;
 import com.example.acceptance.adapter.LegacyAdapter;
 import com.example.acceptance.adapter.UnresolvedAdapter;
 import com.example.acceptance.base.BaseFragment;
@@ -77,7 +78,7 @@ public class LegacyFragment extends BaseFragment {
 
     }
 
-    private File2Adapter fileAdapter;
+    private FileAdapter fileAdapter;
     private List<FileBean> fileBeans = new ArrayList<>();
     private void addUnresolvedSet(boolean isAdd, int pos) {
         View view = getLayoutInflater().inflate(R.layout.popup_add5, null);
@@ -116,7 +117,7 @@ public class LegacyFragment extends BaseFragment {
                 FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
                 List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                         .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                        .where(FileBeanDao.Properties.DocumentId.eq(beanList.get(0).getFileId()))
+                        .where(FileBeanDao.Properties.DocumentId.eq(beanList.get(pos).getFileId()))
                         .list();
                 fileBeans.addAll(fileBeanList);
             }catch (Exception o){
@@ -125,7 +126,7 @@ public class LegacyFragment extends BaseFragment {
 
         }
 
-        fileAdapter = new File2Adapter(getActivity(), fileBeans);
+        fileAdapter = new FileAdapter(getActivity(), fileBeans);
         lv_file.setAdapter(fileAdapter);
         lv_file.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

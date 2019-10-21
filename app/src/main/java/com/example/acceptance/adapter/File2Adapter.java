@@ -57,7 +57,9 @@ public class File2Adapter extends BaseAdapter {
         viewHolder.tvName.setText(list.get(i).getName());
 
         viewHolder.iv_del.setOnClickListener(view1 -> {
-            onDel.onDel(i);
+            if (onDel!=null){
+                onDel.onDel(i);
+            }
         });
 
         return view;

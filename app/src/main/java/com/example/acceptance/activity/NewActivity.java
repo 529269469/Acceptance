@@ -1,11 +1,14 @@
 package com.example.acceptance.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -14,7 +17,10 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.example.acceptance.R;
 import com.example.acceptance.adapter.MoAdapter;
@@ -23,6 +29,7 @@ import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.bean.DataPackageBean;
 import com.example.acceptance.bean.PackageBean;
 import com.example.acceptance.greendao.bean.AcceptDeviceBean;
+import com.example.acceptance.greendao.bean.ApplyDeptBean;
 import com.example.acceptance.greendao.bean.ApplyItemBean;
 import com.example.acceptance.greendao.bean.CheckApplyBean;
 import com.example.acceptance.greendao.bean.CheckFileBean;
@@ -40,6 +47,7 @@ import com.example.acceptance.greendao.bean.PropertyBeanX;
 import com.example.acceptance.greendao.bean.RelatedDocumentIdSetBean;
 import com.example.acceptance.greendao.bean.UnresolvedBean;
 import com.example.acceptance.greendao.db.AcceptDeviceBeanDao;
+import com.example.acceptance.greendao.db.ApplyDeptBeanDao;
 import com.example.acceptance.greendao.db.ApplyItemBeanDao;
 import com.example.acceptance.greendao.db.CheckApplyBeanDao;
 import com.example.acceptance.greendao.db.CheckFileBeanDao;
@@ -56,8 +64,10 @@ import com.example.acceptance.greendao.db.PropertyBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanXDao;
 import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
 import com.example.acceptance.greendao.db.UnresolvedBeanDao;
+import com.example.acceptance.utils.DaoUtils;
 import com.example.acceptance.utils.DataUtils;
 import com.example.acceptance.utils.StringUtils;
+import com.example.acceptance.utils.ToastUtils;
 import com.example.acceptance.utils.ZipUtils2;
 import com.example.acceptance.view.MyListView;
 import com.thoughtworks.xstream.XStream;
@@ -108,9 +118,31 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
     EditText tvProductName;
     @BindView(R.id.tv_productCode)
     EditText tvProductCode;
+    @BindView(R.id.help_loading)
+    RelativeLayout help_loading;
     private String moban = "";
     private String name = "";
     private String id;
+
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    help_loading.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    help_loading.setVisibility(View.GONE);
+                    startActivity(MainActivity.openIntent(NewActivity.this, id, false, ""));
+                    finish();
+                    break;
+            }
+
+        }
+    };
 
     public static Intent openIntent(Context context) {
         Intent intent = new Intent(context, NewActivity.class);
@@ -169,15 +201,28 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                 dataPackageDBeanDao.insert(dataPackageDBean);
 
                 if (!StringUtils.isBlank(moban)) {
-                    try {
-                        ZipUtils2.UnZipFolder(moban, Environment.getExternalStorageDirectory() + "/数据包/" + tvCode.getText().toString().trim());
-                        filePath(Environment.getExternalStorageDirectory() + "/数据包/" + tvCode.getText().toString().trim(), tvCode.getText().toString().trim());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
+                    handler.sendEmptyMessage(1);
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                ZipUtils2.UnZipFolder(moban, Environment.getExternalStorageDirectory() + "/数据包/" + tvCode.getText().toString().trim());
+                                filePath(Environment.getExternalStorageDirectory() + "/数据包/" + tvCode.getText().toString().trim(), tvCode.getText().toString().trim());
+                                handler.sendEmptyMessage(2);
+                                //需要在子线程中处理的逻辑
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }.start();
+
+
+                }else {
+                    startActivity(MainActivity.openIntent(NewActivity.this, id, false, ""));
+                    finish();
                 }
-                startActivity(MainActivity.openIntent(NewActivity.this, id, false, ""));
-                finish();
+
                 break;
             case R.id.tv_moban:
                 mobanPo();
@@ -245,7 +290,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                     dataPackageBean.getCheckApply().getApplyCompany(),
                     dataPackageBean.getCheckApply().getPhone(),
                     dataPackageBean.getCheckApply().getConclusion(),
-                    dataPackageBean.getCheckApply().getDescription(), "");
+                    dataPackageBean.getCheckApply().getDescription(),
+                    dataPackageBean.getCheckApply().getImgAndVideoList());
             checkApplyBeanDao.insert(checkApplyBean);
         } catch (Exception o) {
 
@@ -267,6 +313,23 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                 dataPackageBean.getCheckTask().getApplyCompany(),
                 dataPackageBean.getCheckTask().getPhone());
         checkTaskBeanDao.insert(checkTaskBean);
+
+        ApplyDeptBeanDao applyDeptBeanDao = MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
+        try {
+            for (int i = 0; i < dataPackageBean.getCheckTask().getApplyDeptSet().getApplyDept().size(); i++) {
+                ApplyDeptBean applyDeptBean = new ApplyDeptBean(null,
+                        dataPackageBean.getId(),
+                        dataPackageBean.getCheckTask().getId(),
+                        dataPackageBean.getCheckTask().getApplyDeptSet().getApplyDept().get(i).getId(),
+                        dataPackageBean.getCheckTask().getApplyDeptSet().getApplyDept().get(i).getDepartment(),
+                        dataPackageBean.getCheckTask().getApplyDeptSet().getApplyDept().get(i).getAcceptor(),
+                        dataPackageBean.getCheckTask().getApplyDeptSet().getApplyDept().get(i).getOther());
+                applyDeptBeanDao.insert(applyDeptBean);
+            }
+        } catch (Exception o) {
+
+        }
+
 
         ApplyItemBeanDao applyItemBeanDao = MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
 
@@ -321,6 +384,24 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsConclusion(),
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsTable());
                     checkGroupBeanDao.insert(checkGroupBean);
+
+                    try {
+                        for (int k = 0; k < dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getAcceptDeviceSet().getAcceptDevice().size(); k++) {
+                            AcceptDeviceBean acceptDeviceBean = new AcceptDeviceBean(null, dataPackageBean.getId(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getAcceptDeviceSet().getAcceptDevice().get(k).getId(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getAcceptDeviceSet().getAcceptDevice().get(k).getName(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getAcceptDeviceSet().getAcceptDevice().get(k).getSpecification(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getAcceptDeviceSet().getAcceptDevice().get(k).getAccuracy(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getAcceptDeviceSet().getAcceptDevice().get(k).getCertificate(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getAcceptDeviceSet().getAcceptDevice().get(k).getDescription());
+                            acceptDeviceBeanDao.insert(acceptDeviceBean);
+                        }
+
+                    } catch (Exception o) {
+
+                    }
 
                     try {
                         for (int k = 0; k < dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getPropertySet().getProperty().size(); k++) {

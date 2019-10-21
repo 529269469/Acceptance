@@ -112,6 +112,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_save"
                     android:textColor="@color/color_5398F7"
                     android:layout_marginTop="@dimen/padding_10"

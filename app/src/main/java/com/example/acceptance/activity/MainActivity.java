@@ -1,11 +1,14 @@
 package com.example.acceptance.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,8 +21,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
@@ -66,6 +71,9 @@ public class MainActivity extends BaseActivity {
     TextView tvOperation;
     @BindView(R.id.drawerlayout_drawer)
     DrawerLayout drawerLayout;
+    @BindView(R.id.help_loading)
+    RelativeLayout help_loading;
+
 
     private TitleAdapter titleAdapter;
     private KittingFragment kittingFragment;
@@ -107,6 +115,32 @@ public class MainActivity extends BaseActivity {
     }
     private boolean isDel;
     private String type;
+
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    help_loading.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    help_loading.setVisibility(View.GONE);
+                    ToastUtils.getInstance().showTextToast(MainActivity.this,"数据包已导出");
+                    MainActivity.this.startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                    finish();
+                    break;
+                case 3:
+
+                    ToastUtils.getInstance().showTextToast(MainActivity.this,"模板已导出");
+                    break;
+            }
+
+        }
+    };
+
     public static Intent openIntent(Context context,String id,boolean isDel,String type) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("id",id);
@@ -313,19 +347,25 @@ public class MainActivity extends BaseActivity {
         tv_daochu1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DaoUtils.setDao(id);
-                ToastUtils.getInstance().showTextToast(MainActivity.this,"数据包已导出");
                 popupWindow.dismiss();
-                MainActivity.this.startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                finish();
+                handler.sendEmptyMessage(1);
+                new Thread(){
+                    @Override
+                    public void run() {
+                        DaoUtils.setDao(id);
+                        handler.sendEmptyMessage(2);
+                        //需要在子线程中处理的逻辑
+                    }
+                }.start();
+
             }
         });
 
         tv_daochu2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 popupWindow.dismiss();
+
                 daochumpban();
             }
         });
@@ -368,9 +408,17 @@ public class MainActivity extends BaseActivity {
                     ToastUtils.getInstance().showTextToast(MainActivity.this,"请输入模板名称");
                     return;
                 }
-                DaoUtils.setmoban(id,edit_name.getText().toString().trim());
-                ToastUtils.getInstance().showTextToast(MainActivity.this,"模板已导出");
                 daochu.dismiss();
+                handler.sendEmptyMessage(1);
+                new Thread(){
+                    @Override
+                    public void run() {
+                        DaoUtils.setmoban(id,edit_name.getText().toString().trim());
+                        handler.sendEmptyMessage(3);
+                        //需要在子线程中处理的逻辑
+                    }
+                }.start();
+
             }
         });
 

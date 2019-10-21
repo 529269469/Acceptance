@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,11 +84,44 @@ public class TechnologySizeFragment extends BaseFragment implements View.OnClick
     private KittingProduct2Fragment kittingProduct2Fragment;
     private String type;
 
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String words= editable.toString();
+            if (!StringUtils.isBlank(words)) {
+                CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
+                List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
+                        .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
+                        .where(CheckFileBeanDao.Properties.DocType.eq("技术类检查"))
+                        .list();
+                CheckFileBean checkFileBean=new CheckFileBean(checkFileBeans.get(0).getUId(),
+                        checkFileBeans.get(0).getDataPackageId(),
+                        checkFileBeans.get(0).getId(),
+                        checkFileBeans.get(0).getName(),
+                        checkFileBeans.get(0).getCode(),
+                        checkFileBeans.get(0).getDocType(),
+                        etConclusion.getText().toString().trim(),
+                        checkFileBeans.get(0).getCheckPerson());
+                checkFileBeanDao.update(checkFileBean);
+            }
+
+        }
+    };
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
         type = getArguments().getString("type");
-
+        etConclusion.addTextChangedListener(textWatcher);
         addData();
         adapter = new TbAdapter(getChildFragmentManager(), listTitle, list);
         vp.setAdapter(adapter);

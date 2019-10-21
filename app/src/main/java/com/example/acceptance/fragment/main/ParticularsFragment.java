@@ -1,6 +1,9 @@
 package com.example.acceptance.fragment.main;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,6 +14,7 @@ import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.db.DataPackageDBeanDao;
 import com.example.acceptance.utils.SPUtils;
+import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
 
 import java.util.List;
@@ -49,6 +53,47 @@ public class ParticularsFragment extends BaseFragment {
 
     private String id;
 
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+           String words= editable.toString();
+            if (!StringUtils.isBlank(words)) {
+                DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+                List<DataPackageDBean> list = dataPackageDBeanDao.queryBuilder()
+                        .where(DataPackageDBeanDao.Properties.Id.eq(id))
+                        .list();
+                DataPackageDBean packageDBean=new DataPackageDBean(list.get(0).getUId(),
+                        list.get(0).getNamePackage(),
+                        list.get(0).getUpLoadFile(),
+                        list.get(0).getId(),
+                        tvName.getText().toString().trim(),
+                        tvCode.getText().toString().trim(),
+                        tvType.getText().toString().trim(),
+                        tvResponseUnit.getText().toString().trim(),
+                        tvModalCode.getText().toString().trim(),
+                        tvProductName.getText().toString().trim(),
+                        tvProductCode.getText().toString().trim(),
+                        tvProductType.getText().toString().trim(),
+                        tvBatch.getText().toString().trim(),
+                        tvCreator.getText().toString().trim(),
+                        tvCreateTime.getText().toString().trim());
+                dataPackageDBeanDao.update(packageDBean);
+            }
+
+        }
+    };
+
+
     @Override
     protected void initEventAndData() {
         Bundle bundle = getArguments();
@@ -72,26 +117,22 @@ public class ParticularsFragment extends BaseFragment {
         tvBatch.setText(dataPackageDBean.getBatch());
         tvProductCode.setText(dataPackageDBean.getProductCode());
 
+        tvCode.addTextChangedListener(textWatcher);
+        tvCreator.addTextChangedListener(textWatcher);
+        tvResponseUnit.addTextChangedListener(textWatcher);
+        tvProductName.addTextChangedListener(textWatcher);
+        tvModalCode.addTextChangedListener(textWatcher);
+        tvName.addTextChangedListener(textWatcher);
+        tvCreateTime.addTextChangedListener(textWatcher);
+        tvType.addTextChangedListener(textWatcher);
+        tvProductType.addTextChangedListener(textWatcher);
+        tvBatch.addTextChangedListener(textWatcher);
+        tvProductCode.addTextChangedListener(textWatcher);
+
         tv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DataPackageDBean packageDBean=new DataPackageDBean(list.get(0).getUId(),
-                        list.get(0).getNamePackage(),
-                        list.get(0).getUpLoadFile(),
-                        list.get(0).getId(),
-                        tvName.getText().toString().trim(),
-                        tvCode.getText().toString().trim(),
-                        tvType.getText().toString().trim(),
-                        tvResponseUnit.getText().toString().trim(),
-                        tvModalCode.getText().toString().trim(),
-                        tvProductName.getText().toString().trim(),
-                        tvProductCode.getText().toString().trim(),
-                        tvProductType.getText().toString().trim(),
-                        tvBatch.getText().toString().trim(),
-                        tvCreator.getText().toString().trim(),
-                        tvCreateTime.getText().toString().trim());
 
-                dataPackageDBeanDao.update(packageDBean);
                 ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
             }
         });

@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import com.example.acceptance.greendao.bean.ApplyItemBean;
 import com.example.acceptance.greendao.bean.CheckTaskBean;
 import com.example.acceptance.greendao.db.ApplyDeptBeanDao;
 import com.example.acceptance.greendao.db.ApplyItemBeanDao;
+import com.example.acceptance.greendao.db.CheckApplyBeanDao;
 import com.example.acceptance.greendao.db.CheckTaskBeanDao;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
@@ -77,6 +80,45 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
     private String id;
     private ApplyDeptAdapter applyDeptAdapter;
 
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String words= editable.toString();
+            if (!StringUtils.isBlank(words)) {
+                CheckTaskBeanDao checkTaskBeanDao = MyApplication.getInstances().getCheckTaskDaoSession().getCheckTaskBeanDao();
+                List<CheckTaskBean> checkTaskBeans = checkTaskBeanDao.queryBuilder()
+                        .where(CheckTaskBeanDao.Properties.DataPackageId.eq(id))
+                        .list();
+                CheckTaskBean checkTaskBean=new CheckTaskBean(checkTaskBeans.get(0).getUId(),
+                        checkTaskBeans.get(0).getDataPackageId(),
+                        checkTaskBeans.get(0).getId(),
+                        checkTaskBeans.get(0).getName(),
+                        checkTaskBeans.get(0).getCode(),
+                        tvIssuer.getText().toString().trim(),
+                        tvIssueDept.getText().toString().trim(),
+                        tvAccepter.getText().toString().trim(),
+                        tvAcceptDate.getText().toString().trim(),
+                        tvCheckDate.getText().toString().trim(),
+                        tvApplicant.getText().toString().trim(),
+                        tvApplyCompany.getText().toString().trim(),
+                        tvPhone.getText().toString().trim());
+                checkTaskBeanDao.update(checkTaskBean);
+            }
+
+        }
+    };
+
+
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
@@ -96,6 +138,15 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
         tvAcceptDate.setText(checkTaskBean.getAcceptDate());
         tvApplicant.setText(checkTaskBean.getApplicant());
         tvCheckDate.setText(checkTaskBean.getCheckDate());
+
+        tvIssuer.addTextChangedListener(textWatcher);
+        tvAccepter.addTextChangedListener(textWatcher);
+        tvApplyCompany.addTextChangedListener(textWatcher);
+        tvPhone.addTextChangedListener(textWatcher);
+        tvIssueDept.addTextChangedListener(textWatcher);
+        tvAcceptDate.addTextChangedListener(textWatcher);
+        tvApplicant.addTextChangedListener(textWatcher);
+        tvCheckDate.addTextChangedListener(textWatcher);
 
         ApplyItemBeanDao applyItemBeanDao = MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
         List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()

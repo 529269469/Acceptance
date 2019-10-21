@@ -232,6 +232,15 @@ public class DataPackageBean {
         private String phone;
         private String conclusion;
         private String description;
+        private String imgAndVideoList;
+
+        public String getImgAndVideoList() {
+            return imgAndVideoList;
+        }
+
+        public void setImgAndVideoList(String imgAndVideoList) {
+            this.imgAndVideoList = imgAndVideoList;
+        }
 
         public String getId() {
             return id;
@@ -349,7 +358,7 @@ public class DataPackageBean {
         }
 
         public void setApplyDeptSet(ApplyDeptSetBean applyDeptSet) {
-            applyDeptSet = applyDeptSet;
+            ApplyDeptSet = applyDeptSet;
         }
 
         public String getId() {

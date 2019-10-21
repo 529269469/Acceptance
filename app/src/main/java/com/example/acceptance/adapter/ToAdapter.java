@@ -59,6 +59,8 @@ public class ToAdapter extends BaseAdapter {
         }
         viewHolder.tvNum.setText(i + 1 + "");
         viewHolder.tvName.setText(list.get(i).getName());
+        viewHolder.tvType.setText("未导入");
+        viewHolder.tvType.setTextColor(context.getResources().getColor(R.color.colorAccent));
 
         DataPackageDBeanDao dataPackageDBeanDao= MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
         List<DataPackageDBean> dataPackageDBeans=dataPackageDBeanDao.loadAll();
@@ -67,17 +69,10 @@ public class ToAdapter extends BaseAdapter {
                 if (dataPackageDBeans.get(j).getNamePackage().equals(list.get(i).getName())){
                     viewHolder.tvType.setText("已导入");
                     viewHolder.tvType.setTextColor(context.getResources().getColor(R.color.color_5398F7));
-                }else {
-                    viewHolder.tvType.setText("未导入");
-                    viewHolder.tvType.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                    break;
                 }
             }
-        }else {
-            viewHolder.tvType.setText("未导入");
-            viewHolder.tvType.setTextColor(context.getResources().getColor(R.color.colorAccent));
         }
-
-
 
         return view;
     }

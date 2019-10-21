@@ -130,7 +130,7 @@ public class DaoUtils {
             checkApplyBean.setContractName(checkApplyBeans.get(0).getContractName());
             checkApplyBean.setContractCode(checkApplyBeans.get(0).getContractCode());
             checkApplyBean.setConclusion(checkApplyBeans.get(0).getConclusion());
-
+            checkApplyBean.setImgAndVideoList(checkApplyBeans.get(0).getImgAndVideoList());
             xStream.alias("checkApply", DataPackageBean.CheckApplyBean.class);//为类名节点重命名
             xStream.useAttributeFor(DataPackageBean.CheckApplyBean.class, "id");
 
@@ -160,7 +160,7 @@ public class DaoUtils {
             xStream.useAttributeFor(DataPackageBean.CheckTaskBean.class, "id");
 
             DataPackageBean.CheckTaskBean.ApplyDeptSetBean applyDeptSetBean = new DataPackageBean.CheckTaskBean.ApplyDeptSetBean();
-            List<DataPackageBean.CheckTaskBean.ApplyDeptSetBean.ApplyDeptBean> ApplyDept = new ArrayList<>();
+            List<DataPackageBean.CheckTaskBean.ApplyDeptSetBean.ApplyDeptBean> applyDeptBeanList = new ArrayList<>();
 
             List<ApplyDeptBean> applyDeptBeans = applyDeptBeanDao.queryBuilder()
                     .where(ApplyDeptBeanDao.Properties.DataPackageId.eq(id))
@@ -172,14 +172,13 @@ public class DaoUtils {
                 applyDeptBean.setDepartment(applyDeptBeans.get(i).getDepartment());
                 applyDeptBean.setId(applyDeptBeans.get(i).getId());
                 applyDeptBean.setOther(applyDeptBeans.get(i).getOther());
-                xStream.alias("ApplyDeptSet", DataPackageBean.CheckTaskBean.ApplyDeptSetBean.ApplyDeptBean.class);//为类名节点重命名
+                xStream.alias("ApplyDept", DataPackageBean.CheckTaskBean.ApplyDeptSetBean.ApplyDeptBean.class);//为类名节点重命名
+                xStream.addImplicitCollection(DataPackageBean.CheckTaskBean.ApplyDeptSetBean.class, "ApplyDept");
                 xStream.useAttributeFor(DataPackageBean.CheckTaskBean.ApplyDeptSetBean.ApplyDeptBean.class, "id");
-                ApplyDept.add(applyDeptBean);
+                applyDeptBeanList.add(applyDeptBean);
             }
-            applyDeptSetBean.setApplyDept(ApplyDept);
+            applyDeptSetBean.setApplyDept(applyDeptBeanList);
             checkTaskBean.setApplyDeptSet(applyDeptSetBean);
-
-
         }
         dataPackageBean.setCheckTask(checkTaskBean);
         /**
@@ -213,9 +212,8 @@ public class DaoUtils {
             xStream.addImplicitCollection(DataPackageBean.ApplyItemSetBean.class, "ApplyItem");
             xStream.useAttributeFor(DataPackageBean.ApplyItemSetBean.ApplyItemBean.class, "id");
             ApplyItem.add(applyItemBean);
-            applyItemSetBean.setApplyItem(ApplyItem);
         }
-
+        applyItemSetBean.setApplyItem(ApplyItem);
         dataPackageBean.setApplyItemSet(applyItemSetBean);
         /**
          * 	———————————————————————————————————————————————————————————————————————————————————————
@@ -270,9 +268,9 @@ public class DaoUtils {
                     propertySetBeans.add(propertyBean);
                     xStream.alias("Property", DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.PropertySetBean.PropertyBean.class);//为类名节点重命名
                     xStream.addImplicitCollection(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.PropertySetBean.class, "Property");
-
                 }
                 propertySetBean.setProperty(propertySetBeans);
+                checkGroupBean.setPropertySet(propertySetBean);
 
 
                 //——————————————————————————————————————————
@@ -315,9 +313,9 @@ public class DaoUtils {
                         xStream.addImplicitCollection(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX.class, "Property");
                         Property.add(propertyBeanX);
                     }
-
                     propertySetBeanX.setProperty(Property);
                     checkItemBean.setPropertySet(propertySetBeanX);
+
 
                     List<RelatedDocumentIdSetBean> relatedDocumentIdSetBeans=relatedDocumentIdSetBeanDao.queryBuilder()
                             .where(RelatedDocumentIdSetBeanDao.Properties.DataPackageId.eq(id))
@@ -343,9 +341,8 @@ public class DaoUtils {
                     xStream.useAttributeFor(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.class, "id");
                     CheckItem.add(checkItemBean);
                 }
-
                 checkItemSetBean.setCheckItem(CheckItem);
-
+                checkGroupBean.setCheckItemSet(checkItemSetBean);
                 //——————————————————————————————————————————
 
                 DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.AcceptDeviceSet acceptDeviceSet=
@@ -372,20 +369,13 @@ public class DaoUtils {
                     xStream.addImplicitCollection(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.AcceptDeviceSet.class, "AcceptDevice");
                     AcceptDevice.add(acceptDevice);
                 }
-
-
                 acceptDeviceSet.setAcceptDevice(AcceptDevice);
                 checkGroupBean.setAcceptDeviceSet(acceptDeviceSet);
-                checkGroupBean.setPropertySet(propertySetBean);
-                checkGroupBean.setCheckItemSet(checkItemSetBean);
-
                 xStream.alias("CheckGroup", DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.class);//为类名节点重命名
                 xStream.addImplicitCollection(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.class, "CheckGroup");
                 xStream.useAttributeFor(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.class, "id");
                 CheckGroup.add(checkGroupBean);
             }
-
-
 
             checkGroupSetBean.setCheckGroup(CheckGroup);
             checkFileBean.setCheckGroupSet(checkGroupSetBean);
@@ -489,9 +479,8 @@ public class DaoUtils {
             xStream.addImplicitCollection(DataPackageBean.UnresolvedSetBean.class, "Unresolved");
             xStream.useAttributeFor(DataPackageBean.UnresolvedSetBean.UnresolvedBean.class, "id");
             Unresolved.add(unresolvedBean);
-            unresolvedSetBean.setUnresolved(Unresolved);
-
         }
+        unresolvedSetBean.setUnresolved(Unresolved);
         dataPackageBean.setUnresolvedSet(unresolvedSetBean);
         /**
          * 	———————————————————————————————————————————————————————————————————————————————————————
@@ -515,9 +504,8 @@ public class DaoUtils {
             xStream.useAttributeFor(DataPackageBean.DeliveryListsBean.DeliveryListBean.class, "id");
             DeliveryList.add(deliveryListBean);
 
-            deliveryListsBean.setDeliveryList(DeliveryList);
-
         }
+        deliveryListsBean.setDeliveryList(DeliveryList);
         dataPackageBean.setDeliveryLists(deliveryListsBean);
 
         /**
@@ -569,11 +557,8 @@ public class DaoUtils {
             xStream.addImplicitCollection(DataPackageBean.DocumentListSetBean.class, "Document");
             xStream.useAttributeFor(DataPackageBean.DocumentListSetBean.DocumentBean.class, "id");
             Document.add(documentBean);
-            documentListSetBean.setDocument(Document);
         }
-
-
-
+        documentListSetBean.setDocument(Document);
         dataPackageBean.setDocumentListSet(documentListSetBean);
 
 
@@ -781,7 +766,7 @@ public class DaoUtils {
             checkApplyBean.setContractName(checkApplyBeans.get(0).getContractName());
             checkApplyBean.setContractCode(checkApplyBeans.get(0).getContractCode());
             checkApplyBean.setConclusion(checkApplyBeans.get(0).getConclusion());
-
+            checkApplyBean.setImgAndVideoList(checkApplyBeans.get(0).getImgAndVideoList());
             xStream.alias("checkApply", DataPackageBean.CheckApplyBean.class);//为类名节点重命名
             xStream.useAttributeFor(DataPackageBean.CheckApplyBean.class, "id");
 
@@ -811,7 +796,7 @@ public class DaoUtils {
             xStream.useAttributeFor(DataPackageBean.CheckTaskBean.class, "id");
 
             DataPackageBean.CheckTaskBean.ApplyDeptSetBean applyDeptSetBean = new DataPackageBean.CheckTaskBean.ApplyDeptSetBean();
-            List<DataPackageBean.CheckTaskBean.ApplyDeptSetBean.ApplyDeptBean> ApplyDept = new ArrayList<>();
+            List<DataPackageBean.CheckTaskBean.ApplyDeptSetBean.ApplyDeptBean> applyDeptBeanList = new ArrayList<>();
 
             List<ApplyDeptBean> applyDeptBeans = applyDeptBeanDao.queryBuilder()
                     .where(ApplyDeptBeanDao.Properties.DataPackageId.eq(id))
@@ -823,14 +808,13 @@ public class DaoUtils {
                 applyDeptBean.setDepartment(applyDeptBeans.get(i).getDepartment());
                 applyDeptBean.setId(applyDeptBeans.get(i).getId());
                 applyDeptBean.setOther(applyDeptBeans.get(i).getOther());
-                xStream.alias("ApplyDeptSet", DataPackageBean.CheckTaskBean.ApplyDeptSetBean.ApplyDeptBean.class);//为类名节点重命名
+                xStream.alias("ApplyDept", DataPackageBean.CheckTaskBean.ApplyDeptSetBean.ApplyDeptBean.class);//为类名节点重命名
+                xStream.addImplicitCollection(DataPackageBean.CheckTaskBean.ApplyDeptSetBean.class, "ApplyDept");
                 xStream.useAttributeFor(DataPackageBean.CheckTaskBean.ApplyDeptSetBean.ApplyDeptBean.class, "id");
-                ApplyDept.add(applyDeptBean);
+                applyDeptBeanList.add(applyDeptBean);
             }
-            applyDeptSetBean.setApplyDept(ApplyDept);
+            applyDeptSetBean.setApplyDept(applyDeptBeanList);
             checkTaskBean.setApplyDeptSet(applyDeptSetBean);
-
-
         }
         dataPackageBean.setCheckTask(checkTaskBean);
         /**
@@ -864,9 +848,8 @@ public class DaoUtils {
             xStream.addImplicitCollection(DataPackageBean.ApplyItemSetBean.class, "ApplyItem");
             xStream.useAttributeFor(DataPackageBean.ApplyItemSetBean.ApplyItemBean.class, "id");
             ApplyItem.add(applyItemBean);
-            applyItemSetBean.setApplyItem(ApplyItem);
         }
-
+        applyItemSetBean.setApplyItem(ApplyItem);
         dataPackageBean.setApplyItemSet(applyItemSetBean);
         /**
          * 	———————————————————————————————————————————————————————————————————————————————————————
@@ -921,9 +904,9 @@ public class DaoUtils {
                     propertySetBeans.add(propertyBean);
                     xStream.alias("Property", DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.PropertySetBean.PropertyBean.class);//为类名节点重命名
                     xStream.addImplicitCollection(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.PropertySetBean.class, "Property");
-
                 }
                 propertySetBean.setProperty(propertySetBeans);
+                checkGroupBean.setPropertySet(propertySetBean);
 
 
                 //——————————————————————————————————————————
@@ -966,9 +949,9 @@ public class DaoUtils {
                         xStream.addImplicitCollection(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX.class, "Property");
                         Property.add(propertyBeanX);
                     }
-
                     propertySetBeanX.setProperty(Property);
                     checkItemBean.setPropertySet(propertySetBeanX);
+
 
                     List<RelatedDocumentIdSetBean> relatedDocumentIdSetBeans=relatedDocumentIdSetBeanDao.queryBuilder()
                             .where(RelatedDocumentIdSetBeanDao.Properties.DataPackageId.eq(id))
@@ -994,9 +977,8 @@ public class DaoUtils {
                     xStream.useAttributeFor(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.class, "id");
                     CheckItem.add(checkItemBean);
                 }
-
                 checkItemSetBean.setCheckItem(CheckItem);
-
+                checkGroupBean.setCheckItemSet(checkItemSetBean);
                 //——————————————————————————————————————————
 
                 DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.AcceptDeviceSet acceptDeviceSet=
@@ -1023,20 +1005,13 @@ public class DaoUtils {
                     xStream.addImplicitCollection(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.AcceptDeviceSet.class, "AcceptDevice");
                     AcceptDevice.add(acceptDevice);
                 }
-
-
                 acceptDeviceSet.setAcceptDevice(AcceptDevice);
                 checkGroupBean.setAcceptDeviceSet(acceptDeviceSet);
-                checkGroupBean.setPropertySet(propertySetBean);
-                checkGroupBean.setCheckItemSet(checkItemSetBean);
-
                 xStream.alias("CheckGroup", DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.class);//为类名节点重命名
                 xStream.addImplicitCollection(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.class, "CheckGroup");
                 xStream.useAttributeFor(DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.class, "id");
                 CheckGroup.add(checkGroupBean);
             }
-
-
 
             checkGroupSetBean.setCheckGroup(CheckGroup);
             checkFileBean.setCheckGroupSet(checkGroupSetBean);
@@ -1140,10 +1115,8 @@ public class DaoUtils {
             xStream.addImplicitCollection(DataPackageBean.UnresolvedSetBean.class, "Unresolved");
             xStream.useAttributeFor(DataPackageBean.UnresolvedSetBean.UnresolvedBean.class, "id");
             Unresolved.add(unresolvedBean);
-
-            unresolvedSetBean.setUnresolved(Unresolved);
-
         }
+        unresolvedSetBean.setUnresolved(Unresolved);
         dataPackageBean.setUnresolvedSet(unresolvedSetBean);
         /**
          * 	———————————————————————————————————————————————————————————————————————————————————————
@@ -1167,9 +1140,8 @@ public class DaoUtils {
             xStream.useAttributeFor(DataPackageBean.DeliveryListsBean.DeliveryListBean.class, "id");
             DeliveryList.add(deliveryListBean);
 
-            deliveryListsBean.setDeliveryList(DeliveryList);
-
         }
+        deliveryListsBean.setDeliveryList(DeliveryList);
         dataPackageBean.setDeliveryLists(deliveryListsBean);
 
         /**
@@ -1221,10 +1193,8 @@ public class DaoUtils {
             xStream.addImplicitCollection(DataPackageBean.DocumentListSetBean.class, "Document");
             xStream.useAttributeFor(DataPackageBean.DocumentListSetBean.DocumentBean.class, "id");
             Document.add(documentBean);
-
-            documentListSetBean.setDocument(Document);
-
         }
+        documentListSetBean.setDocument(Document);
         dataPackageBean.setDocumentListSet(documentListSetBean);
 
 

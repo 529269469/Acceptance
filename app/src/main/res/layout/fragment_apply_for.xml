@@ -360,7 +360,7 @@
         </LinearLayout>
             <RelativeLayout
                 android:layout_marginBottom="@dimen/padding_16"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView

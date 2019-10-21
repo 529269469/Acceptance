@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +96,7 @@ public class StandardFragment extends BaseFragment implements View.OnClickListen
         tb.setTabMode(TabLayout.MODE_FIXED);
         tb.setupWithViewPager(vp);
 
+        etConclusion.addTextChangedListener(textWatcher);
         ivCheckPerson2.setOnClickListener(this);
         tvSave.setOnClickListener(this);
         tvAdd.setOnClickListener(view ->
@@ -228,6 +231,39 @@ public class StandardFragment extends BaseFragment implements View.OnClickListen
         return R.layout.fragment_kitting_product;
     }
 
+    private TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String words= editable.toString();
+            if (!StringUtils.isBlank(words)) {
+                CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
+                List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
+                        .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
+                        .where(CheckFileBeanDao.Properties.DocType.eq("过程检查"))
+                        .list();
+                CheckFileBean checkFileBean=new CheckFileBean(checkFileBeans.get(0).getUId(),
+                        checkFileBeans.get(0).getDataPackageId(),
+                        checkFileBeans.get(0).getId(),
+                        checkFileBeans.get(0).getName(),
+                        checkFileBeans.get(0).getCode(),
+                        checkFileBeans.get(0).getDocType(),
+                        etConclusion.getText().toString().trim(),
+                        checkFileBeans.get(0).getCheckPerson());
+                checkFileBeanDao.update(checkFileBean);
+            }
+
+        }
+    };
 
     @Override
     public void onClick(View view) {
