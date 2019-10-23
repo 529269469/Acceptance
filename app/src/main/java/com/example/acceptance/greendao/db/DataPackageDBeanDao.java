@@ -32,13 +32,18 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
         public final static Property Code = new Property(5, String.class, "code", false, "CODE");
         public final static Property Type = new Property(6, String.class, "type", false, "TYPE");
         public final static Property ResponseUnit = new Property(7, String.class, "responseUnit", false, "RESPONSE_UNIT");
-        public final static Property ModalCode = new Property(8, String.class, "modalCode", false, "MODAL_CODE");
+        public final static Property ModelCode = new Property(8, String.class, "modelCode", false, "MODEL_CODE");
         public final static Property ProductName = new Property(9, String.class, "productName", false, "PRODUCT_NAME");
         public final static Property ProductCode = new Property(10, String.class, "productCode", false, "PRODUCT_CODE");
         public final static Property ProductType = new Property(11, String.class, "productType", false, "PRODUCT_TYPE");
         public final static Property Batch = new Property(12, String.class, "batch", false, "BATCH");
         public final static Property Creator = new Property(13, String.class, "creator", false, "CREATOR");
         public final static Property CreateTime = new Property(14, String.class, "createTime", false, "CREATE_TIME");
+        public final static Property ModelSeries = new Property(15, String.class, "modelSeries", false, "MODEL_SERIES");
+        public final static Property ModelSeriesName = new Property(16, String.class, "modelSeriesName", false, "MODEL_SERIES_NAME");
+        public final static Property PkgTemplateId = new Property(17, String.class, "pkgTemplateId", false, "PKG_TEMPLATE_ID");
+        public final static Property LifecycleTemplateId = new Property(18, String.class, "lifecycleTemplateId", false, "LIFECYCLE_TEMPLATE_ID");
+        public final static Property LifecycleStateId = new Property(19, String.class, "lifecycleStateId", false, "LIFECYCLE_STATE_ID");
     }
 
 
@@ -62,13 +67,18 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
                 "\"CODE\" TEXT," + // 5: code
                 "\"TYPE\" TEXT," + // 6: type
                 "\"RESPONSE_UNIT\" TEXT," + // 7: responseUnit
-                "\"MODAL_CODE\" TEXT," + // 8: modalCode
+                "\"MODEL_CODE\" TEXT," + // 8: modelCode
                 "\"PRODUCT_NAME\" TEXT," + // 9: productName
                 "\"PRODUCT_CODE\" TEXT," + // 10: productCode
                 "\"PRODUCT_TYPE\" TEXT," + // 11: productType
                 "\"BATCH\" TEXT," + // 12: batch
                 "\"CREATOR\" TEXT," + // 13: creator
-                "\"CREATE_TIME\" TEXT);"); // 14: createTime
+                "\"CREATE_TIME\" TEXT," + // 14: createTime
+                "\"MODEL_SERIES\" TEXT," + // 15: modelSeries
+                "\"MODEL_SERIES_NAME\" TEXT," + // 16: modelSeriesName
+                "\"PKG_TEMPLATE_ID\" TEXT," + // 17: pkgTemplateId
+                "\"LIFECYCLE_TEMPLATE_ID\" TEXT," + // 18: lifecycleTemplateId
+                "\"LIFECYCLE_STATE_ID\" TEXT);"); // 19: lifecycleStateId
     }
 
     /** Drops the underlying database table. */
@@ -121,9 +131,9 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
             stmt.bindString(8, responseUnit);
         }
  
-        String modalCode = entity.getModalCode();
-        if (modalCode != null) {
-            stmt.bindString(9, modalCode);
+        String modelCode = entity.getModelCode();
+        if (modelCode != null) {
+            stmt.bindString(9, modelCode);
         }
  
         String productName = entity.getProductName();
@@ -154,6 +164,31 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
         String createTime = entity.getCreateTime();
         if (createTime != null) {
             stmt.bindString(15, createTime);
+        }
+ 
+        String modelSeries = entity.getModelSeries();
+        if (modelSeries != null) {
+            stmt.bindString(16, modelSeries);
+        }
+ 
+        String modelSeriesName = entity.getModelSeriesName();
+        if (modelSeriesName != null) {
+            stmt.bindString(17, modelSeriesName);
+        }
+ 
+        String pkgTemplateId = entity.getPkgTemplateId();
+        if (pkgTemplateId != null) {
+            stmt.bindString(18, pkgTemplateId);
+        }
+ 
+        String lifecycleTemplateId = entity.getLifecycleTemplateId();
+        if (lifecycleTemplateId != null) {
+            stmt.bindString(19, lifecycleTemplateId);
+        }
+ 
+        String lifecycleStateId = entity.getLifecycleStateId();
+        if (lifecycleStateId != null) {
+            stmt.bindString(20, lifecycleStateId);
         }
     }
 
@@ -201,9 +236,9 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
             stmt.bindString(8, responseUnit);
         }
  
-        String modalCode = entity.getModalCode();
-        if (modalCode != null) {
-            stmt.bindString(9, modalCode);
+        String modelCode = entity.getModelCode();
+        if (modelCode != null) {
+            stmt.bindString(9, modelCode);
         }
  
         String productName = entity.getProductName();
@@ -235,6 +270,31 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
         if (createTime != null) {
             stmt.bindString(15, createTime);
         }
+ 
+        String modelSeries = entity.getModelSeries();
+        if (modelSeries != null) {
+            stmt.bindString(16, modelSeries);
+        }
+ 
+        String modelSeriesName = entity.getModelSeriesName();
+        if (modelSeriesName != null) {
+            stmt.bindString(17, modelSeriesName);
+        }
+ 
+        String pkgTemplateId = entity.getPkgTemplateId();
+        if (pkgTemplateId != null) {
+            stmt.bindString(18, pkgTemplateId);
+        }
+ 
+        String lifecycleTemplateId = entity.getLifecycleTemplateId();
+        if (lifecycleTemplateId != null) {
+            stmt.bindString(19, lifecycleTemplateId);
+        }
+ 
+        String lifecycleStateId = entity.getLifecycleStateId();
+        if (lifecycleStateId != null) {
+            stmt.bindString(20, lifecycleStateId);
+        }
     }
 
     @Override
@@ -253,13 +313,18 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // code
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // type
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // responseUnit
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // modalCode
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // modelCode
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // productName
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // productCode
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // productType
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // batch
             cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // creator
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14) // createTime
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // createTime
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // modelSeries
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // modelSeriesName
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // pkgTemplateId
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // lifecycleTemplateId
+            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19) // lifecycleStateId
         );
         return entity;
     }
@@ -274,13 +339,18 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
         entity.setCode(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setType(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setResponseUnit(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setModalCode(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setModelCode(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setProductName(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setProductCode(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setProductType(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setBatch(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setCreator(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
         entity.setCreateTime(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setModelSeries(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setModelSeriesName(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setPkgTemplateId(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setLifecycleTemplateId(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setLifecycleStateId(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
      }
     
     @Override

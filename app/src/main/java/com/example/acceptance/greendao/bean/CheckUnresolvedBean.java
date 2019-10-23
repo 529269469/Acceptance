@@ -16,18 +16,24 @@ public class CheckUnresolvedBean {
     private String id;
     private String name;
     private String code;
-    @Generated(hash = 1665493616)
+    private String docTypeVal;
+
+
+    @Generated(hash = 106117733)
     public CheckUnresolvedBean(Long uId, String dataPackageId, String id,
-            String name, String code) {
+            String name, String code, String docTypeVal) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
         this.name = name;
         this.code = code;
+        this.docTypeVal = docTypeVal;
     }
     @Generated(hash = 725859929)
     public CheckUnresolvedBean() {
     }
+
+
     public Long getUId() {
         return this.uId;
     }
@@ -57,5 +63,11 @@ public class CheckUnresolvedBean {
     }
     public void setCode(String code) {
         this.code = code;
+    }
+    public String getDocTypeVal() {
+        return this.docTypeVal;
+    }
+    public void setDocTypeVal(String docTypeVal) {
+        this.docTypeVal = docTypeVal;
     }
 }

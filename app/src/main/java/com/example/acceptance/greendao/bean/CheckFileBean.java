@@ -17,23 +17,28 @@ public class CheckFileBean {
     private String name;
     private String code;
     private String docType;
+    private String productType;
     private String conclusion;
     private String checkPerson;
-    @Generated(hash = 1082836417)
+
+    @Generated(hash = 486709301)
     public CheckFileBean(Long uId, String dataPackageId, String id, String name,
-            String code, String docType, String conclusion, String checkPerson) {
+            String code, String docType, String productType, String conclusion,
+            String checkPerson) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
         this.name = name;
         this.code = code;
         this.docType = docType;
+        this.productType = productType;
         this.conclusion = conclusion;
         this.checkPerson = checkPerson;
     }
     @Generated(hash = 372645879)
     public CheckFileBean() {
     }
+
     public Long getUId() {
         return this.uId;
     }
@@ -81,6 +86,12 @@ public class CheckFileBean {
     }
     public void setCheckPerson(String checkPerson) {
         this.checkPerson = checkPerson;
+    }
+    public String getProductType() {
+        return this.productType;
+    }
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 
 }

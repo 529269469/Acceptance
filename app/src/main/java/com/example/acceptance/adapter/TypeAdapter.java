@@ -8,8 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.acceptance.R;
-import com.example.acceptance.utils.SPUtils;
-import com.example.acceptance.utils.StringUtils;
+import com.example.acceptance.bean.PackageBean;
 
 import java.util.List;
 
@@ -18,16 +17,15 @@ import butterknife.ButterKnife;
 
 /**
  * @author :created by ${ WYW }
- * 时间：2019/9/9 15
+ * 时间：2019/9/9 11
  */
-public class PacketAdapter extends BaseAdapter {
+public class TypeAdapter extends BaseAdapter {
     private Context context;
     private List<String> list;
-    private String type;
-    public PacketAdapter(Context context, List<String> list,String type) {
+
+    public TypeAdapter(Context context, List<String> list) {
         this.context = context;
         this.list = list;
-        this.type = type;
     }
 
     @Override
@@ -49,37 +47,20 @@ public class PacketAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder = null;
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.packet_item, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.title3, viewGroup, false);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
+        viewHolder.tvTitle.setText(list.get(position));
 
-        viewHolder.tvNo.setText(position + 1 + "");
-        viewHolder.tvType2.setText(list.get(position));
-
-        viewHolder.tvDelete.setOnClickListener(view1 -> {
-            list.remove(position);
-            StringBuffer stringBuffer = new StringBuffer();
-            for (int i = 0; i < list.size(); i++) {
-                stringBuffer.append(list.get(i)).append(",");
-            }
-
-            SPUtils.put(context, type, !StringUtils.isBlank(stringBuffer.toString())?
-                    stringBuffer.toString().substring(0, stringBuffer.toString().length() - 1):"");
-            notifyDataSetChanged();
-        });
         return view;
     }
 
     static class ViewHolder {
-        @BindView(R.id.tv_no)
-        TextView tvNo;
-        @BindView(R.id.tv_type2)
-        TextView tvType2;
-        @BindView(R.id.tv_delete)
-        TextView tvDelete;
+        @BindView(R.id.tv_title)
+        TextView tvTitle;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

@@ -19,21 +19,28 @@ public class DataPackageDBean {
     private String code;
     private String type;
     private String responseUnit;
-    private String modalCode;
+    private String modelCode;
     private String productName;
     private String productCode;
     private String productType;
     private String batch;
     private String creator;
     private String createTime;
+    private String modelSeries;
+    private String modelSeriesName;
+    private String pkgTemplateId;
+    private String lifecycleTemplateId;
+    private String lifecycleStateId;
 
 
 
-    @Generated(hash = 891361575)
+    @Generated(hash = 905604226)
     public DataPackageDBean(Long uId, String namePackage, String upLoadFile,
             String id, String name, String code, String type, String responseUnit,
-            String modalCode, String productName, String productCode,
-            String productType, String batch, String creator, String createTime) {
+            String modelCode, String productName, String productCode,
+            String productType, String batch, String creator, String createTime,
+            String modelSeries, String modelSeriesName, String pkgTemplateId,
+            String lifecycleTemplateId, String lifecycleStateId) {
         this.uId = uId;
         this.namePackage = namePackage;
         this.upLoadFile = upLoadFile;
@@ -42,20 +49,25 @@ public class DataPackageDBean {
         this.code = code;
         this.type = type;
         this.responseUnit = responseUnit;
-        this.modalCode = modalCode;
+        this.modelCode = modelCode;
         this.productName = productName;
         this.productCode = productCode;
         this.productType = productType;
         this.batch = batch;
         this.creator = creator;
         this.createTime = createTime;
+        this.modelSeries = modelSeries;
+        this.modelSeriesName = modelSeriesName;
+        this.pkgTemplateId = pkgTemplateId;
+        this.lifecycleTemplateId = lifecycleTemplateId;
+        this.lifecycleStateId = lifecycleStateId;
     }
     @Generated(hash = 1504690886)
     public DataPackageDBean() {
     }
 
+
     
-   
     public Long getUId() {
         return this.uId;
     }
@@ -92,12 +104,7 @@ public class DataPackageDBean {
     public void setResponseUnit(String responseUnit) {
         this.responseUnit = responseUnit;
     }
-    public String getModalCode() {
-        return this.modalCode;
-    }
-    public void setModalCode(String modalCode) {
-        this.modalCode = modalCode;
-    }
+
     public String getProductName() {
         return this.productName;
     }
@@ -145,5 +152,41 @@ public class DataPackageDBean {
     }
     public void setUpLoadFile(String upLoadFile) {
         this.upLoadFile = upLoadFile;
+    }
+    public String getModelCode() {
+        return this.modelCode;
+    }
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
+    }
+    public String getModelSeries() {
+        return this.modelSeries;
+    }
+    public void setModelSeries(String modelSeries) {
+        this.modelSeries = modelSeries;
+    }
+    public String getModelSeriesName() {
+        return this.modelSeriesName;
+    }
+    public void setModelSeriesName(String modelSeriesName) {
+        this.modelSeriesName = modelSeriesName;
+    }
+    public String getPkgTemplateId() {
+        return this.pkgTemplateId;
+    }
+    public void setPkgTemplateId(String pkgTemplateId) {
+        this.pkgTemplateId = pkgTemplateId;
+    }
+    public String getLifecycleTemplateId() {
+        return this.lifecycleTemplateId;
+    }
+    public void setLifecycleTemplateId(String lifecycleTemplateId) {
+        this.lifecycleTemplateId = lifecycleTemplateId;
+    }
+    public String getLifecycleStateId() {
+        return this.lifecycleStateId;
+    }
+    public void setLifecycleStateId(String lifecycleStateId) {
+        this.lifecycleStateId = lifecycleStateId;
     }
 }

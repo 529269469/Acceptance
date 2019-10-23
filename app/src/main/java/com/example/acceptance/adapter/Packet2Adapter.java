@@ -20,11 +20,11 @@ import butterknife.ButterKnife;
  * @author :created by ${ WYW }
  * 时间：2019/9/9 15
  */
-public class PacketAdapter extends BaseAdapter {
+public class Packet2Adapter extends BaseAdapter {
     private Context context;
     private List<String> list;
     private String type;
-    public PacketAdapter(Context context, List<String> list,String type) {
+    public Packet2Adapter(Context context, List<String> list, String type) {
         this.context = context;
         this.list = list;
         this.type = type;

@@ -30,8 +30,9 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
         public final static Property Name = new Property(3, String.class, "name", false, "NAME");
         public final static Property Code = new Property(4, String.class, "code", false, "CODE");
         public final static Property DocType = new Property(5, String.class, "docType", false, "DOC_TYPE");
-        public final static Property Conclusion = new Property(6, String.class, "conclusion", false, "CONCLUSION");
-        public final static Property CheckPerson = new Property(7, String.class, "checkPerson", false, "CHECK_PERSON");
+        public final static Property ProductType = new Property(6, String.class, "productType", false, "PRODUCT_TYPE");
+        public final static Property Conclusion = new Property(7, String.class, "conclusion", false, "CONCLUSION");
+        public final static Property CheckPerson = new Property(8, String.class, "checkPerson", false, "CHECK_PERSON");
     }
 
 
@@ -53,8 +54,9 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
                 "\"NAME\" TEXT," + // 3: name
                 "\"CODE\" TEXT," + // 4: code
                 "\"DOC_TYPE\" TEXT," + // 5: docType
-                "\"CONCLUSION\" TEXT," + // 6: conclusion
-                "\"CHECK_PERSON\" TEXT);"); // 7: checkPerson
+                "\"PRODUCT_TYPE\" TEXT," + // 6: productType
+                "\"CONCLUSION\" TEXT," + // 7: conclusion
+                "\"CHECK_PERSON\" TEXT);"); // 8: checkPerson
     }
 
     /** Drops the underlying database table. */
@@ -97,14 +99,19 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
             stmt.bindString(6, docType);
         }
  
+        String productType = entity.getProductType();
+        if (productType != null) {
+            stmt.bindString(7, productType);
+        }
+ 
         String conclusion = entity.getConclusion();
         if (conclusion != null) {
-            stmt.bindString(7, conclusion);
+            stmt.bindString(8, conclusion);
         }
  
         String checkPerson = entity.getCheckPerson();
         if (checkPerson != null) {
-            stmt.bindString(8, checkPerson);
+            stmt.bindString(9, checkPerson);
         }
     }
 
@@ -142,14 +149,19 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
             stmt.bindString(6, docType);
         }
  
+        String productType = entity.getProductType();
+        if (productType != null) {
+            stmt.bindString(7, productType);
+        }
+ 
         String conclusion = entity.getConclusion();
         if (conclusion != null) {
-            stmt.bindString(7, conclusion);
+            stmt.bindString(8, conclusion);
         }
  
         String checkPerson = entity.getCheckPerson();
         if (checkPerson != null) {
-            stmt.bindString(8, checkPerson);
+            stmt.bindString(9, checkPerson);
         }
     }
 
@@ -167,8 +179,9 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // code
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // docType
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // conclusion
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // checkPerson
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // productType
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // conclusion
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // checkPerson
         );
         return entity;
     }
@@ -181,8 +194,9 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
         entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setCode(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setDocType(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setConclusion(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setCheckPerson(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setProductType(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setConclusion(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setCheckPerson(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
      }
     
     @Override

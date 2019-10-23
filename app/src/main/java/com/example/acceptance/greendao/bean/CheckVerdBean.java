@@ -21,11 +21,13 @@ public class CheckVerdBean {
     private String jConclusion;
     private String conclusion;
     private String checkPerson;
+    private String docTypeVal;
 
-    @Generated(hash = 1620177460)
+
+    @Generated(hash = 1404226999)
     public CheckVerdBean(Long uId, String dataPackageId, String id, String name,
             String code, String qConclusion, String gConclusion, String jConclusion,
-            String conclusion, String checkPerson) {
+            String conclusion, String checkPerson, String docTypeVal) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -36,10 +38,12 @@ public class CheckVerdBean {
         this.jConclusion = jConclusion;
         this.conclusion = conclusion;
         this.checkPerson = checkPerson;
+        this.docTypeVal = docTypeVal;
     }
     @Generated(hash = 1115678058)
     public CheckVerdBean() {
     }
+
     
     public Long getUId() {
         return this.uId;
@@ -100,5 +104,11 @@ public class CheckVerdBean {
     }
     public void setCheckPerson(String checkPerson) {
         this.checkPerson = checkPerson;
+    }
+    public String getDocTypeVal() {
+        return this.docTypeVal;
+    }
+    public void setDocTypeVal(String docTypeVal) {
+        this.docTypeVal = docTypeVal;
     }
 }

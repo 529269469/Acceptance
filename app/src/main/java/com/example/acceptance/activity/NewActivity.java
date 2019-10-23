@@ -12,6 +12,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import androidx.annotation.NonNull;
 
 import com.example.acceptance.R;
 import com.example.acceptance.adapter.MoAdapter;
+import com.example.acceptance.adapter.TypeAdapter;
 import com.example.acceptance.base.BaseActivity;
 import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.bean.DataPackageBean;
@@ -64,10 +66,9 @@ import com.example.acceptance.greendao.db.PropertyBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanXDao;
 import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
 import com.example.acceptance.greendao.db.UnresolvedBeanDao;
-import com.example.acceptance.utils.DaoUtils;
 import com.example.acceptance.utils.DataUtils;
+import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
-import com.example.acceptance.utils.ToastUtils;
 import com.example.acceptance.utils.ZipUtils2;
 import com.example.acceptance.view.MyListView;
 import com.thoughtworks.xstream.XStream;
@@ -120,6 +121,16 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
     EditText tvProductCode;
     @BindView(R.id.help_loading)
     RelativeLayout help_loading;
+    @BindView(R.id.tv_modelSeries)
+    EditText tvModelSeries;
+    @BindView(R.id.tv_modelSeriesName)
+    EditText tvModelSeriesName;
+    @BindView(R.id.tv_type2)
+    TextView tvType2;
+    @BindView(R.id.tv_responseUnit2)
+    TextView tvResponseUnit2;
+    @BindView(R.id.tv_productType2)
+    TextView tvProductType2;
     private String moban = "";
     private String name = "";
     private String id;
@@ -155,6 +166,10 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
         btNo.setOnClickListener(this);
         btYes.setOnClickListener(this);
         tvMoban.setOnClickListener(this);
+
+        tvType2.setOnClickListener(this);
+        tvResponseUnit2.setOnClickListener(this);
+        tvProductType2.setOnClickListener(this);
     }
 
     @Override
@@ -197,7 +212,10 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                         tvProductType.getText().toString().trim(),
                         tvBatch.getText().toString().trim(),
                         tvCreator.getText().toString().trim(),
-                        DataUtils.getData());
+                        DataUtils.getData(),
+                        tvModelSeries.getText().toString().trim(),
+                        tvModelSeriesName.getText().toString().trim(),
+                        "", "", "");
                 dataPackageDBeanDao.insert(dataPackageDBean);
 
                 if (!StringUtils.isBlank(moban)) {
@@ -218,7 +236,7 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                     }.start();
 
 
-                }else {
+                } else {
                     startActivity(MainActivity.openIntent(NewActivity.this, id, false, ""));
                     finish();
                 }
@@ -227,9 +245,66 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tv_moban:
                 mobanPo();
                 break;
+            case R.id.tv_type2:
+                String type= (String) SPUtils.get(this,"PacketType","");
+                if (!StringUtils.isBlank(type)){
+                    typePo(tvType,type);
+                }
+                break;
+            case R.id.tv_responseUnit2:
+                String type2= (String) SPUtils.get(this,"DutyType","");
+                if (!StringUtils.isBlank(type2)){
+                    typePo(tvResponseUnit,type2);
+                }
+                break;
+            case R.id.tv_productType2:
+                String type3= (String) SPUtils.get(this,"ProductType","");
+                if (!StringUtils.isBlank(type3)){
+                    typePo(tvProductType,type3);
+                }
+                break;
         }
     }
 
+    private void typePo(EditText editText, String str) {
+        View poview = getLayoutInflater().inflate(R.layout.moban_item2, null);
+        PopupWindow daochu = new PopupWindow(poview);
+        daochu.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        daochu.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        daochu.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        daochu.setOutsideTouchable(true);
+        daochu.setFocusable(true);
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        daochu.showAsDropDown(editText);
+
+        daochu.setOnDismissListener(() -> {
+            WindowManager.LayoutParams lp1 = getWindow().getAttributes();
+            lp1.alpha = 1f;
+            getWindow().setAttributes(lp1);
+        });
+
+        List<String> list = new ArrayList<>();
+        MyListView lv_moban = poview.findViewById(R.id.lv_moban);
+        String[] ss = str.split(",");
+        for (int i = 0; i < ss.length; i++) {
+            list.add(ss[i]);
+        }
+
+        TypeAdapter moAdapter = new TypeAdapter(this, list);
+        lv_moban.setAdapter(moAdapter);
+
+        lv_moban.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                daochu.dismiss();
+                editText.setText(list.get(i));
+            }
+        });
+
+
+    }
 
     private void filePath(String upLoadFile, String upLoadFileName) {
         File files = new File(upLoadFile);
@@ -291,6 +366,7 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                     dataPackageBean.getCheckApply().getPhone(),
                     dataPackageBean.getCheckApply().getConclusion(),
                     dataPackageBean.getCheckApply().getDescription(),
+                    dataPackageBean.getCheckApply().getDocTypeVal(),
                     dataPackageBean.getCheckApply().getImgAndVideoList());
             checkApplyBeanDao.insert(checkApplyBean);
         } catch (Exception o) {
@@ -311,14 +387,15 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                 dataPackageBean.getCheckTask().getCheckDate(),
                 dataPackageBean.getCheckTask().getApplicant(),
                 dataPackageBean.getCheckTask().getApplyCompany(),
-                dataPackageBean.getCheckTask().getPhone());
+                dataPackageBean.getCheckTask().getPhone(),
+                dataPackageBean.getCheckTask().getDocTypeVal());
         checkTaskBeanDao.insert(checkTaskBean);
 
         ApplyDeptBeanDao applyDeptBeanDao = MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
         try {
             for (int i = 0; i < dataPackageBean.getCheckTask().getApplyDeptSet().getApplyDept().size(); i++) {
                 ApplyDeptBean applyDeptBean = new ApplyDeptBean(null,
-                        dataPackageBean.getId(),
+                        id,
                         dataPackageBean.getCheckTask().getId(),
                         dataPackageBean.getCheckTask().getApplyDeptSet().getApplyDept().get(i).getId(),
                         dataPackageBean.getCheckTask().getApplyDeptSet().getApplyDept().get(i).getDepartment(),
@@ -367,6 +444,7 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getName(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCode(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getDocType(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getProductType(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getConclusion(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckPerson());
             checkFileBeanDao.insert(checkFileBean);
@@ -387,7 +465,7 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
 
                     try {
                         for (int k = 0; k < dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getAcceptDeviceSet().getAcceptDevice().size(); k++) {
-                            AcceptDeviceBean acceptDeviceBean = new AcceptDeviceBean(null, dataPackageBean.getId(),
+                            AcceptDeviceBean acceptDeviceBean = new AcceptDeviceBean(null, id,
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getAcceptDeviceSet().getAcceptDevice().get(k).getId(),
@@ -487,7 +565,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                 dataPackageBean.getCheckVerd().getgConclusion(),
                 dataPackageBean.getCheckVerd().getjConclusion(),
                 dataPackageBean.getCheckVerd().getConclusion(),
-                dataPackageBean.getCheckVerd().getCheckPerson());
+                dataPackageBean.getCheckVerd().getCheckPerson(),
+                dataPackageBean.getCheckVerd().getDocTypeVal());
         checkVerdBeanDao.insert(checkVerdBean);
 
         CheckUnresolvedBeanDao checkUnresolvedBeanDao = MyApplication.getInstances().getCheckUnresolvedDaoSession().getCheckUnresolvedBeanDao();
@@ -496,12 +575,13 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                 id,
                 dataPackageBean.getCheckUnresolved().getId(),
                 dataPackageBean.getCheckUnresolved().getName(),
-                dataPackageBean.getCheckUnresolved().getCode());
+                dataPackageBean.getCheckUnresolved().getCode(),
+                dataPackageBean.getCheckUnresolved().getDocTypeVal());
         checkUnresolvedBeanDao.insert(checkUnresolvedBean);
 
         UnresolvedBeanDao unresolvedBeanDao = MyApplication.getInstances().getCheckUnresolvedDaoSession().getUnresolvedBeanDao();
 
-        FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+        FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
 
         try {
 

@@ -27,7 +27,7 @@ public class DeliveryFragment extends BaseFragment {
         DeliveryListBeanDao deliveryListBeanDao= MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
         List<DeliveryListBean> deliveryListBeans=deliveryListBeanDao.queryBuilder()
                 .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
-                .where(DeliveryListBeanDao.Properties.ParentId.eq("null"))
+                .whereOr(DeliveryListBeanDao.Properties.ParentId.eq("null"),DeliveryListBeanDao.Properties.ParentId.eq(""))
                 .list();
 
         DeliveryAdapter legacyAdapter = new DeliveryAdapter(getActivity(), deliveryListBeans);

@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity {
                     finish();
                     break;
                 case 3:
-
+                    help_loading.setVisibility(View.GONE);
                     ToastUtils.getInstance().showTextToast(MainActivity.this,"模板已导出");
                     break;
             }

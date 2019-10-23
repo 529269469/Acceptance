@@ -134,7 +134,8 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             etGConclusion.getText().toString().trim(),
                             etJConclusion.getText().toString().trim(),
                             checkVerdBeans.get(0).getConclusion(),
-                            checkVerdBeans.get(0).getCheckPerson());
+                            checkVerdBeans.get(0).getCheckPerson(),
+                            checkVerdBeans.get(0).getDocTypeVal());
                     checkVerdBeanDao.update(checkVerdBean);
                 }
             }
@@ -246,7 +247,8 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             etGConclusion.getText().toString().trim(),
                             etJConclusion.getText().toString().trim(),
                             checkVerdBeans.get(0).getConclusion(),
-                            checkVerdBeans.get(0).getCheckPerson());
+                            checkVerdBeans.get(0).getCheckPerson(),
+                            checkVerdBeans.get(0).getDocTypeVal());
                     checkVerdBeanDao.update(checkVerdBean);
                 } else {
                     CheckVerdBean checkVerdBean = new CheckVerdBean(null,
@@ -258,7 +260,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             etGConclusion.getText().toString().trim(),
                             etJConclusion.getText().toString().trim(),
                             "",
-                            "");
+                            "","");
                     checkVerdBeanDao.insert(checkVerdBean);
                 }
                 ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
@@ -521,7 +523,8 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 etGConclusion.getText().toString().trim(),
                                 etJConclusion.getText().toString().trim(),
                                 checkVerdBeans.get(0).getConclusion(),
-                                SPUtils.get(getActivity(), "path", "") + File.separator + path);
+                                SPUtils.get(getActivity(), "path", "") + File.separator + path,
+                                checkVerdBeans.get(0).getDocTypeVal());
                         checkVerdBeanDao.update(checkVerdBean);
                     } else {
                         CheckVerdBean checkVerdBean = new CheckVerdBean(null,
@@ -533,7 +536,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 etGConclusion.getText().toString().trim(),
                                 etJConclusion.getText().toString().trim(),
                                 "",
-                                SPUtils.get(getActivity(), "path", "") + File.separator + path);
+                                SPUtils.get(getActivity(), "path", "") + File.separator + path,"");
                         checkVerdBeanDao.insert(checkVerdBean);
                     }
 

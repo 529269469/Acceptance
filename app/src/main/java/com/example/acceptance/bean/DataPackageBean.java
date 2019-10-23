@@ -21,13 +21,19 @@ public class DataPackageBean {
     private String code;
     private String type;
     private String responseUnit;
-    private String modalCode;
     private String productName;
     private String productCode;
     private String productType;
     private String batch;
     private String creator;
     private String createTime;
+    private String modelCode;
+    private String modelSeries;
+    private String modelSeriesName;
+    private String pkgTemplateId;
+    private String lifecycleTemplateId;
+    private String lifecycleStateId;
+    private String lifecycleStateIdentifier;
     private CheckApplyBean checkApply;
     private CheckTaskBean checkTask;
     private ApplyItemSetBean ApplyItemSet;
@@ -37,6 +43,63 @@ public class DataPackageBean {
     private UnresolvedSetBean UnresolvedSet;
     private DeliveryListsBean DeliveryLists;
     private DocumentListSetBean DocumentListSet;
+
+
+    public String getLifecycleStateIdentifier() {
+        return lifecycleStateIdentifier;
+    }
+
+    public void setLifecycleStateIdentifier(String lifecycleStateIdentifier) {
+        this.lifecycleStateIdentifier = lifecycleStateIdentifier;
+    }
+
+    public String getPkgTemplateId() {
+        return pkgTemplateId;
+    }
+
+    public void setPkgTemplateId(String pkgTemplateId) {
+        this.pkgTemplateId = pkgTemplateId;
+    }
+
+    public String getLifecycleTemplateId() {
+        return lifecycleTemplateId;
+    }
+
+    public void setLifecycleTemplateId(String lifecycleTemplateId) {
+        this.lifecycleTemplateId = lifecycleTemplateId;
+    }
+
+    public String getLifecycleStateId() {
+        return lifecycleStateId;
+    }
+
+    public void setLifecycleStateId(String lifecycleStateId) {
+        this.lifecycleStateId = lifecycleStateId;
+    }
+
+    public String getModelCode() {
+        return modelCode;
+    }
+
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
+    }
+
+    public String getModelSeries() {
+        return modelSeries;
+    }
+
+    public void setModelSeries(String modelSeries) {
+        this.modelSeries = modelSeries;
+    }
+
+    public String getModelSeriesName() {
+        return modelSeriesName;
+    }
+
+    public void setModelSeriesName(String modelSeriesName) {
+        this.modelSeriesName = modelSeriesName;
+    }
 
     public String getId() {
         return id;
@@ -76,14 +139,6 @@ public class DataPackageBean {
 
     public void setResponseUnit(String responseUnit) {
         this.responseUnit = responseUnit;
-    }
-
-    public String getModalCode() {
-        return modalCode;
-    }
-
-    public void setModalCode(String modalCode) {
-        this.modalCode = modalCode;
     }
 
     public String getProductName() {
@@ -232,7 +287,16 @@ public class DataPackageBean {
         private String phone;
         private String conclusion;
         private String description;
+        private String docTypeVal;
         private String imgAndVideoList;
+
+        public String getDocTypeVal() {
+            return docTypeVal;
+        }
+
+        public void setDocTypeVal(String docTypeVal) {
+            this.docTypeVal = docTypeVal;
+        }
 
         public String getImgAndVideoList() {
             return imgAndVideoList;
@@ -351,7 +415,16 @@ public class DataPackageBean {
         private String applicant;
         private String applyCompany;
         private String phone;
+        private String docTypeVal;
         private ApplyDeptSetBean ApplyDeptSet;
+
+        public String getDocTypeVal() {
+            return docTypeVal;
+        }
+
+        public void setDocTypeVal(String docTypeVal) {
+            this.docTypeVal = docTypeVal;
+        }
 
         public ApplyDeptSetBean getApplyDeptSet() {
             return ApplyDeptSet;
@@ -684,9 +757,18 @@ public class DataPackageBean {
             private String name;
             private String code;
             private String docType;
+            private String productType;
             private String conclusion;
             private String checkPerson;
             private CheckGroupSetBean CheckGroupSet;
+
+            public String getProductType() {
+                return productType;
+            }
+
+            public void setProductType(String productType) {
+                this.productType = productType;
+            }
 
             public String getId() {
                 return id;
@@ -1141,6 +1223,15 @@ public class DataPackageBean {
         private String jConclusion;
         private String conclusion;
         private String checkPerson;
+        private String docTypeVal;
+
+        public String getDocTypeVal() {
+            return docTypeVal;
+        }
+
+        public void setDocTypeVal(String docTypeVal) {
+            this.docTypeVal = docTypeVal;
+        }
 
         public String getgConclusion() {
             return gConclusion;
@@ -1227,6 +1318,15 @@ public class DataPackageBean {
         private String id;
         private String name;
         private String code;
+        private String docTypeVal;
+
+        public String getDocTypeVal() {
+            return docTypeVal;
+        }
+
+        public void setDocTypeVal(String docTypeVal) {
+            this.docTypeVal = docTypeVal;
+        }
 
         public String getId() {
             return id;

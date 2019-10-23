@@ -68,10 +68,10 @@ public class SetupActivity extends BaseActivity {
         list.add(new TitleBean("数据包类型"));
         list.add(new TitleBean("责任单位"));
         list.add(new TitleBean("产品类别"));
-        list.add(new TitleBean("文件类别"));
-        list.add(new TitleBean("检查结果"));
-        list.add(new TitleBean("检查结论"));
-        list.add(new TitleBean("问题简述"));
+//        list.add(new TitleBean("文件类别"));
+//        list.add(new TitleBean("检查结果"));
+//        list.add(new TitleBean("检查结论"));
+//        list.add(new TitleBean("问题简述"));
         list.get(0).setCheck(true);
         titleAdapter = new TitleAdapter(this, list);
         lvStep.setAdapter(titleAdapter);
@@ -93,7 +93,6 @@ public class SetupActivity extends BaseActivity {
                     if (packetFragment==null){
                         packetFragment=new PacketFragment();
                     }
-                    transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fl_step, packetFragment);
 
                     break;
@@ -101,42 +100,36 @@ public class SetupActivity extends BaseActivity {
                     if (dutyFragment==null){
                         dutyFragment=new DutyFragment();
                     }
-                    transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fl_step, dutyFragment);
                     break;
                 case 2://产品类别
                     if (productFragment==null){
                         productFragment=new ProductFragment();
                     }
-                    transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fl_step, productFragment);
                     break;
                 case 3://文件类别
                     if (fileFragment==null){
                         fileFragment=new FileFragment();
                     }
-                    transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fl_step, fileFragment);
                     break;
                 case 4://检查结果
                     if (resultFragment==null){
                         resultFragment=new ResultFragment();
                     }
-                    transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fl_step, resultFragment);
                     break;
                 case 5://检查结论
                     if (conclusionsFragment==null){
                         conclusionsFragment=new ConclusionsFragment();
                     }
-                    transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fl_step, conclusionsFragment);
                     break;
                 case 6://问题简述
                     if (sketchFragment==null){
                         sketchFragment=new SketchFragment();
                     }
-                    transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fl_step, sketchFragment);
                     break;
             }

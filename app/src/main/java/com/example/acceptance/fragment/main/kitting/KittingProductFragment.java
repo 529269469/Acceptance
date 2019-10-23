@@ -124,6 +124,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                         checkFileBeans.get(0).getName(),
                         checkFileBeans.get(0).getCode(),
                         checkFileBeans.get(0).getDocType(),
+                        checkFileBeans.get(0).getProductType(),
                         etConclusion.getText().toString().trim(),
                         checkFileBeans.get(0).getCheckPerson());
                 checkFileBeanDao.update(checkFileBean);
@@ -279,6 +280,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                         checkFileBeans.get(0).getName(),
                         checkFileBeans.get(0).getCode(),
                         checkFileBeans.get(0).getDocType(),
+                        checkFileBeans.get(0).getProductType(),
                         etConclusion.getText().toString().trim(),
                         checkFileBeans.get(0).getCheckPerson());
                 checkFileBeanDao.update(checkFileBean);
@@ -346,6 +348,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                             checkFileBeans.get(0).getName(),
                             checkFileBeans.get(0).getCode(),
                             checkFileBeans.get(0).getDocType(),
+                            checkFileBeans.get(0).getProductType(),
                             checkFileBeans.get(0).getConclusion(),
                             SPUtils.get(getActivity(), "path", "") + File.separator + path);
                     checkFileBeanDao.update(checkFileBean);

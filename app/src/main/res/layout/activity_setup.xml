@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/color_FFFFFF"
     tools:context=".activity.SetupActivity">
 
     <RelativeLayout
@@ -36,7 +37,7 @@
         <ListView
             android:background="@color/color_FFFFFF"
             android:id="@+id/lv_step"
-            android:layout_width="@dimen/padding_100"
+            android:layout_width="@dimen/padding_200"
             android:layout_height="match_parent"/>
 
         <FrameLayout

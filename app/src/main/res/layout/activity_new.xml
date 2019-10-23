@@ -47,6 +47,8 @@
         android:layout_height="match_parent">
 
     <LinearLayout
+        android:paddingRight="@dimen/padding_100"
+        android:paddingLeft="@dimen/padding_100"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/shape_ed2"
         android:layout_margin="@dimen/padding_24"
@@ -120,6 +122,7 @@
             android:layout_height="@dimen/padding_36">
 
             <TextView
+                android:id="@+id/tv_type2"
                 android:textSize="@dimen/padding_15"
                 android:textColor="@color/color_333333"
                 android:text="      类  型："
@@ -140,6 +143,7 @@
             android:layout_height="@dimen/padding_36">
 
             <TextView
+                android:id="@+id/tv_responseUnit2"
                 android:textSize="@dimen/padding_15"
                 android:textColor="@color/color_333333"
                 android:text="责任单位："
@@ -220,6 +224,7 @@
             android:layout_height="@dimen/padding_36">
 
             <TextView
+                android:id="@+id/tv_productType2"
                 android:textSize="@dimen/padding_15"
                 android:textColor="@color/color_333333"
                 android:text="产品类别："
@@ -273,6 +278,45 @@
                 android:layout_height="match_parent"/>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_19"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/padding_36">
+
+            <TextView
+                android:textSize="@dimen/padding_15"
+                android:textColor="@color/color_333333"
+                android:text="型号序列："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/tv_modelSeries"
+                android:background="@drawable/shape_edtext"
+                android:layout_width="@dimen/padding_300"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_19"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/padding_36">
+
+            <TextView
+                android:textSize="@dimen/padding_15"
+                android:textColor="@color/color_333333"
+                android:text="型号序列名称："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/tv_modelSeriesName"
+                android:background="@drawable/shape_edtext"
+                android:layout_width="@dimen/padding_300"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:visibility="gone"

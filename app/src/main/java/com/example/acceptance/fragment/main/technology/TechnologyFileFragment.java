@@ -156,7 +156,7 @@ public class TechnologyFileFragment extends BaseFragment {
                                 .list();
 
                         if (documentBeans != null && !documentBeans.isEmpty()) {
-                            FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+                            FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
                             List<FileBean> fileBeans = fileBeanDao.queryBuilder()
                                     .where(FileBeanDao.Properties.DataPackageId.eq(id))
                                     .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
@@ -240,6 +240,7 @@ public class TechnologyFileFragment extends BaseFragment {
                 .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
                 .where(DocumentBeanDao.Properties.PayClassify.eq(!list2.isEmpty()?list2.get(position).getId():"00000"))
                 .list();
+        tv_payClassify.setText(!list2.isEmpty()?list2.get(0).getProject():"");
         fileBeans.clear();
         if (isAdd && documentBeans != null && !documentBeans.isEmpty()) {
             tv_payClassify.setText(list2.get(position).getProject());
@@ -257,7 +258,7 @@ public class TechnologyFileFragment extends BaseFragment {
             tv_conclusion.setText(documentBeans.get(0).getConclusion());
             tv_description.setText(documentBeans.get(0).getDescription());
 
-            FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+            FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
             List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                     .where(FileBeanDao.Properties.DataPackageId.eq(id))
                     .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
@@ -272,7 +273,7 @@ public class TechnologyFileFragment extends BaseFragment {
         fileAdapter.setOnDel(new File2Adapter.OnDel() {
             @Override
             public void onDel(int position) {
-                FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+                FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
                 List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                         .where(FileBeanDao.Properties.DataPackageId.eq(id))
                         .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
@@ -281,18 +282,21 @@ public class TechnologyFileFragment extends BaseFragment {
                 List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
                         .where(DataPackageDBeanDao.Properties.Id.eq(id))
                         .list();
-                for (int i = 0; i < fileBeanList.size(); i++) {
-                    if (fileBeanList.get(i).getName().equals(fileBeans.get(position).getName())) {
-                        FileUtils.delFile(dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeanList.get(i).getPath());
-                        fileBeanDao.deleteByKey(fileBeanList.get(i).getUId());
-                        fileBeans.remove(position);
-                        break;
-                    } else {
-                        fileBeans.remove(position);
-                        break;
+                if (fileBeanList!=null&&fileBeanList.isEmpty()){
+                    for (int i = 0; i < fileBeanList.size(); i++) {
+                        if (fileBeanList.get(i).getName().equals(fileBeans.get(position).getName())) {
+                            FileUtils.delFile(dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeanList.get(i).getPath());
+                            fileBeanDao.deleteByKey(fileBeanList.get(i).getUId());
+                            fileBeans.remove(position);
+                            break;
+                        } else {
+                            fileBeans.remove(position);
+                            break;
+                        }
                     }
+                }else {
+                    fileBeans.remove(position);
                 }
-
                 fileAdapter.notifyDataSetChanged();
             }
         });
@@ -332,6 +336,10 @@ public class TechnologyFileFragment extends BaseFragment {
         tv_popup_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (fileBeans.isEmpty()){
+                    ToastUtils.getInstance().showTextToast(getActivity(),"请添加文件");
+                    return;
+                }
                 DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
                 String deliveryListParentId = System.currentTimeMillis() + "";
                 if (isAdd) {
@@ -401,7 +409,7 @@ public class TechnologyFileFragment extends BaseFragment {
                 }
 
 
-                FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+                FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
                 for (int i = 0; i < fileBeans.size(); i++) {
                     boolean isFile = false;
                     if (isAdd){
@@ -504,7 +512,8 @@ public class TechnologyFileFragment extends BaseFragment {
                 .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
                 .where(DocumentBeanDao.Properties.PayClassify.eq(!list.isEmpty()?list.get(position).getId():"00000"))
                 .list();
-
+        tv_payClassify.setText(!list.isEmpty()?list.get(0).getProject():"");
+        fileBeans.clear();
         if (isAdd && documentBeans != null && !documentBeans.isEmpty()) {
             tv_payClassify.setText(list.get(position).getProject());
             tv_code.setText(documentBeans.get(0).getCode());
@@ -521,12 +530,11 @@ public class TechnologyFileFragment extends BaseFragment {
             tv_conclusion.setText(documentBeans.get(0).getConclusion());
             tv_description.setText(documentBeans.get(0).getDescription());
 
-            FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+            FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
             List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                     .where(FileBeanDao.Properties.DataPackageId.eq(id))
                     .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
                     .list();
-            fileBeans.clear();
             fileBeans.addAll(fileBeanList);
         }
         fileAdapter = new File2Adapter(getActivity(), fileBeans);

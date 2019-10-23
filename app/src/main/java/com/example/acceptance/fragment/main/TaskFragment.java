@@ -111,7 +111,8 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                         tvCheckDate.getText().toString().trim(),
                         tvApplicant.getText().toString().trim(),
                         tvApplyCompany.getText().toString().trim(),
-                        tvPhone.getText().toString().trim());
+                        tvPhone.getText().toString().trim(),
+                        checkTaskBeans.get(0).getDocTypeVal());
                 checkTaskBeanDao.update(checkTaskBean);
             }
 
@@ -263,7 +264,8 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                         tvCheckDate.getText().toString().trim(),
                         tvApplicant.getText().toString().trim(),
                         tvApplyCompany.getText().toString().trim(),
-                        tvPhone.getText().toString().trim());
+                        tvPhone.getText().toString().trim(),
+                        checkTaskBeans.get(0).getDocTypeVal());
                 checkTaskBeanDao.update(checkTaskBean);
                 ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
                 break;

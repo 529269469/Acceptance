@@ -134,6 +134,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
         checkFileId = getArguments().getString("checkFileId");
         position = getArguments().getInt("position");
         type= getArguments().getString("type");
+
         DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
         List<DeliveryListBean> parentIdList = deliveryListBeanDao.queryBuilder()
                 .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
@@ -150,6 +151,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                     "验收依据文件","");
             deliveryListBeanDao.insert(deliveryListBean);
         }
+
 
         CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
         List<CheckGroupBean> checkGroupBeans = checkGroupBeanDao.queryBuilder()
@@ -613,6 +615,45 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
             @Override
             public void onClick(View view) {
                 CheckItemBeanDao checkItemBeanDao = MyApplication.getInstances().getCheckItemDaoSession().getCheckItemBeanDao();
+
+                RelatedDocumentIdSetBeanDao documentIdSetBeanDao = MyApplication.getInstances().getRelatedDocumentIdSetDaoSession().getRelatedDocumentIdSetBeanDao();
+                List<RelatedDocumentIdSetBean> relatedDocumentIdSetBeanList = documentIdSetBeanDao.queryBuilder()
+                        .where(RelatedDocumentIdSetBeanDao.Properties.DataPackageId.eq(id))
+                        .where(RelatedDocumentIdSetBeanDao.Properties.CheckFileId.eq(checkFileId))
+                        .where(RelatedDocumentIdSetBeanDao.Properties.CheckGroupId.eq(checkGroupId))
+                        .where(RelatedDocumentIdSetBeanDao.Properties.CheckItemId.eq(list.get(pos).getId()))
+                        .list();
+                if (relatedDocumentIdSetBeanList!=null&&!relatedDocumentIdSetBeanList.isEmpty()){
+                    for (int i = 0; i < relatedDocumentIdSetBeanList.size(); i++) {
+                        DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
+                        List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao.queryBuilder()
+                                .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
+                                .where(DeliveryListBeanDao.Properties.Id.eq(relatedDocumentIdSetBeanList.get(i).getRelatedDocumentId()))
+                                .list();
+
+                        DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+                        List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
+                                .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
+                                .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeanList.get(i).getRelatedDocumentId()))
+                                .list();
+                        if (documentBeans != null && !documentBeans.isEmpty()) {
+                            FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+                            List<FileBean> fileBeans = fileBeanDao.queryBuilder()
+                                    .where(FileBeanDao.Properties.DataPackageId.eq(id))
+                                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
+                                    .list();
+
+                            for (int j = 0; j < fileBeans.size(); j++) {
+                                fileBeanDao.deleteByKey(fileBeans.get(j).getUId());
+                            }
+                            documentBeanDao.deleteByKey(documentBeans.get(0).getUId());
+                        }
+                        if (deliveryListBeans!=null&&!deliveryListBeans.isEmpty()){
+                            deliveryListBeanDao.deleteByKey(deliveryListBeans.get(0).getUId());
+                        }
+                    }
+                }
+
                 checkItemBeanDao.deleteByKey(list.get(pos).getUId());
                 list.remove(pos);
                 productAdapter.notifyDataSetChanged();
@@ -649,6 +690,9 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
     private List<FileBean> fileBeans = new ArrayList<>();
     boolean isAdd = false;
 
+    /*
+    * 关联文件
+    * */
     private void addPopup2(int pos) {
         View view = getLayoutInflater().inflate(R.layout.popup_add3, null);
         PopupWindow popupWindow = new PopupWindow(view);
@@ -694,7 +738,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
             DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
             List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
                     .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
-                    .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeanList.get(0).getRelatedDocumentId()))
+                    .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeanList.get(relatedDocumentIdSetBeanList.size()-1).getRelatedDocumentId()))
                     .list();
 
             if (documentBeans != null && !documentBeans.isEmpty()) {
@@ -720,12 +764,11 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                 tv_conclusion.setText(documentBeans.get(0).getConclusion());
                 tv_description.setText(documentBeans.get(0).getDescription());
 
-                FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+                FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
                 List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                         .where(FileBeanDao.Properties.DataPackageId.eq(id))
                         .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
                         .list();
-                fileBeans.clear();
                 fileBeans.addAll(fileBeanList);
             }
         }
@@ -747,7 +790,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                             .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
                             .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeanList.get(0).getRelatedDocumentId()))
                             .list();
-                    FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+                    FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
                     List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                             .where(FileBeanDao.Properties.DataPackageId.eq(id))
                             .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
@@ -761,8 +804,6 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                             FileUtils.delFile(dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeanList.get(i).getPath());
                             fileBeanDao.deleteByKey(fileBeanList.get(i).getUId());
                             fileBeans.remove(position);
-                            break;
-                        } else {
                             break;
                         }
                     }
@@ -808,9 +849,15 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
         tv_popup_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (fileBeans.isEmpty()){
+                    ToastUtils.getInstance().showTextToast(getActivity(),"请添加文件");
+                    return;
+                }
+
                 DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
                 String deliveryListParentId = System.currentTimeMillis() + "";
                 String documentId = System.currentTimeMillis() + "";
+
 
                 if (!isAdd) {
                     RelatedDocumentIdSetBean relatedDocumentIdSetBean = new RelatedDocumentIdSetBean(null,
@@ -826,7 +873,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                 if (isAdd) {
                     DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
                     List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
-                            .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(position).getDataPackageId()))
+                            .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
                             .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeanList.get(0).getRelatedDocumentId()))
                             .list();
                     DocumentBean documentBean = new DocumentBean(documentBeans.get(0).getUId(),
@@ -901,10 +948,10 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                 if (isAdd) {
                     DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
                     List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
-                            .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(position).getDataPackageId()))
+                            .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
                             .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeanList.get(0).getRelatedDocumentId()))
                             .list();
-                    FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+                    FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
                     List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                             .where(FileBeanDao.Properties.DataPackageId.eq(id))
                             .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
@@ -934,7 +981,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                     }
                 } else {
 
-                    FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+                    FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
                     List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                             .where(FileBeanDao.Properties.DataPackageId.eq(id))
                             .where(FileBeanDao.Properties.DocumentId.eq(documentId))
@@ -1160,6 +1207,15 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         imgVideo);
                 checkItemBeanDao.update(checkItemBean);
                 FileUtils.copyFile(photoPath, SPUtils.get(getActivity(), "path", "") + "/" + photoPath);
+
+                CheckItemBeanDao checkItemBeanDao2 = MyApplication.getInstances().getCheckItemDaoSession().getCheckItemBeanDao();
+                List<CheckItemBean> checkItemBeans2 = checkItemBeanDao2.queryBuilder()
+                        .where(CheckItemBeanDao.Properties.DataPackageId.eq(id))
+                        .where(CheckItemBeanDao.Properties.CheckFileId.eq(checkFileId))
+                        .where(CheckItemBeanDao.Properties.CheckGroupId.eq(checkGroupId))
+                        .list();
+                list.clear();
+                list.addAll(checkItemBeans2);
                 productAdapter.notifyDataSetChanged();
                 Log.e("拍照返回图片路径:", photoPath);
             }

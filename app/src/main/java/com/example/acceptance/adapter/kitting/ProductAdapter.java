@@ -106,7 +106,8 @@ public class ProductAdapter extends BaseAdapter {
 
         for (int j = 0; j < options.length; j++) {
             titleBeans.add(new TitleBean(options[j]));
-            if (list.get(i).getSelected().equals(options[j])){
+
+            if (!StringUtils.isBlank(list.get(i).getSelected())&&list.get(i).getSelected().equals(options[j])){
                 titleBeans.get(j).setCheck(true);
             }
         }
@@ -159,20 +160,18 @@ public class ProductAdapter extends BaseAdapter {
         List<FileBean> fileBeanList=new ArrayList<>();
         if (relatedDocumentIdSetBeans!=null&&!relatedDocumentIdSetBeans.isEmpty()){
             DocumentBeanDao documentBeanDao=MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-            for (int j = 0; j <relatedDocumentIdSetBeans.size() ; j++) {
                 List<DocumentBean> documentBeans=documentBeanDao.queryBuilder()
                         .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
-                        .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeans.get(j).getRelatedDocumentId()))
+                        .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeans.get(relatedDocumentIdSetBeans.size()-1).getRelatedDocumentId()))
                         .list();
                 if (documentBeans!=null&&!documentBeans.isEmpty()){
-                    FileBeanDao fileBeanDao=MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+                    FileBeanDao fileBeanDao=MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
                     List<FileBean> fileBeans=fileBeanDao.queryBuilder()
                             .where(FileBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
                             .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
                             .list();
                     fileBeanList.addAll(fileBeans);
                 }
-            }
 
         }
 

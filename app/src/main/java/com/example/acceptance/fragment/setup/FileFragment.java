@@ -51,7 +51,7 @@ public class FileFragment extends BaseFragment implements View.OnClickListener {
     protected void initEventAndData() {
 
 
-        packetAdapter = new PacketAdapter(getActivity(), list);
+        packetAdapter = new PacketAdapter(getActivity(), list,"");
         lvPacket.setAdapter(packetAdapter);
 
         tvAdd.setOnClickListener(this);

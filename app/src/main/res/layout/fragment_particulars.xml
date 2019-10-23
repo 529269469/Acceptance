@@ -50,6 +50,55 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="@dimen/padding_24"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_36"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="       名 称"
+                        android:textColor="#999999" />
+
+                    <EditText
+                        android:textSize="@dimen/text_font_14"
+                        android:id="@+id/tv_name_part"
+                        android:layout_width="@dimen/padding_300"
+                        android:layout_height="@dimen/padding_36"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textColor="@color/color_333333" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_36"
+                    android:layout_marginTop="@dimen/padding_24"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tv_type_part2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="       类 型"
+                        android:textColor="#999999" />
+
+                    <EditText
+                        android:textSize="@dimen/text_font_14"
+                        android:id="@+id/tv_type_part"
+                        android:layout_width="@dimen/padding_300"
+                        android:layout_height="@dimen/padding_36"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textColor="@color/color_333333" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/padding_36"
                     android:layout_marginTop="@dimen/padding_24"
@@ -80,6 +129,7 @@
                     android:gravity="center_vertical">
 
                     <TextView
+                        android:id="@+id/tv_responseUnit2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="责任单位"
@@ -97,53 +147,7 @@
                         android:textColor="@color/color_333333" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/padding_36"
-                    android:layout_marginTop="@dimen/padding_24"
-                    android:gravity="center_vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="产品类别"
-                        android:textColor="#999999" />
-
-                    <EditText
-                        android:textSize="@dimen/text_font_14"
-                        android:id="@+id/tv_productType"
-                        android:layout_width="@dimen/padding_300"
-                        android:layout_height="@dimen/padding_36"
-                        android:layout_marginLeft="@dimen/padding_10"
-                        android:background="@drawable/shape_edtext"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/padding_10"
-                        android:textColor="@color/color_333333" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/padding_36"
-                    android:layout_marginTop="@dimen/padding_24"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="型号代号"
-                        android:textColor="#999999" />
-
-                    <EditText
-                        android:textSize="@dimen/text_font_14"
-                        android:id="@+id/tv_modalCode"
-                        android:layout_width="@dimen/padding_300"
-                        android:layout_height="@dimen/padding_36"
-                        android:layout_marginLeft="@dimen/padding_10"
-                        android:background="@drawable/shape_edtext"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/padding_10"
-                        android:textColor="@color/color_333333" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -160,46 +164,6 @@
                     <EditText
                         android:textSize="@dimen/text_font_14"
                         android:id="@+id/tv_batch"
-                        android:layout_width="@dimen/padding_300"
-                        android:layout_height="@dimen/padding_36"
-                        android:layout_marginLeft="@dimen/padding_10"
-                        android:background="@drawable/shape_edtext"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/padding_10"
-                        android:textColor="@color/color_333333" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="@dimen/padding_30"
-            android:paddingTop="@dimen/padding_30">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/padding_36"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="       名 称"
-                        android:textColor="#999999" />
-
-                    <EditText
-                        android:textSize="@dimen/text_font_14"
-                        android:id="@+id/tv_name_part"
                         android:layout_width="@dimen/padding_300"
                         android:layout_height="@dimen/padding_36"
                         android:layout_marginLeft="@dimen/padding_10"
@@ -233,6 +197,50 @@
                         android:textColor="@color/color_333333" />
                 </LinearLayout>
 
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/padding_30"
+            android:paddingTop="@dimen/padding_30">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_36"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tv_productType2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="产品类别"
+                        android:textColor="#999999" />
+
+                    <EditText
+                        android:textSize="@dimen/text_font_14"
+                        android:id="@+id/tv_productType"
+                        android:layout_width="@dimen/padding_300"
+                        android:layout_height="@dimen/padding_36"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textColor="@color/color_333333" />
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/padding_36"
@@ -242,12 +250,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="       类 型"
+                        android:text="型号代号"
                         android:textColor="#999999" />
 
                     <EditText
                         android:textSize="@dimen/text_font_14"
-                        android:id="@+id/tv_type_part"
+                        android:id="@+id/tv_modelCode"
                         android:layout_width="@dimen/padding_300"
                         android:layout_height="@dimen/padding_36"
                         android:layout_marginLeft="@dimen/padding_10"
@@ -256,6 +264,9 @@
                         android:paddingLeft="@dimen/padding_10"
                         android:textColor="@color/color_333333" />
                 </LinearLayout>
+
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -290,12 +301,60 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="产品编号"
+                        android:text="产品代号"
                         android:textColor="#999999" />
 
                     <EditText
                         android:textSize="@dimen/text_font_14"
                         android:id="@+id/tv_productCode"
+                        android:layout_width="@dimen/padding_300"
+                        android:layout_height="@dimen/padding_36"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textColor="@color/color_333333" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_36"
+                    android:layout_marginTop="@dimen/padding_24"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="型号序列"
+                        android:textColor="#999999" />
+
+                    <EditText
+                        android:textSize="@dimen/text_font_14"
+                        android:id="@+id/tv_modelSeries"
+                        android:layout_width="@dimen/padding_300"
+                        android:layout_height="@dimen/padding_36"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textColor="@color/color_333333" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_36"
+                    android:layout_marginTop="@dimen/padding_24"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="型号序列名称"
+                        android:textColor="#999999" />
+
+                    <EditText
+                        android:textSize="@dimen/text_font_14"
+                        android:id="@+id/tv_modelSeriesName"
                         android:layout_width="@dimen/padding_300"
                         android:layout_height="@dimen/padding_36"
                         android:layout_marginLeft="@dimen/padding_10"

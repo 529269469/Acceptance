@@ -29,6 +29,7 @@ public class CheckUnresolvedBeanDao extends AbstractDao<CheckUnresolvedBean, Lon
         public final static Property Id = new Property(2, String.class, "id", false, "ID");
         public final static Property Name = new Property(3, String.class, "name", false, "NAME");
         public final static Property Code = new Property(4, String.class, "code", false, "CODE");
+        public final static Property DocTypeVal = new Property(5, String.class, "docTypeVal", false, "DOC_TYPE_VAL");
     }
 
 
@@ -48,7 +49,8 @@ public class CheckUnresolvedBeanDao extends AbstractDao<CheckUnresolvedBean, Lon
                 "\"DATA_PACKAGE_ID\" TEXT," + // 1: dataPackageId
                 "\"ID\" TEXT," + // 2: id
                 "\"NAME\" TEXT," + // 3: name
-                "\"CODE\" TEXT);"); // 4: code
+                "\"CODE\" TEXT," + // 4: code
+                "\"DOC_TYPE_VAL\" TEXT);"); // 5: docTypeVal
     }
 
     /** Drops the underlying database table. */
@@ -85,6 +87,11 @@ public class CheckUnresolvedBeanDao extends AbstractDao<CheckUnresolvedBean, Lon
         if (code != null) {
             stmt.bindString(5, code);
         }
+ 
+        String docTypeVal = entity.getDocTypeVal();
+        if (docTypeVal != null) {
+            stmt.bindString(6, docTypeVal);
+        }
     }
 
     @Override
@@ -115,6 +122,11 @@ public class CheckUnresolvedBeanDao extends AbstractDao<CheckUnresolvedBean, Lon
         if (code != null) {
             stmt.bindString(5, code);
         }
+ 
+        String docTypeVal = entity.getDocTypeVal();
+        if (docTypeVal != null) {
+            stmt.bindString(6, docTypeVal);
+        }
     }
 
     @Override
@@ -129,7 +141,8 @@ public class CheckUnresolvedBeanDao extends AbstractDao<CheckUnresolvedBean, Lon
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // dataPackageId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // id
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // code
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // code
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // docTypeVal
         );
         return entity;
     }
@@ -141,6 +154,7 @@ public class CheckUnresolvedBeanDao extends AbstractDao<CheckUnresolvedBean, Lon
         entity.setId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setCode(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setDocTypeVal(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     
     @Override

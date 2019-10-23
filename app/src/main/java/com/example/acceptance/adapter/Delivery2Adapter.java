@@ -76,7 +76,7 @@ public class Delivery2Adapter extends BaseAdapter {
             viewHolder.tvName.setText(documentBeans.get(0).getName());
             viewHolder.tvProductCode.setText(documentBeans.get(0).getCode());
 
-            FileBeanDao fileBeanDao=MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+            FileBeanDao fileBeanDao=MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
             List<FileBean> fileBeans= fileBeanDao.queryBuilder()
                     .where(FileBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
                     .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))

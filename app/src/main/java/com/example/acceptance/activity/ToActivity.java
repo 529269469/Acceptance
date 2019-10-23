@@ -268,17 +268,12 @@ public class ToActivity extends BaseActivity {
         Log.e("TAG", "onActivityResult: " + dataPackageBean.toString());
 
         DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
-        List<DataPackageDBean> dataPackageDBeanList = dataPackageDBeanDao.queryBuilder()
+        List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
                 .where(DataPackageDBeanDao.Properties.Id.eq(dataPackageBean.getId()))
                 .list();
-        if (dataPackageDBeanList != null && !dataPackageDBeanList.isEmpty()) {
+        if (dataPackageDBeans != null && !dataPackageDBeans.isEmpty()) {
             isPath = true;
         }
-
-
-        List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
-                .where(DataPackageDBeanDao.Properties.NamePackage.eq(upLoadFileName))
-                .list();
 
         if (isPath) {
             for (int i = 0; i < dataPackageDBeans.size(); i++) {
@@ -293,13 +288,18 @@ public class ToActivity extends BaseActivity {
                 dataPackageBean.getCode(),
                 dataPackageBean.getType(),
                 dataPackageBean.getResponseUnit(),
-                dataPackageBean.getModalCode(),
+                dataPackageBean.getModelCode(),
                 dataPackageBean.getProductName(),
                 dataPackageBean.getProductCode(),
                 dataPackageBean.getProductType(),
                 dataPackageBean.getBatch(),
                 dataPackageBean.getCreator(),
-                dataPackageBean.getCreateTime());
+                dataPackageBean.getCreateTime(),
+                dataPackageBean.getModelSeries(),
+                dataPackageBean.getModelSeriesName(),
+                dataPackageBean.getPkgTemplateId(),
+                dataPackageBean.getLifecycleTemplateId(),
+                dataPackageBean.getLifecycleStateId());
         dataPackageDBeanDao.insert(dataPackageDBean);
         CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
 
@@ -326,6 +326,7 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getCheckApply().getPhone(),
                     dataPackageBean.getCheckApply().getConclusion(),
                     dataPackageBean.getCheckApply().getDescription(),
+                    dataPackageBean.getCheckApply().getDocTypeVal(),
                     dataPackageBean.getCheckApply().getImgAndVideoList());
             checkApplyBeanDao.insert(checkApplyBean);
         } catch (Exception o) {
@@ -353,7 +354,8 @@ public class ToActivity extends BaseActivity {
                 dataPackageBean.getCheckTask().getCheckDate(),
                 dataPackageBean.getCheckTask().getApplicant(),
                 dataPackageBean.getCheckTask().getApplyCompany(),
-                dataPackageBean.getCheckTask().getPhone());
+                dataPackageBean.getCheckTask().getPhone(),
+                dataPackageBean.getCheckTask().getDocTypeVal());
         checkTaskBeanDao.insert(checkTaskBean);
 
         ApplyDeptBeanDao applyDeptBeanDao = MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
@@ -482,6 +484,7 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getName(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCode(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getDocType(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getProductType(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getConclusion(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckPerson());
             checkFileBeanDao.insert(checkFileBean);
@@ -611,7 +614,8 @@ public class ToActivity extends BaseActivity {
                 dataPackageBean.getCheckVerd().getgConclusion(),
                 dataPackageBean.getCheckVerd().getjConclusion(),
                 dataPackageBean.getCheckVerd().getConclusion(),
-                dataPackageBean.getCheckVerd().getCheckPerson());
+                dataPackageBean.getCheckVerd().getCheckPerson(),
+                dataPackageBean.getCheckVerd().getDocTypeVal());
         checkVerdBeanDao.insert(checkVerdBean);
 
         CheckUnresolvedBeanDao checkUnresolvedBeanDao = MyApplication.getInstances().getCheckUnresolvedDaoSession().getCheckUnresolvedBeanDao();
@@ -627,7 +631,8 @@ public class ToActivity extends BaseActivity {
                 dataPackageBean.getId(),
                 dataPackageBean.getCheckUnresolved().getId(),
                 dataPackageBean.getCheckUnresolved().getName(),
-                dataPackageBean.getCheckUnresolved().getCode());
+                dataPackageBean.getCheckUnresolved().getCode(),
+                dataPackageBean.getCheckUnresolved().getDocTypeVal());
         checkUnresolvedBeanDao.insert(checkUnresolvedBean);
 
         UnresolvedBeanDao unresolvedBeanDao = MyApplication.getInstances().getCheckUnresolvedDaoSession().getUnresolvedBeanDao();
@@ -639,7 +644,7 @@ public class ToActivity extends BaseActivity {
                 unresolvedBeanDao.deleteByKey(beans.get(i).getUId());
             }
         }
-        FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
+        FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
         if (isPath) {
             List<FileBean> beans = fileBeanDao.queryBuilder()
                     .where(FileBeanDao.Properties.DataPackageId.eq(dataPackageDBeans.get(0).getId()))
@@ -716,8 +721,6 @@ public class ToActivity extends BaseActivity {
         }
 
         try {
-
-
             for (int i = 0; i < dataPackageBean.getDocumentListSet().getDocument().size(); i++) {
                 DocumentBean documentBean = new DocumentBean(null,
                         dataPackageBean.getId(),
@@ -753,12 +756,9 @@ public class ToActivity extends BaseActivity {
         } catch (Exception o) {
 
         }
-        DataPackageDBeanDao dataPackageDBeanDao2 = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
-        List<DataPackageDBean> dataPackageDBeans2 = dataPackageDBeanDao2.queryBuilder()
-                .where(DataPackageDBeanDao.Properties.NamePackage.eq(upLoadFileName))
-                .list();
+
         handler.sendEmptyMessage(2);
-        startActivity(MainActivity.openIntent(ToActivity.this, dataPackageDBeans2.get(0).getId(), false, ""));
+        startActivity(MainActivity.openIntent(ToActivity.this, dataPackageBean.getId(), false, ""));
         finish();
     }
 

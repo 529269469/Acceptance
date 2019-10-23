@@ -142,6 +142,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etPhone.getText().toString().trim(),
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
+                        checkApplyBeans.get(0).getDocTypeVal(),
                         gridString);
                 checkApplyBeanDao.update(checkApplyBean);
             }
@@ -205,6 +206,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etPhone.getText().toString().trim(),
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
+                        checkApplyBeans.get(0).getDocTypeVal(),
                         gridString);
                 checkApplyBeanDao.update(checkApplyBean);
             }
@@ -303,6 +305,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etPhone.getText().toString().trim(),
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
+                        checkApplyBeans.get(0).getDocTypeVal(),
                         gridString);
                 checkApplyBeanDao.update(checkApplyBean);
                 ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
@@ -349,6 +352,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                     etPhone.getText().toString().trim(),
                     etConclusion.getText().toString().trim(),
                     etDescription.getText().toString().trim(),
+                    checkApplyBeans.get(0).getDocTypeVal(),
                     gridString);
             checkApplyBeanDao.update(checkApplyBean);
             ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");

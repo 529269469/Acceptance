@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.example.acceptance.R;
 import com.example.acceptance.adapter.PacketAdapter;
 import com.example.acceptance.base.BaseFragment;
+import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
 
@@ -33,13 +34,21 @@ public class SketchFragment extends BaseFragment {
 
     private PacketAdapter packetAdapter;
     private List<String> list=new ArrayList<>();
+    private String type="SketchType";
     @Override
     protected void initEventAndData() {
         tvType.setText("问题简述名称");
         tvType2.setText("问题简述名称");
 
 
-        packetAdapter=new PacketAdapter(getActivity(),list);
+        String strings= (String) SPUtils.get(getActivity(),type,"");
+        String[] listlist=strings.split(",");
+        if (!StringUtils.isBlank(strings)){
+            for (int i = 0; i < listlist.length; i++) {
+                list.add(listlist[i]);
+            }
+        }
+        packetAdapter=new PacketAdapter(getActivity(),list,type);
         lvPacket.setAdapter(packetAdapter);
 
         tvAdd.setOnClickListener(view -> {
@@ -49,6 +58,12 @@ public class SketchFragment extends BaseFragment {
                 list.add(etType.getText().toString().trim());
                 packetAdapter.notifyDataSetChanged();
                 etType.setText("");
+                StringBuffer stringBuffer=new StringBuffer();
+                for (int i = 0; i < list.size(); i++) {
+                    stringBuffer.append(list.get(i)).append(",");
+                }
+                SPUtils.put(getActivity(),type,stringBuffer.toString().substring(0,stringBuffer.toString().length()-1));
+
             }
 
         });
