@@ -4,9 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_40">
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_30">
 
         <TextView
             android:id="@+id/tv_num"
@@ -37,40 +41,40 @@
             android:layout_alignParentRight="true"
             android:layout_width="@dimen/padding_60"
             android:layout_height="@dimen/padding_30"/>
-
+        </RelativeLayout>
 
         <com.example.acceptance.view.MyGridView
-            android:layout_toLeftOf="@id/bt_relevance"
-            android:numColumns="4"
+            android:layout_below="@id/tv_name"
+            android:numColumns="8"
             android:id="@+id/lv_yes_no"
             android:layout_marginLeft="@dimen/padding_20"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/tv_name"
+            android:layout_toRightOf="@id/tv_num"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 
     <com.example.acceptance.view.MyGridView
         android:id="@+id/gv_pro"
-        android:layout_marginTop="@dimen/padding_10"
+        android:layout_marginTop="@dimen/padding_5"
         android:numColumns="2"
         android:layout_marginLeft="@dimen/padding_100"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <com.example.acceptance.view.MyListView
+        android:divider="#00000000"
         android:id="@+id/lv_file"
         android:layout_marginLeft="@dimen/padding_100"
-        android:layout_marginTop="@dimen/padding_10"
+        android:layout_marginTop="@dimen/padding_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <com.example.acceptance.view.MyGridView
         android:id="@+id/gv_video"
-        android:layout_marginTop="@dimen/padding_10"
+        android:layout_marginTop="@dimen/padding_5"
         android:numColumns="6"
         android:layout_marginLeft="@dimen/padding_100"
         android:layout_width="match_parent"

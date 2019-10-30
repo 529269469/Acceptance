@@ -333,7 +333,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                         .list();
                 for (int i = 0; i < fileBeanList.size(); i++) {
                     if (fileBeanList.get(i).getName().equals(fileBeans.get(position).getName())) {
-                        FileUtils.delFile(dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeanList.get(i).getPath());
+//                        FileUtils.delFile(dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeanList.get(i).getPath());
                         fileBeanDao.deleteByKey(fileBeanList.get(i).getUId());
                         fileBeans.remove(position);
                         break;
@@ -392,7 +392,9 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 id,
                                 unresolvedId,
                                 fileBeans.get(i).getName(),
-                                fileBeans.get(i).getPath(), "");
+                                fileBeans.get(i).getPath(),
+                                fileBeans.get(i).getType(),
+                                fileBeans.get(i).getSecret());
                         fileBeanDao.insert(fileBean);
                     }
                     UnresolvedBean unresolvedBean = new UnresolvedBean(null,
@@ -411,7 +413,9 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 id,
                                 StringUtils.isBlank(beanList.get(pos).getFileId())?unresolvedId:beanList.get(pos).getFileId(),
                                 fileBeans.get(i).getName(),
-                                fileBeans.get(i).getPath(), "");
+                                fileBeans.get(i).getPath(),
+                                fileBeans.get(i).getType(),
+                                fileBeans.get(i).getSecret());
                         fileBeanDao.insert(fileBean);
                     }
                     UnresolvedBean unresolvedBean = new UnresolvedBean(beanList.get(pos).getUId(),
@@ -454,7 +458,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             String upLoadFileName = file.getName();
                             Log.e("TAG", "upLoadFilePath: " + upLoadFilePath);
                             Log.e("TAG", "upLoadFileName: " + upLoadFileName);
-                            fileBeans.add(new FileBean(null, "", "", upLoadFileName, upLoadFilePath, ""));
+                            fileBeans.add(new FileBean(null, "", "", upLoadFileName, upLoadFilePath, "",""));
                             fileAdapter.notifyDataSetChanged();
                         }
                     }

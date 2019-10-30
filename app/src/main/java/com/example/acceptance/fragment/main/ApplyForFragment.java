@@ -142,8 +142,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etPhone.getText().toString().trim(),
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
-                        checkApplyBeans.get(0).getDocTypeVal(),
-                        gridString);
+                        checkApplyBeans.get(0).getDocTypeVal());
                 checkApplyBeanDao.update(checkApplyBean);
             }
 
@@ -172,18 +171,13 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
         etConclusion.setText(checkApplyBean.getConclusion());
         etDescription.setText(checkApplyBean.getDescription());
 
-        if (!StringUtils.isBlank(checkApplyBean.getImgAndVideoList())){
-            String[] strings = checkApplyBean.getImgAndVideoList().split(",");
-            for (int i = 0; i < strings.length; i++) {
-                gridList.add(strings[i]);
-            }
-        }
+
         gridAdapter = new GridAdapter(gridList, getActivity());
         gv_conclusion.setAdapter(gridAdapter);
         gridAdapter.setOnDel(new GridAdapter.OnDel() {
             @Override
             public void onDel(int position) {
-                FileUtils.delFile(gridList.get(position));
+//                FileUtils.delFile(gridList.get(position));
                 gridList.remove(position);
                 gridAdapter.notifyDataSetChanged();
 
@@ -206,8 +200,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etPhone.getText().toString().trim(),
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
-                        checkApplyBeans.get(0).getDocTypeVal(),
-                        gridString);
+                        checkApplyBeans.get(0).getDocTypeVal());
                 checkApplyBeanDao.update(checkApplyBean);
             }
         });
@@ -305,8 +298,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etPhone.getText().toString().trim(),
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
-                        checkApplyBeans.get(0).getDocTypeVal(),
-                        gridString);
+                        checkApplyBeans.get(0).getDocTypeVal());
                 checkApplyBeanDao.update(checkApplyBean);
                 ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
                 break;
@@ -352,8 +344,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                     etPhone.getText().toString().trim(),
                     etConclusion.getText().toString().trim(),
                     etDescription.getText().toString().trim(),
-                    checkApplyBeans.get(0).getDocTypeVal(),
-                    gridString);
+                    checkApplyBeans.get(0).getDocTypeVal());
             checkApplyBeanDao.update(checkApplyBean);
             ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
         }

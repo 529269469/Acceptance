@@ -31,7 +31,6 @@ public class DataPackageBean {
     private String modelSeries;
     private String modelSeriesName;
     private String pkgTemplateId;
-    private String lifecycleTemplateId;
     private String lifecycleStateId;
     private String lifecycleStateIdentifier;
     private CheckApplyBean checkApply;
@@ -59,14 +58,6 @@ public class DataPackageBean {
 
     public void setPkgTemplateId(String pkgTemplateId) {
         this.pkgTemplateId = pkgTemplateId;
-    }
-
-    public String getLifecycleTemplateId() {
-        return lifecycleTemplateId;
-    }
-
-    public void setLifecycleTemplateId(String lifecycleTemplateId) {
-        this.lifecycleTemplateId = lifecycleTemplateId;
     }
 
     public String getLifecycleStateId() {
@@ -288,7 +279,7 @@ public class DataPackageBean {
         private String conclusion;
         private String description;
         private String docTypeVal;
-        private String imgAndVideoList;
+
 
         public String getDocTypeVal() {
             return docTypeVal;
@@ -296,14 +287,6 @@ public class DataPackageBean {
 
         public void setDocTypeVal(String docTypeVal) {
             this.docTypeVal = docTypeVal;
-        }
-
-        public String getImgAndVideoList() {
-            return imgAndVideoList;
-        }
-
-        public void setImgAndVideoList(String imgAndVideoList) {
-            this.imgAndVideoList = imgAndVideoList;
         }
 
         public String getId() {
@@ -1080,17 +1063,8 @@ public class DataPackageBean {
                             private String name;
                             private String options;
                             private String selected;
-                            private String imgAndVideo;
                             private PropertySetBeanX PropertySet;
                             private RelatedDocumentIdSetBean RelatedDocumentIdSet;
-
-                            public String getImgAndVideo() {
-                                return imgAndVideo;
-                            }
-
-                            public void setImgAndVideo(String imgAndVideo) {
-                                this.imgAndVideo = imgAndVideo;
-                            }
 
                             public String getId() {
                                 return id;
@@ -1546,7 +1520,8 @@ public class DataPackageBean {
             private String name;
             private String secret;
             private String payClassify;
-            private String modalCode;
+            private String payClassifyName;
+            private String modelCode;
             private String productCodeName;
             private String productCode;
             private String stage;
@@ -1557,6 +1532,14 @@ public class DataPackageBean {
             private String conclusion;
             private String description;
             private FileSetBean FileSet;
+
+            public String getPayClassifyName() {
+                return payClassifyName;
+            }
+
+            public void setPayClassifyName(String payClassifyName) {
+                this.payClassifyName = payClassifyName;
+            }
 
             public String getId() {
                 return id;
@@ -1599,11 +1582,11 @@ public class DataPackageBean {
             }
 
             public String getModalCode() {
-                return modalCode;
+                return modelCode;
             }
 
             public void setModalCode(String modalCode) {
-                this.modalCode = modalCode;
+                this.modelCode = modalCode;
             }
 
             public String getProductCodeName() {
@@ -1713,6 +1696,15 @@ public class DataPackageBean {
                     private String name;
                     private String path;
                     private String type;
+                    private String secret;
+
+                    public String getSecret() {
+                        return secret;
+                    }
+
+                    public void setSecret(String secret) {
+                        this.secret = secret;
+                    }
 
                     public String getName() {
                         return name;

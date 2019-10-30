@@ -109,7 +109,7 @@ public class DaoUtils {
             dataPackageBean.setModelSeriesName(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getModelSeriesName() : "");
             dataPackageBean.setCreator(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getCreator() : "");
             dataPackageBean.setLifecycleStateId(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getLifecycleStateId() : "");
-            dataPackageBean.setLifecycleTemplateId(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getLifecycleTemplateId() : "");
+            dataPackageBean.setLifecycleStateIdentifier(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getLifecycleStateIdentifier() : "");
             dataPackageBean.setPkgTemplateId(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getPkgTemplateId() : "");
             xStream.alias("DataPackage", DataPackageBean.class);//为类名节点重命名
             xStream.useAttributeFor(DataPackageBean.class, "id");
@@ -136,7 +136,6 @@ public class DaoUtils {
             checkApplyBean.setContractCode(checkApplyBeans.get(0).getContractCode());
             checkApplyBean.setConclusion(checkApplyBeans.get(0).getConclusion());
             checkApplyBean.setDocTypeVal(checkApplyBeans.get(0).getDocTypeVal());
-            checkApplyBean.setImgAndVideoList(checkApplyBeans.get(0).getImgAndVideoList());
             xStream.alias("checkApply", DataPackageBean.CheckApplyBean.class);//为类名节点重命名
             xStream.useAttributeFor(DataPackageBean.CheckApplyBean.class, "id");
 
@@ -303,7 +302,6 @@ public class DaoUtils {
                     checkItemBean.setName(checkItemBeans.get(k).getName());
                     checkItemBean.setOptions(checkItemBeans.get(k).getOptions());
                     checkItemBean.setSelected(checkItemBeans.get(k).getSelected());
-                    checkItemBean.setImgAndVideo(checkItemBeans.get(k).getImgAndVideo());
                     DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX propertySetBeanX=
                             new DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX();
                     List<DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX.PropertyBeanX> Property=new ArrayList<>();
@@ -488,6 +486,7 @@ public class DaoUtils {
                     fileBean.setName(fileBeans.get(j).getName());
                     fileBean.setPath(fileBeans.get(j).getPath());
                     fileBean.setType(fileBeans.get(j).getType());
+                    fileBean.setSecret(fileBeans.get(j).getSecret());
                     xStream.alias("File", DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean.FileBean.class);//为类名节点重命名
                     xStream.addImplicitCollection(DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean.class, "File");
                     File.add(fileBean);
@@ -557,6 +556,7 @@ public class DaoUtils {
             documentBean.setModalCode(documentBeans.get(i).getModalCode());
             documentBean.setName(documentBeans.get(i).getName());
             documentBean.setPayClassify(documentBeans.get(i).getPayClassify());
+            documentBean.setPayClassifyName(documentBeans.get(i).getPayClassifyName());
             documentBean.setProductCode(documentBeans.get(i).getProductCode());
             documentBean.setSecret(documentBeans.get(i).getSecret());
             documentBean.setProductCodeName(documentBeans.get(i).getProductCodeName());
@@ -574,6 +574,7 @@ public class DaoUtils {
                 fileBean.setName(fileBeans.get(j).getName());
                 fileBean.setType(fileBeans.get(j).getType());
                 fileBean.setPath(fileBeans.get(j).getPath());
+                fileBean.setSecret(fileBeans.get(j).getSecret());
                 xStream.alias("File", DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean.FileBean.class);//为类名节点重命名
                 xStream.addImplicitCollection(DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean.class, "File");
                 File.add(fileBean);
@@ -777,7 +778,7 @@ public class DaoUtils {
             dataPackageBean.setModelSeriesName(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getModelSeriesName() : "");
             dataPackageBean.setCreator(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getCreator() : "");
             dataPackageBean.setLifecycleStateId(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getLifecycleStateId() : "");
-            dataPackageBean.setLifecycleTemplateId(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getLifecycleTemplateId() : "");
+            dataPackageBean.setLifecycleStateIdentifier(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getLifecycleStateIdentifier() : "");
             dataPackageBean.setPkgTemplateId(!dataPackageDBeans.isEmpty() ? dataPackageDBeans.get(0).getPkgTemplateId() : "");
             xStream.alias("DataPackage", DataPackageBean.class);//为类名节点重命名
             xStream.useAttributeFor(DataPackageBean.class, "id");
@@ -804,7 +805,6 @@ public class DaoUtils {
             checkApplyBean.setContractCode(checkApplyBeans.get(0).getContractCode());
             checkApplyBean.setConclusion(checkApplyBeans.get(0).getConclusion());
             checkApplyBean.setDocTypeVal(checkApplyBeans.get(0).getDocTypeVal());
-            checkApplyBean.setImgAndVideoList(checkApplyBeans.get(0).getImgAndVideoList());
             xStream.alias("checkApply", DataPackageBean.CheckApplyBean.class);//为类名节点重命名
             xStream.useAttributeFor(DataPackageBean.CheckApplyBean.class, "id");
 
@@ -970,8 +970,6 @@ public class DaoUtils {
                     checkItemBean.setName(checkItemBeans.get(k).getName());
                     checkItemBean.setOptions(checkItemBeans.get(k).getOptions());
                     checkItemBean.setSelected(checkItemBeans.get(k).getSelected());
-                    checkItemBean.setImgAndVideo(checkItemBeans.get(k).getImgAndVideo());
-
 
                     DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX propertySetBeanX=
                             new DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX();
@@ -1155,6 +1153,7 @@ public class DaoUtils {
                     fileBean.setName(fileBeans.get(j).getName());
                     fileBean.setPath(fileBeans.get(j).getPath());
                     fileBean.setType(fileBeans.get(j).getType());
+                    fileBean.setSecret(fileBeans.get(j).getSecret());
                     xStream.alias("File", DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean.FileBean.class);//为类名节点重命名
                     xStream.addImplicitCollection(DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean.class, "File");
                     File.add(fileBean);
@@ -1224,6 +1223,7 @@ public class DaoUtils {
             documentBean.setModalCode(documentBeans.get(i).getModalCode());
             documentBean.setName(documentBeans.get(i).getName());
             documentBean.setPayClassify(documentBeans.get(i).getPayClassify());
+            documentBean.setPayClassifyName(documentBeans.get(i).getPayClassifyName());
             documentBean.setProductCode(documentBeans.get(i).getProductCode());
             documentBean.setSecret(documentBeans.get(i).getSecret());
             documentBean.setProductCodeName(documentBeans.get(i).getProductCodeName());
@@ -1241,6 +1241,7 @@ public class DaoUtils {
                 fileBean.setName(fileBeans.get(j).getName());
                 fileBean.setType(fileBeans.get(j).getType());
                 fileBean.setPath(fileBeans.get(j).getPath());
+                fileBean.setSecret(fileBeans.get(j).getSecret());
                 xStream.alias("File", DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean.FileBean.class);//为类名节点重命名
                 xStream.addImplicitCollection(DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean.class, "File");
                 File.add(fileBean);

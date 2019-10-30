@@ -32,11 +32,14 @@ import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.greendao.bean.CheckFileBean;
 import com.example.acceptance.greendao.bean.CheckGroupBean;
 import com.example.acceptance.greendao.bean.CheckItemBean;
+import com.example.acceptance.greendao.bean.DeliveryListBean;
 import com.example.acceptance.greendao.bean.PropertyBean;
 import com.example.acceptance.greendao.db.CheckFileBeanDao;
 import com.example.acceptance.greendao.db.CheckGroupBeanDao;
 import com.example.acceptance.greendao.db.CheckItemBeanDao;
+import com.example.acceptance.greendao.db.DeliveryListBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanDao;
+import com.example.acceptance.net.Contents;
 import com.example.acceptance.net.URLS;
 import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
@@ -116,7 +119,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                 CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
                 List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
                         .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
-                        .where(CheckFileBeanDao.Properties.DocType.eq("齐套性检查"))
+                        .where(CheckFileBeanDao.Properties.DocType.eq(Contents.齐套性检查))
                         .list();
                 CheckFileBean checkFileBean=new CheckFileBean(checkFileBeans.get(0).getUId(),
                         checkFileBeans.get(0).getDataPackageId(),
@@ -137,36 +140,40 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
         CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
         List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
                 .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
-                .where(CheckFileBeanDao.Properties.DocType.eq("齐套性检查"))
+                .where(CheckFileBeanDao.Properties.DocType.eq(Contents.齐套性检查))
                 .list();
-
-        Glide.with(getActivity())
-                .load(checkFileBeans.get(0).getCheckPerson())
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(ivCheckPerson2);
-        checkFileId = checkFileBeans.get(0).getId();
-        CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
-        checkGroupBeans = checkGroupBeanDao.queryBuilder()
-                .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
-                .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
-                .list();
-        listTitle.clear();
-        list.clear();
-        etConclusion.setText(checkFileBeans.get(0).getConclusion());
-        for (int i = 0; i < checkGroupBeans.size(); i++) {
-            listTitle.add(checkGroupBeans.get(i).getGroupName());
-            kittingProduct2Fragment = new KittingProduct2Fragment();
-            kittingProduct2Fragment.setOnDel(this);
-            kittingProduct2Fragment.setOnXiugai(this);
-            Bundle bundle = new Bundle();
-            bundle.putString("id", id);
-            bundle.putString("checkFileId", checkFileId);
-            bundle.putString("type", type);
-            bundle.putInt("position", i);
-            kittingProduct2Fragment.setArguments(bundle);
-            list.add(kittingProduct2Fragment);
+        if (checkFileBeans!=null&&!checkFileBeans.isEmpty()){
+            Glide.with(getActivity())
+                    .load(checkFileBeans.get(0).getCheckPerson())
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(ivCheckPerson2);
+            checkFileId = checkFileBeans.get(0).getId();
+            CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
+            checkGroupBeans = checkGroupBeanDao.queryBuilder()
+                    .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
+                    .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
+                    .list();
+            listTitle.clear();
+            list.clear();
+            etConclusion.setText(checkFileBeans.get(0).getConclusion());
+            for (int i = 0; i < checkGroupBeans.size(); i++) {
+                listTitle.add(checkGroupBeans.get(i).getGroupName());
+                kittingProduct2Fragment = new KittingProduct2Fragment();
+                kittingProduct2Fragment.setOnDel(this);
+                kittingProduct2Fragment.setOnXiugai(this);
+                Bundle bundle = new Bundle();
+                bundle.putString("id", id);
+                bundle.putString("checkFileId", checkFileId);
+                bundle.putString("type", type);
+                bundle.putInt("position", i);
+                kittingProduct2Fragment.setArguments(bundle);
+                list.add(kittingProduct2Fragment);
+            }
+        }else {
+            checkFileId = System.currentTimeMillis() + "";
         }
+
     }
 
     private void addPopup() {
@@ -220,11 +227,27 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
         tv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (StringUtils.isBlank(tv_groupName.getText().toString().trim())) {
                     ToastUtils.getInstance().showTextToast(getActivity(), "请输入检查组名称");
                     return;
                 }
+                DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
+                List<DeliveryListBean> parentIdList = deliveryListBeanDao.queryBuilder()
+                        .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
+                        .where(DeliveryListBeanDao.Properties.Project.eq(tv_groupName.getText().toString().trim()))
+                        .list();
+                if (parentIdList != null && !parentIdList.isEmpty()) {
+                } else {
+                    DeliveryListBean deliveryListBean = new DeliveryListBean(null,
+                            id,
+                            System.currentTimeMillis() + "",
+                            true + "",
+                            tv_groupName.getText().toString().trim(),
+                            "");
+                    deliveryListBeanDao.insert(deliveryListBean);
+                }
+
+
                 CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
                 String CheckGroupId = System.currentTimeMillis() + "";
                 CheckGroupBean checkGroupBean = new CheckGroupBean(null,
@@ -272,7 +295,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                 CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
                 List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
                         .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
-                        .where(CheckFileBeanDao.Properties.DocType.eq("齐套性检查"))
+                        .where(CheckFileBeanDao.Properties.DocType.eq(Contents.齐套性检查))
                         .list();
                 CheckFileBean checkFileBean=new CheckFileBean(checkFileBeans.get(0).getUId(),
                         checkFileBeans.get(0).getDataPackageId(),
@@ -340,7 +363,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                     CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
                     List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
                             .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
-                            .where(CheckFileBeanDao.Properties.DocType.eq("齐套性检查"))
+                            .where(CheckFileBeanDao.Properties.DocType.eq(Contents.齐套性检查))
                             .list();
                     CheckFileBean checkFileBean=new CheckFileBean(checkFileBeans.get(0).getUId(),
                             checkFileBeans.get(0).getDataPackageId(),

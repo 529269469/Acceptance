@@ -69,6 +69,7 @@ import com.example.acceptance.greendao.db.UnresolvedBeanDao;
 import com.example.acceptance.utils.DataUtils;
 import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
+import com.example.acceptance.utils.ToastUtils;
 import com.example.acceptance.utils.ZipUtils2;
 import com.example.acceptance.view.MyListView;
 import com.thoughtworks.xstream.XStream;
@@ -191,6 +192,11 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.bt_yes:
+                if (StringUtils.isBlank(tvCode.getText().toString().trim())){
+                    ToastUtils.getInstance().showTextToast(this,"编号不能为空");
+                    return;
+                }
+
                 DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
                 File file = new File(Environment.getExternalStorageDirectory() + "/数据包/" + tvCode.getText().toString().trim());
                 if (!file.exists()) {
@@ -366,8 +372,7 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                     dataPackageBean.getCheckApply().getPhone(),
                     dataPackageBean.getCheckApply().getConclusion(),
                     dataPackageBean.getCheckApply().getDescription(),
-                    dataPackageBean.getCheckApply().getDocTypeVal(),
-                    dataPackageBean.getCheckApply().getImgAndVideoList());
+                    dataPackageBean.getCheckApply().getDocTypeVal());
             checkApplyBeanDao.insert(checkApplyBean);
         } catch (Exception o) {
 
@@ -506,8 +511,7 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getId(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getName(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getOptions(),
-                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected(),
-                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getImgAndVideo());
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected());
                             checkItemBeanDao.insert(checkItemBean);
 
                             try {
@@ -603,7 +607,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getId(),
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getName(),
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getPath(),
-                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getType());
+                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getType(),
+                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getSecret());
                         fileBeanDao.insert(fileBean);
                     }
                 } catch (Exception o) {
@@ -644,6 +649,7 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getName(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getSecret(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getPayClassify(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getPayClassifyName(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getModalCode(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getProductCodeName(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getProductCode(),
@@ -662,7 +668,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getId(),
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getName(),
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getPath(),
-                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getType());
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getType(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getSecret());
                     fileBeanDao.insert(fileBean);
                 }
 

@@ -31,16 +31,17 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
         public final static Property Name = new Property(4, String.class, "name", false, "NAME");
         public final static Property Secret = new Property(5, String.class, "secret", false, "SECRET");
         public final static Property PayClassify = new Property(6, String.class, "payClassify", false, "PAY_CLASSIFY");
-        public final static Property ModalCode = new Property(7, String.class, "modalCode", false, "MODAL_CODE");
-        public final static Property ProductCodeName = new Property(8, String.class, "productCodeName", false, "PRODUCT_CODE_NAME");
-        public final static Property ProductCode = new Property(9, String.class, "productCode", false, "PRODUCT_CODE");
-        public final static Property Stage = new Property(10, String.class, "stage", false, "STAGE");
-        public final static Property TechStatus = new Property(11, String.class, "techStatus", false, "TECH_STATUS");
-        public final static Property Approver = new Property(12, String.class, "approver", false, "APPROVER");
-        public final static Property ApprovalDate = new Property(13, String.class, "approvalDate", false, "APPROVAL_DATE");
-        public final static Property Issl = new Property(14, String.class, "issl", false, "ISSL");
-        public final static Property Conclusion = new Property(15, String.class, "conclusion", false, "CONCLUSION");
-        public final static Property Description = new Property(16, String.class, "description", false, "DESCRIPTION");
+        public final static Property PayClassifyName = new Property(7, String.class, "payClassifyName", false, "PAY_CLASSIFY_NAME");
+        public final static Property ModalCode = new Property(8, String.class, "modalCode", false, "MODAL_CODE");
+        public final static Property ProductCodeName = new Property(9, String.class, "productCodeName", false, "PRODUCT_CODE_NAME");
+        public final static Property ProductCode = new Property(10, String.class, "productCode", false, "PRODUCT_CODE");
+        public final static Property Stage = new Property(11, String.class, "stage", false, "STAGE");
+        public final static Property TechStatus = new Property(12, String.class, "techStatus", false, "TECH_STATUS");
+        public final static Property Approver = new Property(13, String.class, "approver", false, "APPROVER");
+        public final static Property ApprovalDate = new Property(14, String.class, "approvalDate", false, "APPROVAL_DATE");
+        public final static Property Issl = new Property(15, String.class, "issl", false, "ISSL");
+        public final static Property Conclusion = new Property(16, String.class, "conclusion", false, "CONCLUSION");
+        public final static Property Description = new Property(17, String.class, "description", false, "DESCRIPTION");
     }
 
 
@@ -63,16 +64,17 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
                 "\"NAME\" TEXT," + // 4: name
                 "\"SECRET\" TEXT," + // 5: secret
                 "\"PAY_CLASSIFY\" TEXT," + // 6: payClassify
-                "\"MODAL_CODE\" TEXT," + // 7: modalCode
-                "\"PRODUCT_CODE_NAME\" TEXT," + // 8: productCodeName
-                "\"PRODUCT_CODE\" TEXT," + // 9: productCode
-                "\"STAGE\" TEXT," + // 10: stage
-                "\"TECH_STATUS\" TEXT," + // 11: techStatus
-                "\"APPROVER\" TEXT," + // 12: approver
-                "\"APPROVAL_DATE\" TEXT," + // 13: approvalDate
-                "\"ISSL\" TEXT," + // 14: issl
-                "\"CONCLUSION\" TEXT," + // 15: conclusion
-                "\"DESCRIPTION\" TEXT);"); // 16: description
+                "\"PAY_CLASSIFY_NAME\" TEXT," + // 7: payClassifyName
+                "\"MODAL_CODE\" TEXT," + // 8: modalCode
+                "\"PRODUCT_CODE_NAME\" TEXT," + // 9: productCodeName
+                "\"PRODUCT_CODE\" TEXT," + // 10: productCode
+                "\"STAGE\" TEXT," + // 11: stage
+                "\"TECH_STATUS\" TEXT," + // 12: techStatus
+                "\"APPROVER\" TEXT," + // 13: approver
+                "\"APPROVAL_DATE\" TEXT," + // 14: approvalDate
+                "\"ISSL\" TEXT," + // 15: issl
+                "\"CONCLUSION\" TEXT," + // 16: conclusion
+                "\"DESCRIPTION\" TEXT);"); // 17: description
     }
 
     /** Drops the underlying database table. */
@@ -120,54 +122,59 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
             stmt.bindString(7, payClassify);
         }
  
+        String payClassifyName = entity.getPayClassifyName();
+        if (payClassifyName != null) {
+            stmt.bindString(8, payClassifyName);
+        }
+ 
         String modalCode = entity.getModalCode();
         if (modalCode != null) {
-            stmt.bindString(8, modalCode);
+            stmt.bindString(9, modalCode);
         }
  
         String productCodeName = entity.getProductCodeName();
         if (productCodeName != null) {
-            stmt.bindString(9, productCodeName);
+            stmt.bindString(10, productCodeName);
         }
  
         String productCode = entity.getProductCode();
         if (productCode != null) {
-            stmt.bindString(10, productCode);
+            stmt.bindString(11, productCode);
         }
  
         String stage = entity.getStage();
         if (stage != null) {
-            stmt.bindString(11, stage);
+            stmt.bindString(12, stage);
         }
  
         String techStatus = entity.getTechStatus();
         if (techStatus != null) {
-            stmt.bindString(12, techStatus);
+            stmt.bindString(13, techStatus);
         }
  
         String approver = entity.getApprover();
         if (approver != null) {
-            stmt.bindString(13, approver);
+            stmt.bindString(14, approver);
         }
  
         String approvalDate = entity.getApprovalDate();
         if (approvalDate != null) {
-            stmt.bindString(14, approvalDate);
+            stmt.bindString(15, approvalDate);
         }
  
         String issl = entity.getIssl();
         if (issl != null) {
-            stmt.bindString(15, issl);
+            stmt.bindString(16, issl);
         }
  
         String conclusion = entity.getConclusion();
         if (conclusion != null) {
-            stmt.bindString(16, conclusion);
+            stmt.bindString(17, conclusion);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(17, description);
+            stmt.bindString(18, description);
         }
     }
 
@@ -210,54 +217,59 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
             stmt.bindString(7, payClassify);
         }
  
+        String payClassifyName = entity.getPayClassifyName();
+        if (payClassifyName != null) {
+            stmt.bindString(8, payClassifyName);
+        }
+ 
         String modalCode = entity.getModalCode();
         if (modalCode != null) {
-            stmt.bindString(8, modalCode);
+            stmt.bindString(9, modalCode);
         }
  
         String productCodeName = entity.getProductCodeName();
         if (productCodeName != null) {
-            stmt.bindString(9, productCodeName);
+            stmt.bindString(10, productCodeName);
         }
  
         String productCode = entity.getProductCode();
         if (productCode != null) {
-            stmt.bindString(10, productCode);
+            stmt.bindString(11, productCode);
         }
  
         String stage = entity.getStage();
         if (stage != null) {
-            stmt.bindString(11, stage);
+            stmt.bindString(12, stage);
         }
  
         String techStatus = entity.getTechStatus();
         if (techStatus != null) {
-            stmt.bindString(12, techStatus);
+            stmt.bindString(13, techStatus);
         }
  
         String approver = entity.getApprover();
         if (approver != null) {
-            stmt.bindString(13, approver);
+            stmt.bindString(14, approver);
         }
  
         String approvalDate = entity.getApprovalDate();
         if (approvalDate != null) {
-            stmt.bindString(14, approvalDate);
+            stmt.bindString(15, approvalDate);
         }
  
         String issl = entity.getIssl();
         if (issl != null) {
-            stmt.bindString(15, issl);
+            stmt.bindString(16, issl);
         }
  
         String conclusion = entity.getConclusion();
         if (conclusion != null) {
-            stmt.bindString(16, conclusion);
+            stmt.bindString(17, conclusion);
         }
  
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(17, description);
+            stmt.bindString(18, description);
         }
     }
 
@@ -276,16 +288,17 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // name
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // secret
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // payClassify
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // modalCode
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // productCodeName
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // productCode
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // stage
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // techStatus
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // approver
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // approvalDate
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // issl
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // conclusion
-            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16) // description
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // payClassifyName
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // modalCode
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // productCodeName
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // productCode
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // stage
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // techStatus
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // approver
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // approvalDate
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // issl
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // conclusion
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17) // description
         );
         return entity;
     }
@@ -299,16 +312,17 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
         entity.setName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setSecret(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setPayClassify(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setModalCode(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setProductCodeName(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setProductCode(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setStage(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setTechStatus(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setApprover(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setApprovalDate(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setIssl(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setConclusion(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setDescription(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setPayClassifyName(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setModalCode(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setProductCodeName(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setProductCode(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setStage(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setTechStatus(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setApprover(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setApprovalDate(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setIssl(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setConclusion(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setDescription(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
      }
     
     @Override

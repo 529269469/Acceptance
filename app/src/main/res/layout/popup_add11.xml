@@ -37,7 +37,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="文件编号"
+                        android:text="       编 号"
                         android:textColor="#999999" />
 
                     <EditText
@@ -61,7 +61,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="文件名称"
+                        android:text="       名 称"
                         android:textColor="#999999" />
 
                     <EditText
@@ -85,7 +85,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="文件类型"
+                        android:text="交付类别"
                         android:textColor="#999999" />
 
                     <EditText
@@ -133,11 +133,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="技术状态"
+                        android:text="型号代号"
                         android:textColor="#999999" />
 
                     <EditText
-                        android:id="@+id/tv_techStatus"
+                        android:id="@+id/tv_modelCode"
                         android:layout_width="@dimen/padding_300"
                         android:layout_height="@dimen/padding_36"
                         android:layout_marginLeft="@dimen/padding_10"
@@ -157,11 +157,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="    批准人"
+                        android:text="产品编号"
                         android:textColor="#999999" />
 
                     <EditText
-                        android:id="@+id/tv_approver"
+                        android:id="@+id/tv_productCode"
                         android:layout_width="@dimen/padding_300"
                         android:layout_height="@dimen/padding_36"
                         android:layout_marginLeft="@dimen/padding_10"
@@ -180,67 +180,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="批准日期"
+                        android:text="产品代号"
                         android:textColor="#999999" />
 
                     <EditText
-                        android:id="@+id/tv_approvalDate"
-                        android:layout_width="@dimen/padding_300"
-                        android:layout_height="@dimen/padding_36"
-                        android:layout_marginLeft="@dimen/padding_10"
-                        android:background="@drawable/shape_edtext"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/padding_10"
-                        android:textColor="@color/color_333333"
-                        android:textSize="@dimen/text_font_14" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/padding_36"
-                    android:layout_marginTop="@dimen/padding_10"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="是否晒蓝"
-                        android:textColor="#999999" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/padding_16"
-                        android:text="否"
-                        android:textColor="@color/color_333333" />
-
-                    <Switch
-                        android:id="@+id/tv_issl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/padding_10"
-                        android:textSize="@dimen/text_font_14" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="是"
-                        android:textColor="@color/color_333333" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/padding_36"
-                    android:layout_marginTop="@dimen/padding_10"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="验收结论"
-                        android:textColor="#999999" />
-
-                    <EditText
-                        android:id="@+id/tv_conclusion"
+                        android:id="@+id/tv_productCodeName"
                         android:layout_width="@dimen/padding_300"
                         android:layout_height="@dimen/padding_36"
                         android:layout_marginLeft="@dimen/padding_10"
@@ -260,11 +204,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="      备  注"
+                        android:text="      阶  段"
                         android:textColor="#999999" />
 
                     <EditText
-                        android:id="@+id/tv_description"
+                        android:id="@+id/tv_stage"
                         android:layout_width="@dimen/padding_300"
                         android:layout_height="@dimen/padding_36"
                         android:layout_marginLeft="@dimen/padding_10"
@@ -286,7 +230,6 @@
                         android:layout_height="wrap_content"
                         android:text="添加文件"
                         android:textColor="#999999" />
-
                     <TextView
                         android:text="浏览"
                         android:id="@+id/tv_file"
@@ -304,6 +247,37 @@
                     android:layout_marginTop="@dimen/padding_10"
                     android:layout_marginLeft="@dimen/padding_70"
                     android:id="@+id/lv_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_36"
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="添加附件"
+                        android:textColor="#999999" />
+                    <TextView
+                        android:text="浏览"
+                        android:id="@+id/tv_file2"
+                        android:layout_width="@dimen/padding_300"
+                        android:layout_height="@dimen/padding_36"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/text_font_14" />
+                </LinearLayout>
+
+                <com.example.acceptance.view.MyListView
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:layout_marginLeft="@dimen/padding_70"
+                    android:id="@+id/lv_file2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

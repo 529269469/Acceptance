@@ -48,6 +48,7 @@
                 android:layout_height="wrap_content" />
 
             <View
+                android:layout_marginTop="@dimen/padding_10"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/padding_1"
                 android:background="@color/color_000" />

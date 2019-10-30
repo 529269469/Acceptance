@@ -42,8 +42,8 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
         public final static Property ModelSeries = new Property(15, String.class, "modelSeries", false, "MODEL_SERIES");
         public final static Property ModelSeriesName = new Property(16, String.class, "modelSeriesName", false, "MODEL_SERIES_NAME");
         public final static Property PkgTemplateId = new Property(17, String.class, "pkgTemplateId", false, "PKG_TEMPLATE_ID");
-        public final static Property LifecycleTemplateId = new Property(18, String.class, "lifecycleTemplateId", false, "LIFECYCLE_TEMPLATE_ID");
-        public final static Property LifecycleStateId = new Property(19, String.class, "lifecycleStateId", false, "LIFECYCLE_STATE_ID");
+        public final static Property LifecycleStateId = new Property(18, String.class, "lifecycleStateId", false, "LIFECYCLE_STATE_ID");
+        public final static Property LifecycleStateIdentifier = new Property(19, String.class, "lifecycleStateIdentifier", false, "LIFECYCLE_STATE_IDENTIFIER");
     }
 
 
@@ -77,8 +77,8 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
                 "\"MODEL_SERIES\" TEXT," + // 15: modelSeries
                 "\"MODEL_SERIES_NAME\" TEXT," + // 16: modelSeriesName
                 "\"PKG_TEMPLATE_ID\" TEXT," + // 17: pkgTemplateId
-                "\"LIFECYCLE_TEMPLATE_ID\" TEXT," + // 18: lifecycleTemplateId
-                "\"LIFECYCLE_STATE_ID\" TEXT);"); // 19: lifecycleStateId
+                "\"LIFECYCLE_STATE_ID\" TEXT," + // 18: lifecycleStateId
+                "\"LIFECYCLE_STATE_IDENTIFIER\" TEXT);"); // 19: lifecycleStateIdentifier
     }
 
     /** Drops the underlying database table. */
@@ -181,14 +181,14 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
             stmt.bindString(18, pkgTemplateId);
         }
  
-        String lifecycleTemplateId = entity.getLifecycleTemplateId();
-        if (lifecycleTemplateId != null) {
-            stmt.bindString(19, lifecycleTemplateId);
-        }
- 
         String lifecycleStateId = entity.getLifecycleStateId();
         if (lifecycleStateId != null) {
-            stmt.bindString(20, lifecycleStateId);
+            stmt.bindString(19, lifecycleStateId);
+        }
+ 
+        String lifecycleStateIdentifier = entity.getLifecycleStateIdentifier();
+        if (lifecycleStateIdentifier != null) {
+            stmt.bindString(20, lifecycleStateIdentifier);
         }
     }
 
@@ -286,14 +286,14 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
             stmt.bindString(18, pkgTemplateId);
         }
  
-        String lifecycleTemplateId = entity.getLifecycleTemplateId();
-        if (lifecycleTemplateId != null) {
-            stmt.bindString(19, lifecycleTemplateId);
-        }
- 
         String lifecycleStateId = entity.getLifecycleStateId();
         if (lifecycleStateId != null) {
-            stmt.bindString(20, lifecycleStateId);
+            stmt.bindString(19, lifecycleStateId);
+        }
+ 
+        String lifecycleStateIdentifier = entity.getLifecycleStateIdentifier();
+        if (lifecycleStateIdentifier != null) {
+            stmt.bindString(20, lifecycleStateIdentifier);
         }
     }
 
@@ -323,8 +323,8 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
             cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // modelSeries
             cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // modelSeriesName
             cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // pkgTemplateId
-            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // lifecycleTemplateId
-            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19) // lifecycleStateId
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // lifecycleStateId
+            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19) // lifecycleStateIdentifier
         );
         return entity;
     }
@@ -349,8 +349,8 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
         entity.setModelSeries(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
         entity.setModelSeriesName(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
         entity.setPkgTemplateId(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setLifecycleTemplateId(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setLifecycleStateId(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
+        entity.setLifecycleStateId(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setLifecycleStateIdentifier(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
      }
     
     @Override

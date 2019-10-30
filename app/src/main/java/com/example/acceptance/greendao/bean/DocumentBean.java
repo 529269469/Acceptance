@@ -18,6 +18,7 @@ public class DocumentBean {
     private String name;
     private String secret;
     private String payClassify;
+    private String payClassifyName;
     private String modalCode;
     private String productCodeName;
     private String productCode;
@@ -28,12 +29,13 @@ public class DocumentBean {
     private String issl;
     private String conclusion;
     private String description;
-    @Generated(hash = 41096077)
+
+    @Generated(hash = 1506114543)
     public DocumentBean(Long uId, String dataPackageId, String id, String code,
-            String name, String secret, String payClassify, String modalCode,
-            String productCodeName, String productCode, String stage,
-            String techStatus, String approver, String approvalDate, String issl,
-            String conclusion, String description) {
+            String name, String secret, String payClassify, String payClassifyName,
+            String modalCode, String productCodeName, String productCode,
+            String stage, String techStatus, String approver, String approvalDate,
+            String issl, String conclusion, String description) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -41,6 +43,7 @@ public class DocumentBean {
         this.name = name;
         this.secret = secret;
         this.payClassify = payClassify;
+        this.payClassifyName = payClassifyName;
         this.modalCode = modalCode;
         this.productCodeName = productCodeName;
         this.productCode = productCode;
@@ -55,6 +58,7 @@ public class DocumentBean {
     @Generated(hash = 1348634967)
     public DocumentBean() {
     }
+
     public Long getUId() {
         return this.uId;
     }
@@ -156,5 +160,11 @@ public class DocumentBean {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public String getPayClassifyName() {
+        return this.payClassifyName;
+    }
+    public void setPayClassifyName(String payClassifyName) {
+        this.payClassifyName = payClassifyName;
     }
 }

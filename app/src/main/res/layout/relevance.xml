@@ -7,11 +7,18 @@
     <TextView
         android:id="@+id/tv_file"
         android:gravity="center"
-        android:text="关联文件"
+        android:text="上传文件"
         android:background="@drawable/shape_ed"
         android:layout_width="@dimen/padding_100"
         android:layout_height="@dimen/padding_40"/>
 
+    <TextView
+        android:id="@+id/tv_file2"
+        android:gravity="center"
+        android:text="关联文件"
+        android:background="@drawable/shape_ed"
+        android:layout_width="@dimen/padding_100"
+        android:layout_height="@dimen/padding_40"/>
     <TextView
         android:id="@+id/tv_img"
         android:gravity="center"

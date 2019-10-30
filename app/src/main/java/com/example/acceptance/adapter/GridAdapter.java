@@ -18,6 +18,8 @@ import com.example.acceptance.R;
 import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.net.URLS;
 import com.example.acceptance.utils.OpenFileUtil;
+import com.example.acceptance.utils.SPUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +81,7 @@ public class GridAdapter extends BaseAdapter {
             viewHolde.iv_grid2.setVisibility(View.GONE);
         }
         Glide.with(context)
-                .load(new File(list.get(position)))
+                .load(new File(SPUtils.get(context, "path", "") + File.separator +list.get(position)))
                 .into(viewHolde.iv_grid);
 
         viewHolde.iv_grid.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +106,7 @@ public class GridAdapter extends BaseAdapter {
                     popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
                     ImageView iv_image = poview.findViewById(R.id.iv_image);
                     Glide.with(context)
-                            .load(new File(list.get(position)))
+                            .load(new File(SPUtils.get(context, "path", "") + File.separator +list.get(position)))
                             .into(iv_image);
                     popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
@@ -124,7 +126,7 @@ public class GridAdapter extends BaseAdapter {
                     });
                 } else {
                     try {
-                        context.startActivity(OpenFileUtil.openFile( list.get(position)));
+                        context.startActivity(OpenFileUtil.openFile( SPUtils.get(context, "path", "") + File.separator +list.get(position)));
                     } catch (Exception e) {
                         Toast.makeText(context, "打开失败，原因：文件已经被移动或者删除", Toast.LENGTH_SHORT).show();
                     }

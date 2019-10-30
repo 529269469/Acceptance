@@ -1,12 +1,13 @@
 package com.example.acceptance.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.acceptance.R;
 import com.example.acceptance.base.MyApplication;
@@ -29,13 +30,13 @@ import butterknife.ButterKnife;
  * @author :created by ${ WYW }
  * 时间：2019/9/19 10
  */
-public class Delivery2Adapter extends BaseAdapter {
+public class Delivery3Adapter extends BaseAdapter {
 
-    private Context context;
+    private Activity context;
     private List<DeliveryListBean> list;
     private List<FileBean> fileBeans;
 
-    public Delivery2Adapter(Context context, List<DeliveryListBean> list) {
+    public Delivery3Adapter(Activity context, List<DeliveryListBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -84,9 +85,18 @@ public class Delivery2Adapter extends BaseAdapter {
 
             if (fileBeans!=null&&!fileBeans.isEmpty()){
                 viewHolder.tvNameFile.setText(fileBeans.get(0).getName());
-            }else {
-                viewHolder.tvNameFile.setText("");
             }
+            viewHolder.tvNameFile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.putExtra("DocumentId",documentBeans.get(0).getId());
+                    context.setResult(context.RESULT_OK,intent);
+                    context.finish();
+
+                }
+            });
+
 
         }else {
             viewHolder.tvName.setText("");
@@ -116,14 +126,5 @@ public class Delivery2Adapter extends BaseAdapter {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-    }
-
-    public interface AddDelivery{
-        void setAddDelivery(int position);
-    }
-    private AddDelivery addDelivery;
-
-    public void setAddDelivery(AddDelivery addDelivery) {
-        this.addDelivery = addDelivery;
     }
 }

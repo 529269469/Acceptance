@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;
@@ -46,6 +47,7 @@ import com.example.acceptance.utils.DaoUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -186,6 +188,7 @@ public class MainActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
         if (isDel){
+            hide(transaction);
             switch (type){
                 case "2":
                     tvTuichu.setText("齐套性检查");
@@ -407,6 +410,10 @@ public class MainActivity extends BaseActivity {
                 if (StringUtils.isBlank(edit_name.getText().toString().trim())){
                     ToastUtils.getInstance().showTextToast(MainActivity.this,"请输入模板名称");
                     return;
+                }
+                File file=new File(Environment.getExternalStorageDirectory()+"/模板");
+                if (!file.exists()){
+                    file.mkdirs();
                 }
                 daochu.dismiss();
                 handler.sendEmptyMessage(1);

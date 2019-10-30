@@ -24,16 +24,14 @@ public class CheckApplyBean {
     private String conclusion;
     private String description;
     private String docTypeVal;
-    private String imgAndVideoList;
 
 
 
-
-    @Generated(hash = 2094353126)
+    @Generated(hash = 1202944174)
     public CheckApplyBean(Long uId, String dataPackageId, String id, String name,
             String code, String contractCode, String contractName, String applicant,
             String applyCompany, String phone, String conclusion,
-            String description, String docTypeVal, String imgAndVideoList) {
+            String description, String docTypeVal) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -47,14 +45,12 @@ public class CheckApplyBean {
         this.conclusion = conclusion;
         this.description = description;
         this.docTypeVal = docTypeVal;
-        this.imgAndVideoList = imgAndVideoList;
     }
     @Generated(hash = 113687566)
     public CheckApplyBean() {
     }
 
-
-
+    
 
     public Long getUId() {
         return this.uId;
@@ -129,12 +125,6 @@ public class CheckApplyBean {
         this.description = description;
     }
 
-    public String getImgAndVideoList() {
-        return this.imgAndVideoList;
-    }
-    public void setImgAndVideoList(String imgAndVideoList) {
-        this.imgAndVideoList = imgAndVideoList;
-    }
     public String getDocTypeVal() {
         return this.docTypeVal;
     }

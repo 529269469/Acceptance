@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.acceptance.R;
 import com.example.acceptance.greendao.bean.ApplyItemBean;
+import com.example.acceptance.utils.StringUtils;
 
 import java.util.List;
 
@@ -61,28 +62,28 @@ public class ApplyForAdapter extends BaseAdapter {
         viewHolder.tvProductStatus.setText(list.get(i).getProductStatus());
         viewHolder.tvCheckCount.setText(list.get(i).getCheckCount());
 
-        if (list.get(i).getIsPureCheck().equals("true")){
+        if (!StringUtils.isBlank(list.get(i).getIsPureCheck())&&list.get(i).getIsPureCheck().equals("true")){
             viewHolder.tvIsPureCheck.setText("是");
         }else {
             viewHolder.tvIsPureCheck.setText("否");
         }
-        if (list.get(i).getIsArmyCheck().equals("true")){
+        if (!StringUtils.isBlank(list.get(i).getIsArmyCheck())&&list.get(i).getIsArmyCheck().equals("true")){
             viewHolder.tvIsArmyCheck.setText("是");
         }else {
             viewHolder.tvIsArmyCheck.setText("否");
         }
-        if (list.get(i).getIsCompleteChoice().equals("true")){
+        if (!StringUtils.isBlank(list.get(i).getIsCompleteChoice())&&list.get(i).getIsCompleteChoice().equals("true")){
             viewHolder.tvIsCompleteChoice.setText("是");
         }else {
             viewHolder.tvIsCompleteChoice.setText("否");
         }
 
-        if (list.get(i).getIsCompleteRoutine().equals("true")){
+        if (!StringUtils.isBlank(list.get(i).getIsCompleteRoutine())&&list.get(i).getIsCompleteRoutine().equals("true")){
             viewHolder.tvIsCompleteRoutine.setText("是");
         }else {
             viewHolder.tvIsCompleteRoutine.setText("否");
         }
-        if (list.get(i).getIsSatisfyRequire().equals("true")){
+        if (!StringUtils.isBlank(list.get(i).getIsSatisfyRequire())&&list.get(i).getIsSatisfyRequire().equals("true")){
             viewHolder.tvIsSatisfyRequire.setText("是");
         }else {
             viewHolder.tvIsSatisfyRequire.setText("否");

@@ -122,6 +122,9 @@ public class ToActivity extends BaseActivity {
         ivGenduo.setOnClickListener(view -> finish());
 
         File files = new File(Environment.getExternalStorageDirectory() + "/数据包");
+        if (!files.exists()){
+            files.mkdirs();
+        }
         File[] subFile = files.listFiles();
         for (int i = 0; i < subFile.length; i++) {
             String filename = subFile[i].getName();
@@ -165,7 +168,6 @@ public class ToActivity extends BaseActivity {
 
                             }
                         });
-
                         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -298,8 +300,8 @@ public class ToActivity extends BaseActivity {
                 dataPackageBean.getModelSeries(),
                 dataPackageBean.getModelSeriesName(),
                 dataPackageBean.getPkgTemplateId(),
-                dataPackageBean.getLifecycleTemplateId(),
-                dataPackageBean.getLifecycleStateId());
+                dataPackageBean.getLifecycleStateId(),
+                dataPackageBean.getLifecycleStateIdentifier());
         dataPackageDBeanDao.insert(dataPackageDBean);
         CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
 
@@ -326,8 +328,7 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getCheckApply().getPhone(),
                     dataPackageBean.getCheckApply().getConclusion(),
                     dataPackageBean.getCheckApply().getDescription(),
-                    dataPackageBean.getCheckApply().getDocTypeVal(),
-                    dataPackageBean.getCheckApply().getImgAndVideoList());
+                    dataPackageBean.getCheckApply().getDocTypeVal());
             checkApplyBeanDao.insert(checkApplyBean);
         } catch (Exception o) {
 
@@ -547,8 +548,7 @@ public class ToActivity extends BaseActivity {
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getId(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getName(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getOptions(),
-                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected(),
-                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getImgAndVideo());
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected());
                             checkItemBeanDao.insert(checkItemBean);
 
                             try {
@@ -674,7 +674,8 @@ public class ToActivity extends BaseActivity {
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getId(),
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getName(),
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getPath(),
-                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getType());
+                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getType(),
+                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getSecret());
                         fileBeanDao.insert(fileBean);
                     }
                 } catch (Exception o) {
@@ -729,6 +730,7 @@ public class ToActivity extends BaseActivity {
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getName(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getSecret(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getPayClassify(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getPayClassifyName(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getModalCode(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getProductCodeName(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getProductCode(),
@@ -747,7 +749,8 @@ public class ToActivity extends BaseActivity {
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getId(),
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getName(),
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getPath(),
-                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getType());
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getType(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getSecret());
                     fileBeanDao.insert(fileBean);
                 }
 

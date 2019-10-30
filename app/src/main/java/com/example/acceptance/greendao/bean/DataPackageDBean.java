@@ -29,18 +29,19 @@ public class DataPackageDBean {
     private String modelSeries;
     private String modelSeriesName;
     private String pkgTemplateId;
-    private String lifecycleTemplateId;
     private String lifecycleStateId;
+    private String lifecycleStateIdentifier;
 
 
 
-    @Generated(hash = 905604226)
+
+    @Generated(hash = 1010401501)
     public DataPackageDBean(Long uId, String namePackage, String upLoadFile,
             String id, String name, String code, String type, String responseUnit,
             String modelCode, String productName, String productCode,
             String productType, String batch, String creator, String createTime,
             String modelSeries, String modelSeriesName, String pkgTemplateId,
-            String lifecycleTemplateId, String lifecycleStateId) {
+            String lifecycleStateId, String lifecycleStateIdentifier) {
         this.uId = uId;
         this.namePackage = namePackage;
         this.upLoadFile = upLoadFile;
@@ -59,12 +60,13 @@ public class DataPackageDBean {
         this.modelSeries = modelSeries;
         this.modelSeriesName = modelSeriesName;
         this.pkgTemplateId = pkgTemplateId;
-        this.lifecycleTemplateId = lifecycleTemplateId;
         this.lifecycleStateId = lifecycleStateId;
+        this.lifecycleStateIdentifier = lifecycleStateIdentifier;
     }
     @Generated(hash = 1504690886)
     public DataPackageDBean() {
     }
+
 
 
     
@@ -177,16 +179,16 @@ public class DataPackageDBean {
     public void setPkgTemplateId(String pkgTemplateId) {
         this.pkgTemplateId = pkgTemplateId;
     }
-    public String getLifecycleTemplateId() {
-        return this.lifecycleTemplateId;
-    }
-    public void setLifecycleTemplateId(String lifecycleTemplateId) {
-        this.lifecycleTemplateId = lifecycleTemplateId;
-    }
     public String getLifecycleStateId() {
         return this.lifecycleStateId;
     }
     public void setLifecycleStateId(String lifecycleStateId) {
         this.lifecycleStateId = lifecycleStateId;
+    }
+    public String getLifecycleStateIdentifier() {
+        return this.lifecycleStateIdentifier;
+    }
+    public void setLifecycleStateIdentifier(String lifecycleStateIdentifier) {
+        this.lifecycleStateIdentifier = lifecycleStateIdentifier;
     }
 }

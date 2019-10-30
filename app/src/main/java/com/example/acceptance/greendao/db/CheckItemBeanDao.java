@@ -32,7 +32,6 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         public final static Property Name = new Property(5, String.class, "name", false, "NAME");
         public final static Property Options = new Property(6, String.class, "options", false, "OPTIONS");
         public final static Property Selected = new Property(7, String.class, "selected", false, "SELECTED");
-        public final static Property ImgAndVideo = new Property(8, String.class, "imgAndVideo", false, "IMG_AND_VIDEO");
     }
 
 
@@ -55,8 +54,7 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
                 "\"ID\" TEXT," + // 4: id
                 "\"NAME\" TEXT," + // 5: name
                 "\"OPTIONS\" TEXT," + // 6: options
-                "\"SELECTED\" TEXT," + // 7: selected
-                "\"IMG_AND_VIDEO\" TEXT);"); // 8: imgAndVideo
+                "\"SELECTED\" TEXT);"); // 7: selected
     }
 
     /** Drops the underlying database table. */
@@ -108,11 +106,6 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         if (selected != null) {
             stmt.bindString(8, selected);
         }
- 
-        String imgAndVideo = entity.getImgAndVideo();
-        if (imgAndVideo != null) {
-            stmt.bindString(9, imgAndVideo);
-        }
     }
 
     @Override
@@ -158,11 +151,6 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         if (selected != null) {
             stmt.bindString(8, selected);
         }
- 
-        String imgAndVideo = entity.getImgAndVideo();
-        if (imgAndVideo != null) {
-            stmt.bindString(9, imgAndVideo);
-        }
     }
 
     @Override
@@ -180,8 +168,7 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // id
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // name
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // options
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // selected
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // imgAndVideo
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // selected
         );
         return entity;
     }
@@ -196,7 +183,6 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         entity.setName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setOptions(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setSelected(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setImgAndVideo(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
      }
     
     @Override

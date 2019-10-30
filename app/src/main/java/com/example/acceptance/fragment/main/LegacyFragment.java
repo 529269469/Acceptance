@@ -173,7 +173,9 @@ public class LegacyFragment extends BaseFragment {
                                 id,
                                 unresolvedId,
                                 fileBeans.get(i).getName(),
-                                fileBeans.get(i).getPath(), "");
+                                fileBeans.get(i).getPath(),
+                                fileBeans.get(i).getType(),
+                                fileBeans.get(i).getSecret());
                         fileBeanDao.insert(fileBean);
                     }
                     UnresolvedBean unresolvedBean = new UnresolvedBean(null,
@@ -192,7 +194,9 @@ public class LegacyFragment extends BaseFragment {
                                 id,
                                 StringUtils.isBlank(beanList.get(pos).getFileId())?unresolvedId:beanList.get(pos).getFileId(),
                                 fileBeans.get(i).getName(),
-                                fileBeans.get(i).getPath(), "");
+                                fileBeans.get(i).getPath(),
+                                fileBeans.get(i).getType(),
+                                fileBeans.get(i).getSecret());
                         fileBeanDao.insert(fileBean);
                     }
                     UnresolvedBean unresolvedBean = new UnresolvedBean(beanList.get(pos).getUId(),
