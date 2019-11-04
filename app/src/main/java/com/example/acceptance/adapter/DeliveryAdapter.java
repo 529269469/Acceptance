@@ -1,5 +1,6 @@
 package com.example.acceptance.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +23,7 @@ import com.example.acceptance.greendao.db.DeliveryListBeanDao;
 import com.example.acceptance.greendao.db.DocumentBeanDao;
 import com.example.acceptance.greendao.db.FileBeanDao;
 import com.example.acceptance.utils.OpenFileUtil;
+import com.example.acceptance.view.AddPrijectPopupWindow;
 import com.example.acceptance.view.MyListView;
 
 import java.util.List;
@@ -71,62 +73,47 @@ public class DeliveryAdapter extends BaseAdapter {
 
         viewHolder.tvProject.setText(list.get(i).getProject());
 
-        DeliveryListBeanDao deliveryListBeanDao= MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
-        List<DeliveryListBean> deliveryListBeans=deliveryListBeanDao.queryBuilder()
+        DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
+        List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao.queryBuilder()
                 .where(DeliveryListBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
                 .where(DeliveryListBeanDao.Properties.ParentId.eq(list.get(i).getId()))
                 .list();
 
         Delivery2Adapter legacyAdapter = new Delivery2Adapter(context, deliveryListBeans);
         viewHolder.lv_list.setAdapter(legacyAdapter);
-        legacyAdapter.setAddDelivery(new Delivery2Adapter.AddDelivery() {
-            @Override
-            public void setAddDelivery(int position) {
 
-            }
-        });
-        viewHolder.tvProject.setOnClickListener(new View.OnClickListener() {
+        legacyAdapter.setAddFile(new Delivery2Adapter.AddFile22() {
             @Override
-            public void onClick(View view) {
-                addDelivery.setAddDelivery(i);
+            public void setFile22(String documentId) {
+                addDelivery.setAddDelivery(documentId);
             }
-        });
 
-        viewHolder.lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                addDelivery.setDelivery(deliveryListBeans,i);
-            }
-        });
-
-        viewHolder.lv_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void setDel(int pos) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("是否删除本条数据");
                 builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-                        DeliveryListBeanDao deliveryListBeanDao= MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
-                        DocumentBeanDao documentBeanDao= MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-                        List<DocumentBean> documentBeans=documentBeanDao.queryBuilder()
-                                .where(DocumentBeanDao.Properties.DataPackageId.eq(deliveryListBeans.get(i).getDataPackageId()))
-                                .where(DocumentBeanDao.Properties.PayClassify.eq(deliveryListBeans.get(i).getId()))
+                        DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
+                        DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+                        List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
+                                .where(DocumentBeanDao.Properties.DataPackageId.eq(deliveryListBeans.get(pos).getDataPackageId()))
+                                .where(DocumentBeanDao.Properties.PayClassify.eq(deliveryListBeans.get(pos).getId()))
                                 .list();
-                        if (documentBeans!=null&&!documentBeans.isEmpty()){
-                            FileBeanDao fileBeanDao=MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-                            List<FileBean> fileBeans= fileBeanDao.queryBuilder()
-                                    .where(FileBeanDao.Properties.DataPackageId.eq(deliveryListBeans.get(i).getDataPackageId()))
-                                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
+                        for (int j = 0; j < documentBeans.size(); j++) {
+                            FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+                            List<FileBean> fileBeans = fileBeanDao.queryBuilder()
+                                    .where(FileBeanDao.Properties.DataPackageId.eq(deliveryListBeans.get(pos).getDataPackageId()))
+                                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(j).getId()))
                                     .list();
-                            for (int j = 0; j < fileBeans.size(); j++) {
-                                fileBeanDao.deleteByKey(fileBeans.get(j).getUId());
+                            for (int k = 0; k < fileBeans.size(); k++) {
+                                fileBeanDao.deleteByKey(fileBeans.get(k).getUId());
                             }
                             documentBeanDao.deleteByKey(documentBeans.get(0).getUId());
                         }
-                        deliveryListBeanDao.deleteByKey(deliveryListBeans.get(i).getUId());
-                        deliveryListBeans.remove(i);
+                        deliveryListBeanDao.deleteByKey(deliveryListBeans.get(pos).getUId());
+                        deliveryListBeans.remove(pos);
                         legacyAdapter.notifyDataSetChanged();
                     }
                 });
@@ -137,10 +124,17 @@ public class DeliveryAdapter extends BaseAdapter {
                     }
                 });
                 builder.show();
-
-                return true;
             }
         });
+
+        viewHolder.tvProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addDelivery.setAddProject(list.get(i).getId());
+
+            }
+        });
+
 
         return view;
     }
@@ -164,11 +158,12 @@ public class DeliveryAdapter extends BaseAdapter {
         }
     }
 
-    public interface AddDelivery{
-        void setAddDelivery(int position);
-        void setDelivery(List<DeliveryListBean> deliveryListBeans, int position);
+    public interface AddDelivery {
+        void setAddDelivery(String documentId);
+        void setAddProject(String documentId);
     }
-     private AddDelivery addDelivery;
+
+    private AddDelivery addDelivery;
 
     public void setAddDelivery(AddDelivery addDelivery) {
         this.addDelivery = addDelivery;

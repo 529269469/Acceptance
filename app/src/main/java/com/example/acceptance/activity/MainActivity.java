@@ -244,6 +244,7 @@ public class MainActivity extends BaseActivity {
                         applyForFragment.setArguments(bundle);
                         transaction.add(R.id.frame, particularsFragment);
                     }else {
+                        particularsFragment.setUserVisibleHint(true);
                         transaction.show(particularsFragment);
                     }
 
@@ -254,6 +255,7 @@ public class MainActivity extends BaseActivity {
                         applyForFragment.setArguments(bundle);
                         transaction.add(R.id.frame, applyForFragment);
                     }else {
+                        applyForFragment.setUserVisibleHint(true);
                         transaction.show(applyForFragment);
                     }
                     break;
@@ -263,6 +265,7 @@ public class MainActivity extends BaseActivity {
                         taskFragment.setArguments(bundle);
                         transaction.add(R.id.frame, taskFragment);
                     }else {
+                        taskFragment.setUserVisibleHint(true);
                         transaction.show(taskFragment);
                     }
                     break;
@@ -272,6 +275,7 @@ public class MainActivity extends BaseActivity {
                         kittingFragment.setArguments(bundle);
                         transaction.add(R.id.frame, kittingFragment);
                     }else {
+                        kittingFragment.setUserVisibleHint(true);
                         transaction.show(kittingFragment);
                     }
                     break;
@@ -281,6 +285,7 @@ public class MainActivity extends BaseActivity {
                         courseFragment.setArguments(bundle);
                         transaction.add(R.id.frame, courseFragment);
                     }else {
+                        courseFragment.setUserVisibleHint(true);
                         transaction.show(courseFragment);
                     }
                     break;
@@ -290,6 +295,7 @@ public class MainActivity extends BaseActivity {
                         technologyFragment.setArguments(bundle);
                         transaction.add(R.id.frame, technologyFragment);
                     }else {
+                        technologyFragment.setUserVisibleHint(true);
                         transaction.show(technologyFragment);
                     }
                     break;
@@ -299,6 +305,7 @@ public class MainActivity extends BaseActivity {
                         acceptanceConclusionFragment.setArguments(bundle);
                         transaction.add(R.id.frame, acceptanceConclusionFragment);
                     }else {
+                        acceptanceConclusionFragment.setUserVisibleHint(true);
                         transaction.show(acceptanceConclusionFragment);
                     }
                     break;
@@ -308,6 +315,7 @@ public class MainActivity extends BaseActivity {
                         legacyFragment.setArguments(bundle);
                         transaction.add(R.id.frame, legacyFragment);
                     }else {
+                        legacyFragment.setUserVisibleHint(true);
                         transaction.show(legacyFragment);
                     }
                     break;
@@ -317,6 +325,7 @@ public class MainActivity extends BaseActivity {
                         deliveryFragment.setArguments(bundle);
                         transaction.add(R.id.frame, deliveryFragment);
                     }else {
+                        deliveryFragment.setUserVisibleHint(true);
                         transaction.show(deliveryFragment);
                     }
                     break;

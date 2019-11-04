@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.acceptance.R;
 import com.example.acceptance.base.MyApplication;
+import com.example.acceptance.greendao.bean.FileBean;
 import com.example.acceptance.net.URLS;
 import com.example.acceptance.utils.OpenFileUtil;
 import com.example.acceptance.utils.SPUtils;
@@ -26,10 +27,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class GridAdapter extends BaseAdapter {
-    private List<String> list;
+    private List<FileBean> list;
     private Context context;
 
-    public GridAdapter(List<String> list, Context context) {
+    public GridAdapter(List<FileBean> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -66,7 +67,7 @@ public class GridAdapter extends BaseAdapter {
 
 
         /* 取得扩展名 */
-       String end = list.get(position).substring(list.get(position).lastIndexOf(".") + 1, list.get(position).length()).toLowerCase(Locale.getDefault());
+       String end = list.get(position).getPath().substring(list.get(position).getPath().lastIndexOf(".") + 1, list.get(position).getPath().length()).toLowerCase(Locale.getDefault());
         if (end.equals("m4a") ||
                 end.equals("mp3") ||
                 end.equals("mid") ||
@@ -81,7 +82,7 @@ public class GridAdapter extends BaseAdapter {
             viewHolde.iv_grid2.setVisibility(View.GONE);
         }
         Glide.with(context)
-                .load(new File(SPUtils.get(context, "path", "") + File.separator +list.get(position)))
+                .load(new File(SPUtils.get(context, "path", "") + File.separator +list.get(position).getPath()))
                 .into(viewHolde.iv_grid);
 
         viewHolde.iv_grid.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +107,7 @@ public class GridAdapter extends BaseAdapter {
                     popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
                     ImageView iv_image = poview.findViewById(R.id.iv_image);
                     Glide.with(context)
-                            .load(new File(SPUtils.get(context, "path", "") + File.separator +list.get(position)))
+                            .load(new File(SPUtils.get(context, "path", "") + File.separator +list.get(position).getPath()))
                             .into(iv_image);
                     popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
@@ -126,7 +127,7 @@ public class GridAdapter extends BaseAdapter {
                     });
                 } else {
                     try {
-                        context.startActivity(OpenFileUtil.openFile( SPUtils.get(context, "path", "") + File.separator +list.get(position)));
+                        context.startActivity(OpenFileUtil.openFile( SPUtils.get(context, "path", "") + File.separator +list.get(position).getPath()));
                     } catch (Exception e) {
                         Toast.makeText(context, "打开失败，原因：文件已经被移动或者删除", Toast.LENGTH_SHORT).show();
                     }

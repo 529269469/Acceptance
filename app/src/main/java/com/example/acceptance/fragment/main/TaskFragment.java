@@ -121,6 +121,45 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
 
 
     @Override
+    protected void onVisible() {
+        super.onVisible();
+        CheckTaskBeanDao checkTaskBeanDao = MyApplication.getInstances().getCheckTaskDaoSession().getCheckTaskBeanDao();
+        List<CheckTaskBean> checkTaskBeans = checkTaskBeanDao.queryBuilder()
+                .where(CheckTaskBeanDao.Properties.DataPackageId.eq(id))
+                .list();
+        CheckTaskBean checkTaskBean = checkTaskBeans.get(0);
+        tvCode.setText("编号：" + checkTaskBean.getCode());
+        tvName.setText("名称：" + checkTaskBean.getName());
+        tvIssuer.setText(checkTaskBean.getIssuer());
+        tvAccepter.setText(checkTaskBean.getAccepter());
+        tvApplyCompany.setText(checkTaskBean.getApplyCompany());
+        tvPhone.setText(checkTaskBean.getPhone());
+        tvIssueDept.setText(checkTaskBean.getIssueDept());
+        tvAcceptDate.setText(checkTaskBean.getAcceptDate());
+        tvApplicant.setText(checkTaskBean.getApplicant());
+        tvCheckDate.setText(checkTaskBean.getCheckDate());
+
+        ApplyItemBeanDao applyItemBeanDao = MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
+        List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()
+                .where(ApplyItemBeanDao.Properties.DataPackageId.eq(id))
+                .list();
+        list.clear();
+        list.addAll(applyItemBeans);
+        applyForAdapter.notifyDataSetChanged();
+
+
+        ApplyDeptBeanDao applyDeptBeanDao=MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
+        List<ApplyDeptBean> applyDeptBeans=applyDeptBeanDao.queryBuilder()
+                .where(ApplyDeptBeanDao.Properties.DataPackageId.eq(id))
+                .where(ApplyDeptBeanDao.Properties.CheckTaskId.eq(checkTaskBeans.get(0).getId()))
+                .list();
+        list2.clear();
+        list2.addAll(applyDeptBeans);
+        applyDeptAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
 

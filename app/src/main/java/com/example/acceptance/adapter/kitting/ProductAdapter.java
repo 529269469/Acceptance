@@ -2,6 +2,7 @@ package com.example.acceptance.adapter.kitting;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
@@ -18,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.acceptance.R;
+import com.example.acceptance.adapter.File11Adapter;
+import com.example.acceptance.adapter.File2Adapter;
+import com.example.acceptance.adapter.File3Adapter;
 import com.example.acceptance.adapter.FileAdapter;
 import com.example.acceptance.adapter.GVproAdapetr;
 import com.example.acceptance.adapter.GridAdapter;
@@ -43,6 +47,7 @@ import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
 import com.example.acceptance.utils.FileUtils;
 import com.example.acceptance.utils.OpenFileUtil;
 import com.example.acceptance.utils.StringUtils;
+import com.example.acceptance.view.AddPopupWindow;
 import com.example.acceptance.view.HorizontalListView;
 import com.example.acceptance.view.MyGridView;
 import com.example.acceptance.view.MyListView;
@@ -58,12 +63,12 @@ import butterknife.ButterKnife;
  * 时间：2019/9/12 13
  */
 public class ProductAdapter extends BaseAdapter {
-    private Context context;
+    private Activity context;
     private List<CheckItemBean> list;
     private GVproAdapetr gVproAdapetr;
 
 
-    public ProductAdapter(Context context, List<CheckItemBean> list) {
+    public ProductAdapter(Activity context, List<CheckItemBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -158,37 +163,75 @@ public class ProductAdapter extends BaseAdapter {
                 .where(RelatedDocumentIdSetBeanDao.Properties.CheckGroupId.eq(list.get(i).getCheckGroupId()))
                 .where(RelatedDocumentIdSetBeanDao.Properties.CheckItemId.eq(list.get(i).getId()))
                 .list();
-        List<FileBean> fileBeanList = new ArrayList<>();
-        List<String> gridList = new ArrayList<>();
+        List<DocumentBean> fileBeanList = new ArrayList<>();
+        List<FileBean> gridList = new ArrayList<>();
         if (relatedDocumentIdSetBeans != null && !relatedDocumentIdSetBeans.isEmpty()) {
             for (int j = 0; j < relatedDocumentIdSetBeans.size(); j++) {
                 DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
                 List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
                         .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
                         .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeans.get(j).getRelatedDocumentId()))
-                        .where(DocumentBeanDao.Properties.PayClassifyName.notEq("照片&视频"))
+                        .where(DocumentBeanDao.Properties.PayClassifyName.notEq("照片AND视频"))
                         .list();
                 if (documentBeans != null && !documentBeans.isEmpty()) {
-                    FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-                    List<FileBean> fileBeans = fileBeanDao.queryBuilder()
-                            .where(FileBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
-                            .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
-                            .list();
-                    for (int k = 0; k < fileBeans.size(); k++) {
-                        fileBeanList.add(fileBeans.get(k));
-                    }
-
+                    fileBeanList.add(documentBeans.get(0));
                 }
             }
         }
-
+        gridList.clear();
         if (relatedDocumentIdSetBeans != null && !relatedDocumentIdSetBeans.isEmpty()) {
             for (int j = 0; j < relatedDocumentIdSetBeans.size(); j++) {
                 DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
                 List<DocumentBean> documentBeans2 = documentBeanDao.queryBuilder()
                         .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
                         .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeans.get(j).getRelatedDocumentId()))
-                        .where(DocumentBeanDao.Properties.PayClassifyName.eq("照片&视频"))
+                        .where(DocumentBeanDao.Properties.PayClassifyName.eq("照片AND视频"))
+                        .list();
+                if (documentBeans2 != null && !documentBeans2.isEmpty()) {
+                    FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+                    List<FileBean> fileBeans = fileBeanDao.queryBuilder()
+                            .where(FileBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                            .where(FileBeanDao.Properties.DocumentId.eq(documentBeans2.get(0).getId()))
+                            .list();
+                    gridList.addAll(fileBeans);
+
+                }
+
+            }
+        }
+
+        File3Adapter fileAdapter = new File3Adapter(context, fileBeanList);
+        viewHolder.lv_file.setAdapter(fileAdapter);
+
+        fileAdapter.setOnDel(new File3Adapter.OnDel() {
+            @Override
+            public void onDel(int position) {
+                RelatedDocumentIdSetBeanDao relatedDocumentIdSetBeanDao = MyApplication.getInstances().getRelatedDocumentIdSetDaoSession().getRelatedDocumentIdSetBeanDao();
+                List<RelatedDocumentIdSetBean> relatedDocumentIdSetBeans = relatedDocumentIdSetBeanDao.queryBuilder()
+                        .where(RelatedDocumentIdSetBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                        .where(RelatedDocumentIdSetBeanDao.Properties.CheckFileId.eq(list.get(i).getCheckFileId()))
+                        .where(RelatedDocumentIdSetBeanDao.Properties.CheckGroupId.eq(list.get(i).getCheckGroupId()))
+                        .where(RelatedDocumentIdSetBeanDao.Properties.CheckItemId.eq(list.get(i).getId()))
+                        .where(RelatedDocumentIdSetBeanDao.Properties.RelatedDocumentId.eq(fileBeanList.get(position).getId()))
+                        .list();
+                relatedDocumentIdSetBeanDao.deleteByKey(relatedDocumentIdSetBeans.get(0).getUId());
+                fileBeanList.remove(position);
+                fileAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+        GridAdapter gridAdapter = new GridAdapter(gridList, context);
+        viewHolder.gv_video.setAdapter(gridAdapter);
+        gridAdapter.setOnDel(new GridAdapter.OnDel() {
+            @Override
+            public void onDel(int position) {
+
+                DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+                List<DocumentBean> documentBeans2 = documentBeanDao.queryBuilder()
+                        .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                        .where(DocumentBeanDao.Properties.Id.eq(gridList.get(position).getDocumentId()))
+                        .where(DocumentBeanDao.Properties.PayClassifyName.eq("照片AND视频"))
                         .list();
                 if (documentBeans2 != null && !documentBeans2.isEmpty()) {
                     FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
@@ -197,74 +240,57 @@ public class ProductAdapter extends BaseAdapter {
                             .where(FileBeanDao.Properties.DocumentId.eq(documentBeans2.get(0).getId()))
                             .list();
                     for (int k = 0; k < fileBeans.size(); k++) {
-                        gridList.add(fileBeans.get(k).getPath());
-                    }
-
-                }
-
-            }
-        }
-
-        FileAdapter fileAdapter = new FileAdapter(context, fileBeanList);
-        viewHolder.lv_file.setAdapter(fileAdapter);
-
-
-        GridAdapter gridAdapter = new GridAdapter(gridList, context);
-        gridAdapter.setOnDel(new GridAdapter.OnDel() {
-            @Override
-            public void onDel(int position) {
-                if (relatedDocumentIdSetBeans != null && !relatedDocumentIdSetBeans.isEmpty()) {
-                    for (int j = 0; j < relatedDocumentIdSetBeans.size(); j++) {
-                        DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-                        List<DocumentBean> documentBeans2 = documentBeanDao.queryBuilder()
-                                .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
-                                .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeans.get(j).getRelatedDocumentId()))
-                                .where(DocumentBeanDao.Properties.PayClassifyName.eq("照片&视频"))
-                                .list();
-                        if (documentBeans2 != null && !documentBeans2.isEmpty()) {
-                            FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-                            List<FileBean> fileBeans = fileBeanDao.queryBuilder()
-                                    .where(FileBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
-                                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans2.get(0).getId()))
-                                    .list();
-                            for (int k = 0; k < fileBeans.size(); k++) {
-                                if (gridList.get(position).equals(fileBeans.get(k).getPath())) {
-                                    DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
-                                    List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao.queryBuilder()
-                                            .where(DeliveryListBeanDao.Properties.Id.eq(documentBeans2.get(0).getId()))
-                                            .list();
-                                    deliveryListBeanDao.deleteByKey(deliveryListBeans.get(0).getUId());
-                                    fileBeanDao.deleteByKey(fileBeans.get(k).getUId());
-                                    documentBeanDao.deleteByKey(documentBeans2.get(0).getUId());
-                                    documentIdSetBeanDao.deleteByKey(relatedDocumentIdSetBeans.get(j).getUId());
-//                                    FileUtils.delFile(gridList.get(position));
-                                    break;
-                                }
-                            }
-
+                        if (gridList.get(position).equals(fileBeans.get(k).getPath())) {
+                            fileBeanDao.deleteByKey(fileBeans.get(k).getUId());
+                            FileUtils.delFile(gridList.get(position).getPath());
+                            break;
                         }
-
                     }
+                    RelatedDocumentIdSetBeanDao relatedDocumentIdSetBeanDao = MyApplication.getInstances().getRelatedDocumentIdSetDaoSession().getRelatedDocumentIdSetBeanDao();
+                    List<RelatedDocumentIdSetBean> relatedDocumentIdSetBeans = relatedDocumentIdSetBeanDao.queryBuilder()
+                            .where(RelatedDocumentIdSetBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
+                            .where(RelatedDocumentIdSetBeanDao.Properties.CheckFileId.eq(list.get(i).getCheckFileId()))
+                            .where(RelatedDocumentIdSetBeanDao.Properties.CheckGroupId.eq(list.get(i).getCheckGroupId()))
+                            .where(RelatedDocumentIdSetBeanDao.Properties.CheckItemId.eq(list.get(i).getId()))
+                            .where(RelatedDocumentIdSetBeanDao.Properties.RelatedDocumentId.eq(documentBeans2.get(0).getId()))
+                            .list();
+                    relatedDocumentIdSetBeanDao.deleteByKey(relatedDocumentIdSetBeans.get(0).getUId());
+
+                    documentBeanDao.deleteByKey(documentBeans2.get(0).getUId());
                 }
 
                 gridList.remove(position);
                 gridAdapter.notifyDataSetChanged();
             }
         });
-        viewHolder.gv_video.setAdapter(gridAdapter);
+
 
         viewHolder.lv_file.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
-                List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
-                        .where(DataPackageDBeanDao.Properties.Id.eq(list.get(i).getDataPackageId()))
-                        .list();
-                try {
-                    context.startActivity(OpenFileUtil.openFile(dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeanList.get(i).getPath()));
-                } catch (Exception o) {
-                    Toast.makeText(MyApplication.mContext, "不支持此类型", Toast.LENGTH_SHORT).show();
-                }
+                AddPopupWindow addPopupWindow = new AddPopupWindow(context, view, fileBeanList.get(i).getId(), true);
+                addPopupWindow.setAddFile(new AddPopupWindow.AddFile() {
+                    @Override
+                    public void addfile1() {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        context.startActivityForResult(intent, 11);
+                    }
+
+                    @Override
+                    public void addfile2() {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        context.startActivityForResult(intent, 22);
+                    }
+
+                    @Override
+                    public void addResult() {
+
+                    }
+                });
 
             }
         });

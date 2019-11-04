@@ -39,6 +39,7 @@ import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.greendao.bean.ApplyItemBean;
 import com.example.acceptance.greendao.bean.CheckApplyBean;
 import com.example.acceptance.greendao.bean.DataPackageDBean;
+import com.example.acceptance.greendao.bean.FileBean;
 import com.example.acceptance.greendao.db.ApplyItemBeanDao;
 import com.example.acceptance.greendao.db.CheckApplyBeanDao;
 import com.example.acceptance.greendao.db.DataPackageDBeanDao;
@@ -98,7 +99,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
     private List<ApplyItemBean> list = new ArrayList<>();
     private ApplyForAdapter applyForAdapter;
     private String id;
-    private List<String> gridList = new ArrayList<>();
+    private List<FileBean> gridList = new ArrayList<>();
     private File cameraSavePath;
     private String photoPath;
     private Uri uri;
@@ -148,6 +149,36 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
 
         }
     };
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
+        List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
+                .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
+                .list();
+
+        CheckApplyBean checkApplyBean = checkApplyBeans.get(0);
+        tvCode.setText("编号：" + checkApplyBean.getCode());
+        tvName.setText("名称：" + checkApplyBean.getName());
+        tvContractCode.setText("合同编号：" + checkApplyBean.getContractCode());
+        tvContractName.setText("合同名称：" + checkApplyBean.getContractName());
+
+        etApplyCompany.setText(checkApplyBean.getApplyCompany());
+        etApplicant.setText(checkApplyBean.getApplicant());
+        etPhone.setText(checkApplyBean.getPhone());
+        etConclusion.setText(checkApplyBean.getConclusion());
+        etDescription.setText(checkApplyBean.getDescription());
+
+        ApplyItemBeanDao applyItemBeanDao = MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
+        List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()
+                .where(ApplyItemBeanDao.Properties.DataPackageId.eq(id))
+                .list();
+        list.clear();
+        list.addAll(applyItemBeans);
+        applyForAdapter.notifyDataSetChanged();
+
+    }
 
     @Override
     protected void initEventAndData() {
@@ -315,39 +346,39 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
-            photoPath = String.valueOf(cameraSavePath);
-            gridList.add(photoPath);
-            gridAdapter.notifyDataSetChanged();
-            Log.e("拍照返回图片路径:", photoPath);
-
-            CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
-            List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
-                    .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
-                    .list();
-            StringBuffer gridStringBuffer=new StringBuffer();
-            for (int i = 0; i < gridList.size(); i++) {
-                gridStringBuffer.append(gridList.get(i)).append(",");
-            }
-            if (!StringUtils.isBlank(gridStringBuffer.toString())){
-                gridString=gridStringBuffer.toString().substring(0,gridStringBuffer.toString().length()-1);
-            }
-            CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
-                    checkApplyBeans.get(0).getDataPackageId(),
-                    checkApplyBeans.get(0).getId(),
-                    checkApplyBeans.get(0).getName(),
-                    checkApplyBeans.get(0).getCode(),
-                    checkApplyBeans.get(0).getContractCode(),
-                    checkApplyBeans.get(0).getContractName(),
-                    etApplicant.getText().toString().trim(),
-                    etApplyCompany.getText().toString().trim(),
-                    etPhone.getText().toString().trim(),
-                    etConclusion.getText().toString().trim(),
-                    etDescription.getText().toString().trim(),
-                    checkApplyBeans.get(0).getDocTypeVal());
-            checkApplyBeanDao.update(checkApplyBean);
-            ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
-        }
+//        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+//            photoPath = String.valueOf(cameraSavePath);
+//            gridList.add(photoPath);
+//            gridAdapter.notifyDataSetChanged();
+//            Log.e("拍照返回图片路径:", photoPath);
+//
+//            CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
+//            List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
+//                    .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
+//                    .list();
+//            StringBuffer gridStringBuffer=new StringBuffer();
+//            for (int i = 0; i < gridList.size(); i++) {
+//                gridStringBuffer.append(gridList.get(i)).append(",");
+//            }
+//            if (!StringUtils.isBlank(gridStringBuffer.toString())){
+//                gridString=gridStringBuffer.toString().substring(0,gridStringBuffer.toString().length()-1);
+//            }
+//            CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
+//                    checkApplyBeans.get(0).getDataPackageId(),
+//                    checkApplyBeans.get(0).getId(),
+//                    checkApplyBeans.get(0).getName(),
+//                    checkApplyBeans.get(0).getCode(),
+//                    checkApplyBeans.get(0).getContractCode(),
+//                    checkApplyBeans.get(0).getContractName(),
+//                    etApplicant.getText().toString().trim(),
+//                    etApplyCompany.getText().toString().trim(),
+//                    etPhone.getText().toString().trim(),
+//                    etConclusion.getText().toString().trim(),
+//                    etDescription.getText().toString().trim(),
+//                    checkApplyBeans.get(0).getDocTypeVal());
+//            checkApplyBeanDao.update(checkApplyBean);
+//            ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
+//        }
     }
 
     private void addPopup(boolean isAdd, int position) {

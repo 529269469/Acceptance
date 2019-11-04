@@ -34,9 +34,27 @@ public class CourseFragment extends BaseFragment {
     private List<String> listTitle=new ArrayList<>();
     private List<Fragment> list=new ArrayList<>();
     private StandardFragment standardFragment;
+    private String id;
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        listTitle.clear();
+        listTitle.add("过程检查");
+
+        standardFragment=new StandardFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("id", id);
+        bundle.putString("type", "3");
+        standardFragment.setArguments(bundle);
+        list.clear();
+        list.add(standardFragment);
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void initEventAndData() {
-        String id = getArguments().getString("id");
+        id = getArguments().getString("id");
         listTitle.add("过程检查");
 
         standardFragment=new StandardFragment();

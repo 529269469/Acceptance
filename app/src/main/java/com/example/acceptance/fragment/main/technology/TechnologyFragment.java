@@ -36,10 +36,33 @@ public class TechnologyFragment extends BaseFragment {
     private List<Fragment> list=new ArrayList<>();
     private TechnologyFileFragment technologyFileFragment;
     private TechnologySizeFragment technologySizeFragment;
+    private String id;
+    private boolean isDel;
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        listTitle.clear();
+        listTitle.add("依据文件检查");
+        listTitle.add("技术类检查");
+
+        Bundle bundle=new Bundle();
+        bundle.putString("id", id);
+        bundle.putString("type", "4");
+        technologyFileFragment=new TechnologyFileFragment();
+        technologyFileFragment.setArguments(bundle);
+        list.add(technologyFileFragment);
+        technologySizeFragment=new TechnologySizeFragment();
+        technologySizeFragment.setArguments(bundle);
+        list.add(technologySizeFragment);
+
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void initEventAndData() {
-        String id = getArguments().getString("id");
-        boolean isDel = getArguments().getBoolean("isDel");
+        id = getArguments().getString("id");
+        isDel = getArguments().getBoolean("isDel");
         listTitle.add("依据文件检查");
         listTitle.add("技术类检查");
 

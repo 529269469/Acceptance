@@ -13,74 +13,20 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_gravity="right"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/padding_40">
 
             <TextView
-                android:gravity="center"
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:text="上传文件"
-                android:layout_width="@dimen/padding_80"
-                android:layout_height="@dimen/padding_36"/>
-            <TextView
-                android:gravity="center"
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:layout_marginLeft="@dimen/padding_16"
-                android:text="移除文件"
-                android:layout_width="@dimen/padding_80"
-                android:layout_height="36dp"/>
-            <TextView
-                android:gravity="center"
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:layout_marginLeft="@dimen/padding_16"
-                android:text="查找"
-                android:layout_width="60dp"
-                android:layout_height="36dp"/>
-            <TextView
-                android:gravity="center"
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:layout_marginLeft="@dimen/padding_16"
-                android:text="下载"
-                android:layout_width="@dimen/padding_60"
-                android:layout_height="36dp"/>
-            <TextView
+                android:id="@+id/tv_add_project"
                 android:gravity="center"
                 android:textColor="@color/color_5398F7"
                 android:background="@drawable/shape_text"
                 android:layout_marginLeft="@dimen/padding_16"
                 android:text="增加项目分类"
                 android:layout_width="@dimen/padding_100"
-                android:layout_height="36dp"/>
-            <TextView
-                android:gravity="center"
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:layout_marginLeft="@dimen/padding_16"
-                android:text="删除项目分类"
-                android:layout_width="@dimen/padding_100"
-                android:layout_height="36dp"/>
-            <TextView
-                android:gravity="center"
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:layout_marginLeft="@dimen/padding_16"
-                android:text="增加项目"
-                android:layout_width="80dp"
-                android:layout_height="36dp"/>
-            <TextView
-                android:gravity="center"
-                android:textColor="@color/color_5398F7"
-                android:background="@drawable/shape_text"
-                android:layout_marginLeft="@dimen/padding_16"
-                android:text="移除项目"
-                android:layout_width="80dp"
                 android:layout_height="36dp"/>
 
         </LinearLayout>
@@ -121,15 +67,6 @@
                 android:gravity="center"
                 android:text="文件名称"
                 android:layout_weight="9"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="match_parent"/>
-
-            <TextView
-                android:visibility="gone"
-                android:textColor="@color/color_000"
-                android:gravity="center"
-                android:text="操作"
-                android:layout_weight="2"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="match_parent"/>
 

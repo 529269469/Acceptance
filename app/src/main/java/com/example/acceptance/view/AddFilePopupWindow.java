@@ -1,20 +1,16 @@
 package com.example.acceptance.view;
 
 import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Switch;
@@ -23,14 +19,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.acceptance.R;
-import com.example.acceptance.adapter.File2Adapter;
 import com.example.acceptance.adapter.FileAddAdapter;
 import com.example.acceptance.base.MyApplication;
-import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.bean.DeliveryListBean;
 import com.example.acceptance.greendao.bean.DocumentBean;
 import com.example.acceptance.greendao.bean.FileBean;
-import com.example.acceptance.greendao.db.DataPackageDBeanDao;
 import com.example.acceptance.greendao.db.DeliveryListBeanDao;
 import com.example.acceptance.greendao.db.DocumentBeanDao;
 import com.example.acceptance.greendao.db.FileBeanDao;
@@ -48,7 +41,7 @@ import java.util.List;
  * @author :created by ${ WYW }
  * 时间：2019/10/24 15
  */
-public class AddPopupWindow extends PopupWindow {
+public class AddFilePopupWindow extends PopupWindow {
 
 
     private View view;
@@ -61,13 +54,14 @@ public class AddPopupWindow extends PopupWindow {
      * false:为空
      */
     private boolean isAdd;
-    public AddPopupWindow(Activity context, View tvAdd, String id, boolean isAdd) {
+    private boolean isLook;
+    public AddFilePopupWindow(Activity context, View tvAdd, String id, boolean isAdd,boolean isLook) {
         super(context);
         this.id = id;
         this.isAdd = isAdd;
         this.context = context;
-        this.context = context;
-        view = context.getLayoutInflater().inflate(R.layout.popup_add11, null);
+        this.isLook = isLook;
+        view = context.getLayoutInflater().inflate(R.layout.popup_add_file, null);
         this.setContentView(view);
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -102,6 +96,13 @@ public class AddPopupWindow extends PopupWindow {
         EditText tv_productCode = view.findViewById(R.id.tv_productCode);
         EditText tv_stage = view.findViewById(R.id.tv_stage);
 
+        EditText tv_techStatus = view.findViewById(R.id.tv_techStatus);
+        EditText tv_approvalDate = view.findViewById(R.id.tv_approvalDate);
+        EditText tv_approver = view.findViewById(R.id.tv_approver);
+        EditText tv_description = view.findViewById(R.id.tv_description);
+        EditText tv_conclusion = view.findViewById(R.id.tv_conclusion);
+        Switch sw_issl = view.findViewById(R.id.sw_issl);
+
         TextView tv_popup_save = view.findViewById(R.id.tv_popup_save);
         TextView tv_file = view.findViewById(R.id.tv_file);
         MyListView lv_file = view.findViewById(R.id.lv_file);
@@ -109,58 +110,6 @@ public class AddPopupWindow extends PopupWindow {
         MyListView lv_file2 = view.findViewById(R.id.lv_file2);
         fileBeans.clear();
         fileBeans2.clear();
-
-        tv_secret.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder2=new AlertDialog.Builder(context);
-                String[] dish =new String[]{"非密","内部","秘密","机密"};
-                builder2.setTitle("请选择密级：");
-                int dishPos=0;
-                builder2.setSingleChoiceItems(dish, dishPos, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        tv_secret.setText("密级："+dish[which]);
-                        dialog.dismiss();
-                    }
-                });
-                builder2.setCancelable(false);
-                builder2.show();
-            }
-        });
-
-        tv_payClassify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
-                List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao.queryBuilder()
-                        .where(DeliveryListBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
-                        .where(DeliveryListBeanDao.Properties.IsParent.eq("false"))
-                        .list();
-
-                AlertDialog.Builder builder2=new AlertDialog.Builder(context);
-                String[] dish =new String[deliveryListBeans.size()];
-                builder2.setTitle("请选择交付类别：");
-                int dishPos=0;
-                for (int i = 0; i < deliveryListBeans.size(); i++) {
-                    dish[i]=deliveryListBeans.get(i).getProject();
-                    if (tv_payClassify.getText().toString().trim().equals(dish[i])){
-                        dishPos=i;
-                    }
-                }
-                builder2.setSingleChoiceItems(dish, dishPos, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        tv_payClassify.setText(dish[which]);
-                        dialog.dismiss();
-                    }
-                });
-                builder2.setCancelable(false);
-                builder2.show();
-
-
-            }
-        });
 
         if (isAdd) {
             DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
@@ -174,7 +123,17 @@ public class AddPopupWindow extends PopupWindow {
             tv_secret.setText(documentBeans.get(0).getSecret());
             tv_productCode.setText(documentBeans.get(0).getProductCode());
             tv_stage.setText(documentBeans.get(0).getStage());
+            tv_techStatus.setText(documentBeans.get(0).getTechStatus());
+            tv_approvalDate.setText(documentBeans.get(0).getApprovalDate());
+            tv_approver.setText(documentBeans.get(0).getApprover());
+            tv_description.setText(documentBeans.get(0).getDescription());
+            tv_conclusion.setText(documentBeans.get(0).getConclusion());
 
+            if (!StringUtils.isBlank(documentBeans.get(0).getIssl())&&documentBeans.get(0).getIssl().equals("true")){
+                sw_issl.setChecked(true);
+            }else {
+                sw_issl.setChecked(false);
+            }
             FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
             List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                     .where(FileBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
@@ -206,36 +165,89 @@ public class AddPopupWindow extends PopupWindow {
             fileAdapter2.notifyDataSetChanged();
         });
 
-        lv_file2.setOnItemClickListener((adapterView, view, i, l) -> {
-            File file = new File(path + fileBeans2.get(i).getPath());
-            if (file.isFile() && file.exists()) {
-                try {
-                    context.startActivity(OpenFileUtil.openFile(path + fileBeans2.get(i).getPath()));
-                } catch (Exception o) {
+        if (isLook){
+            tv_popup_save.setVisibility(View.VISIBLE);
+            tv_secret.setOnClickListener(view -> {
+                AlertDialog.Builder builder2=new AlertDialog.Builder(context);
+                String[] dish =new String[]{"非密","内部","秘密","机密"};
+                builder2.setTitle("请选择密级：");
+                int dishPos=0;
+                builder2.setSingleChoiceItems(dish, dishPos, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tv_secret.setText("密级："+dish[which]);
+                        dialog.dismiss();
+                    }
+                });
+                builder2.setCancelable(false);
+                builder2.show();
+            });
+
+
+            tv_payClassify.setOnClickListener(view -> {
+                DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
+                List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao.queryBuilder()
+                        .where(DeliveryListBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
+                        .where(DeliveryListBeanDao.Properties.IsParent.eq("false"))
+                        .list();
+
+                AlertDialog.Builder builder2=new AlertDialog.Builder(context);
+                String[] dish =new String[deliveryListBeans.size()];
+                builder2.setTitle("请选择交付类别：");
+                int dishPos=0;
+                for (int i = 0; i < deliveryListBeans.size(); i++) {
+                    dish[i]=deliveryListBeans.get(i).getProject();
+                    if (tv_payClassify.getText().toString().trim().equals(dish[i])){
+                        dishPos=i;
+                    }
                 }
-            }
-        });
+                builder2.setSingleChoiceItems(dish, dishPos, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tv_payClassify.setText(dish[which]);
+                        dialog.dismiss();
+                    }
+                });
+                builder2.setCancelable(false);
+                builder2.show();
 
-        lv_file.setOnItemClickListener((adapterView, view, i, l) -> {
-            File file = new File(path + fileBeans.get(i).getPath());
-            if (file.isFile() && file.exists()) {
-                try {
-                    context.startActivity(OpenFileUtil.openFile(path + fileBeans.get(i).getPath()));
-                } catch (Exception o) {
+
+            });
+            lv_file2.setOnItemClickListener((adapterView, view, i, l) -> {
+                File file = new File(path + fileBeans2.get(i).getPath());
+                if (file.isFile() && file.exists()) {
+                    try {
+                        context.startActivity(OpenFileUtil.openFile(path + fileBeans2.get(i).getPath()));
+                    } catch (Exception o) {
+                    }
                 }
-            }
-        });
+            });
 
-        tv_file2.setOnClickListener(view -> {
-            addFile.addfile2();
-        });
+            lv_file.setOnItemClickListener((adapterView, view, i, l) -> {
+                File file = new File(path + fileBeans.get(i).getPath());
+                if (file.isFile() && file.exists()) {
+                    try {
+                        context.startActivity(OpenFileUtil.openFile(path + fileBeans.get(i).getPath()));
+                    } catch (Exception o) {
+                    }
+                }
+            });
 
-        tv_file.setOnClickListener(view -> {
-            addFile.addfile1();
-        });
+            tv_file2.setOnClickListener(view -> {
+                addFile.addfile2();
+            });
+
+            tv_file.setOnClickListener(view -> {
+                addFile.addfile1();
+            });
+
+        }else {
+            tv_popup_save.setVisibility(View.GONE);
+        }
+
+
 
         tv_popup_save.setOnClickListener(view -> {
-
             if (StringUtils.isBlank(tv_code.getText().toString().trim())){
                 ToastUtils.getInstance().showTextToast(context, "编号不能为空");
                 return;
@@ -260,6 +272,18 @@ public class AddPopupWindow extends PopupWindow {
                 ToastUtils.getInstance().showTextToast(context, "阶段不能为空");
                 return;
             }
+            if (StringUtils.isBlank(tv_techStatus.getText().toString().trim())){
+                ToastUtils.getInstance().showTextToast(context, "技术状态不能为空");
+                return;
+            }
+            if (StringUtils.isBlank(tv_approver.getText().toString().trim())){
+                ToastUtils.getInstance().showTextToast(context, "批准人不能为空");
+                return;
+            }
+            if (StringUtils.isBlank(tv_approvalDate.getText().toString().trim())){
+                ToastUtils.getInstance().showTextToast(context, "批准日期不能为空");
+                return;
+            }
 
             if (fileBeans.isEmpty()) {
                 ToastUtils.getInstance().showTextToast(context, "请添加主要文件");
@@ -279,7 +303,6 @@ public class AddPopupWindow extends PopupWindow {
             String documentId = System.currentTimeMillis() + "";
 
             DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
-
             List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao.queryBuilder()
                     .where(DeliveryListBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
                     .where(DeliveryListBeanDao.Properties.IsParent.eq("false"))
@@ -291,6 +314,11 @@ public class AddPopupWindow extends PopupWindow {
                         .where(DocumentBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
                         .where(DocumentBeanDao.Properties.Id.eq(id))
                         .list();
+                tv_techStatus.setText(documentBeans.get(0).getTechStatus());
+                tv_approvalDate.setText(documentBeans.get(0).getApprovalDate());
+                tv_approver.setText(documentBeans.get(0).getApprover());
+                tv_description.setText(documentBeans.get(0).getDescription());
+                tv_conclusion.setText(documentBeans.get(0).getConclusion());
                 DocumentBean documentBean = new DocumentBean(documentBeans.get(0).getUId(),
                         (String) SPUtils.get(context, "id", ""),
                         id,
@@ -303,12 +331,12 @@ public class AddPopupWindow extends PopupWindow {
                         (String) SPUtils.get(context, "productCode", ""),
                         tv_productCode.getText().toString().trim(),
                         tv_stage.getText().toString().trim(),
-                        documentBeans.get(0).getTechStatus(),
-                        documentBeans.get(0).getApprover(),
-                        documentBeans.get(0).getApprovalDate(),
-                        documentBeans.get(0).getIssl(),
-                        documentBeans.get(0).getConclusion(),
-                        documentBeans.get(0).getDescription());
+                        tv_techStatus.getText().toString().trim(),
+                        tv_approver.getText().toString().trim(),
+                        tv_approvalDate.getText().toString().trim(),
+                        sw_issl.isChecked()+"",
+                        tv_conclusion.getText().toString().trim(),
+                        tv_description.getText().toString().trim());
                 documentBeanDao.update(documentBean);
 
             } else {
@@ -324,12 +352,12 @@ public class AddPopupWindow extends PopupWindow {
                         (String) SPUtils.get(context, "productCode", ""),
                         tv_productCode.getText().toString().trim(),
                         tv_stage.getText().toString().trim(),
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "");
+                        tv_techStatus.getText().toString().trim(),
+                        tv_approver.getText().toString().trim(),
+                        tv_approvalDate.getText().toString().trim(),
+                        sw_issl.isChecked()+"",
+                        tv_conclusion.getText().toString().trim(),
+                        tv_description.getText().toString().trim());
                 documentBeanDao.insert(documentBean);
 
             }

@@ -40,6 +40,7 @@
                         android:src="@drawable/bibi"
                         android:layout_width="@dimen/padding_20"
                         android:layout_height="@dimen/padding_20"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -68,6 +69,7 @@
                         android:src="@drawable/bibi"
                         android:layout_width="@dimen/padding_20"
                         android:layout_height="@dimen/padding_20"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -114,6 +116,62 @@
                         android:textSize="@dimen/text_font_14" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_36"
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:scaleType="fitXY"
+                        android:src="@drawable/bibi"
+                        android:layout_width="@dimen/padding_20"
+                        android:layout_height="@dimen/padding_20"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="技术状态"
+                        android:textColor="#999999" />
+
+                    <EditText
+                        android:id="@+id/tv_techStatus"
+                        android:layout_width="@dimen/padding_200"
+                        android:layout_height="@dimen/padding_36"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/text_font_14" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_36"
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:scaleType="fitXY"
+                        android:src="@drawable/bibi"
+                        android:layout_width="@dimen/padding_20"
+                        android:layout_height="@dimen/padding_20"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="批准日期"
+                        android:textColor="#999999" />
+
+                    <EditText
+                        android:id="@+id/tv_approvalDate"
+                        android:layout_width="@dimen/padding_200"
+                        android:layout_height="@dimen/padding_36"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/text_font_14" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -135,7 +193,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="       名 称"
+                        android:text="      名 称"
                         android:textColor="#999999" />
 
                     <EditText
@@ -207,10 +265,118 @@
                         android:textSize="@dimen/text_font_14" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_36"
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:scaleType="fitXY"
+                        android:src="@drawable/bibi"
+                        android:layout_width="@dimen/padding_20"
+                        android:layout_height="@dimen/padding_20"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="    批准人"
+                        android:textColor="#999999" />
+
+                    <EditText
+                        android:id="@+id/tv_approver"
+                        android:layout_width="@dimen/padding_200"
+                        android:layout_height="@dimen/padding_36"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/text_font_14" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/padding_36"
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:scaleType="fitXY"
+                        android:src="@drawable/bibi"
+                        android:layout_width="@dimen/padding_20"
+                        android:layout_height="@dimen/padding_20"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="是否晒蓝"
+                        android:textColor="#999999" />
+                    <Switch
+                        android:showText="true"
+                        android:textOff="否"
+                        android:textOn="是"
+                        android:id="@+id/sw_issl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/padding_36"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textSize="@dimen/text_font_14" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="       备  注"
+                android:textColor="#999999" />
+
+            <EditText
+                android:id="@+id/tv_description"
+                android:layout_width="500dp"
+                android:layout_height="@dimen/padding_90"
+                android:layout_marginLeft="@dimen/padding_10"
+                android:background="@drawable/shape_edtext"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding_10"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/text_font_14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_10"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="验收结论"
+                android:textColor="#999999" />
+
+            <EditText
+                android:id="@+id/tv_conclusion"
+                android:layout_width="500dp"
+                android:layout_height="@dimen/padding_90"
+                android:layout_marginLeft="@dimen/padding_10"
+                android:background="@drawable/shape_edtext"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding_10"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/text_font_14" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_marginLeft="@dimen/padding_30"
             android:layout_width="match_parent"
@@ -257,7 +423,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="            附  件"
+                android:text="          附   件"
                 android:textColor="#999999" />
             <TextView
                 android:text="浏览"

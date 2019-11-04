@@ -62,6 +62,7 @@ import com.example.acceptance.greendao.db.PropertyBeanXDao;
 import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
 import com.example.acceptance.greendao.db.UnresolvedBeanDao;
 import com.example.acceptance.loding.LoadingView;
+import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.ZipUtils2;
 import com.example.acceptance.view.MyListView;
 import com.thoughtworks.xstream.XStream;
@@ -275,6 +276,7 @@ public class ToActivity extends BaseActivity {
                 .list();
         if (dataPackageDBeans != null && !dataPackageDBeans.isEmpty()) {
             isPath = true;
+
         }
 
         if (isPath) {

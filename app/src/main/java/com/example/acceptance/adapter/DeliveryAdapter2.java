@@ -73,8 +73,6 @@ public class DeliveryAdapter2 extends BaseAdapter {
         viewHolder.lv_list.setAdapter(legacyAdapter);
 
 
-
-
         return view;
     }
 

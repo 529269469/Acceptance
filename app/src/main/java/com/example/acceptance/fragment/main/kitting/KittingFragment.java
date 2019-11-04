@@ -32,6 +32,27 @@ public class KittingFragment extends BaseFragment {
     private KittingProductFragment kittingProductFragment;
     private String id;
     private boolean isDel;
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        listTitle.clear();
+        listTitle.add("依据文件检查");
+        listTitle.add("产品齐套性检查");
+        kittingFileFragment=new KittingFileFragment();
+        kittingProductFragment=new KittingProductFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("id", id);
+        bundle.putString("type", "2");
+        kittingFileFragment.setArguments(bundle);
+        kittingProductFragment.setArguments(bundle);
+        list.clear();
+        list.add(kittingFileFragment);
+        list.add(kittingProductFragment);
+
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");

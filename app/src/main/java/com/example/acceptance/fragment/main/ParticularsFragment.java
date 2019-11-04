@@ -125,6 +125,35 @@ public class ParticularsFragment extends BaseFragment {
 
 
     @Override
+    protected void onVisible() {
+        super.onVisible();
+        DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+        List<DataPackageDBean> list = dataPackageDBeanDao.queryBuilder()
+                .where(DataPackageDBeanDao.Properties.Id.eq(id))
+                .list();
+
+        DataPackageDBean dataPackageDBean = list.get(0);
+        SPUtils.put(getActivity(), "path", dataPackageDBean.getUpLoadFile());
+        SPUtils.put(getActivity(), "modelCode", dataPackageDBean.getModelCode());
+        SPUtils.put(getActivity(), "productCode", dataPackageDBean.getProductCode());
+        SPUtils.put(getActivity(), "id", dataPackageDBean.getId());
+
+        tvCode.setText(dataPackageDBean.getCode());
+        tvCreator.setText(dataPackageDBean.getCreator());
+        tvResponseUnit.setText(dataPackageDBean.getResponseUnit());
+        tvProductName.setText(dataPackageDBean.getProductName());
+        tvModelCode.setText(dataPackageDBean.getModelCode());
+        tvName.setText(dataPackageDBean.getName());
+        tvCreateTime.setText(dataPackageDBean.getCreateTime());
+        tvType.setText(dataPackageDBean.getType());
+        tvProductType.setText(dataPackageDBean.getProductType());
+        tvBatch.setText(dataPackageDBean.getBatch());
+        tvProductCode.setText(dataPackageDBean.getProductCode());
+        tvModelSeries.setText(dataPackageDBean.getModelSeries());
+        tvModelSeriesName.setText(dataPackageDBean.getModelSeriesName());
+    }
+
+    @Override
     protected void initEventAndData() {
         Bundle bundle = getArguments();
         id = bundle.getString("id");
@@ -135,6 +164,9 @@ public class ParticularsFragment extends BaseFragment {
 
         DataPackageDBean dataPackageDBean = list.get(0);
         SPUtils.put(getActivity(), "path", dataPackageDBean.getUpLoadFile());
+        SPUtils.put(getActivity(), "modelCode", dataPackageDBean.getModelCode());
+        SPUtils.put(getActivity(), "productCode", dataPackageDBean.getProductCode());
+        SPUtils.put(getActivity(), "id", dataPackageDBean.getId());
 
         tvCode.setText(dataPackageDBean.getCode());
         tvCreator.setText(dataPackageDBean.getCreator());

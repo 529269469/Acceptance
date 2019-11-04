@@ -843,14 +843,14 @@ public class DataPackageBean {
                     private String isTable;
                     private PropertySetBean PropertySet;
                     private CheckItemSetBean CheckItemSet;
-                    private AcceptDeviceSet acceptDeviceSet;
+                    private AcceptDeviceSet AcceptDeviceSet;
 
                     public AcceptDeviceSet getAcceptDeviceSet() {
-                        return acceptDeviceSet;
+                        return AcceptDeviceSet;
                     }
 
                     public void setAcceptDeviceSet(AcceptDeviceSet acceptDeviceSet) {
-                        this.acceptDeviceSet = acceptDeviceSet;
+                        this.AcceptDeviceSet = acceptDeviceSet;
                     }
 
                     public String getId() {

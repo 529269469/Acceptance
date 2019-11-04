@@ -166,6 +166,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                 bundle.putString("id", id);
                 bundle.putString("checkFileId", checkFileId);
                 bundle.putString("type", type);
+                bundle.putString("type2", "齐套性检查");
                 bundle.putInt("position", i);
                 kittingProduct2Fragment.setArguments(bundle);
                 list.add(kittingProduct2Fragment);

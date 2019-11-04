@@ -46,7 +46,7 @@ public class DeliveryActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_delivery;
+        return R.layout.activity_delivery;
     }
 
     @Override

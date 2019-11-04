@@ -1,28 +1,19 @@
 package com.example.acceptance.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.acceptance.R;
 import com.example.acceptance.base.MyApplication;
-import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.bean.DeliveryListBean;
 import com.example.acceptance.greendao.bean.DocumentBean;
-import com.example.acceptance.greendao.bean.FileBean;
-import com.example.acceptance.greendao.db.DataPackageDBeanDao;
 import com.example.acceptance.greendao.db.DocumentBeanDao;
-import com.example.acceptance.greendao.db.FileBeanDao;
-import com.example.acceptance.utils.OpenFileUtil;
 import com.example.acceptance.view.MyListView;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,13 +23,13 @@ import butterknife.ButterKnife;
  * @author :created by ${ WYW }
  * 时间：2019/9/19 10
  */
-public class Delivery3Adapter extends BaseAdapter {
+public class Delivery22Adapter extends BaseAdapter {
 
-    private Activity context;
-    private List<DeliveryListBean> list;
-    private List<FileBean> fileBeans;
+    private Context context;
+    private List<DocumentBean> list;
 
-    public Delivery3Adapter(Activity context, List<DeliveryListBean> list) {
+
+    public Delivery22Adapter(Context context, List<DocumentBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -68,23 +59,8 @@ public class Delivery3Adapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        DocumentBeanDao documentBeanDao= MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-        List<DocumentBean> documentBeans=documentBeanDao.queryBuilder()
-                .where(DocumentBeanDao.Properties.DataPackageId.eq(list.get(i).getDataPackageId()))
-                .where(DocumentBeanDao.Properties.PayClassify.eq(list.get(i).getId()))
-                .list();
-        viewHolder.tvName.setText(list.get(i).getProject());
-
-        Delivery22Adapter delivery22Adapter = new Delivery22Adapter(context, documentBeans);
-        viewHolder.lv_list.setAdapter(delivery22Adapter);
-
-        viewHolder.lv_list.setOnItemClickListener((adapterView, view1, pos, l) -> {
-            Intent intent = new Intent();
-            intent.putExtra("DocumentId",documentBeans.get(pos).getId());
-            context.setResult(context.RESULT_OK,intent);
-            context.finish();
-        });
-
+        viewHolder.tvProductCode.setText(list.get(i).getCode());
+        viewHolder.tvNameFile.setText(list.get(i).getName());
         return view;
     }
 
@@ -106,4 +82,5 @@ public class Delivery3Adapter extends BaseAdapter {
             ButterKnife.bind(this, view);
         }
     }
+
 }

@@ -105,7 +105,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
     private File2Adapter fileAdapter;
     private List<FileBean> fileBeans = new ArrayList<>();
 
-    private TextWatcher textWatcher=new TextWatcher() {
+    private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -118,7 +118,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String words= editable.toString();
+            String words = editable.toString();
             if (!StringUtils.isBlank(words)) {
                 CheckVerdBeanDao checkVerdBeanDao = MyApplication.getInstances().getCheckVerdDaoSession().getCheckVerdBeanDao();
                 List<CheckVerdBean> checkVerdBeans = checkVerdBeanDao.queryBuilder()
@@ -260,7 +260,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             etGConclusion.getText().toString().trim(),
                             etJConclusion.getText().toString().trim(),
                             "",
-                            "","");
+                            "", "");
                     checkVerdBeanDao.insert(checkVerdBean);
                 }
                 ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
@@ -303,16 +303,13 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
             tv_confirmer.setText(beanList.get(pos).getConfirmer());
             tv_confirmTime.setText(beanList.get(pos).getConfirmTime());
 
-            try {
-                FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
-                List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
-                        .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                        .where(FileBeanDao.Properties.DocumentId.eq(beanList.get(pos).getFileId()))
-                        .list();
-                fileBeans.addAll(fileBeanList);
-            }catch (Exception o){
+            FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+            List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
+                    .where(FileBeanDao.Properties.DataPackageId.eq(id))
+                    .where(FileBeanDao.Properties.DocumentId.eq(beanList.get(pos).getId()))
+                    .list();
+            fileBeans.addAll(fileBeanList);
 
-            }
 
         }
 
@@ -325,12 +322,9 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                 FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
                 List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                         .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                        .where(FileBeanDao.Properties.DocumentId.eq(beanList.get(pos).getFileId()))
+                        .where(FileBeanDao.Properties.DocumentId.eq(beanList.get(pos).getId()))
                         .list();
-                DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
-                List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
-                        .where(DataPackageDBeanDao.Properties.Id.eq(id))
-                        .list();
+
                 for (int i = 0; i < fileBeanList.size(); i++) {
                     if (fileBeanList.get(i).getName().equals(fileBeans.get(position).getName())) {
 //                        FileUtils.delFile(dataPackageDBeans.get(0).getUpLoadFile() + "/" + fileBeanList.get(i).getPath());
@@ -411,7 +405,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                     for (int i = 0; i < fileBeans.size(); i++) {
                         FileBean fileBean = new FileBean(null,
                                 id,
-                                StringUtils.isBlank(beanList.get(pos).getFileId())?unresolvedId:beanList.get(pos).getFileId(),
+                                StringUtils.isBlank(beanList.get(pos).getFileId()) ? unresolvedId : beanList.get(pos).getFileId(),
                                 fileBeans.get(i).getName(),
                                 fileBeans.get(i).getPath(),
                                 fileBeans.get(i).getType(),
@@ -425,7 +419,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             tv_question.getText().toString().trim(),
                             tv_confirmer.getText().toString().trim(),
                             tv_confirmTime.getText().toString().trim(),
-                            StringUtils.isBlank(beanList.get(pos).getFileId())?unresolvedId:beanList.get(pos).getFileId());
+                            StringUtils.isBlank(beanList.get(pos).getFileId()) ? unresolvedId : beanList.get(pos).getFileId());
                     unresolvedBeanDao.update(unresolvedBean);
                 }
                 UnresolvedBeanDao unresolvedBeanDao2 = MyApplication.getInstances().getCheckUnresolvedDaoSession().getUnresolvedBeanDao();
@@ -458,7 +452,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             String upLoadFileName = file.getName();
                             Log.e("TAG", "upLoadFilePath: " + upLoadFilePath);
                             Log.e("TAG", "upLoadFileName: " + upLoadFileName);
-                            fileBeans.add(new FileBean(null, "", "", upLoadFileName, upLoadFilePath, "",""));
+                            fileBeans.add(new FileBean(null, "", "", upLoadFileName, upLoadFilePath, "", ""));
                             fileAdapter.notifyDataSetChanged();
                         }
                     }
@@ -540,7 +534,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 etGConclusion.getText().toString().trim(),
                                 etJConclusion.getText().toString().trim(),
                                 "",
-                                SPUtils.get(getActivity(), "path", "") + File.separator + path,"");
+                                SPUtils.get(getActivity(), "path", "") + File.separator + path, "");
                         checkVerdBeanDao.insert(checkVerdBean);
                     }
 
