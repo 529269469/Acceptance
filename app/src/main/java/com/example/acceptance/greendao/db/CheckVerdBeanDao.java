@@ -35,6 +35,8 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
         public final static Property Conclusion = new Property(8, String.class, "conclusion", false, "CONCLUSION");
         public final static Property CheckPerson = new Property(9, String.class, "checkPerson", false, "CHECK_PERSON");
         public final static Property DocTypeVal = new Property(10, String.class, "docTypeVal", false, "DOC_TYPE_VAL");
+        public final static Property CheckPersonId = new Property(11, String.class, "checkPersonId", false, "CHECK_PERSON_ID");
+        public final static Property CheckDate = new Property(12, String.class, "checkDate", false, "CHECK_DATE");
     }
 
 
@@ -60,7 +62,9 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
                 "\"J_CONCLUSION\" TEXT," + // 7: jConclusion
                 "\"CONCLUSION\" TEXT," + // 8: conclusion
                 "\"CHECK_PERSON\" TEXT," + // 9: checkPerson
-                "\"DOC_TYPE_VAL\" TEXT);"); // 10: docTypeVal
+                "\"DOC_TYPE_VAL\" TEXT," + // 10: docTypeVal
+                "\"CHECK_PERSON_ID\" TEXT," + // 11: checkPersonId
+                "\"CHECK_DATE\" TEXT);"); // 12: checkDate
     }
 
     /** Drops the underlying database table. */
@@ -127,6 +131,16 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
         if (docTypeVal != null) {
             stmt.bindString(11, docTypeVal);
         }
+ 
+        String checkPersonId = entity.getCheckPersonId();
+        if (checkPersonId != null) {
+            stmt.bindString(12, checkPersonId);
+        }
+ 
+        String checkDate = entity.getCheckDate();
+        if (checkDate != null) {
+            stmt.bindString(13, checkDate);
+        }
     }
 
     @Override
@@ -187,6 +201,16 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
         if (docTypeVal != null) {
             stmt.bindString(11, docTypeVal);
         }
+ 
+        String checkPersonId = entity.getCheckPersonId();
+        if (checkPersonId != null) {
+            stmt.bindString(12, checkPersonId);
+        }
+ 
+        String checkDate = entity.getCheckDate();
+        if (checkDate != null) {
+            stmt.bindString(13, checkDate);
+        }
     }
 
     @Override
@@ -207,7 +231,9 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // jConclusion
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // conclusion
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // checkPerson
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // docTypeVal
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // docTypeVal
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // checkPersonId
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // checkDate
         );
         return entity;
     }
@@ -225,6 +251,8 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
         entity.setConclusion(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setCheckPerson(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setDocTypeVal(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setCheckPersonId(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setCheckDate(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
      }
     
     @Override

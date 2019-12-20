@@ -29,13 +29,18 @@ public class DocumentBean {
     private String issl;
     private String conclusion;
     private String description;
+    private String onLine;
+    private String infoUrl;
+    private String uniqueValue;
 
-    @Generated(hash = 1506114543)
+
+    @Generated(hash = 818919459)
     public DocumentBean(Long uId, String dataPackageId, String id, String code,
             String name, String secret, String payClassify, String payClassifyName,
             String modalCode, String productCodeName, String productCode,
             String stage, String techStatus, String approver, String approvalDate,
-            String issl, String conclusion, String description) {
+            String issl, String conclusion, String description, String onLine,
+            String infoUrl, String uniqueValue) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -54,11 +59,15 @@ public class DocumentBean {
         this.issl = issl;
         this.conclusion = conclusion;
         this.description = description;
+        this.onLine = onLine;
+        this.infoUrl = infoUrl;
+        this.uniqueValue = uniqueValue;
     }
     @Generated(hash = 1348634967)
     public DocumentBean() {
     }
 
+    
     public Long getUId() {
         return this.uId;
     }
@@ -166,5 +175,23 @@ public class DocumentBean {
     }
     public void setPayClassifyName(String payClassifyName) {
         this.payClassifyName = payClassifyName;
+    }
+    public String getOnLine() {
+        return this.onLine;
+    }
+    public void setOnLine(String onLine) {
+        this.onLine = onLine;
+    }
+    public String getInfoUrl() {
+        return this.infoUrl;
+    }
+    public void setInfoUrl(String infoUrl) {
+        this.infoUrl = infoUrl;
+    }
+    public String getUniqueValue() {
+        return this.uniqueValue;
+    }
+    public void setUniqueValue(String uniqueValue) {
+        this.uniqueValue = uniqueValue;
     }
 }

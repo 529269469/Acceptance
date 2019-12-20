@@ -58,6 +58,7 @@ import com.example.acceptance.view.MyListView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 
@@ -96,7 +97,7 @@ public class KittingFileFragment extends BaseFragment {
                     id,
                     parentId,
                     true + "",
-                    "验收依据文件", "");
+                    "验收依据文件", "", UUID.randomUUID().toString());
             deliveryListBeanDao.insert(deliveryListBean);
         }
 

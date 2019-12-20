@@ -139,7 +139,8 @@ public class ProductAdapter extends BaseAdapter {
                         list.get(i).getId(),
                         list.get(i).getName(),
                         list.get(i).getOptions(),
-                        titleBeans.get(pos).getTitle());
+                        titleBeans.get(pos).getTitle(),
+                        list.get(i).getUniqueValue());
                 checkItemBeanDao.update(checkItemBean);
 
             }

@@ -93,7 +93,7 @@ public class AddPopupWindow extends PopupWindow {
     private FileAddAdapter fileAdapter2;
 
     private String path = (String) SPUtils.get(context, "path", "") + "/";
-
+    private String secretStr="";
     private void addPopup2() {
         EditText tv_code = view.findViewById(R.id.tv_code);
         EditText tv_name = view.findViewById(R.id.tv_name);
@@ -120,7 +120,8 @@ public class AddPopupWindow extends PopupWindow {
                 builder2.setSingleChoiceItems(dish, dishPos, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        tv_secret.setText("密级："+dish[which]);
+                        tv_secret.setText(dish[which]);
+                        secretStr=dish[which];
                         dialog.dismiss();
                     }
                 });
@@ -296,7 +297,7 @@ public class AddPopupWindow extends PopupWindow {
                         id,
                         tv_code.getText().toString().trim(),
                         tv_name.getText().toString().trim(),
-                        tv_secret.getText().toString().trim(),
+                        secretStr,
                         documentBeans.get(0).getPayClassify(),
                         tv_payClassify.getText().toString().trim(),
                         (String) SPUtils.get(context, "modelCode", ""),
@@ -308,7 +309,10 @@ public class AddPopupWindow extends PopupWindow {
                         documentBeans.get(0).getApprovalDate(),
                         documentBeans.get(0).getIssl(),
                         documentBeans.get(0).getConclusion(),
-                        documentBeans.get(0).getDescription());
+                        documentBeans.get(0).getDescription(),
+                        documentBeans.get(0).getOnLine(),
+                        documentBeans.get(0).getInfoUrl(),
+                        documentBeans.get(0).getUniqueValue());
                 documentBeanDao.update(documentBean);
 
             } else {
@@ -317,7 +321,7 @@ public class AddPopupWindow extends PopupWindow {
                         documentId,
                         tv_code.getText().toString().trim(),
                         tv_name.getText().toString().trim(),
-                        tv_secret.getText().toString().trim(),
+                        secretStr,
                         deliveryListBeans.get(0).getId(),
                         tv_payClassify.getText().toString().trim(),
                         (String) SPUtils.get(context, "modelCode", ""),
@@ -329,7 +333,10 @@ public class AddPopupWindow extends PopupWindow {
                         "",
                         "",
                         "",
-                        "");
+                        "",
+                        "",
+                        "",
+                        documentId+documentId);
                 documentBeanDao.insert(documentBean);
 
             }
@@ -348,7 +355,8 @@ public class AddPopupWindow extends PopupWindow {
                         fileBeans.get(0).getName(),
                         fileBeans.get(0).getPath(),
                         "主内容",
-                        fileAdapter.getList().get(0).getSecret());
+                        fileAdapter.getList().get(0).getSecret(),
+                        fileAdapter.getList().get(0).getDisabledSecret());
                 fileBeanDaoSave.update(fileBean);
                 FileUtils.copyFile(fileBeans.get(0).getPath(), path + fileBeans.get(0).getName());
             }else {
@@ -358,7 +366,8 @@ public class AddPopupWindow extends PopupWindow {
                         fileBeans.get(0).getName(),
                         fileBeans.get(0).getPath(),
                         "主内容",
-                        fileAdapter.getList().get(0).getSecret());
+                        fileAdapter.getList().get(0).getSecret(),
+                        fileAdapter.getList().get(0).getDisabledSecret());
                 fileBeanDaoSave.insert(fileBean);
                 FileUtils.copyFile(fileBeans.get(0).getPath(), path + fileBeans.get(0).getName());
             }
@@ -379,7 +388,8 @@ public class AddPopupWindow extends PopupWindow {
                         fileBeans2.get(i).getName(),
                         fileBeans2.get(i).getPath(),
                         "附件",
-                        fileAdapter2.getList().get(i).getSecret());
+                        fileAdapter2.getList().get(i).getSecret(),
+                        fileAdapter2.getList().get(i).getDisabledSecret());
                 fileBeanDaoSave.insert(fileBean);
                 FileUtils.copyFile(fileBeans2.get(i).getPath(), path + fileBeans2.get(i).getName());
             }
@@ -404,7 +414,7 @@ public class AddPopupWindow extends PopupWindow {
                         Log.e("TAG", "upLoadFilePath: " + upLoadFilePath);
                         Log.e("TAG", "upLoadFileName: " + upLoadFileName);
                         fileBeans.clear();
-                        fileBeans.add(new FileBean((long) 0, "", "", upLoadFileName, upLoadFilePath, "主内容", "非密"));
+                        fileBeans.add(new FileBean((long) 0, "", "", upLoadFileName, upLoadFilePath, "主内容", "非密",""));
                         fileAdapter.notifyDataSetChanged();
                     }
                 }
@@ -420,7 +430,7 @@ public class AddPopupWindow extends PopupWindow {
                         String upLoadFileName = file.getName();
                         Log.e("TAG", "upLoadFilePath: " + upLoadFilePath);
                         Log.e("TAG", "upLoadFileName: " + upLoadFileName);
-                        fileBeans2.add(new FileBean((long) 0, "", "", upLoadFileName, upLoadFilePath, "附件", "非密"));
+                        fileBeans2.add(new FileBean((long) 0, "", "", upLoadFileName, upLoadFilePath, "附件", "非密",""));
                         fileAdapter2.notifyDataSetChanged();
                     }
                 }

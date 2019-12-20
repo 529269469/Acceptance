@@ -21,6 +21,8 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
+        AcceptDeviceBeanDao.createTable(db, ifNotExists);
+        ApplyDeptBeanDao.createTable(db, ifNotExists);
         ApplyItemBeanDao.createTable(db, ifNotExists);
         CheckApplyBeanDao.createTable(db, ifNotExists);
         CheckFileBeanDao.createTable(db, ifNotExists);
@@ -29,6 +31,7 @@ public class DaoMaster extends AbstractDaoMaster {
         CheckTaskBeanDao.createTable(db, ifNotExists);
         CheckUnresolvedBeanDao.createTable(db, ifNotExists);
         CheckVerdBeanDao.createTable(db, ifNotExists);
+        DataPackageDBeanDao.createTable(db, ifNotExists);
         DeliveryListBeanDao.createTable(db, ifNotExists);
         DocumentBeanDao.createTable(db, ifNotExists);
         FileBeanDao.createTable(db, ifNotExists);
@@ -36,13 +39,12 @@ public class DaoMaster extends AbstractDaoMaster {
         PropertyBeanXDao.createTable(db, ifNotExists);
         RelatedDocumentIdSetBeanDao.createTable(db, ifNotExists);
         UnresolvedBeanDao.createTable(db, ifNotExists);
-        DataPackageDBeanDao.createTable(db, ifNotExists);
-        ApplyDeptBeanDao.createTable(db, ifNotExists);
-        AcceptDeviceBeanDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
+        AcceptDeviceBeanDao.dropTable(db, ifExists);
+        ApplyDeptBeanDao.dropTable(db, ifExists);
         ApplyItemBeanDao.dropTable(db, ifExists);
         CheckApplyBeanDao.dropTable(db, ifExists);
         CheckFileBeanDao.dropTable(db, ifExists);
@@ -51,6 +53,7 @@ public class DaoMaster extends AbstractDaoMaster {
         CheckTaskBeanDao.dropTable(db, ifExists);
         CheckUnresolvedBeanDao.dropTable(db, ifExists);
         CheckVerdBeanDao.dropTable(db, ifExists);
+        DataPackageDBeanDao.dropTable(db, ifExists);
         DeliveryListBeanDao.dropTable(db, ifExists);
         DocumentBeanDao.dropTable(db, ifExists);
         FileBeanDao.dropTable(db, ifExists);
@@ -58,9 +61,6 @@ public class DaoMaster extends AbstractDaoMaster {
         PropertyBeanXDao.dropTable(db, ifExists);
         RelatedDocumentIdSetBeanDao.dropTable(db, ifExists);
         UnresolvedBeanDao.dropTable(db, ifExists);
-        DataPackageDBeanDao.dropTable(db, ifExists);
-        ApplyDeptBeanDao.dropTable(db, ifExists);
-        AcceptDeviceBeanDao.dropTable(db, ifExists);
     }
 
     /**
@@ -79,6 +79,8 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
+        registerDaoClass(AcceptDeviceBeanDao.class);
+        registerDaoClass(ApplyDeptBeanDao.class);
         registerDaoClass(ApplyItemBeanDao.class);
         registerDaoClass(CheckApplyBeanDao.class);
         registerDaoClass(CheckFileBeanDao.class);
@@ -87,6 +89,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(CheckTaskBeanDao.class);
         registerDaoClass(CheckUnresolvedBeanDao.class);
         registerDaoClass(CheckVerdBeanDao.class);
+        registerDaoClass(DataPackageDBeanDao.class);
         registerDaoClass(DeliveryListBeanDao.class);
         registerDaoClass(DocumentBeanDao.class);
         registerDaoClass(FileBeanDao.class);
@@ -94,9 +97,6 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(PropertyBeanXDao.class);
         registerDaoClass(RelatedDocumentIdSetBeanDao.class);
         registerDaoClass(UnresolvedBeanDao.class);
-        registerDaoClass(DataPackageDBeanDao.class);
-        registerDaoClass(ApplyDeptBeanDao.class);
-        registerDaoClass(AcceptDeviceBeanDao.class);
     }
 
     public DaoSession newSession() {

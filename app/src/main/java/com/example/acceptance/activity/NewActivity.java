@@ -221,7 +221,9 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                         DataUtils.getData(),
                         tvModelSeries.getText().toString().trim(),
                         tvModelSeriesName.getText().toString().trim(),
-                        "", "", "");
+                        "", "", "",
+                        "", "", "",
+                        "", "");
                 dataPackageDBeanDao.insert(dataPackageDBean);
 
                 if (!StringUtils.isBlank(moban)) {
@@ -430,7 +432,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                     dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsSatisfyRequire(),
                     dataPackageBean.getApplyItemSet().getApplyItem().get(i).getDescription(),
                     dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductName(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getPassCheck());
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getPassCheck(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getUniqueValue());
             applyItemBeanDao.insert(applyItemBean);
         }
 
@@ -451,7 +454,9 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getDocType(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getProductType(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getConclusion(),
-                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckPerson());
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckPerson(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckDate(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getSortBy());
             checkFileBeanDao.insert(checkFileBean);
 
             try {
@@ -465,7 +470,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckGroupConclusion(),
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckPerson(),
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsConclusion(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsTable());
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsTable(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getUniqueValue());
                     checkGroupBeanDao.insert(checkGroupBean);
 
                     try {
@@ -511,7 +517,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getId(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getName(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getOptions(),
-                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected());
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getUniqueValue());
                             checkItemBeanDao.insert(checkItemBean);
 
                             try {
@@ -570,7 +577,9 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                 dataPackageBean.getCheckVerd().getjConclusion(),
                 dataPackageBean.getCheckVerd().getConclusion(),
                 dataPackageBean.getCheckVerd().getCheckPerson(),
-                dataPackageBean.getCheckVerd().getDocTypeVal());
+                dataPackageBean.getCheckVerd().getDocTypeVal(),
+                dataPackageBean.getCheckVerd().getCheckPersonId(),
+                dataPackageBean.getCheckVerd().getCheckDate());
         checkVerdBeanDao.insert(checkVerdBean);
 
         CheckUnresolvedBeanDao checkUnresolvedBeanDao = MyApplication.getInstances().getCheckUnresolvedDaoSession().getCheckUnresolvedBeanDao();
@@ -597,7 +606,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getQuestion(),
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getConfirmer(),
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getConfirmTime(),
-                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileId());
+                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileId(),
+                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getUniqueValue());
                 unresolvedBeanDao.insert(unresolvedBean);
 
                 try {
@@ -608,7 +618,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getName(),
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getPath(),
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getType(),
-                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getSecret());
+                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getSecret(),
+                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getDisabledSecret());
                         fileBeanDao.insert(fileBean);
                     }
                 } catch (Exception o) {
@@ -631,7 +642,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getId(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getIsParent(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getProject(),
-                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getParentId());
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getParentId(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getUniqueValue());
                 deliveryListBeanDao.insert(deliveryListBean);
             }
         } catch (Exception o) {
@@ -659,7 +671,10 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getApprovalDate(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getIssl(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getConclusion(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getDescription());
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getDescription(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getOnLine(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getInfoUrl(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getUniqueValue());
                 documentBeanDao.insert(documentBean);
 
                 for (int j = 0; j < dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().size(); j++) {
@@ -669,7 +684,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getName(),
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getPath(),
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getType(),
-                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getSecret());
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getSecret(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getDisabledSecret());
                     fileBeanDao.insert(fileBean);
                 }
 

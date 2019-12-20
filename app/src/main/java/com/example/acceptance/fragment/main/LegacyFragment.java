@@ -32,6 +32,7 @@ import com.example.acceptance.view.MyListView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 
@@ -175,7 +176,8 @@ public class LegacyFragment extends BaseFragment {
                                 fileBeans.get(i).getName(),
                                 fileBeans.get(i).getPath(),
                                 fileBeans.get(i).getType(),
-                                fileBeans.get(i).getSecret());
+                                fileBeans.get(i).getSecret(),
+                                fileBeans.get(i).getDisabledSecret());
                         fileBeanDao.insert(fileBean);
                     }
                     UnresolvedBean unresolvedBean = new UnresolvedBean(null,
@@ -185,7 +187,7 @@ public class LegacyFragment extends BaseFragment {
                             tv_question.getText().toString().trim(),
                             tv_confirmer.getText().toString().trim(),
                             tv_confirmTime.getText().toString().trim(),
-                            unresolvedId);
+                            unresolvedId, UUID.randomUUID().toString());
                     unresolvedBeanDao.insert(unresolvedBean);
                 } else {
                     FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
@@ -196,7 +198,8 @@ public class LegacyFragment extends BaseFragment {
                                 fileBeans.get(i).getName(),
                                 fileBeans.get(i).getPath(),
                                 fileBeans.get(i).getType(),
-                                fileBeans.get(i).getSecret());
+                                fileBeans.get(i).getSecret(),
+                                fileBeans.get(i).getDisabledSecret());
                         fileBeanDao.insert(fileBean);
                     }
                     UnresolvedBean unresolvedBean = new UnresolvedBean(beanList.get(pos).getUId(),
@@ -206,7 +209,8 @@ public class LegacyFragment extends BaseFragment {
                             tv_question.getText().toString().trim(),
                             tv_confirmer.getText().toString().trim(),
                             tv_confirmTime.getText().toString().trim(),
-                            StringUtils.isBlank(beanList.get(pos).getFileId())?unresolvedId:beanList.get(pos).getFileId());
+                            StringUtils.isBlank(beanList.get(pos).getFileId())?unresolvedId:beanList.get(pos).getFileId(),
+                            beanList.get(pos).getUniqueValue());
                     unresolvedBeanDao.update(unresolvedBean);
                 }
                 UnresolvedBeanDao unresolvedBeanDao2 = MyApplication.getInstances().getCheckUnresolvedDaoSession().getUnresolvedBeanDao();

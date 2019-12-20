@@ -87,7 +87,7 @@ public class AddPrijectPopupWindow extends PopupWindow {
                         deliveryId,
                         true+"",
                         projectStr,
-                        "");
+                        "",deliveryId+deliveryId);
                 deliveryListBeanDao.insert(deliveryListBean);
                 ToastUtils.getInstance().showTextToast(context,"添加成功");
             }else {
@@ -107,7 +107,7 @@ public class AddPrijectPopupWindow extends PopupWindow {
                         deliveryId,
                         "false",
                         projectStr,
-                        id);
+                        id,deliveryId+deliveryId);
                 deliveryListBeanDao.insert(deliveryListBean);
                 ToastUtils.getInstance().showTextToast(context,"添加成功");
             }

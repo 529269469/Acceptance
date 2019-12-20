@@ -30,6 +30,7 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
         public final static Property IsParent = new Property(3, String.class, "isParent", false, "IS_PARENT");
         public final static Property Project = new Property(4, String.class, "project", false, "PROJECT");
         public final static Property ParentId = new Property(5, String.class, "parentId", false, "PARENT_ID");
+        public final static Property UniqueValue = new Property(6, String.class, "uniqueValue", false, "UNIQUE_VALUE");
     }
 
 
@@ -50,7 +51,8 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
                 "\"ID\" TEXT," + // 2: id
                 "\"IS_PARENT\" TEXT," + // 3: isParent
                 "\"PROJECT\" TEXT," + // 4: project
-                "\"PARENT_ID\" TEXT);"); // 5: parentId
+                "\"PARENT_ID\" TEXT," + // 5: parentId
+                "\"UNIQUE_VALUE\" TEXT);"); // 6: uniqueValue
     }
 
     /** Drops the underlying database table. */
@@ -92,6 +94,11 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
         if (parentId != null) {
             stmt.bindString(6, parentId);
         }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(7, uniqueValue);
+        }
     }
 
     @Override
@@ -127,6 +134,11 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
         if (parentId != null) {
             stmt.bindString(6, parentId);
         }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(7, uniqueValue);
+        }
     }
 
     @Override
@@ -142,7 +154,8 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // id
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // isParent
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // project
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // parentId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // parentId
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // uniqueValue
         );
         return entity;
     }
@@ -155,6 +168,7 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
         entity.setIsParent(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setProject(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setParentId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setUniqueValue(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
      }
     
     @Override

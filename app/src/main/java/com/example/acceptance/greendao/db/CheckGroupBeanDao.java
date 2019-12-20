@@ -33,6 +33,7 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
         public final static Property CheckPerson = new Property(6, String.class, "checkPerson", false, "CHECK_PERSON");
         public final static Property IsConclusion = new Property(7, String.class, "isConclusion", false, "IS_CONCLUSION");
         public final static Property IsTable = new Property(8, String.class, "isTable", false, "IS_TABLE");
+        public final static Property UniqueValue = new Property(9, String.class, "uniqueValue", false, "UNIQUE_VALUE");
     }
 
 
@@ -56,7 +57,8 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
                 "\"CHECK_GROUP_CONCLUSION\" TEXT," + // 5: checkGroupConclusion
                 "\"CHECK_PERSON\" TEXT," + // 6: checkPerson
                 "\"IS_CONCLUSION\" TEXT," + // 7: isConclusion
-                "\"IS_TABLE\" TEXT);"); // 8: isTable
+                "\"IS_TABLE\" TEXT," + // 8: isTable
+                "\"UNIQUE_VALUE\" TEXT);"); // 9: uniqueValue
     }
 
     /** Drops the underlying database table. */
@@ -113,6 +115,11 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
         if (isTable != null) {
             stmt.bindString(9, isTable);
         }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(10, uniqueValue);
+        }
     }
 
     @Override
@@ -163,6 +170,11 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
         if (isTable != null) {
             stmt.bindString(9, isTable);
         }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(10, uniqueValue);
+        }
     }
 
     @Override
@@ -181,7 +193,8 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // checkGroupConclusion
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // checkPerson
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // isConclusion
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // isTable
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // isTable
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // uniqueValue
         );
         return entity;
     }
@@ -197,6 +210,7 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
         entity.setCheckPerson(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setIsConclusion(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setIsTable(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setUniqueValue(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     @Override

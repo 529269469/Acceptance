@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <EditText
+            <TextView
                 android:paddingLeft="@dimen/padding_10"
                 android:textSize="@dimen/text_font_14"
                 android:id="@+id/et_qConclusion"
@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <EditText
+            <TextView
                 android:paddingLeft="@dimen/padding_10"
                 android:id="@+id/et_gConclusion"
                 android:textSize="@dimen/text_font_14"
@@ -109,15 +109,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <EditText
-                android:paddingLeft="@dimen/padding_10"
+            <TextView
                 android:id="@+id/et_jConclusion"
-                android:textSize="@dimen/text_font_14"
-                android:layout_marginLeft="@dimen/padding_10"
-                android:gravity="top"
-                android:background="@drawable/shape_edtext"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/padding_90"/>
+                android:layout_height="@dimen/padding_90"
+                android:layout_marginLeft="@dimen/padding_10"
+                android:background="@drawable/shape_edtext"
+                android:gravity="top"
+                android:paddingLeft="@dimen/padding_10"
+                android:textSize="@dimen/text_font_14" />
 
         </LinearLayout>
 
@@ -264,7 +264,7 @@
 
 
         <LinearLayout
-            android:layout_marginBottom="@dimen/padding_100"
+
             android:layout_marginTop="@dimen/padding_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -283,6 +283,17 @@
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="@dimen/padding_90"/>
         </LinearLayout>
+
+        <EditText
+            android:background="@drawable/shape_edtext"
+            android:id="@+id/tv_signature"
+            android:layout_marginTop="@dimen/padding_5"
+            android:layout_marginLeft="@dimen/padding_80"
+            android:layout_marginBottom="@dimen/padding_100"
+            android:textColor="@color/color_333333"
+            android:hint="请验收人签字"
+            android:layout_width="@dimen/padding_200"
+            android:layout_height="@dimen/padding_36"/>
 
         <LinearLayout
             android:visibility="gone"

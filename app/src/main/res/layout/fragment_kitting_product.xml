@@ -112,6 +112,17 @@
 
                 </LinearLayout>
 
+                <EditText
+                    android:background="@drawable/shape_edtext"
+                    android:id="@+id/tv_signature"
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:layout_marginLeft="@dimen/padding_110"
+                    android:layout_marginBottom="@dimen/padding_100"
+                    android:textColor="@color/color_333333"
+                    android:hint="请验收人签字"
+                    android:layout_width="@dimen/padding_200"
+                    android:layout_height="@dimen/padding_36"/>
+
                 <TextView
                     android:visibility="gone"
                     android:id="@+id/tv_save"

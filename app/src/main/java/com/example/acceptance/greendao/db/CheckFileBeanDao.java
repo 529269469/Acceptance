@@ -33,6 +33,8 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
         public final static Property ProductType = new Property(6, String.class, "productType", false, "PRODUCT_TYPE");
         public final static Property Conclusion = new Property(7, String.class, "conclusion", false, "CONCLUSION");
         public final static Property CheckPerson = new Property(8, String.class, "checkPerson", false, "CHECK_PERSON");
+        public final static Property CheckDate = new Property(9, String.class, "checkDate", false, "CHECK_DATE");
+        public final static Property SortBy = new Property(10, String.class, "sortBy", false, "SORT_BY");
     }
 
 
@@ -56,7 +58,9 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
                 "\"DOC_TYPE\" TEXT," + // 5: docType
                 "\"PRODUCT_TYPE\" TEXT," + // 6: productType
                 "\"CONCLUSION\" TEXT," + // 7: conclusion
-                "\"CHECK_PERSON\" TEXT);"); // 8: checkPerson
+                "\"CHECK_PERSON\" TEXT," + // 8: checkPerson
+                "\"CHECK_DATE\" TEXT," + // 9: checkDate
+                "\"SORT_BY\" TEXT);"); // 10: sortBy
     }
 
     /** Drops the underlying database table. */
@@ -113,6 +117,16 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
         if (checkPerson != null) {
             stmt.bindString(9, checkPerson);
         }
+ 
+        String checkDate = entity.getCheckDate();
+        if (checkDate != null) {
+            stmt.bindString(10, checkDate);
+        }
+ 
+        String sortBy = entity.getSortBy();
+        if (sortBy != null) {
+            stmt.bindString(11, sortBy);
+        }
     }
 
     @Override
@@ -163,6 +177,16 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
         if (checkPerson != null) {
             stmt.bindString(9, checkPerson);
         }
+ 
+        String checkDate = entity.getCheckDate();
+        if (checkDate != null) {
+            stmt.bindString(10, checkDate);
+        }
+ 
+        String sortBy = entity.getSortBy();
+        if (sortBy != null) {
+            stmt.bindString(11, sortBy);
+        }
     }
 
     @Override
@@ -181,7 +205,9 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // docType
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // productType
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // conclusion
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // checkPerson
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // checkPerson
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // checkDate
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // sortBy
         );
         return entity;
     }
@@ -197,6 +223,8 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
         entity.setProductType(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setConclusion(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setCheckPerson(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setCheckDate(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setSortBy(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
      }
     
     @Override

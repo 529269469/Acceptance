@@ -39,6 +39,7 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
         public final static Property Description = new Property(12, String.class, "description", false, "DESCRIPTION");
         public final static Property ProductName = new Property(13, String.class, "productName", false, "PRODUCT_NAME");
         public final static Property PassCheck = new Property(14, String.class, "passCheck", false, "PASS_CHECK");
+        public final static Property UniqueValue = new Property(15, String.class, "uniqueValue", false, "UNIQUE_VALUE");
     }
 
 
@@ -68,7 +69,8 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
                 "\"IS_SATISFY_REQUIRE\" TEXT," + // 11: isSatisfyRequire
                 "\"DESCRIPTION\" TEXT," + // 12: description
                 "\"PRODUCT_NAME\" TEXT," + // 13: productName
-                "\"PASS_CHECK\" TEXT);"); // 14: passCheck
+                "\"PASS_CHECK\" TEXT," + // 14: passCheck
+                "\"UNIQUE_VALUE\" TEXT);"); // 15: uniqueValue
     }
 
     /** Drops the underlying database table. */
@@ -155,6 +157,11 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
         if (passCheck != null) {
             stmt.bindString(15, passCheck);
         }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(16, uniqueValue);
+        }
     }
 
     @Override
@@ -235,6 +242,11 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
         if (passCheck != null) {
             stmt.bindString(15, passCheck);
         }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(16, uniqueValue);
+        }
     }
 
     @Override
@@ -259,7 +271,8 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // isSatisfyRequire
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // description
             cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // productName
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14) // passCheck
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // passCheck
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // uniqueValue
         );
         return entity;
     }
@@ -281,6 +294,7 @@ public class ApplyItemBeanDao extends AbstractDao<ApplyItemBean, Long> {
         entity.setDescription(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setProductName(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
         entity.setPassCheck(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setUniqueValue(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
      }
     
     @Override

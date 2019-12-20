@@ -87,7 +87,7 @@ public class UnresolvedAdapter2 extends BaseAdapter {
                         list.get(i).getIsSatisfyRequire(),
                         list.get(i).getDescription(),
                         list.get(i).getProductName(),
-                        b+"");
+                        "","");
                 applyItemBeanDao.update(applyItemBean);
             }
         });

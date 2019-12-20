@@ -54,6 +54,7 @@ import com.example.acceptance.greendao.db.DeliveryListBeanDao;
 import com.example.acceptance.greendao.db.DocumentBeanDao;
 import com.example.acceptance.greendao.db.FileBeanDao;
 import com.example.acceptance.greendao.db.UnresolvedBeanDao;
+import com.example.acceptance.net.Contents;
 import com.example.acceptance.utils.FileUtils;
 import com.example.acceptance.utils.OpenFileUtil;
 import com.example.acceptance.utils.SPUtils;
@@ -66,6 +67,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 
@@ -86,17 +88,20 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
     @BindView(R.id.tv_name)
     TextView tvName;
     @BindView(R.id.et_qConclusion)
-    EditText etQConclusion;
+    TextView etQConclusion;
     @BindView(R.id.et_gConclusion)
-    EditText etGConclusion;
+    TextView etGConclusion;
     @BindView(R.id.et_jConclusion)
-    EditText etJConclusion;
+    TextView etJConclusion;
     @BindView(R.id.tv_time)
     EditText tvTime;
     @BindView(R.id.tv_save)
     TextView tvSave;
     @BindView(R.id.tv_add2)
     TextView tvAdd2;
+    @BindView(R.id.tv_signature)
+    EditText tv_signature;
+
     private PopupWindow popupWindow;
     private LinePathView mPathView;
     private String id;
@@ -134,8 +139,10 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             etGConclusion.getText().toString().trim(),
                             etJConclusion.getText().toString().trim(),
                             checkVerdBeans.get(0).getConclusion(),
-                            checkVerdBeans.get(0).getCheckPerson(),
-                            checkVerdBeans.get(0).getDocTypeVal());
+                            tv_signature.getText().toString().trim(),
+                            checkVerdBeans.get(0).getDocTypeVal(),
+                            checkVerdBeans.get(0).getCheckPersonId(),
+                            checkVerdBeans.get(0).getCheckDate());
                     checkVerdBeanDao.update(checkVerdBean);
                 }
             }
@@ -156,17 +163,36 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
 
         tvCode.setText("编号：" + checkVerdBeans.get(0).getCode());
         tvName.setText("名称：" + checkVerdBeans.get(0).getName());
-        etQConclusion.setText(checkVerdBeans.get(0).getQConclusion());
-        etGConclusion.setText(checkVerdBeans.get(0).getGConclusion());
-        etJConclusion.setText(checkVerdBeans.get(0).getJConclusion());
 
-        etQConclusion.addTextChangedListener(textWatcher);
-        etGConclusion.addTextChangedListener(textWatcher);
-        etJConclusion.addTextChangedListener(textWatcher);
+        tv_signature.setText(checkVerdBeans.get(0).getCheckPerson());
+        CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
 
-        if (!StringUtils.isBlank(checkVerdBeans.get(0).getCheckPerson())) {
+        List<CheckFileBean> checkFileBeans1 = checkFileBeanDao.queryBuilder()
+                .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
+                .where(CheckFileBeanDao.Properties.DocType.eq(Contents.齐套性检查))
+                .list();
+        etQConclusion.setText(checkFileBeans1.get(0).getConclusion());
+        List<CheckFileBean> checkFileBeans2 = checkFileBeanDao.queryBuilder()
+                .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
+                .where(CheckFileBeanDao.Properties.DocType.eq(Contents.过程检查))
+                .list();
+        etGConclusion.setText(checkFileBeans2.get(0).getConclusion());
+        List<CheckFileBean> checkFileBeans3 = checkFileBeanDao.queryBuilder()
+                .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
+                .where(CheckFileBeanDao.Properties.DocType.eq(Contents.技术类检查))
+                .list();
+        etJConclusion.setText(checkFileBeans3.get(0).getConclusion());
+
+        tv_signature.addTextChangedListener(textWatcher);
+
+        FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+        List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
+                .where(FileBeanDao.Properties.DataPackageId.eq(id))
+                .where(FileBeanDao.Properties.DocumentId.eq(checkVerdBeans.get(0).getId()))
+                .list();
+        if (!fileBeanList.isEmpty() && !StringUtils.isBlank(fileBeanList.get(0).getPath())) {
             Glide.with(getActivity())
-                    .load(new File(checkVerdBeans.get(0).getCheckPerson()))
+                    .load(new File(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath()))
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(ivSignature);
@@ -232,40 +258,6 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
             case R.id.iv_signature:
                 pathPopu();
                 break;
-            case R.id.tv_save:
-                CheckVerdBeanDao checkVerdBeanDao = MyApplication.getInstances().getCheckVerdDaoSession().getCheckVerdBeanDao();
-                List<CheckVerdBean> checkVerdBeans = checkVerdBeanDao.queryBuilder()
-                        .where(CheckVerdBeanDao.Properties.DataPackageId.eq(id))
-                        .list();
-                if (checkVerdBeans != null && !checkVerdBeans.isEmpty()) {
-                    CheckVerdBean checkVerdBean = new CheckVerdBean(checkVerdBeans.get(0).getUId(),
-                            id,
-                            checkVerdBeans.get(0).getId(),
-                            checkVerdBeans.get(0).getName(),
-                            checkVerdBeans.get(0).getCode(),
-                            etQConclusion.getText().toString().trim(),
-                            etGConclusion.getText().toString().trim(),
-                            etJConclusion.getText().toString().trim(),
-                            checkVerdBeans.get(0).getConclusion(),
-                            checkVerdBeans.get(0).getCheckPerson(),
-                            checkVerdBeans.get(0).getDocTypeVal());
-                    checkVerdBeanDao.update(checkVerdBean);
-                } else {
-                    CheckVerdBean checkVerdBean = new CheckVerdBean(null,
-                            id,
-                            System.currentTimeMillis() + "",
-                            "",
-                            "",
-                            etQConclusion.getText().toString().trim(),
-                            etGConclusion.getText().toString().trim(),
-                            etJConclusion.getText().toString().trim(),
-                            "",
-                            "", "");
-                    checkVerdBeanDao.insert(checkVerdBean);
-                }
-                ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
-                break;
-
             case R.id.tv_add2:
                 addUnresolvedSet(true, 0);
                 break;
@@ -388,7 +380,8 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 fileBeans.get(i).getName(),
                                 fileBeans.get(i).getPath(),
                                 fileBeans.get(i).getType(),
-                                fileBeans.get(i).getSecret());
+                                fileBeans.get(i).getSecret(),
+                                fileBeans.get(i).getDisabledSecret());
                         fileBeanDao.insert(fileBean);
                     }
                     UnresolvedBean unresolvedBean = new UnresolvedBean(null,
@@ -398,7 +391,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             tv_question.getText().toString().trim(),
                             tv_confirmer.getText().toString().trim(),
                             tv_confirmTime.getText().toString().trim(),
-                            unresolvedId);
+                            unresolvedId, UUID.randomUUID().toString());
                     unresolvedBeanDao.insert(unresolvedBean);
                 } else {
                     FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
@@ -409,7 +402,8 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 fileBeans.get(i).getName(),
                                 fileBeans.get(i).getPath(),
                                 fileBeans.get(i).getType(),
-                                fileBeans.get(i).getSecret());
+                                fileBeans.get(i).getSecret(),
+                                fileBeans.get(i).getDisabledSecret());
                         fileBeanDao.insert(fileBean);
                     }
                     UnresolvedBean unresolvedBean = new UnresolvedBean(beanList.get(pos).getUId(),
@@ -419,7 +413,8 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             tv_question.getText().toString().trim(),
                             tv_confirmer.getText().toString().trim(),
                             tv_confirmTime.getText().toString().trim(),
-                            StringUtils.isBlank(beanList.get(pos).getFileId()) ? unresolvedId : beanList.get(pos).getFileId());
+                            StringUtils.isBlank(beanList.get(pos).getFileId()) ? unresolvedId : beanList.get(pos).getFileId(),
+                            beanList.get(pos).getUniqueValue());
                     unresolvedBeanDao.update(unresolvedBean);
                 }
                 UnresolvedBeanDao unresolvedBeanDao2 = MyApplication.getInstances().getCheckUnresolvedDaoSession().getUnresolvedBeanDao();
@@ -452,7 +447,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             String upLoadFileName = file.getName();
                             Log.e("TAG", "upLoadFilePath: " + upLoadFilePath);
                             Log.e("TAG", "upLoadFileName: " + upLoadFileName);
-                            fileBeans.add(new FileBean(null, "", "", upLoadFileName, upLoadFilePath, "", ""));
+                            fileBeans.add(new FileBean(null, "", "", upLoadFileName, upLoadFilePath, "", "",""));
                             fileAdapter.notifyDataSetChanged();
                         }
                     }
@@ -460,7 +455,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
             }
         }
     }
-
+    private String pathName="验收结论确认人签字";
     private void pathPopu() {
         View poview = getLayoutInflater().inflate(R.layout.path_view, null);
         popupWindow = new PopupWindow(poview);
@@ -511,6 +506,8 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                     List<CheckVerdBean> checkVerdBeans = checkVerdBeanDao.queryBuilder()
                             .where(CheckVerdBeanDao.Properties.DataPackageId.eq(id))
                             .list();
+                    FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+
                     if (checkVerdBeans != null && !checkVerdBeans.isEmpty()) {
                         CheckVerdBean checkVerdBean = new CheckVerdBean(checkVerdBeans.get(0).getUId(),
                                 id,
@@ -521,21 +518,58 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 etGConclusion.getText().toString().trim(),
                                 etJConclusion.getText().toString().trim(),
                                 checkVerdBeans.get(0).getConclusion(),
-                                SPUtils.get(getActivity(), "path", "") + File.separator + path,
-                                checkVerdBeans.get(0).getDocTypeVal());
+                                tv_signature.getText().toString().trim(),
+                                checkVerdBeans.get(0).getDocTypeVal(),
+                                checkVerdBeans.get(0).getCheckPersonId(),
+                                checkVerdBeans.get(0).getCheckDate());
                         checkVerdBeanDao.update(checkVerdBean);
+                        List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
+                                .where(FileBeanDao.Properties.DataPackageId.eq(id))
+                                .where(FileBeanDao.Properties.DocumentId.eq(checkVerdBeans.get(0).getId()))
+                                .list();
+                        if (fileBeanList != null && !fileBeanList.isEmpty()) {
+                            FileUtils.delFile(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath());
+                            FileBean fileBean = new FileBean(fileBeanList.get(0).getUId(),
+                                    fileBeanList.get(0).getDataPackageId(),
+                                    fileBeanList.get(0).getDocumentId(),
+                                    pathName,
+                                    path,
+                                    "主内容",
+                                    "非密","");
+                            fileBeanDao.update(fileBean);
+                        } else {
+                            FileBean fileBean = new FileBean(null,
+                                    id,
+                                    checkVerdBeans.get(0).getId(),
+                                    pathName,
+                                    path,
+                                    "主内容",
+                                    "非密","");
+                            fileBeanDao.insert(fileBean);
+                        }
+
                     } else {
+                        String checkVerdId = System.currentTimeMillis() + "";
                         CheckVerdBean checkVerdBean = new CheckVerdBean(null,
                                 id,
-                                System.currentTimeMillis() + "",
+                                checkVerdId,
                                 "",
                                 "",
                                 etQConclusion.getText().toString().trim(),
                                 etGConclusion.getText().toString().trim(),
                                 etJConclusion.getText().toString().trim(),
                                 "",
-                                SPUtils.get(getActivity(), "path", "") + File.separator + path, "");
+                                SPUtils.get(getActivity(), "path", "") + File.separator + path, "","","");
                         checkVerdBeanDao.insert(checkVerdBean);
+
+                        FileBean fileBean = new FileBean(null,
+                                id,
+                                checkVerdId,
+                                pathName,
+                                path,
+                                "主内容",
+                                "非密","");
+                        fileBeanDao.insert(fileBean);
                     }
 
 

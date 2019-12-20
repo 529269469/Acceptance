@@ -303,7 +303,12 @@ public class ToActivity extends BaseActivity {
                 dataPackageBean.getModelSeriesName(),
                 dataPackageBean.getPkgTemplateId(),
                 dataPackageBean.getLifecycleStateId(),
-                dataPackageBean.getLifecycleStateIdentifier());
+                dataPackageBean.getLifecycleStateIdentifier(),
+                dataPackageBean.getBaseType(),
+                dataPackageBean.getModelSeriesId(),
+                dataPackageBean.getRepositoryId(),
+                dataPackageBean.getIsTemplate(),
+                dataPackageBean.getOwnerId());
         dataPackageDBeanDao.insert(dataPackageDBean);
         CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
 
@@ -411,7 +416,8 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsSatisfyRequire(),
                     dataPackageBean.getApplyItemSet().getApplyItem().get(i).getDescription(),
                     dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductName(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getPassCheck());
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getPassCheck(),
+                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getUniqueValue());
             applyItemBeanDao.insert(applyItemBean);
         }
 
@@ -480,6 +486,16 @@ public class ToActivity extends BaseActivity {
                 relatedDocumentIdSetBeanDao.deleteByKey(beans.get(i).getUId());
             }
         }
+        FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+        if (isPath) {
+            List<FileBean> beans = fileBeanDao.queryBuilder()
+                    .where(FileBeanDao.Properties.DataPackageId.eq(dataPackageDBeans.get(0).getId()))
+                    .list();
+            for (int i = 0; i < beans.size(); i++) {
+                fileBeanDao.deleteByKey(beans.get(i).getUId());
+            }
+        }
+
         for (int i = 0; i < dataPackageBean.getCheckFileSet().getCheckFile().size(); i++) {
             CheckFileBean checkFileBean = new CheckFileBean(null,
                     dataPackageBean.getId(),
@@ -489,8 +505,27 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getDocType(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getProductType(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getConclusion(),
-                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckPerson());
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckPerson(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckDate(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getSortBy());
             checkFileBeanDao.insert(checkFileBean);
+
+            try {
+                for (int j = 0; j <dataPackageBean.getCheckFileSet().getCheckFile().get(i).getFileSet().getFile().size() ; j++) {
+                    FileBean fileBean = new FileBean(null,
+                            dataPackageBean.getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getFileSet().getFile().get(j).getName(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getFileSet().getFile().get(j).getPath(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getFileSet().getFile().get(j).getType(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getFileSet().getFile().get(j).getSecret(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getFileSet().getFile().get(j).getDisabledSecret());
+                    fileBeanDao.insert(fileBean);
+                }
+            }catch (Exception io){
+
+            }
+
 
             try {
 
@@ -503,8 +538,26 @@ public class ToActivity extends BaseActivity {
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckGroupConclusion(),
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckPerson(),
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsConclusion(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsTable());
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsTable(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getUniqueValue());
                     checkGroupBeanDao.insert(checkGroupBean);
+
+                    try {
+                        for (int k = 0; k <dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getFileSet().getFile().size() ; k++) {
+                            FileBean fileBean = new FileBean(null,
+                                    dataPackageBean.getId(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getFileSet().getFile().get(k).getName(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getFileSet().getFile().get(k).getPath(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getFileSet().getFile().get(k).getType(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getFileSet().getFile().get(k).getSecret(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getFileSet().getFile().get(k).getDisabledSecret());
+                            fileBeanDao.insert(fileBean);
+                        }
+                    }catch (Exception io){
+
+                    }
+
 
                     try {
                         for (int k = 0; k < dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getAcceptDeviceSet().getAcceptDevice().size(); k++) {
@@ -550,7 +603,8 @@ public class ToActivity extends BaseActivity {
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getId(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getName(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getOptions(),
-                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected());
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getUniqueValue());
                             checkItemBeanDao.insert(checkItemBean);
 
                             try {
@@ -617,8 +671,26 @@ public class ToActivity extends BaseActivity {
                 dataPackageBean.getCheckVerd().getjConclusion(),
                 dataPackageBean.getCheckVerd().getConclusion(),
                 dataPackageBean.getCheckVerd().getCheckPerson(),
-                dataPackageBean.getCheckVerd().getDocTypeVal());
+                dataPackageBean.getCheckVerd().getDocTypeVal(),
+                dataPackageBean.getCheckVerd().getCheckPersonId(),
+                dataPackageBean.getCheckVerd().getCheckDate());
         checkVerdBeanDao.insert(checkVerdBean);
+
+        try {
+            for (int k = 0; k <dataPackageBean.getCheckVerd().getFileSet().getFile().size() ; k++) {
+                FileBean fileBean = new FileBean(null,
+                        dataPackageBean.getId(),
+                        dataPackageBean.getCheckVerd().getId(),
+                        dataPackageBean.getCheckVerd().getFileSet().getFile().get(k).getName(),
+                        dataPackageBean.getCheckVerd().getFileSet().getFile().get(k).getPath(),
+                        dataPackageBean.getCheckVerd().getFileSet().getFile().get(k).getType(),
+                        dataPackageBean.getCheckVerd().getFileSet().getFile().get(k).getSecret(),
+                        dataPackageBean.getCheckVerd().getFileSet().getFile().get(k).getDisabledSecret());
+                fileBeanDao.insert(fileBean);
+            }
+        }catch (Exception io){
+
+        }
 
         CheckUnresolvedBeanDao checkUnresolvedBeanDao = MyApplication.getInstances().getCheckUnresolvedDaoSession().getCheckUnresolvedBeanDao();
         if (isPath) {
@@ -646,15 +718,7 @@ public class ToActivity extends BaseActivity {
                 unresolvedBeanDao.deleteByKey(beans.get(i).getUId());
             }
         }
-        FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-        if (isPath) {
-            List<FileBean> beans = fileBeanDao.queryBuilder()
-                    .where(FileBeanDao.Properties.DataPackageId.eq(dataPackageDBeans.get(0).getId()))
-                    .list();
-            for (int i = 0; i < beans.size(); i++) {
-                fileBeanDao.deleteByKey(beans.get(i).getUId());
-            }
-        }
+
 
         try {
 
@@ -666,7 +730,8 @@ public class ToActivity extends BaseActivity {
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getQuestion(),
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getConfirmer(),
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getConfirmTime(),
-                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileId());
+                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileId(),
+                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getUniqueValue());
                 unresolvedBeanDao.insert(unresolvedBean);
 
                 try {
@@ -677,7 +742,8 @@ public class ToActivity extends BaseActivity {
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getName(),
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getPath(),
                                 dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getType(),
-                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getSecret());
+                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getSecret(),
+                                dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileSet().getFile().get(j).getDisabledSecret());
                         fileBeanDao.insert(fileBean);
                     }
                 } catch (Exception o) {
@@ -707,7 +773,8 @@ public class ToActivity extends BaseActivity {
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getId(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getIsParent(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getProject(),
-                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getParentId());
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getParentId(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getUniqueValue());
                 deliveryListBeanDao.insert(deliveryListBean);
             }
         } catch (Exception o) {
@@ -742,7 +809,10 @@ public class ToActivity extends BaseActivity {
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getApprovalDate(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getIssl(),
                         dataPackageBean.getDocumentListSet().getDocument().get(i).getConclusion(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getDescription());
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getDescription(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getOnLine(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getInfoUrl(),
+                        dataPackageBean.getDocumentListSet().getDocument().get(i).getUniqueValue());
                 documentBeanDao.insert(documentBean);
 
                 for (int j = 0; j < dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().size(); j++) {
@@ -752,7 +822,8 @@ public class ToActivity extends BaseActivity {
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getName(),
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getPath(),
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getType(),
-                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getSecret());
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getSecret(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getDisabledSecret());
                     fileBeanDao.insert(fileBean);
                 }
 

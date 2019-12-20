@@ -32,6 +32,7 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         public final static Property Name = new Property(5, String.class, "name", false, "NAME");
         public final static Property Options = new Property(6, String.class, "options", false, "OPTIONS");
         public final static Property Selected = new Property(7, String.class, "selected", false, "SELECTED");
+        public final static Property UniqueValue = new Property(8, String.class, "uniqueValue", false, "UNIQUE_VALUE");
     }
 
 
@@ -54,7 +55,8 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
                 "\"ID\" TEXT," + // 4: id
                 "\"NAME\" TEXT," + // 5: name
                 "\"OPTIONS\" TEXT," + // 6: options
-                "\"SELECTED\" TEXT);"); // 7: selected
+                "\"SELECTED\" TEXT," + // 7: selected
+                "\"UNIQUE_VALUE\" TEXT);"); // 8: uniqueValue
     }
 
     /** Drops the underlying database table. */
@@ -106,6 +108,11 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         if (selected != null) {
             stmt.bindString(8, selected);
         }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(9, uniqueValue);
+        }
     }
 
     @Override
@@ -151,6 +158,11 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         if (selected != null) {
             stmt.bindString(8, selected);
         }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(9, uniqueValue);
+        }
     }
 
     @Override
@@ -168,7 +180,8 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // id
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // name
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // options
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // selected
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // selected
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // uniqueValue
         );
         return entity;
     }
@@ -183,6 +196,7 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         entity.setName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setOptions(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setSelected(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setUniqueValue(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
      }
     
     @Override

@@ -20,10 +20,13 @@ public class CheckGroupBean {
     private String checkPerson;
     private String isConclusion;
     private String isTable;
-    @Generated(hash = 1936408392)
+    private String uniqueValue;
+
+    @Generated(hash = 131072022)
     public CheckGroupBean(Long uId, String dataPackageId, String checkFileId,
             String id, String groupName, String checkGroupConclusion,
-            String checkPerson, String isConclusion, String isTable) {
+            String checkPerson, String isConclusion, String isTable,
+            String uniqueValue) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.checkFileId = checkFileId;
@@ -33,10 +36,12 @@ public class CheckGroupBean {
         this.checkPerson = checkPerson;
         this.isConclusion = isConclusion;
         this.isTable = isTable;
+        this.uniqueValue = uniqueValue;
     }
     @Generated(hash = 36145380)
     public CheckGroupBean() {
     }
+
     public Long getUId() {
         return this.uId;
     }
@@ -90,5 +95,11 @@ public class CheckGroupBean {
     }
     public void setIsTable(String isTable) {
         this.isTable = isTable;
+    }
+    public String getUniqueValue() {
+        return this.uniqueValue;
+    }
+    public void setUniqueValue(String uniqueValue) {
+        this.uniqueValue = uniqueValue;
     }
 }

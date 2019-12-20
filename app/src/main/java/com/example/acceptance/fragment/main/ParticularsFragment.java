@@ -116,7 +116,12 @@ public class ParticularsFragment extends BaseFragment {
                         tvModelSeriesName.getText().toString().trim(),
                         list.get(0).getPkgTemplateId(),
                         list.get(0).getLifecycleStateId(),
-                        list.get(0).getLifecycleStateIdentifier());
+                        list.get(0).getLifecycleStateIdentifier(),
+                        list.get(0).getBaseType(),
+                        list.get(0).getModelSeriesId(),
+                        list.get(0).getRepositoryId(),
+                        list.get(0).getIsTemplate(),
+                        list.get(0).getOwnerId());
                 dataPackageDBeanDao.update(packageDBean);
             }
 
@@ -291,7 +296,12 @@ public class ParticularsFragment extends BaseFragment {
                         tvModelSeriesName.getText().toString().trim(),
                         list.get(0).getPkgTemplateId(),
                         list.get(0).getLifecycleStateId(),
-                        list.get(0).getLifecycleStateIdentifier());
+                        list.get(0).getLifecycleStateIdentifier(),
+                        list.get(0).getBaseType(),
+                        list.get(0).getModelSeriesId(),
+                        list.get(0).getRepositoryId(),
+                        list.get(0).getIsTemplate(),
+                        list.get(0).getOwnerId());
                 dataPackageDBeanDao.update(packageDBean);
 
             }

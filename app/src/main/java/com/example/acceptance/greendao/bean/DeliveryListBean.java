@@ -17,19 +17,23 @@ public class DeliveryListBean {
     private String isParent;
     private String project;
     private String parentId;
-    @Generated(hash = 286658132)
+    private String uniqueValue;
+
+    @Generated(hash = 625950035)
     public DeliveryListBean(Long uId, String dataPackageId, String id,
-            String isParent, String project, String parentId) {
+            String isParent, String project, String parentId, String uniqueValue) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
         this.isParent = isParent;
         this.project = project;
         this.parentId = parentId;
+        this.uniqueValue = uniqueValue;
     }
     @Generated(hash = 1520076137)
     public DeliveryListBean() {
     }
+   
     public Long getUId() {
         return this.uId;
     }
@@ -65,5 +69,11 @@ public class DeliveryListBean {
     }
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+    public String getUniqueValue() {
+        return this.uniqueValue;
+    }
+    public void setUniqueValue(String uniqueValue) {
+        this.uniqueValue = uniqueValue;
     }
 }

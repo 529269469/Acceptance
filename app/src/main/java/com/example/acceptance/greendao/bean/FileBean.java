@@ -18,10 +18,12 @@ public class FileBean {
     private String path;
     private String type;
     private String secret;
+    private String disabledSecret;
 
-    @Generated(hash = 1746384295)
+
+    @Generated(hash = 1870575638)
     public FileBean(Long uId, String dataPackageId, String documentId, String name,
-            String path, String type, String secret) {
+            String path, String type, String secret, String disabledSecret) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.documentId = documentId;
@@ -29,11 +31,13 @@ public class FileBean {
         this.path = path;
         this.type = type;
         this.secret = secret;
+        this.disabledSecret = disabledSecret;
     }
     @Generated(hash = 1910776192)
     public FileBean() {
     }
 
+    
     public Long getUId() {
         return this.uId;
     }
@@ -75,5 +79,11 @@ public class FileBean {
     }
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+    public String getDisabledSecret() {
+        return this.disabledSecret;
+    }
+    public void setDisabledSecret(String disabledSecret) {
+        this.disabledSecret = disabledSecret;
     }
 }

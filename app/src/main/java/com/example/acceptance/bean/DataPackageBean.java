@@ -33,6 +33,12 @@ public class DataPackageBean {
     private String pkgTemplateId;
     private String lifecycleStateId;
     private String lifecycleStateIdentifier;
+    private String baseType;
+    private String modelSeriesId;
+    private String  repositoryId;
+    private String  isTemplate;
+    private String  ownerId;
+
     private CheckApplyBean checkApply;
     private CheckTaskBean checkTask;
     private ApplyItemSetBean ApplyItemSet;
@@ -43,6 +49,45 @@ public class DataPackageBean {
     private DeliveryListsBean DeliveryLists;
     private DocumentListSetBean DocumentListSet;
 
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getRepositoryId() {
+        return repositoryId;
+    }
+
+    public void setRepositoryId(String repositoryId) {
+        this.repositoryId = repositoryId;
+    }
+
+    public String getIsTemplate() {
+        return isTemplate;
+    }
+
+    public void setIsTemplate(String isTemplate) {
+        this.isTemplate = isTemplate;
+    }
+
+    public String getModelSeriesId() {
+        return modelSeriesId;
+    }
+
+    public void setModelSeriesId(String modelSeriesId) {
+        this.modelSeriesId = modelSeriesId;
+    }
+
+    public String getBaseType() {
+        return baseType;
+    }
+
+    public void setBaseType(String baseType) {
+        this.baseType = baseType;
+    }
 
     public String getLifecycleStateIdentifier() {
         return lifecycleStateIdentifier;
@@ -604,6 +649,15 @@ public class DataPackageBean {
             private String productName;
             private String checkCount;
             private String passCheck;
+            private String uniqueValue;
+
+            public String getUniqueValue() {
+                return uniqueValue;
+            }
+
+            public void setUniqueValue(String uniqueValue) {
+                this.uniqueValue = uniqueValue;
+            }
 
             public String getPassCheck() {
                 return passCheck;
@@ -743,7 +797,35 @@ public class DataPackageBean {
             private String productType;
             private String conclusion;
             private String checkPerson;
+            private String checkDate;
+            private String sortBy;
             private CheckGroupSetBean CheckGroupSet;
+
+            public String getSortBy() {
+                return sortBy;
+            }
+
+            public void setSortBy(String sortBy) {
+                this.sortBy = sortBy;
+            }
+
+            public String getCheckDate() {
+                return checkDate;
+            }
+
+            public void setCheckDate(String checkDate) {
+                this.checkDate = checkDate;
+            }
+
+            private DocumentListSetBean.DocumentBean.FileSetBean FileSet;
+
+            public DocumentListSetBean.DocumentBean.FileSetBean getFileSet() {
+                return FileSet;
+            }
+
+            public void setFileSet(DocumentListSetBean.DocumentBean.FileSetBean fileSet) {
+                FileSet = fileSet;
+            }
 
             public String getProductType() {
                 return productType;
@@ -841,9 +923,27 @@ public class DataPackageBean {
                     private String checkPerson;
                     private String isConclusion;
                     private String isTable;
+                    private String uniqueValue;
                     private PropertySetBean PropertySet;
                     private CheckItemSetBean CheckItemSet;
                     private AcceptDeviceSet AcceptDeviceSet;
+                    private DocumentListSetBean.DocumentBean.FileSetBean FileSet;
+
+                    public String getUniqueValue() {
+                        return uniqueValue;
+                    }
+
+                    public void setUniqueValue(String uniqueValue) {
+                        this.uniqueValue = uniqueValue;
+                    }
+
+                    public DocumentListSetBean.DocumentBean.FileSetBean getFileSet() {
+                        return FileSet;
+                    }
+
+                    public void setFileSet(DocumentListSetBean.DocumentBean.FileSetBean fileSet) {
+                        FileSet = fileSet;
+                    }
 
                     public AcceptDeviceSet getAcceptDeviceSet() {
                         return AcceptDeviceSet;
@@ -1063,8 +1163,17 @@ public class DataPackageBean {
                             private String name;
                             private String options;
                             private String selected;
+                            private String uniqueValue;
                             private PropertySetBeanX PropertySet;
                             private RelatedDocumentIdSetBean RelatedDocumentIdSet;
+
+                            public String getUniqueValue() {
+                                return uniqueValue;
+                            }
+
+                            public void setUniqueValue(String uniqueValue) {
+                                this.uniqueValue = uniqueValue;
+                            }
 
                             public String getId() {
                                 return id;
@@ -1198,6 +1307,33 @@ public class DataPackageBean {
         private String conclusion;
         private String checkPerson;
         private String docTypeVal;
+        private String checkPersonId;
+        private String checkDate;
+        private DocumentListSetBean.DocumentBean.FileSetBean FileSet;
+
+        public String getCheckDate() {
+            return checkDate;
+        }
+
+        public void setCheckDate(String checkDate) {
+            this.checkDate = checkDate;
+        }
+
+        public String getCheckPersonId() {
+            return checkPersonId;
+        }
+
+        public void setCheckPersonId(String checkPersonId) {
+            this.checkPersonId = checkPersonId;
+        }
+
+        public DocumentListSetBean.DocumentBean.FileSetBean getFileSet() {
+            return FileSet;
+        }
+
+        public void setFileSet(DocumentListSetBean.DocumentBean.FileSetBean fileSet) {
+            FileSet = fileSet;
+        }
 
         public String getDocTypeVal() {
             return docTypeVal;
@@ -1360,7 +1496,16 @@ public class DataPackageBean {
             private String confirmer;
             private String confirmTime;
             private String fileId;
+            private String uniqueValue;
             private DocumentListSetBean.DocumentBean.FileSetBean FileSet;
+
+            public String getUniqueValue() {
+                return uniqueValue;
+            }
+
+            public void setUniqueValue(String uniqueValue) {
+                this.uniqueValue = uniqueValue;
+            }
 
             public DocumentListSetBean.DocumentBean.FileSetBean getFileSet() {
                 return FileSet;
@@ -1446,6 +1591,15 @@ public class DataPackageBean {
             private String isParent;
             private String project;
             private String parentId;
+            private String uniqueValue;
+
+            public String getUniqueValue() {
+                return uniqueValue;
+            }
+
+            public void setUniqueValue(String uniqueValue) {
+                this.uniqueValue = uniqueValue;
+            }
 
             public String getId() {
                 return id;
@@ -1531,7 +1685,42 @@ public class DataPackageBean {
             private String issl;
             private String conclusion;
             private String description;
+            private String onLine;
+            private String infoUrl;
+            private String uniqueValue;
             private FileSetBean FileSet;
+
+            public String getUniqueValue() {
+                return uniqueValue;
+            }
+
+            public void setUniqueValue(String uniqueValue) {
+                this.uniqueValue = uniqueValue;
+            }
+
+            public String getInfoUrl() {
+                return infoUrl;
+            }
+
+            public void setInfoUrl(String infoUrl) {
+                this.infoUrl = infoUrl;
+            }
+
+            public String getOnLine() {
+                return onLine;
+            }
+
+            public void setOnLine(String onLine) {
+                this.onLine = onLine;
+            }
+
+            public String getModelCode() {
+                return modelCode;
+            }
+
+            public void setModelCode(String modelCode) {
+                this.modelCode = modelCode;
+            }
 
             public String getPayClassifyName() {
                 return payClassifyName;
@@ -1697,6 +1886,15 @@ public class DataPackageBean {
                     private String path;
                     private String type;
                     private String secret;
+                    private String disabledSecret;
+
+                    public String getDisabledSecret() {
+                        return disabledSecret;
+                    }
+
+                    public void setDisabledSecret(String disabledSecret) {
+                        this.disabledSecret = disabledSecret;
+                    }
 
                     public String getSecret() {
                         return secret;

@@ -42,6 +42,9 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
         public final static Property Issl = new Property(15, String.class, "issl", false, "ISSL");
         public final static Property Conclusion = new Property(16, String.class, "conclusion", false, "CONCLUSION");
         public final static Property Description = new Property(17, String.class, "description", false, "DESCRIPTION");
+        public final static Property OnLine = new Property(18, String.class, "onLine", false, "ON_LINE");
+        public final static Property InfoUrl = new Property(19, String.class, "infoUrl", false, "INFO_URL");
+        public final static Property UniqueValue = new Property(20, String.class, "uniqueValue", false, "UNIQUE_VALUE");
     }
 
 
@@ -74,7 +77,10 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
                 "\"APPROVAL_DATE\" TEXT," + // 14: approvalDate
                 "\"ISSL\" TEXT," + // 15: issl
                 "\"CONCLUSION\" TEXT," + // 16: conclusion
-                "\"DESCRIPTION\" TEXT);"); // 17: description
+                "\"DESCRIPTION\" TEXT," + // 17: description
+                "\"ON_LINE\" TEXT," + // 18: onLine
+                "\"INFO_URL\" TEXT," + // 19: infoUrl
+                "\"UNIQUE_VALUE\" TEXT);"); // 20: uniqueValue
     }
 
     /** Drops the underlying database table. */
@@ -176,6 +182,21 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
         if (description != null) {
             stmt.bindString(18, description);
         }
+ 
+        String onLine = entity.getOnLine();
+        if (onLine != null) {
+            stmt.bindString(19, onLine);
+        }
+ 
+        String infoUrl = entity.getInfoUrl();
+        if (infoUrl != null) {
+            stmt.bindString(20, infoUrl);
+        }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(21, uniqueValue);
+        }
     }
 
     @Override
@@ -271,6 +292,21 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
         if (description != null) {
             stmt.bindString(18, description);
         }
+ 
+        String onLine = entity.getOnLine();
+        if (onLine != null) {
+            stmt.bindString(19, onLine);
+        }
+ 
+        String infoUrl = entity.getInfoUrl();
+        if (infoUrl != null) {
+            stmt.bindString(20, infoUrl);
+        }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(21, uniqueValue);
+        }
     }
 
     @Override
@@ -298,7 +334,10 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
             cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // approvalDate
             cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // issl
             cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // conclusion
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17) // description
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // description
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // onLine
+            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // infoUrl
+            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20) // uniqueValue
         );
         return entity;
     }
@@ -323,6 +362,9 @@ public class DocumentBeanDao extends AbstractDao<DocumentBean, Long> {
         entity.setIssl(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
         entity.setConclusion(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
         entity.setDescription(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setOnLine(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setInfoUrl(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
+        entity.setUniqueValue(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
      }
     
     @Override

@@ -19,12 +19,15 @@ public class UnresolvedBean {
     private String confirmer;
     private String confirmTime;
     private String fileId;
+    private String uniqueValue;
 
 
-    @Generated(hash = 762320047)
+
+
+    @Generated(hash = 1207301789)
     public UnresolvedBean(Long uId, String dataPackageId, String id,
             String productCode, String question, String confirmer,
-            String confirmTime, String fileId) {
+            String confirmTime, String fileId, String uniqueValue) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -33,10 +36,13 @@ public class UnresolvedBean {
         this.confirmer = confirmer;
         this.confirmTime = confirmTime;
         this.fileId = fileId;
+        this.uniqueValue = uniqueValue;
     }
     @Generated(hash = 118033364)
     public UnresolvedBean() {
     }
+
+
 
    
     public Long getUId() {
@@ -86,6 +92,12 @@ public class UnresolvedBean {
     }
     public void setFileId(String fileId) {
         this.fileId = fileId;
+    }
+    public String getUniqueValue() {
+        return this.uniqueValue;
+    }
+    public void setUniqueValue(String uniqueValue) {
+        this.uniqueValue = uniqueValue;
     }
 
 }

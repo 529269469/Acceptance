@@ -53,6 +53,7 @@ import com.example.acceptance.view.MyListView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 
@@ -476,7 +477,9 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                             tv_isCompleteRoutine.isChecked() + "",
                             tv_isSatisfyRequire.isChecked() + "",
                             tv_description.getText().toString().trim(),
-                            tv_productName.getText().toString().trim(),list.get(position).getPassCheck());
+                            tv_productName.getText().toString().trim(),
+                            list.get(position).getPassCheck(),
+                            list.get(position).getUniqueValue());
                     applyItemBeanDao.update(applyItemBean);
                 } else {
                     ApplyItemBean applyItemBean = new ApplyItemBean(null,
@@ -492,7 +495,9 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                             tv_isCompleteRoutine.isChecked() + "",
                             tv_isSatisfyRequire.isChecked() + "",
                             tv_description.getText().toString().trim(),
-                            tv_productName.getText().toString().trim(),"");
+                            tv_productName.getText().toString().trim(),
+                            "",
+                            UUID.randomUUID().toString());
                     applyItemBeanDao.insert(applyItemBean);
                 }
                 List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()

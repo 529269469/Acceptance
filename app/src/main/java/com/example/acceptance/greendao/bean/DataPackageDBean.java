@@ -31,17 +31,23 @@ public class DataPackageDBean {
     private String pkgTemplateId;
     private String lifecycleStateId;
     private String lifecycleStateIdentifier;
+    private String baseType;
+    private String modelSeriesId;
+    private String repositoryId;
+    private String isTemplate;
+    private String ownerId;
 
 
 
-
-    @Generated(hash = 1010401501)
+    @Generated(hash = 336491154)
     public DataPackageDBean(Long uId, String namePackage, String upLoadFile,
             String id, String name, String code, String type, String responseUnit,
             String modelCode, String productName, String productCode,
             String productType, String batch, String creator, String createTime,
             String modelSeries, String modelSeriesName, String pkgTemplateId,
-            String lifecycleStateId, String lifecycleStateIdentifier) {
+            String lifecycleStateId, String lifecycleStateIdentifier,
+            String baseType, String modelSeriesId, String repositoryId,
+            String isTemplate, String ownerId) {
         this.uId = uId;
         this.namePackage = namePackage;
         this.upLoadFile = upLoadFile;
@@ -62,47 +68,63 @@ public class DataPackageDBean {
         this.pkgTemplateId = pkgTemplateId;
         this.lifecycleStateId = lifecycleStateId;
         this.lifecycleStateIdentifier = lifecycleStateIdentifier;
+        this.baseType = baseType;
+        this.modelSeriesId = modelSeriesId;
+        this.repositoryId = repositoryId;
+        this.isTemplate = isTemplate;
+        this.ownerId = ownerId;
     }
+
     @Generated(hash = 1504690886)
     public DataPackageDBean() {
     }
-
-
-
     
+
+
     public Long getUId() {
         return this.uId;
     }
+
     public void setUId(Long uId) {
         this.uId = uId;
     }
+
     public String getId() {
         return this.id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
+
     public String getName() {
         return this.name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getCode() {
         return this.code;
     }
+
     public void setCode(String code) {
         this.code = code;
     }
+
     public String getType() {
         return this.type;
     }
+
     public void setType(String type) {
         this.type = type;
     }
+
     public String getResponseUnit() {
         return this.responseUnit;
     }
+
     public void setResponseUnit(String responseUnit) {
         this.responseUnit = responseUnit;
     }
@@ -110,85 +132,152 @@ public class DataPackageDBean {
     public String getProductName() {
         return this.productName;
     }
+
     public void setProductName(String productName) {
         this.productName = productName;
     }
+
     public String getProductCode() {
         return this.productCode;
     }
+
     public void setProductCode(String productCode) {
         this.productCode = productCode;
     }
+
     public String getProductType() {
         return this.productType;
     }
+
     public void setProductType(String productType) {
         this.productType = productType;
     }
+
     public String getBatch() {
         return this.batch;
     }
+
     public void setBatch(String batch) {
         this.batch = batch;
     }
+
     public String getCreator() {
         return this.creator;
     }
+
     public void setCreator(String creator) {
         this.creator = creator;
     }
+
     public String getCreateTime() {
         return this.createTime;
     }
+
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
+
     public String getNamePackage() {
         return this.namePackage;
     }
+
     public void setNamePackage(String namePackage) {
         this.namePackage = namePackage;
     }
+
     public String getUpLoadFile() {
         return this.upLoadFile;
     }
+
     public void setUpLoadFile(String upLoadFile) {
         this.upLoadFile = upLoadFile;
     }
+
     public String getModelCode() {
         return this.modelCode;
     }
+
     public void setModelCode(String modelCode) {
         this.modelCode = modelCode;
     }
+
     public String getModelSeries() {
         return this.modelSeries;
     }
+
     public void setModelSeries(String modelSeries) {
         this.modelSeries = modelSeries;
     }
+
     public String getModelSeriesName() {
         return this.modelSeriesName;
     }
+
     public void setModelSeriesName(String modelSeriesName) {
         this.modelSeriesName = modelSeriesName;
     }
+
     public String getPkgTemplateId() {
         return this.pkgTemplateId;
     }
+
     public void setPkgTemplateId(String pkgTemplateId) {
         this.pkgTemplateId = pkgTemplateId;
     }
+
     public String getLifecycleStateId() {
         return this.lifecycleStateId;
     }
+
     public void setLifecycleStateId(String lifecycleStateId) {
         this.lifecycleStateId = lifecycleStateId;
     }
+
     public String getLifecycleStateIdentifier() {
         return this.lifecycleStateIdentifier;
     }
+
     public void setLifecycleStateIdentifier(String lifecycleStateIdentifier) {
         this.lifecycleStateIdentifier = lifecycleStateIdentifier;
+    }
+
+    public String getBaseType() {
+        return this.baseType;
+    }
+
+    public void setBaseType(String baseType) {
+        this.baseType = baseType;
+    }
+
+    public String getModelSeriesId() {
+        return this.modelSeriesId;
+    }
+
+    public void setModelSeriesId(String modelSeriesId) {
+        this.modelSeriesId = modelSeriesId;
+    }
+
+    public String getRepositoryId() {
+        return this.repositoryId;
+    }
+
+    public void setRepositoryId(String repositoryId) {
+        this.repositoryId = repositoryId;
+    }
+
+    public String getIsTemplate() {
+        return this.isTemplate;
+    }
+
+    public void setIsTemplate(String isTemplate) {
+        this.isTemplate = isTemplate;
+    }
+
+    public String getOwnerId() {
+        return this.ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 }

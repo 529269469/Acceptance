@@ -31,6 +31,7 @@ public class FileBeanDao extends AbstractDao<FileBean, Long> {
         public final static Property Path = new Property(4, String.class, "path", false, "PATH");
         public final static Property Type = new Property(5, String.class, "type", false, "TYPE");
         public final static Property Secret = new Property(6, String.class, "secret", false, "SECRET");
+        public final static Property DisabledSecret = new Property(7, String.class, "disabledSecret", false, "DISABLED_SECRET");
     }
 
 
@@ -52,7 +53,8 @@ public class FileBeanDao extends AbstractDao<FileBean, Long> {
                 "\"NAME\" TEXT," + // 3: name
                 "\"PATH\" TEXT," + // 4: path
                 "\"TYPE\" TEXT," + // 5: type
-                "\"SECRET\" TEXT);"); // 6: secret
+                "\"SECRET\" TEXT," + // 6: secret
+                "\"DISABLED_SECRET\" TEXT);"); // 7: disabledSecret
     }
 
     /** Drops the underlying database table. */
@@ -99,6 +101,11 @@ public class FileBeanDao extends AbstractDao<FileBean, Long> {
         if (secret != null) {
             stmt.bindString(7, secret);
         }
+ 
+        String disabledSecret = entity.getDisabledSecret();
+        if (disabledSecret != null) {
+            stmt.bindString(8, disabledSecret);
+        }
     }
 
     @Override
@@ -139,6 +146,11 @@ public class FileBeanDao extends AbstractDao<FileBean, Long> {
         if (secret != null) {
             stmt.bindString(7, secret);
         }
+ 
+        String disabledSecret = entity.getDisabledSecret();
+        if (disabledSecret != null) {
+            stmt.bindString(8, disabledSecret);
+        }
     }
 
     @Override
@@ -155,7 +167,8 @@ public class FileBeanDao extends AbstractDao<FileBean, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // path
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // type
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // secret
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // secret
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // disabledSecret
         );
         return entity;
     }
@@ -169,6 +182,7 @@ public class FileBeanDao extends AbstractDao<FileBean, Long> {
         entity.setPath(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setType(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setSecret(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setDisabledSecret(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
      }
     
     @Override

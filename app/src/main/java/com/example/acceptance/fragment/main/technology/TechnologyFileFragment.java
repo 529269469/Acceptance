@@ -49,6 +49,7 @@ import com.example.acceptance.view.MyListView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 
@@ -103,7 +104,7 @@ public class TechnologyFileFragment extends BaseFragment {
                     id,
                     parentId,
                     true+"",
-                    "验收依据文件","");
+                    "验收依据文件","", UUID.randomUUID().toString());
             deliveryListBeanDao.insert(deliveryListBean);
         }
 
@@ -164,7 +165,7 @@ public class TechnologyFileFragment extends BaseFragment {
                 addFilePopupWindow = new AddFilePopupWindow(MyApplication.mContext, view, list.get(i).getId(), true, false));
 
         lvFileKitting2.setOnItemClickListener((adapterView, view, i, l) -> {
-            addFilePopupWindow = new AddFilePopupWindow(MyApplication.mContext, view, list.get(i).getId(), true, true);
+            addFilePopupWindow = new AddFilePopupWindow(MyApplication.mContext, view, list2.get(i).getId(), true, true);
             addFilePopupWindow.setAddFile(new AddFilePopupWindow.AddFile() {
                 @Override
                 public void addfile1() {
