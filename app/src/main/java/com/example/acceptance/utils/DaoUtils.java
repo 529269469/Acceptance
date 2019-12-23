@@ -315,6 +315,7 @@ public class DaoUtils {
                         fileBean.setPath(fileBeans.get(k).getPath());
                         fileBean.setType(fileBeans.get(k).getType());
                         fileBean.setSecret(fileBeans.get(k).getSecret());
+                        fileBean.setDisabledSecret(fileBeans.get(k).getDisabledSecret());
                         xStream.alias("File", DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean.FileBean.class);//为类名节点重命名
                         xStream.addImplicitCollection(DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean.class, "File");
                         File2.add(fileBean);
@@ -715,7 +716,8 @@ public class DaoUtils {
         File file=new File(dataPackageDBeans.get(0).getUpLoadFile());
 
         try {
-            deleteFile(new File(Environment.getExternalStorageDirectory()+"/数据包" + "/" + dataPackageDBeans.get(0).getCode()+".zip"));
+//            deleteFile(new File(Environment.getExternalStorageDirectory()+"/数据包" + "/" + dataPackageDBeans.get(0).getCode()+".zip"));
+
             IOUtil.getZipFile(file.listFiles(),Environment.getExternalStorageDirectory()+"/数据包" + "/" + dataPackageDBeans.get(0).getCode()+".zip");
 //            ZipUtils2.ZipFolder(dataPackageDBeans.get(0).getUpLoadFile() , Environment.getExternalStorageDirectory()+"/数据包" + "/" + dataPackageDBeans.get(0).getCode()+".zip");
         } catch (Exception e) {

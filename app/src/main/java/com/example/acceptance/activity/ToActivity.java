@@ -792,39 +792,47 @@ public class ToActivity extends BaseActivity {
 
         try {
             for (int i = 0; i < dataPackageBean.getDocumentListSet().getDocument().size(); i++) {
-                DocumentBean documentBean = new DocumentBean(null,
-                        dataPackageBean.getId(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getId(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getCode(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getName(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getSecret(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getPayClassify(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getPayClassifyName(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getModalCode(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getProductCodeName(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getProductCode(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getStage(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getTechStatus(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getApprover(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getApprovalDate(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getIssl(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getConclusion(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getDescription(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getOnLine(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getInfoUrl(),
-                        dataPackageBean.getDocumentListSet().getDocument().get(i).getUniqueValue());
-                documentBeanDao.insert(documentBean);
-
-                for (int j = 0; j < dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().size(); j++) {
-                    FileBean fileBean = new FileBean(null,
+                try {
+                    DocumentBean documentBean = new DocumentBean(null,
                             dataPackageBean.getId(),
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getId(),
-                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getName(),
-                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getPath(),
-                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getType(),
-                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getSecret(),
-                            dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getDisabledSecret());
-                    fileBeanDao.insert(fileBean);
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getCode(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getName(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getSecret(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getPayClassify(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getPayClassifyName(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getModalCode(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getProductCodeName(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getProductCode(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getStage(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getTechStatus(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getApprover(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getApprovalDate(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getIssl(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getConclusion(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getDescription(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getOnLine(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getInfoUrl(),
+                            dataPackageBean.getDocumentListSet().getDocument().get(i).getUniqueValue());
+                    documentBeanDao.insert(documentBean);
+                }catch (Exception ex){}
+
+
+
+                try {
+                    for (int j = 0; j < dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().size(); j++) {
+                        FileBean fileBean = new FileBean(null,
+                                dataPackageBean.getId(),
+                                dataPackageBean.getDocumentListSet().getDocument().get(i).getId(),
+                                dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getName(),
+                                dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getPath(),
+                                dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getType(),
+                                dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getSecret(),
+                                dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getDisabledSecret());
+                        fileBeanDao.insert(fileBean);
+                    }
+                }catch (Exception ex){
+
                 }
 
 

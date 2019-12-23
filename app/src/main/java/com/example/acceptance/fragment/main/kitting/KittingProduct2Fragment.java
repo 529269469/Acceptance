@@ -842,7 +842,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                 String photoPath = String.valueOf(cameraSavePath);
                 File file = new File(photoPath);
                 String relatedDocumentId = System.currentTimeMillis() + "";
-                String deliveryListId = System.currentTimeMillis() + "";
+
                 RelatedDocumentIdSetBeanDao documentIdSetBeanDao = MyApplication.getInstances().getRelatedDocumentIdSetDaoSession().getRelatedDocumentIdSetBeanDao();
                 RelatedDocumentIdSetBean relatedDocumentIdSetBean = new RelatedDocumentIdSetBean(null,
                         id,
