@@ -96,7 +96,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
         addData();
         adapter = new TbAdapter(getChildFragmentManager(), listTitle, list);
         vp.setAdapter(adapter);
-        tb.setTabMode(TabLayout.MODE_FIXED);
+        tb.setTabMode(TabLayout.MODE_SCROLLABLE);
         tb.setupWithViewPager(vp);
         etConclusion.addTextChangedListener(textWatcher);
         tvSignature.addTextChangedListener(textWatcher);
@@ -263,7 +263,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                             true + "",
                             tv_groupName.getText().toString().trim(),
                             "",
-                            UUID.randomUUID().toString());
+                            UUID.randomUUID().toString(),"其他","");
                     deliveryListBeanDao.insert(deliveryListBean);
                 }
 
@@ -449,7 +449,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
 
                 checkGroupBeanDao.deleteByKey(checkGroupBeans.get(position).getUId());
 
-                getActivity().startActivity(ChecklistActivity.openIntent(getContext(), true, type));
+                getActivity().startActivity(ChecklistActivity.openIntent(getContext(), true, type,id));
                 getActivity().finish();
 //                list.remove(position);
 //                listTitle.remove(position);

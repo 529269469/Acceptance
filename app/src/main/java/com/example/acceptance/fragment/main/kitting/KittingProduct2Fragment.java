@@ -59,6 +59,7 @@ import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
 import com.example.acceptance.view.AddPopupWindow;
+import com.example.acceptance.view.AddPopupWindow2;
 import com.example.acceptance.view.LinePathView;
 import com.example.acceptance.view.MyListView;
 
@@ -116,7 +117,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
     private String type;
     private String imgVideoId;
     private String imgVideoParentId;
-    private AddPopupWindow addPopupWindow;
+    private AddPopupWindow2 addPopupWindow;
 
     private List<CheckItemBean> list = new ArrayList<>();
     private List<PropertyBean> propertyBeanArrayList = new ArrayList<>();
@@ -135,7 +136,10 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                 .where(DeliveryListBeanDao.Properties.IsParent.eq("true"))
                 .where(DeliveryListBeanDao.Properties.Project.eq("照片AND视频"))
                 .list();
-
+        List<DeliveryListBean> parentIdListSize = deliveryListBeanDao.queryBuilder()
+                .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
+                .where(DeliveryListBeanDao.Properties.IsParent.eq("true"))
+                .list();
         if (parentIdList != null && !parentIdList.isEmpty()) {
             List<DeliveryListBean> parentIdList2 = deliveryListBeanDao.queryBuilder()
                     .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
@@ -151,7 +155,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         id,
                         imgVideoParentId,
                         false + "",
-                        "照片AND视频", parentIdList.get(0).getId(),UUID.randomUUID().toString());
+                        "照片AND视频", parentIdList.get(0).getId(),UUID.randomUUID().toString(),"其他",""+parentIdListSize.size());
                 deliveryListBeanDao.insert(deliveryListBean2);
             }
         } else {
@@ -161,14 +165,14 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                     id,
                     imgVideoId,
                     true + "",
-                    "照片AND视频", "", UUID.randomUUID().toString());
+                    "照片AND视频", "", UUID.randomUUID().toString(),"",""+parentIdListSize.size());
             deliveryListBeanDao.insert(deliveryListBean);
 
             DeliveryListBean deliveryListBean2 = new DeliveryListBean(null,
                     id,
                     imgVideoParentId,
                     false + "",
-                    "照片AND视频", imgVideoId,UUID.randomUUID().toString());
+                    "照片AND视频", imgVideoId,UUID.randomUUID().toString(),"其他",""+parentIdListSize.size());
             deliveryListBeanDao.insert(deliveryListBean2);
         }
 
@@ -605,8 +609,8 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
 
         tv_file.setOnClickListener(view1 -> {
             popupWindow.dismiss();
-            addPopupWindow = new AddPopupWindow(getActivity(), tv_file, "", false);
-            addPopupWindow.setAddFile(new AddPopupWindow.AddFile() {
+            addPopupWindow = new AddPopupWindow2(getActivity(), tv_file, checkFileId,checkGroupId,list.get(pos).getId());
+            addPopupWindow.setAddFile(new AddPopupWindow2.AddFile() {
                 @Override
                 public void addfile1() {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -651,32 +655,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                     .list();
             if (relatedDocumentIdSetBeanList != null && !relatedDocumentIdSetBeanList.isEmpty()) {
                 for (int i = 0; i < relatedDocumentIdSetBeanList.size(); i++) {
-                    DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
-                    List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao.queryBuilder()
-                            .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
-                            .where(DeliveryListBeanDao.Properties.Id.eq(relatedDocumentIdSetBeanList.get(i).getRelatedDocumentId()))
-                            .list();
-
-                    DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-                    List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
-                            .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
-                            .where(DocumentBeanDao.Properties.Id.eq(relatedDocumentIdSetBeanList.get(i).getRelatedDocumentId()))
-                            .list();
-                    if (documentBeans != null && !documentBeans.isEmpty()) {
-                        FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-                        List<FileBean> fileBeans = fileBeanDao.queryBuilder()
-                                .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                                .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
-                                .list();
-
-                        for (int j = 0; j < fileBeans.size(); j++) {
-                            fileBeanDao.deleteByKey(fileBeans.get(j).getUId());
-                        }
-                        documentBeanDao.deleteByKey(documentBeans.get(0).getUId());
-                    }
-                    if (deliveryListBeans != null && !deliveryListBeans.isEmpty()) {
-                        deliveryListBeanDao.deleteByKey(deliveryListBeans.get(0).getUId());
-                    }
+                    documentIdSetBeanDao.deleteByKey(relatedDocumentIdSetBeanList.get(i).getUId());
                 }
             }
 
@@ -871,7 +850,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         "",
                         "",
                         "",
-                        "",
+                        "false",
                         "",
                         UUID.randomUUID().toString());
                 documentBeanDao.insert(documentBean);

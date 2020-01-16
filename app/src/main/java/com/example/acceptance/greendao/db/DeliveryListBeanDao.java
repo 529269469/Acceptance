@@ -31,6 +31,8 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
         public final static Property Project = new Property(4, String.class, "project", false, "PROJECT");
         public final static Property ParentId = new Property(5, String.class, "parentId", false, "PARENT_ID");
         public final static Property UniqueValue = new Property(6, String.class, "uniqueValue", false, "UNIQUE_VALUE");
+        public final static Property TypeDisplay = new Property(7, String.class, "typeDisplay", false, "TYPE_DISPLAY");
+        public final static Property SortBy = new Property(8, String.class, "sortBy", false, "SORT_BY");
     }
 
 
@@ -52,7 +54,9 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
                 "\"IS_PARENT\" TEXT," + // 3: isParent
                 "\"PROJECT\" TEXT," + // 4: project
                 "\"PARENT_ID\" TEXT," + // 5: parentId
-                "\"UNIQUE_VALUE\" TEXT);"); // 6: uniqueValue
+                "\"UNIQUE_VALUE\" TEXT," + // 6: uniqueValue
+                "\"TYPE_DISPLAY\" TEXT," + // 7: typeDisplay
+                "\"SORT_BY\" TEXT);"); // 8: sortBy
     }
 
     /** Drops the underlying database table. */
@@ -99,6 +103,16 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
         if (uniqueValue != null) {
             stmt.bindString(7, uniqueValue);
         }
+ 
+        String typeDisplay = entity.getTypeDisplay();
+        if (typeDisplay != null) {
+            stmt.bindString(8, typeDisplay);
+        }
+ 
+        String sortBy = entity.getSortBy();
+        if (sortBy != null) {
+            stmt.bindString(9, sortBy);
+        }
     }
 
     @Override
@@ -139,6 +153,16 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
         if (uniqueValue != null) {
             stmt.bindString(7, uniqueValue);
         }
+ 
+        String typeDisplay = entity.getTypeDisplay();
+        if (typeDisplay != null) {
+            stmt.bindString(8, typeDisplay);
+        }
+ 
+        String sortBy = entity.getSortBy();
+        if (sortBy != null) {
+            stmt.bindString(9, sortBy);
+        }
     }
 
     @Override
@@ -155,7 +179,9 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // isParent
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // project
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // parentId
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // uniqueValue
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // uniqueValue
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // typeDisplay
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // sortBy
         );
         return entity;
     }
@@ -169,6 +195,8 @@ public class DeliveryListBeanDao extends AbstractDao<DeliveryListBean, Long> {
         entity.setProject(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setParentId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setUniqueValue(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setTypeDisplay(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setSortBy(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
      }
     
     @Override

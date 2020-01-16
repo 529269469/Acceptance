@@ -76,6 +76,45 @@ public class TechnologyFileFragment extends BaseFragment {
     private String parentId;
     private AddFilePopupWindow addFilePopupWindow;
 
+
+    private void setResume(){
+        list.clear();
+        list2.clear();
+        DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
+        List<DeliveryListBean> deliveryListBeanList1 = deliveryListBeanDao.queryBuilder()
+                .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
+                .where(DeliveryListBeanDao.Properties.ParentId.eq(parentId))
+                .where(DeliveryListBeanDao.Properties.TypeDisplay.eq("管理"))
+                .list();
+        DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+        for (int i = 0; i < deliveryListBeanList1.size(); i++) {
+            List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
+                    .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
+                    .where(DocumentBeanDao.Properties.PayClassify.eq(deliveryListBeanList1.get(i).getId()))
+                    .list();
+            list.addAll(documentBeans);
+        }
+        if (lvFileAdapter!=null){
+            lvFileAdapter.notifyDataSetChanged();
+        }
+
+        List<DeliveryListBean> deliveryListBeanList2 = deliveryListBeanDao.queryBuilder()
+                .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
+                .where(DeliveryListBeanDao.Properties.ParentId.eq(parentId))
+                .where(DeliveryListBeanDao.Properties.TypeDisplay.eq("技术"))
+                .list();
+        for (int i = 0; i < deliveryListBeanList2.size(); i++) {
+            List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
+                    .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
+                    .where(DocumentBeanDao.Properties.PayClassify.eq(deliveryListBeanList2.get(i).getId()))
+                    .list();
+            list2.addAll(documentBeans);
+        }
+        if (lvFileAdapter2!=null){
+            lvFileAdapter2.notifyDataSetChanged();
+        }
+    }
+
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
@@ -83,13 +122,7 @@ public class TechnologyFileFragment extends BaseFragment {
         tvAdd2.setText("添加技术文件");
 
         DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-        List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
-                .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
-                .where(DocumentBeanDao.Properties.PayClassifyName.notEq("照片AND视频"))
-                .whereOr(DocumentBeanDao.Properties.PayClassifyName.eq("合同"),
-                        DocumentBeanDao.Properties.PayClassifyName.eq("明细表"),
-                        DocumentBeanDao.Properties.PayClassifyName.eq("任务书"))
-                .list();
+
 
         DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
         List<DeliveryListBean> parentIdList = deliveryListBeanDao.queryBuilder()
@@ -104,26 +137,16 @@ public class TechnologyFileFragment extends BaseFragment {
                     id,
                     parentId,
                     true+"",
-                    "验收依据文件","", UUID.randomUUID().toString());
+                    "验收依据文件","", UUID.randomUUID().toString(),"","");
             deliveryListBeanDao.insert(deliveryListBean);
         }
 
 
-        list.addAll(documentBeans);
         lvFileAdapter = new LvFileAdapter(getActivity(), list);
         lvFileKitting.setAdapter(lvFileAdapter);
-
-
-        List<DocumentBean> documentBeanList = documentBeanDao.queryBuilder()
-                .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
-                .where(DocumentBeanDao.Properties.PayClassifyName.notEq("照片AND视频"))
-                .where(DocumentBeanDao.Properties.PayClassifyName.notEq("合同"),
-                        DocumentBeanDao.Properties.PayClassifyName.notEq("明细表"),
-                        DocumentBeanDao.Properties.PayClassifyName.notEq("任务书"))
-                .list();
-        list2.addAll(documentBeanList);
         lvFileAdapter2 = new LvFileAdapter(getActivity(), list2);
         lvFileKitting2.setAdapter(lvFileAdapter2);
+        setResume();
 
         tvAdd2.setOnClickListener(view -> {
             addFilePopupWindow = new AddFilePopupWindow(MyApplication.mContext, view, "", false, true);
@@ -146,17 +169,7 @@ public class TechnologyFileFragment extends BaseFragment {
 
                 @Override
                 public void addResult() {
-                    DocumentBeanDao documentBeanDao3 = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-                    List<DocumentBean> documentBeanList1 = documentBeanDao3.queryBuilder()
-                            .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
-                            .where(DocumentBeanDao.Properties.PayClassifyName.notEq("照片AND视频"))
-                            .where(DocumentBeanDao.Properties.PayClassifyName.notEq("合同"),
-                                    DocumentBeanDao.Properties.PayClassifyName.notEq("明细表"),
-                                    DocumentBeanDao.Properties.PayClassifyName.notEq("任务书"))
-                            .list();
-                    list2.clear();
-                    list2.addAll(documentBeanList1);
-                    lvFileAdapter2.notifyDataSetChanged();
+                    setResume();
                 }
             });
         });
@@ -185,18 +198,7 @@ public class TechnologyFileFragment extends BaseFragment {
 
                 @Override
                 public void addResult() {
-                    DocumentBeanDao documentBeanDao3 = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-                    List<DocumentBean> documentBeanList12 = documentBeanDao3.queryBuilder()
-                            .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
-                            .where(DocumentBeanDao.Properties.PayClassifyName.notEq("照片AND视频"))
-                            .where(DocumentBeanDao.Properties.PayClassifyName.notEq("合同"),
-                                    DocumentBeanDao.Properties.PayClassifyName.notEq("明细表"),
-                                    DocumentBeanDao.Properties.PayClassifyName.notEq("任务书"))
-                            .list();
-                    list2.clear();
-                    list2.addAll(documentBeanList12);
-                    lvFileAdapter2.notifyDataSetChanged();
-
+                    setResume();
                 }
             });
         });
@@ -209,39 +211,20 @@ public class TechnologyFileFragment extends BaseFragment {
                 builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
-                        DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-                        List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
-                                .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
-                                .where(DocumentBeanDao.Properties.PayClassify.eq(list2.get(i).getId()))
+
+                        FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+                        List<FileBean> fileBeans = fileBeanDao.queryBuilder()
+                                .where(FileBeanDao.Properties.DataPackageId.eq(id))
+                                .where(FileBeanDao.Properties.DocumentId.eq(list2.get(i).getId()))
                                 .list();
 
-                        if (documentBeans != null && !documentBeans.isEmpty()) {
-                            FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-                            List<FileBean> fileBeans = fileBeanDao.queryBuilder()
-                                    .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                                    .where(FileBeanDao.Properties.DocumentId.eq(documentBeans.get(0).getId()))
-                                    .list();
-
-                            for (int j = 0; j < fileBeans.size(); j++) {
-                                fileBeanDao.deleteByKey(fileBeans.get(j).getUId());
-                            }
-                            documentBeanDao.deleteByKey(documentBeans.get(0).getUId());
+                        for (int j = 0; j < fileBeans.size(); j++) {
+                            fileBeanDao.deleteByKey(fileBeans.get(j).getUId());
                         }
-                        deliveryListBeanDao.deleteByKey(list2.get(i).getUId());
+                        documentBeanDao.deleteByKey(list2.get(i).getUId());
 
+                        setResume();
 
-                        DocumentBeanDao documentBeanDao2 = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-                        List<DocumentBean> documentBeanList = documentBeanDao2.queryBuilder()
-                                .where(DocumentBeanDao.Properties.DataPackageId.eq(id))
-                                .where(DocumentBeanDao.Properties.PayClassifyName.notEq("照片AND视频"))
-                                .where(DocumentBeanDao.Properties.PayClassifyName.notEq("合同"),
-                                        DocumentBeanDao.Properties.PayClassifyName.notEq("明细表"),
-                                        DocumentBeanDao.Properties.PayClassifyName.notEq("任务书"))
-                                .list();
-                        list2.clear();
-                        list2.addAll(documentBeanList);
-                        lvFileAdapter2.notifyDataSetChanged();
                     }
                 });
 

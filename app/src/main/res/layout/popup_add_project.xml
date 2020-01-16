@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="项目分类"
-                android:textColor="#999999" />
+                android:textColor="@color/color_333333" />
 
             <EditText
                 android:id="@+id/et_project"
@@ -45,6 +45,47 @@
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/text_font_14" />
         </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/ll_project"
+            android:layout_marginTop="@dimen/padding_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="交付类别"
+                android:textColor="@color/color_333333" />
+            <RadioGroup
+                android:orientation="horizontal"
+                android:id="@+id/rg_project"
+                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/rb_manage"
+                    android:text="管理"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:layout_marginLeft="@dimen/padding_16"
+                    android:id="@+id/rb_technology"
+                    android:text="技术"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:layout_marginLeft="@dimen/padding_16"
+                    android:id="@+id/rb_else"
+                    android:text="其他"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+
 
 
         <RelativeLayout

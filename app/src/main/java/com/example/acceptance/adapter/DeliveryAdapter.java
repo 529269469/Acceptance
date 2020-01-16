@@ -84,8 +84,8 @@ public class DeliveryAdapter extends BaseAdapter {
 
         legacyAdapter.setAddFile(new Delivery2Adapter.AddFile22() {
             @Override
-            public void setFile22(String documentId) {
-                addDelivery.setAddDelivery(documentId);
+            public void setFile22(String documentId,String tvProjectString) {
+                addDelivery.setAddDelivery(documentId,tvProjectString);
             }
 
             @Override
@@ -159,7 +159,7 @@ public class DeliveryAdapter extends BaseAdapter {
     }
 
     public interface AddDelivery {
-        void setAddDelivery(String documentId);
+        void setAddDelivery(String documentId,String tvProjectString);
         void setAddProject(String documentId);
     }
 

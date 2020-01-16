@@ -82,11 +82,11 @@ public class Delivery2Adapter extends BaseAdapter {
                 .list();
         Delivery22Adapter delivery22Adapter = new Delivery22Adapter(context, documentBeans);
         viewHolder.lv_list.setAdapter(delivery22Adapter);
-
+        String tvProjectString=viewHolder.tvName.getText().toString().trim();
         viewHolder.lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-                addFile.setFile22(documentBeans.get(pos).getId());
+                addFile.setFile22(documentBeans.get(pos).getId(),tvProjectString);
             }
         });
 
@@ -134,7 +134,7 @@ public class Delivery2Adapter extends BaseAdapter {
         viewHolder.tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFile.setFile22("");
+                addFile.setFile22("",tvProjectString);
             }
         });
 
@@ -169,7 +169,7 @@ public class Delivery2Adapter extends BaseAdapter {
     }
 
     public interface AddFile22 {
-        void setFile22(String documentId);
+        void setFile22(String documentId,String tvProjectString);
         void setDel(int pos);
     }
 

@@ -1592,6 +1592,24 @@ public class DataPackageBean {
             private String project;
             private String parentId;
             private String uniqueValue;
+            private String typeDisplay;
+            private String sortBy;
+
+            public String getTypeDisplay() {
+                return typeDisplay;
+            }
+
+            public void setTypeDisplay(String typeDisplay) {
+                this.typeDisplay = typeDisplay;
+            }
+
+            public String getSortBy() {
+                return sortBy;
+            }
+
+            public void setSortBy(String sortBy) {
+                this.sortBy = sortBy;
+            }
 
             public String getUniqueValue() {
                 return uniqueValue;

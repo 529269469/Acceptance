@@ -13,7 +13,10 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.acceptance.R;
 import com.example.acceptance.greendao.bean.FileBean;
+import com.example.acceptance.utils.OpenFileUtil;
+import com.example.acceptance.utils.SPUtils;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,7 +53,7 @@ public class FileAddAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return i;
     }
-
+    private String path = (String) SPUtils.get(context, "path", "") + "/";
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder = null;
@@ -68,6 +71,19 @@ public class FileAddAdapter extends BaseAdapter {
                 onDel.onDel(i);
             }
         });
+        viewHolder.tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    try {
+                        context.startActivity(OpenFileUtil.openFile(path + list.get(i).getPath()));
+                    } catch (Exception o) {
+                        context.startActivity(OpenFileUtil.openFile(list.get(i).getPath()));
+                    }
+
+            }
+        });
+
         viewHolder.tv_secret.setText("密级："+list.get(i).getSecret());
         ViewHolder finalViewHolder = viewHolder;
         viewHolder.tv_secret.setOnClickListener(new View.OnClickListener() {

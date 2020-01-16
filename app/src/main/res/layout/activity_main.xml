@@ -51,10 +51,10 @@
                 android:textColor="@color/color_FFFFFF"
                 android:text="操作"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
 
             <ImageView
-                android:layout_marginRight="@dimen/padding_10"
+                android:layout_marginRight="@dimen/padding_3"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/tv_operation"
                 android:src="@drawable/caozuo"

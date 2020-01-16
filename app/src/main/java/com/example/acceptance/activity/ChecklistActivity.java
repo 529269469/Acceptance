@@ -36,10 +36,13 @@ public class ChecklistActivity extends BaseActivity {
     MyListView lvChecklist;
     private boolean isDel;
     private String type;
-    public static Intent openIntent(Context context,boolean isDel,String type) {
+    private String id;
+
+    public static Intent openIntent(Context context, boolean isDel, String type, String id) {
         Intent intent = new Intent(context, ChecklistActivity.class);
-        intent.putExtra("isDel",isDel);
-        intent.putExtra("type",type);
+        intent.putExtra("isDel", isDel);
+        intent.putExtra("type", type);
+        intent.putExtra("id", id);
         return intent;
     }
 
@@ -49,21 +52,22 @@ public class ChecklistActivity extends BaseActivity {
     @Override
     protected void initView() {
         ivGenduo.setOnClickListener(view -> finish());
-        isDel=getIntent().getBooleanExtra("isDel",false);
-        type=getIntent().getStringExtra("type");
-        DataPackageDBeanDao dataPackageDBeanDao= MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
-        List<DataPackageDBean> dataPackageDBeans=dataPackageDBeanDao.loadAll();
+        isDel = getIntent().getBooleanExtra("isDel", false);
+        type = getIntent().getStringExtra("type");
+        id = getIntent().getStringExtra("id");
+        DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+        List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.loadAll();
 
         list.addAll(dataPackageDBeans);
-        checklistAdapter=new ChecklistAdapter(this,list);
+        checklistAdapter = new ChecklistAdapter(this, list);
         lvChecklist.setAdapter(checklistAdapter);
 
-        if (isDel){
-            startActivity(MainActivity.openIntent(ChecklistActivity.this,list.get(0).getId(),true,type));
+        if (isDel) {
+            startActivity(MainActivity.openIntent(ChecklistActivity.this, id, true, type));
             finish();
         }
         lvChecklist.setOnItemClickListener((adapterView, view, i, l) -> {
-            startActivity(MainActivity.openIntent(ChecklistActivity.this,list.get(i).getId(),false,""));
+            startActivity(MainActivity.openIntent(ChecklistActivity.this, list.get(i).getId(), false, ""));
         });
 
     }

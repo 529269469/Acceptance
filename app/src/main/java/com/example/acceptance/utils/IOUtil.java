@@ -46,7 +46,27 @@ public class IOUtil {
     public static FileOutputStream getFileStream(File file) throws FileNotFoundException {
         return new FileOutputStream(file);
     }
+    /**
+     * 将1个文件压缩
+     * @param fileList 待压缩的文件列表
+     * @param zipFileName 压缩文件名
+     * @return 返回压缩好的文件
+     * @throws IOException
+     */
+    public static File getZipFile2(File file, String zipFileName) throws IOException {
+        File zipFile = getFile("", zipFileName);
+        // 文件输出流
+        FileOutputStream outputStream = getFileStream(zipFile);
+        // 压缩流
+        ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream);
 
+        zipFile(file, zipOutputStream);
+
+        // 关闭压缩流、文件流
+        zipOutputStream.close();
+        outputStream.close();
+        return zipFile;
+    }
     /**
      * 将多个文件压缩
      * @param fileList 待压缩的文件列表

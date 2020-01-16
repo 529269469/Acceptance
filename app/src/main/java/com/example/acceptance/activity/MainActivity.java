@@ -86,35 +86,35 @@ public class MainActivity extends BaseActivity {
     private DeliveryFragment deliveryFragment;
     private TaskFragment taskFragment;
     private TechnologyFragment technologyFragment;
-    private void hide(FragmentTransaction transaction) {
-        if (kittingFragment != null) {
-            transaction.hide(kittingFragment);
-        }
-        if (courseFragment != null) {
-            transaction.hide(courseFragment);
-        }
-        if (acceptanceConclusionFragment != null) {
-            transaction.hide(acceptanceConclusionFragment);
-        }
-        if (legacyFragment != null) {
-            transaction.hide(legacyFragment);
-        }
-        if (deliveryFragment != null) {
-            transaction.hide(deliveryFragment);
-        }
-        if (taskFragment != null) {
-            transaction.hide(taskFragment);
-        }
-        if (technologyFragment != null) {
-            transaction.hide(technologyFragment);
-        }
-        if (particularsFragment != null) {
-            transaction.hide(particularsFragment);
-        }
-        if (applyForFragment != null) {
-            transaction.hide(applyForFragment);
-        }
-    }
+//    private void hide(FragmentTransaction transaction) {
+//        if (kittingFragment != null) {
+//            transaction.hide(kittingFragment);
+//        }
+//        if (courseFragment != null) {
+//            transaction.hide(courseFragment);
+//        }
+//        if (acceptanceConclusionFragment != null) {
+//            transaction.hide(acceptanceConclusionFragment);
+//        }
+//        if (legacyFragment != null) {
+//            transaction.hide(legacyFragment);
+//        }
+//        if (deliveryFragment != null) {
+//            transaction.hide(deliveryFragment);
+//        }
+//        if (taskFragment != null) {
+//            transaction.hide(taskFragment);
+//        }
+//        if (technologyFragment != null) {
+//            transaction.hide(technologyFragment);
+//        }
+//        if (particularsFragment != null) {
+//            transaction.hide(particularsFragment);
+//        }
+//        if (applyForFragment != null) {
+//            transaction.hide(applyForFragment);
+//        }
+//    }
     private boolean isDel;
     private String type;
 
@@ -188,7 +188,7 @@ public class MainActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
         if (isDel){
-            hide(transaction);
+//            hide(transaction);
             switch (type){
                 case "2":
                     tvTuichu.setText("齐套性检查");
@@ -196,7 +196,7 @@ public class MainActivity extends BaseActivity {
                     kittingFragment = new KittingFragment();
                     bundle.putBoolean("isDel", isDel);
                     kittingFragment.setArguments(bundle);
-                    transaction.add(R.id.frame, kittingFragment);
+                    transaction.replace(R.id.frame, kittingFragment);
                     transaction.commit();
                     break;
                 case "3":
@@ -205,7 +205,7 @@ public class MainActivity extends BaseActivity {
                     courseFragment = new CourseFragment();
                     bundle.putBoolean("isDel", isDel);
                     courseFragment.setArguments(bundle);
-                    transaction.add(R.id.frame, courseFragment);
+                    transaction.replace(R.id.frame, courseFragment);
                     transaction.commit();
                     break;
                 case "4":
@@ -214,7 +214,7 @@ public class MainActivity extends BaseActivity {
                     technologyFragment = new TechnologyFragment();
                     bundle.putBoolean("isDel", isDel);
                     technologyFragment.setArguments(bundle);
-                    transaction.add(R.id.frame, technologyFragment);
+                    transaction.replace(R.id.frame, technologyFragment);
                     transaction.commit();
                     break;
             }
@@ -222,7 +222,7 @@ public class MainActivity extends BaseActivity {
             transaction = getSupportFragmentManager().beginTransaction();
             particularsFragment = new ParticularsFragment();
             particularsFragment.setArguments(bundle);
-            transaction.add(R.id.frame, particularsFragment);
+            transaction.replace(R.id.frame, particularsFragment);
             transaction.commit();
         }
 
@@ -236,98 +236,99 @@ public class MainActivity extends BaseActivity {
             list.get(position).setCheck(true);
             titleAdapter.notifyDataSetChanged();
             transaction = getSupportFragmentManager().beginTransaction();
-            hide(transaction);
+//            hide(transaction);
+
             switch (position) {
                 case 0://详情信息
-                    if ( particularsFragment == null){
+//                    if ( particularsFragment == null){
                         particularsFragment = new ParticularsFragment();
-                        applyForFragment.setArguments(bundle);
-                        transaction.add(R.id.frame, particularsFragment);
-                    }else {
-                        particularsFragment.setUserVisibleHint(true);
-                        transaction.show(particularsFragment);
-                    }
+                    particularsFragment.setArguments(bundle);
+                        transaction.replace(R.id.frame, particularsFragment);
+//                    }else {
+//                        particularsFragment.setUserVisibleHint(true);
+//                        transaction.show(particularsFragment);
+//                    }
 
                     break;
                 case 1://验收申请
-                    if (applyForFragment == null){
+//                    if (applyForFragment == null){
                         applyForFragment = new ApplyForFragment();
                         applyForFragment.setArguments(bundle);
-                        transaction.add(R.id.frame, applyForFragment);
-                    }else {
-                        applyForFragment.setUserVisibleHint(true);
-                        transaction.show(applyForFragment);
-                    }
+                        transaction.replace(R.id.frame, applyForFragment);
+//                    }else {
+//                        applyForFragment.setUserVisibleHint(true);
+//                        transaction.show(applyForFragment);
+//                    }
                     break;
                 case 2://验收任务单
-                    if (taskFragment == null){
+//                    if (taskFragment == null){
                         taskFragment = new TaskFragment();
                         taskFragment.setArguments(bundle);
-                        transaction.add(R.id.frame, taskFragment);
-                    }else {
-                        taskFragment.setUserVisibleHint(true);
-                        transaction.show(taskFragment);
-                    }
+                        transaction.replace(R.id.frame, taskFragment);
+//                    }else {
+//                        taskFragment.setUserVisibleHint(true);
+//                        transaction.show(taskFragment);
+//                    }
                     break;
                 case 3://齐套性检查
-                    if (kittingFragment ==null){
+//                    if (kittingFragment ==null){
                         kittingFragment = new KittingFragment();
                         kittingFragment.setArguments(bundle);
-                        transaction.add(R.id.frame, kittingFragment);
-                    }else {
-                        kittingFragment.setUserVisibleHint(true);
-                        transaction.show(kittingFragment);
-                    }
+                        transaction.replace(R.id.frame, kittingFragment);
+//                    }else {
+//                        kittingFragment.setUserVisibleHint(true);
+//                        transaction.show(kittingFragment);
+//                    }
                     break;
                 case 4://过程检查
-                    if (courseFragment == null){
+//                    if (courseFragment == null){
                         courseFragment = new CourseFragment();
                         courseFragment.setArguments(bundle);
-                        transaction.add(R.id.frame, courseFragment);
-                    }else {
-                        courseFragment.setUserVisibleHint(true);
-                        transaction.show(courseFragment);
-                    }
+                        transaction.replace(R.id.frame, courseFragment);
+//                    }else {
+//                        courseFragment.setUserVisibleHint(true);
+//                        transaction.show(courseFragment);
+//                    }
                     break;
                 case 5://技术类检查
-                    if (technologyFragment == null){
+//                    if (technologyFragment == null){
                         technologyFragment = new TechnologyFragment();
                         technologyFragment.setArguments(bundle);
-                        transaction.add(R.id.frame, technologyFragment);
-                    }else {
-                        technologyFragment.setUserVisibleHint(true);
-                        transaction.show(technologyFragment);
-                    }
+                        transaction.replace(R.id.frame, technologyFragment);
+//                    }else {
+//                        technologyFragment.setUserVisibleHint(true);
+//                        transaction.show(technologyFragment);
+//                    }
                     break;
                 case 6://验收结论
-                    if (acceptanceConclusionFragment == null){
+//                    if (acceptanceConclusionFragment == null){
                         acceptanceConclusionFragment = new AcceptanceConclusionFragment();
                         acceptanceConclusionFragment.setArguments(bundle);
-                        transaction.add(R.id.frame, acceptanceConclusionFragment);
-                    }else {
-                        acceptanceConclusionFragment.setUserVisibleHint(true);
-                        transaction.show(acceptanceConclusionFragment);
-                    }
+                        transaction.replace(R.id.frame, acceptanceConclusionFragment);
+//                    }else {
+//                        acceptanceConclusionFragment.setUserVisibleHint(true);
+//                        transaction.show(acceptanceConclusionFragment);
+//                    }
                     break;
                 case 7://验收遗留问题落实
-                    if (legacyFragment == null){
+//                    if (legacyFragment == null){
                         legacyFragment = new LegacyFragment();
                         legacyFragment.setArguments(bundle);
-                        transaction.add(R.id.frame, legacyFragment);
-                    }else {
-                        legacyFragment.setUserVisibleHint(true);
-                        transaction.show(legacyFragment);
-                    }
+                        transaction.replace(R.id.frame, legacyFragment);
+//                    }else {
+//                        legacyFragment.setUserVisibleHint(true);
+//                        transaction.show(legacyFragment);
+//                    }
                     break;
                 case 8://交付清单
-                    if (deliveryFragment == null){
+//                    if (deliveryFragment == null){
                         deliveryFragment = new DeliveryFragment();
                         deliveryFragment.setArguments(bundle);
-                        transaction.add(R.id.frame, deliveryFragment);
-                    }else {
-                        deliveryFragment.setUserVisibleHint(true);
-                        transaction.show(deliveryFragment);
-                    }
+                        transaction.replace(R.id.frame, deliveryFragment);
+//                    }else {
+//                        deliveryFragment.setUserVisibleHint(true);
+//                        transaction.show(deliveryFragment);
+//                    }
                     break;
             }
             transaction.commit();

@@ -16,6 +16,7 @@ import com.example.acceptance.greendao.bean.DeliveryListBean;
 import com.example.acceptance.greendao.db.DeliveryListBeanDao;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.view.AddPopupWindow;
+import com.example.acceptance.view.AddPopupWindow3;
 import com.example.acceptance.view.AddPrijectPopupWindow;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class DeliveryFragment extends BaseFragment implements DeliveryAdapter.Ad
     private String id;
     private List<DeliveryListBean> listBeans = new ArrayList<>();
     private DeliveryAdapter legacyAdapter;
-    private AddPopupWindow addPopupWindow;
+    private AddPopupWindow3 addPopupWindow;
 
     @Override
     protected void onVisible() {
@@ -101,13 +102,13 @@ public class DeliveryFragment extends BaseFragment implements DeliveryAdapter.Ad
     }
 
     @Override
-    public void setAddDelivery(String documentId) {
+    public void setAddDelivery(String documentId,String tvProjectString) {
         if (StringUtils.isBlank(documentId)) {
-            addPopupWindow = new AddPopupWindow(getActivity(), lvList, "", false);
+            addPopupWindow = new AddPopupWindow3(getActivity(), lvList, "", false,tvProjectString);
         } else {
-            addPopupWindow = new AddPopupWindow(getActivity(), lvList, documentId, true);
+            addPopupWindow = new AddPopupWindow3(getActivity(), lvList, documentId, true,tvProjectString);
         }
-        addPopupWindow.setAddFile(new AddPopupWindow.AddFile() {
+        addPopupWindow.setAddFile(new AddPopupWindow3.AddFile() {
             @Override
             public void addfile1() {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);

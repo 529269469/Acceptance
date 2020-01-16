@@ -643,7 +643,9 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getIsParent(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getProject(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getParentId(),
-                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getUniqueValue());
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getUniqueValue(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getTypeDisplay(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getSortBy());
                 deliveryListBeanDao.insert(deliveryListBean);
             }
         } catch (Exception o) {
@@ -723,6 +725,10 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
         File files = new File(Environment.getExternalStorageDirectory() + "/模板");
         File[] subFile = files.listFiles();
         for (int i = 0; i < subFile.length; i++) {
+            if (!subFile[i].exists()||subFile[i].length()==0){
+                ToastUtils.getInstance().showTextToast(this,"模板错误");
+                return;
+            }
             String filename = subFile[i].getName();
             File file = new File(filename);
             /* 取得扩展名 */

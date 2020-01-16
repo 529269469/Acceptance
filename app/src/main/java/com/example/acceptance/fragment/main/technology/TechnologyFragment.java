@@ -51,9 +51,10 @@ public class TechnologyFragment extends BaseFragment {
         bundle.putString("type", "4");
         technologyFileFragment=new TechnologyFileFragment();
         technologyFileFragment.setArguments(bundle);
-        list.add(technologyFileFragment);
         technologySizeFragment=new TechnologySizeFragment();
         technologySizeFragment.setArguments(bundle);
+        list.clear();
+        list.add(technologyFileFragment);
         list.add(technologySizeFragment);
 
         adapter.notifyDataSetChanged();

@@ -1,41 +1,32 @@
 package com.example.acceptance.view;
 
 import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.acceptance.R;
-import com.example.acceptance.adapter.File2Adapter;
 import com.example.acceptance.adapter.FileAddAdapter;
 import com.example.acceptance.base.MyApplication;
-import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.bean.DeliveryListBean;
 import com.example.acceptance.greendao.bean.DocumentBean;
 import com.example.acceptance.greendao.bean.FileBean;
-import com.example.acceptance.greendao.db.DataPackageDBeanDao;
 import com.example.acceptance.greendao.db.DeliveryListBeanDao;
 import com.example.acceptance.greendao.db.DocumentBeanDao;
 import com.example.acceptance.greendao.db.FileBeanDao;
 import com.example.acceptance.utils.FileUtils;
-import com.example.acceptance.utils.OpenFileUtil;
 import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
@@ -49,7 +40,7 @@ import java.util.UUID;
  * @author :created by ${ WYW }
  * 时间：2019/10/24 15
  */
-public class AddPopupWindow extends PopupWindow {
+public class AddPopupWindow3 extends PopupWindow {
 
 
     private View view;
@@ -62,12 +53,14 @@ public class AddPopupWindow extends PopupWindow {
      * false:为空
      */
     private boolean isAdd;
-    public AddPopupWindow(Activity context, View tvAdd, String id, boolean isAdd) {
+    private String tvProjectString;
+
+    public AddPopupWindow3(Activity context, View tvAdd, String id, boolean isAdd, String tvProjectString) {
         super(context);
         this.id = id;
         this.isAdd = isAdd;
         this.context = context;
-        this.context = context;
+        this.tvProjectString = tvProjectString;
         view = context.getLayoutInflater().inflate(R.layout.popup_add11, null);
         this.setContentView(view);
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -94,8 +87,9 @@ public class AddPopupWindow extends PopupWindow {
     private FileAddAdapter fileAdapter2;
 
     private String path = (String) SPUtils.get(context, "path", "") + "/";
-    private String secretStr="";
-    private String tv_codeString="";
+    private String secretStr = "";
+    private String tv_codeString = "";
+
     private void addPopup2() {
         EditText tv_code = view.findViewById(R.id.tv_code);
         EditText tv_name = view.findViewById(R.id.tv_name);
@@ -115,15 +109,15 @@ public class AddPopupWindow extends PopupWindow {
         tv_secret.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder2=new AlertDialog.Builder(context);
-                String[] dish =new String[]{"非密","内部","秘密","机密"};
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
+                String[] dish = new String[]{"非密", "内部", "秘密", "机密"};
                 builder2.setTitle("请选择密级：");
-                int dishPos=0;
+                int dishPos = 0;
                 builder2.setSingleChoiceItems(dish, dishPos, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tv_secret.setText(dish[which]);
-                        secretStr=dish[which];
+                        secretStr = dish[which];
                         dialog.dismiss();
                     }
                 });
@@ -131,7 +125,7 @@ public class AddPopupWindow extends PopupWindow {
                 builder2.show();
             }
         });
-
+        tv_payClassify.setText(tvProjectString);
         tv_payClassify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,18 +134,18 @@ public class AddPopupWindow extends PopupWindow {
                         .where(DeliveryListBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
                         .where(DeliveryListBeanDao.Properties.IsParent.eq("false"))
                         .list();
-                if (deliveryListBeans==null&&deliveryListBeans.isEmpty()){
-                    ToastUtils.getInstance().showTextToast(context,"请前往交付清单添加交付类别");
+                if (deliveryListBeans == null && deliveryListBeans.isEmpty()) {
+                    ToastUtils.getInstance().showTextToast(context, "请前往交付清单添加交付类别");
                     return;
                 }
-                AlertDialog.Builder builder2=new AlertDialog.Builder(context);
-                String[] dish =new String[deliveryListBeans.size()];
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
+                String[] dish = new String[deliveryListBeans.size()];
                 builder2.setTitle("请选择交付类别：");
-                int dishPos=0;
+                int dishPos = 0;
                 for (int i = 0; i < deliveryListBeans.size(); i++) {
-                    dish[i]=deliveryListBeans.get(i).getProject();
-                    if (tv_payClassify.getText().toString().trim().equals(dish[i])){
-                        dishPos=i;
+                    dish[i] = deliveryListBeans.get(i).getProject();
+                    if (tv_payClassify.getText().toString().trim().equals(dish[i])) {
+                        dishPos = i;
                     }
                 }
                 builder2.setSingleChoiceItems(dish, dishPos, new DialogInterface.OnClickListener() {
@@ -175,7 +169,7 @@ public class AddPopupWindow extends PopupWindow {
                     .where(DocumentBeanDao.Properties.Id.eq(id))
                     .list();
             tv_payClassify.setText(documentBeans.get(0).getPayClassifyName());
-            tv_codeString=documentBeans.get(0).getCode();
+            tv_codeString = documentBeans.get(0).getCode();
             tv_code.setText(tv_codeString);
             tv_name.setText(documentBeans.get(0).getName());
             tv_secret.setText(documentBeans.get(0).getSecret());
@@ -214,7 +208,6 @@ public class AddPopupWindow extends PopupWindow {
         });
 
 
-
         tv_file2.setOnClickListener(view -> {
             addFile.addfile2();
         });
@@ -225,27 +218,28 @@ public class AddPopupWindow extends PopupWindow {
 
         tv_popup_save.setOnClickListener(view -> {
 
-            if (StringUtils.isBlank(tv_code.getText().toString().trim())){
+            if (StringUtils.isBlank(tv_code.getText().toString().trim())) {
                 ToastUtils.getInstance().showTextToast(context, "编号不能为空");
                 return;
             }
-            if (StringUtils.isBlank(tv_name.getText().toString().trim())){
+            if (StringUtils.isBlank(tv_name.getText().toString().trim())) {
                 ToastUtils.getInstance().showTextToast(context, "名称不能为空");
                 return;
             }
-            if (StringUtils.isBlank(tv_secret.getText().toString().trim())){
+            if (StringUtils.isBlank(tv_secret.getText().toString().trim())) {
                 ToastUtils.getInstance().showTextToast(context, "密级不能为空");
                 return;
             }
-            if (StringUtils.isBlank(tv_payClassify.getText().toString().trim())){
+            secretStr = tv_secret.getText().toString().trim();
+            if (StringUtils.isBlank(tv_payClassify.getText().toString().trim())) {
                 ToastUtils.getInstance().showTextToast(context, "交付类别不能为空");
                 return;
             }
-            if (StringUtils.isBlank(tv_productCode.getText().toString().trim())){
+            if (StringUtils.isBlank(tv_productCode.getText().toString().trim())) {
                 ToastUtils.getInstance().showTextToast(context, "产品编号不能为空");
                 return;
             }
-            if (StringUtils.isBlank(tv_stage.getText().toString().trim())){
+            if (StringUtils.isBlank(tv_stage.getText().toString().trim())) {
                 ToastUtils.getInstance().showTextToast(context, "阶段不能为空");
                 return;
             }
@@ -254,13 +248,13 @@ public class AddPopupWindow extends PopupWindow {
                 ToastUtils.getInstance().showTextToast(context, "请添加主要文件");
                 return;
             }
-            if (!tv_code.getText().toString().trim().equals(tv_codeString)){
+            if (!tv_code.getText().toString().trim().equals(tv_codeString)) {
                 DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
                 List<DocumentBean> deliveryBeanList = documentBeanDao.queryBuilder()
                         .where(DocumentBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
                         .where(DocumentBeanDao.Properties.Code.eq(tv_code.getText().toString().trim()))
                         .list();
-                if (deliveryBeanList!=null&&!deliveryBeanList.isEmpty()){
+                if (deliveryBeanList != null && !deliveryBeanList.isEmpty()) {
                     ToastUtils.getInstance().showTextToast(context, "请修改编号，编号不能重复");
                     return;
                 }
@@ -361,16 +355,17 @@ public class AddPopupWindow extends PopupWindow {
             for (int i = 0; i < fileBeanList2.size(); i++) {
                 fileBeanDaoSave.deleteByKey(fileBeanList2.get(i).getUId());
             }
+            FileBeanDao fileBeanDaoSave2 = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
             for (int i = 0; i < fileBeans2.size(); i++) {
                 FileBean fileBean = new FileBean(null,
                         (String) SPUtils.get(context, "id", ""),
-                        isAdd?id:documentId,
+                        isAdd ? id : documentId,
                         fileBeans2.get(i).getName(),
                         fileBeans2.get(i).getName(),
                         "附件",
                         fileAdapter2.getList().get(i).getSecret(),
                         fileAdapter2.getList().get(i).getDisabledSecret());
-                fileBeanDaoSave.insert(fileBean);
+                fileBeanDaoSave2.insert(fileBean);
                 FileUtils.copyFile(fileBeans2.get(i).getPath(), path + fileBeans2.get(i).getName());
             }
             this.dismiss();
@@ -394,7 +389,7 @@ public class AddPopupWindow extends PopupWindow {
                         Log.e("TAG", "upLoadFilePath: " + upLoadFilePath);
                         Log.e("TAG", "upLoadFileName: " + upLoadFileName);
                         fileBeans.clear();
-                        fileBeans.add(new FileBean((long) 0, "", "", upLoadFileName, upLoadFilePath, "主内容", "非密",""));
+                        fileBeans.add(new FileBean(null, "", "", upLoadFileName, upLoadFilePath, "主内容", "非密", ""));
                         fileAdapter.notifyDataSetChanged();
                     }
                 }
@@ -410,7 +405,7 @@ public class AddPopupWindow extends PopupWindow {
                         String upLoadFileName = file.getName();
                         Log.e("TAG", "upLoadFilePath: " + upLoadFilePath);
                         Log.e("TAG", "upLoadFileName: " + upLoadFileName);
-                        fileBeans2.add(new FileBean((long) 0, "", "", upLoadFileName, upLoadFilePath, "附件", "非密",""));
+                        fileBeans2.add(new FileBean(null, "", "", upLoadFileName, upLoadFilePath, "附件", "非密", ""));
                         fileAdapter2.notifyDataSetChanged();
                     }
                 }
@@ -420,9 +415,11 @@ public class AddPopupWindow extends PopupWindow {
 
     }
 
-    public interface AddFile{
+    public interface AddFile {
         void addfile1();
+
         void addfile2();
+
         void addResult();
     }
 

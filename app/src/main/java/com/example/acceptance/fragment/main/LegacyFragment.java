@@ -53,6 +53,20 @@ public class LegacyFragment extends BaseFragment {
     private String id;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        UnresolvedBeanDao unresolvedBeanDao= MyApplication.getInstances().getCheckUnresolvedDaoSession().getUnresolvedBeanDao();
+        List<UnresolvedBean> unresolvedBeans=unresolvedBeanDao.queryBuilder()
+                .where(UnresolvedBeanDao.Properties.DataPackageId.eq(id))
+                .list();
+        beanList.clear();
+        beanList.addAll(unresolvedBeans);
+        if (legacyAdapter!=null){
+            legacyAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
 
@@ -60,6 +74,7 @@ public class LegacyFragment extends BaseFragment {
         List<UnresolvedBean> unresolvedBeans=unresolvedBeanDao.queryBuilder()
                 .where(UnresolvedBeanDao.Properties.DataPackageId.eq(id))
                 .list();
+        beanList.clear();
         beanList.addAll(unresolvedBeans);
 
         legacyAdapter = new LegacyAdapter(getActivity(), beanList);

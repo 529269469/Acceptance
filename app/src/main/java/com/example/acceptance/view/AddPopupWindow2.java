@@ -1,41 +1,34 @@
 package com.example.acceptance.view;
 
 import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.acceptance.R;
-import com.example.acceptance.adapter.File2Adapter;
 import com.example.acceptance.adapter.FileAddAdapter;
 import com.example.acceptance.base.MyApplication;
-import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.bean.DeliveryListBean;
 import com.example.acceptance.greendao.bean.DocumentBean;
 import com.example.acceptance.greendao.bean.FileBean;
-import com.example.acceptance.greendao.db.DataPackageDBeanDao;
+import com.example.acceptance.greendao.bean.RelatedDocumentIdSetBean;
 import com.example.acceptance.greendao.db.DeliveryListBeanDao;
 import com.example.acceptance.greendao.db.DocumentBeanDao;
 import com.example.acceptance.greendao.db.FileBeanDao;
+import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
 import com.example.acceptance.utils.FileUtils;
-import com.example.acceptance.utils.OpenFileUtil;
 import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
@@ -49,11 +42,11 @@ import java.util.UUID;
  * @author :created by ${ WYW }
  * 时间：2019/10/24 15
  */
-public class AddPopupWindow extends PopupWindow {
+public class AddPopupWindow2 extends PopupWindow {
 
 
     private View view;
-    private String id;
+
     private Activity context;
 
 
@@ -61,13 +54,15 @@ public class AddPopupWindow extends PopupWindow {
      * true:不为空
      * false:为空
      */
-    private boolean isAdd;
-    public AddPopupWindow(Activity context, View tvAdd, String id, boolean isAdd) {
+    private String checkFileId;
+    private String checkGroupId;
+    private String checkItemId;
+    public AddPopupWindow2(Activity context, View tvAdd, String checkFileId,String checkGroupId,String checkItemId) {
         super(context);
-        this.id = id;
-        this.isAdd = isAdd;
         this.context = context;
-        this.context = context;
+        this.checkFileId = checkFileId;
+        this.checkGroupId = checkGroupId;
+        this.checkItemId = checkItemId;
         view = context.getLayoutInflater().inflate(R.layout.popup_add11, null);
         this.setContentView(view);
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -95,7 +90,6 @@ public class AddPopupWindow extends PopupWindow {
 
     private String path = (String) SPUtils.get(context, "path", "") + "/";
     private String secretStr="";
-    private String tv_codeString="";
     private void addPopup2() {
         EditText tv_code = view.findViewById(R.id.tv_code);
         EditText tv_name = view.findViewById(R.id.tv_name);
@@ -168,35 +162,7 @@ public class AddPopupWindow extends PopupWindow {
             }
         });
 
-        if (isAdd) {
-            DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-            List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
-                    .where(DocumentBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
-                    .where(DocumentBeanDao.Properties.Id.eq(id))
-                    .list();
-            tv_payClassify.setText(documentBeans.get(0).getPayClassifyName());
-            tv_codeString=documentBeans.get(0).getCode();
-            tv_code.setText(tv_codeString);
-            tv_name.setText(documentBeans.get(0).getName());
-            tv_secret.setText(documentBeans.get(0).getSecret());
-            tv_productCode.setText(documentBeans.get(0).getProductCode());
-            tv_stage.setText(documentBeans.get(0).getStage());
 
-            FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-            List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
-                    .where(FileBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
-                    .where(FileBeanDao.Properties.DocumentId.eq(id))
-                    .where(FileBeanDao.Properties.Type.eq("主内容"))
-                    .list();
-            fileBeans.addAll(fileBeanList);
-
-            List<FileBean> fileBeanList2 = fileBeanDao.queryBuilder()
-                    .where(FileBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
-                    .where(FileBeanDao.Properties.DocumentId.eq(id))
-                    .where(FileBeanDao.Properties.Type.eq("附件"))
-                    .list();
-            fileBeans2.addAll(fileBeanList2);
-        }
 
         fileAdapter = new FileAddAdapter(context, fileBeans);
         lv_file.setAdapter(fileAdapter);
@@ -254,21 +220,18 @@ public class AddPopupWindow extends PopupWindow {
                 ToastUtils.getInstance().showTextToast(context, "请添加主要文件");
                 return;
             }
-            if (!tv_code.getText().toString().trim().equals(tv_codeString)){
-                DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-                List<DocumentBean> deliveryBeanList = documentBeanDao.queryBuilder()
-                        .where(DocumentBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
-                        .where(DocumentBeanDao.Properties.Code.eq(tv_code.getText().toString().trim()))
-                        .list();
-                if (deliveryBeanList!=null&&!deliveryBeanList.isEmpty()){
-                    ToastUtils.getInstance().showTextToast(context, "请修改编号，编号不能重复");
-                    return;
-                }
+            DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+            List<DocumentBean> deliveryBeanList = documentBeanDao.queryBuilder()
+                    .where(DocumentBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
+                    .where(DocumentBeanDao.Properties.Code.eq(tv_code.getText().toString().trim()))
+                    .list();
+            if (deliveryBeanList!=null&&!deliveryBeanList.isEmpty()){
+                ToastUtils.getInstance().showTextToast(context, "请修改编号，编号不能重复");
+                return;
             }
 
-
             String documentId = System.currentTimeMillis() + "";
-            DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
+
             DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
 
             List<DeliveryListBean> deliveryListBeans = deliveryListBeanDao.queryBuilder()
@@ -277,35 +240,14 @@ public class AddPopupWindow extends PopupWindow {
                     .where(DeliveryListBeanDao.Properties.Project.eq(tv_payClassify.getText().toString().trim()))
                     .list();
 
-            if (isAdd) {
-                List<DocumentBean> documentBeans = documentBeanDao.queryBuilder()
-                        .where(DocumentBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
-                        .where(DocumentBeanDao.Properties.Id.eq(id))
-                        .list();
-                DocumentBean documentBean = new DocumentBean(documentBeans.get(0).getUId(),
-                        (String) SPUtils.get(context, "id", ""),
-                        id,
-                        tv_code.getText().toString().trim(),
-                        tv_name.getText().toString().trim(),
-                        tv_secret.getText().toString().trim(),
-                        documentBeans.get(0).getPayClassify(),
-                        tv_payClassify.getText().toString().trim(),
-                        (String) SPUtils.get(context, "modelCode", ""),
-                        (String) SPUtils.get(context, "productCode", ""),
-                        tv_productCode.getText().toString().trim(),
-                        tv_stage.getText().toString().trim(),
-                        documentBeans.get(0).getTechStatus(),
-                        documentBeans.get(0).getApprover(),
-                        documentBeans.get(0).getApprovalDate(),
-                        documentBeans.get(0).getIssl(),
-                        documentBeans.get(0).getConclusion(),
-                        documentBeans.get(0).getDescription(),
-                        documentBeans.get(0).getOnLine(),
-                        documentBeans.get(0).getInfoUrl(),
-                        documentBeans.get(0).getUniqueValue());
-                documentBeanDao.update(documentBean);
-
-            } else {
+            RelatedDocumentIdSetBeanDao documentIdSetBeanDao = MyApplication.getInstances().getRelatedDocumentIdSetDaoSession().getRelatedDocumentIdSetBeanDao();
+            RelatedDocumentIdSetBean  relatedDocumentIdSetBean=new RelatedDocumentIdSetBean(null,
+                    (String) SPUtils.get(context, "id", ""),
+                    checkFileId,
+                    checkGroupId,
+                    checkItemId,
+                    documentId);
+            documentIdSetBeanDao.insert(relatedDocumentIdSetBean);
                 DocumentBean documentBean = new DocumentBean(null,
                         (String) SPUtils.get(context, "id", ""),
                         documentId,
@@ -329,48 +271,32 @@ public class AddPopupWindow extends PopupWindow {
                         UUID.randomUUID().toString());
                 documentBeanDao.insert(documentBean);
 
-            }
 
             FileBeanDao fileBeanDaoSave = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-            List<FileBean> fileBeanList1 = fileBeanDaoSave.queryBuilder()
-                    .where(FileBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
-                    .where(FileBeanDao.Properties.DocumentId.eq(id))
-                    .where(FileBeanDao.Properties.Type.eq("主内容"))
-                    .list();
-            for (int i = 0; i < fileBeanList1.size(); i++) {
-                fileBeanDaoSave.deleteByKey(fileBeanList1.get(i).getUId());
-            }
 
-            FileBean fileBean11 = new FileBean(null,
-                    (String) SPUtils.get(context, "id", ""),
-                    isAdd ? id : documentId,
-                    fileBeans.get(0).getName(),
-                    fileBeans.get(0).getName(),
-                    "主内容",
-                    fileAdapter.getList().get(0).getSecret(),
-                    fileAdapter.getList().get(0).getDisabledSecret());
-            fileBeanDaoSave.insert(fileBean11);
-            FileUtils.copyFile(fileBeans.get(0).getPath(), path + fileBeans.get(0).getName());
-
-
-            List<FileBean> fileBeanList2 = fileBeanDaoSave.queryBuilder()
-                    .where(FileBeanDao.Properties.DataPackageId.eq((String) SPUtils.get(context, "id", "")))
-                    .where(FileBeanDao.Properties.DocumentId.eq(id))
-                    .where(FileBeanDao.Properties.Type.eq("附件"))
-                    .list();
-            for (int i = 0; i < fileBeanList2.size(); i++) {
-                fileBeanDaoSave.deleteByKey(fileBeanList2.get(i).getUId());
-            }
-            for (int i = 0; i < fileBeans2.size(); i++) {
                 FileBean fileBean = new FileBean(null,
                         (String) SPUtils.get(context, "id", ""),
-                        isAdd?id:documentId,
+                        documentId,
+                        fileBeans.get(0).getName(),
+                        fileBeans.get(0).getName(),
+                        "主内容",
+                        fileAdapter.getList().get(0).getSecret(),
+                        fileAdapter.getList().get(0).getDisabledSecret());
+                fileBeanDaoSave.insert(fileBean);
+                FileUtils.copyFile(fileBeans.get(0).getPath(), path + fileBeans.get(0).getName());
+
+
+
+            for (int i = 0; i < fileBeans2.size(); i++) {
+                FileBean fileBean2 = new FileBean(null,
+                        (String) SPUtils.get(context, "id", ""),
+                        documentId,
                         fileBeans2.get(i).getName(),
                         fileBeans2.get(i).getName(),
                         "附件",
                         fileAdapter2.getList().get(i).getSecret(),
                         fileAdapter2.getList().get(i).getDisabledSecret());
-                fileBeanDaoSave.insert(fileBean);
+                fileBeanDaoSave.insert(fileBean2);
                 FileUtils.copyFile(fileBeans2.get(i).getPath(), path + fileBeans2.get(i).getName());
             }
             this.dismiss();
@@ -379,7 +305,6 @@ public class AddPopupWindow extends PopupWindow {
         });
 
     }
-
 
     public void setResult(Intent data, int requestCode) {
         if (requestCode == 11) {

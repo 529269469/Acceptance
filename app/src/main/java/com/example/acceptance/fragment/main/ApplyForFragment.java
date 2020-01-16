@@ -1,19 +1,15 @@
 package com.example.acceptance.fragment.main;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,27 +19,19 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 
-import com.bumptech.glide.Glide;
 import com.example.acceptance.R;
-import com.example.acceptance.activity.MainActivity;
-import com.example.acceptance.activity.ToActivity;
 import com.example.acceptance.adapter.ApplyForAdapter;
 import com.example.acceptance.adapter.GridAdapter;
 import com.example.acceptance.base.BaseFragment;
 import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.greendao.bean.ApplyItemBean;
 import com.example.acceptance.greendao.bean.CheckApplyBean;
-import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.bean.FileBean;
 import com.example.acceptance.greendao.db.ApplyItemBeanDao;
 import com.example.acceptance.greendao.db.CheckApplyBeanDao;
-import com.example.acceptance.greendao.db.DataPackageDBeanDao;
-import com.example.acceptance.utils.FileUtils;
 import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
@@ -95,6 +83,12 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
     MyGridView gv_conclusion;
     @BindView(R.id.tv_paizhao)
     TextView tv_paizhao;
+    @BindView(R.id.et_liaison)
+    EditText etLiaison;
+    @BindView(R.id.et_applyCompany2)
+    EditText etApplyCompany2;
+    @BindView(R.id.et_applyCompany3)
+    EditText etApplyCompany3;
 
 
     private List<ApplyItemBean> list = new ArrayList<>();
@@ -106,7 +100,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
     private Uri uri;
     private GridAdapter gridAdapter;
 
-    private TextWatcher textWatcher=new TextWatcher() {
+    private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -119,18 +113,18 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String words= editable.toString();
+            String words = editable.toString();
             if (!StringUtils.isBlank(words)) {
                 CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
                 List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
                         .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
                         .list();
-                StringBuffer gridStringBuffer=new StringBuffer();
+                StringBuffer gridStringBuffer = new StringBuffer();
                 for (int i = 0; i < gridList.size(); i++) {
                     gridStringBuffer.append(gridList.get(i)).append(",");
                 }
-                if (!StringUtils.isBlank(gridStringBuffer.toString())){
-                    gridString=gridStringBuffer.toString().substring(0,gridStringBuffer.toString().length()-1);
+                if (!StringUtils.isBlank(gridStringBuffer.toString())) {
+                    gridString = gridStringBuffer.toString().substring(0, gridStringBuffer.toString().length() - 1);
                 }
                 CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
                         checkApplyBeans.get(0).getDataPackageId(),
@@ -213,12 +207,12 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                 gridList.remove(position);
                 gridAdapter.notifyDataSetChanged();
 
-                StringBuffer gridStringBuffer=new StringBuffer();
+                StringBuffer gridStringBuffer = new StringBuffer();
                 for (int i = 0; i < gridList.size(); i++) {
                     gridStringBuffer.append(gridList.get(i)).append(",");
                 }
-                if (!StringUtils.isBlank(gridString.toString())){
-                    gridString=gridString.toString().substring(0,gridString.toString().length()-1);
+                if (!StringUtils.isBlank(gridString.toString())) {
+                    gridString = gridString.toString().substring(0, gridString.toString().length() - 1);
                 }
                 CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
                         checkApplyBeans.get(0).getDataPackageId(),
@@ -297,9 +291,8 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
     }
 
 
+    private String gridString = "";
 
-
-    private String gridString="";
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -311,12 +304,12 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                 List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
                         .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
                         .list();
-                StringBuffer gridStringBuffer=new StringBuffer();
+                StringBuffer gridStringBuffer = new StringBuffer();
                 for (int i = 0; i < gridList.size(); i++) {
                     gridStringBuffer.append(gridList.get(i)).append(",");
                 }
-                if (!StringUtils.isBlank(gridStringBuffer.toString())){
-                    gridString=gridStringBuffer.toString().substring(0,gridStringBuffer.toString().length()-1);
+                if (!StringUtils.isBlank(gridStringBuffer.toString())) {
+                    gridString = gridStringBuffer.toString().substring(0, gridStringBuffer.toString().length() - 1);
                 }
                 CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
                         checkApplyBeans.get(0).getDataPackageId(),
@@ -332,7 +325,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etDescription.getText().toString().trim(),
                         checkApplyBeans.get(0).getDocTypeVal());
                 checkApplyBeanDao.update(checkApplyBean);
-                ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
+                ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
                 break;
             case R.id.tv_paizhao:
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -420,39 +413,39 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
             tv_productCode.setText(list.get(position).getProductCode());
             tv_productStatus.setText(list.get(position).getProductStatus());
             tv_description.setText(list.get(position).getDescription());
-            if (!StringUtils.isBlank(list.get(position).getIsPureCheck())&&list.get(position).getIsPureCheck().equals("true")) {
+            if (!StringUtils.isBlank(list.get(position).getIsPureCheck()) && list.get(position).getIsPureCheck().equals("true")) {
                 tv_isPureCheck.setChecked(true);
             } else {
                 tv_isPureCheck.setChecked(false);
             }
-            if (!StringUtils.isBlank(list.get(position).getIsArmyCheck())&&list.get(position).getIsArmyCheck().equals("true")) {
+            if (!StringUtils.isBlank(list.get(position).getIsArmyCheck()) && list.get(position).getIsArmyCheck().equals("true")) {
                 tv_isArmyCheck.setChecked(true);
             } else {
                 tv_isArmyCheck.setChecked(false);
             }
-            if (!StringUtils.isBlank(list.get(position).getIsCompleteChoice())&&list.get(position).getIsCompleteChoice().equals("true")) {
+            if (!StringUtils.isBlank(list.get(position).getIsCompleteChoice()) && list.get(position).getIsCompleteChoice().equals("true")) {
                 tv_isCompleteChoice.setChecked(true);
             } else {
                 tv_isCompleteChoice.setChecked(false);
             }
-            if (!StringUtils.isBlank(list.get(position).getIsCompleteRoutine())&&list.get(position).getIsCompleteRoutine().equals("true")) {
+            if (!StringUtils.isBlank(list.get(position).getIsCompleteRoutine()) && list.get(position).getIsCompleteRoutine().equals("true")) {
                 tv_isCompleteRoutine.setChecked(true);
             } else {
                 tv_isCompleteRoutine.setChecked(false);
             }
 
-            if (!StringUtils.isBlank(list.get(position).getIsSatisfyRequire())&&list.get(position).getIsSatisfyRequire().equals("true")) {
+            if (!StringUtils.isBlank(list.get(position).getIsSatisfyRequire()) && list.get(position).getIsSatisfyRequire().equals("true")) {
                 tv_isSatisfyRequire.setChecked(true);
             } else {
                 tv_isSatisfyRequire.setChecked(false);
             }
-            if (!StringUtils.isBlank(list.get(position).getCheckCount())){
+            if (!StringUtils.isBlank(list.get(position).getCheckCount())) {
                 String[] checkCoun = list.get(position).getCheckCount().split("/");
                 try {
                     tv_checkCount.setText(checkCoun[0]);
                     tv_checkCount2.setText(checkCoun[1]);
                     tv_checkCount3.setText(checkCoun[2]);
-                }catch (Exception o){
+                } catch (Exception o) {
 
                 }
             }
@@ -507,7 +500,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                 list.addAll(applyItemBeans);
                 applyForAdapter.notifyDataSetChanged();
                 popupWindow.dismiss();
-                ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
+                ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
             }
         });
 

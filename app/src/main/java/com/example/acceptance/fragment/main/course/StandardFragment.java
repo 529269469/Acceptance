@@ -427,7 +427,7 @@ public class StandardFragment extends BaseFragment implements View.OnClickListen
 
                 checkGroupBeanDao.deleteByKey(checkGroupBeans.get(position).getUId());
 
-                getActivity().startActivity(ChecklistActivity.openIntent(getContext(), true, type));
+                getActivity().startActivity(ChecklistActivity.openIntent(getContext(), true, type,id));
                 getActivity().finish();
 //                list.remove(position);
 //                listTitle.remove(position);

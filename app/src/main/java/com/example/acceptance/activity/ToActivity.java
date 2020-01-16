@@ -372,7 +372,7 @@ public class ToActivity extends BaseActivity {
                     .where(ApplyDeptBeanDao.Properties.DataPackageId.eq(dataPackageDBeans.get(0).getId()))
                     .list();
             for (int i = 0; i < beans.size(); i++) {
-                checkTaskBeanDao.deleteByKey(beans.get(i).getUId());
+                applyDeptBeanDao.deleteByKey(beans.get(i).getUId());
             }
         }
         try {
@@ -774,7 +774,9 @@ public class ToActivity extends BaseActivity {
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getIsParent(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getProject(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getParentId(),
-                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getUniqueValue());
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getUniqueValue(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getTypeDisplay(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getSortBy());
                 deliveryListBeanDao.insert(deliveryListBean);
             }
         } catch (Exception o) {
