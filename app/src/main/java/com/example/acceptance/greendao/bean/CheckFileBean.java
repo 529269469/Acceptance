@@ -23,11 +23,24 @@ public class CheckFileBean {
     private String checkDate;
     private String sortBy;
 
+    private String checkTime;
+    private String sort;
+    private String tabsName;
+    private String accordFile;
+    private String selectEdit;
+    private String uniqueValue;
+    private String productTypeValue;
+    private String description;
 
-    @Generated(hash = 269745653)
+
+
+
+    @Generated(hash = 1171325518)
     public CheckFileBean(Long uId, String dataPackageId, String id, String name,
             String code, String docType, String productType, String conclusion,
-            String checkPerson, String checkDate, String sortBy) {
+            String checkPerson, String checkDate, String sortBy, String checkTime,
+            String sort, String tabsName, String accordFile, String selectEdit,
+            String uniqueValue, String productTypeValue, String description) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -39,10 +52,20 @@ public class CheckFileBean {
         this.checkPerson = checkPerson;
         this.checkDate = checkDate;
         this.sortBy = sortBy;
+        this.checkTime = checkTime;
+        this.sort = sort;
+        this.tabsName = tabsName;
+        this.accordFile = accordFile;
+        this.selectEdit = selectEdit;
+        this.uniqueValue = uniqueValue;
+        this.productTypeValue = productTypeValue;
+        this.description = description;
     }
     @Generated(hash = 372645879)
     public CheckFileBean() {
     }
+
+
     
 
     public Long getUId() {
@@ -110,6 +133,54 @@ public class CheckFileBean {
     }
     public void setSortBy(String sortBy) {
         this.sortBy = sortBy;
+    }
+    public String getCheckTime() {
+        return this.checkTime;
+    }
+    public void setCheckTime(String checkTime) {
+        this.checkTime = checkTime;
+    }
+    public String getSort() {
+        return this.sort;
+    }
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+    public String getTabsName() {
+        return this.tabsName;
+    }
+    public void setTabsName(String tabsName) {
+        this.tabsName = tabsName;
+    }
+    public String getAccordFile() {
+        return this.accordFile;
+    }
+    public void setAccordFile(String accordFile) {
+        this.accordFile = accordFile;
+    }
+    public String getSelectEdit() {
+        return this.selectEdit;
+    }
+    public void setSelectEdit(String selectEdit) {
+        this.selectEdit = selectEdit;
+    }
+    public String getUniqueValue() {
+        return this.uniqueValue;
+    }
+    public void setUniqueValue(String uniqueValue) {
+        this.uniqueValue = uniqueValue;
+    }
+    public String getProductTypeValue() {
+        return this.productTypeValue;
+    }
+    public void setProductTypeValue(String productTypeValue) {
+        this.productTypeValue = productTypeValue;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

@@ -21,12 +21,15 @@ public class DeliveryListBean {
     private String typeDisplay;
     private String sortBy;
 
+    private String sort;
 
 
-    @Generated(hash = 1260893279)
+
+
+    @Generated(hash = 1950769879)
     public DeliveryListBean(Long uId, String dataPackageId, String id,
             String isParent, String project, String parentId, String uniqueValue,
-            String typeDisplay, String sortBy) {
+            String typeDisplay, String sortBy, String sort) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -36,11 +39,13 @@ public class DeliveryListBean {
         this.uniqueValue = uniqueValue;
         this.typeDisplay = typeDisplay;
         this.sortBy = sortBy;
+        this.sort = sort;
     }
     @Generated(hash = 1520076137)
     public DeliveryListBean() {
     }
 
+  
   
    
     public Long getUId() {
@@ -96,5 +101,11 @@ public class DeliveryListBean {
     }
     public void setSortBy(String sortBy) {
         this.sortBy = sortBy;
+    }
+    public String getSort() {
+        return this.sort;
+    }
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 }

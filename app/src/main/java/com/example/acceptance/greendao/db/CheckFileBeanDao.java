@@ -35,6 +35,14 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
         public final static Property CheckPerson = new Property(8, String.class, "checkPerson", false, "CHECK_PERSON");
         public final static Property CheckDate = new Property(9, String.class, "checkDate", false, "CHECK_DATE");
         public final static Property SortBy = new Property(10, String.class, "sortBy", false, "SORT_BY");
+        public final static Property CheckTime = new Property(11, String.class, "checkTime", false, "CHECK_TIME");
+        public final static Property Sort = new Property(12, String.class, "sort", false, "SORT");
+        public final static Property TabsName = new Property(13, String.class, "tabsName", false, "TABS_NAME");
+        public final static Property AccordFile = new Property(14, String.class, "accordFile", false, "ACCORD_FILE");
+        public final static Property SelectEdit = new Property(15, String.class, "selectEdit", false, "SELECT_EDIT");
+        public final static Property UniqueValue = new Property(16, String.class, "uniqueValue", false, "UNIQUE_VALUE");
+        public final static Property ProductTypeValue = new Property(17, String.class, "productTypeValue", false, "PRODUCT_TYPE_VALUE");
+        public final static Property Description = new Property(18, String.class, "description", false, "DESCRIPTION");
     }
 
 
@@ -60,7 +68,15 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
                 "\"CONCLUSION\" TEXT," + // 7: conclusion
                 "\"CHECK_PERSON\" TEXT," + // 8: checkPerson
                 "\"CHECK_DATE\" TEXT," + // 9: checkDate
-                "\"SORT_BY\" TEXT);"); // 10: sortBy
+                "\"SORT_BY\" TEXT," + // 10: sortBy
+                "\"CHECK_TIME\" TEXT," + // 11: checkTime
+                "\"SORT\" TEXT," + // 12: sort
+                "\"TABS_NAME\" TEXT," + // 13: tabsName
+                "\"ACCORD_FILE\" TEXT," + // 14: accordFile
+                "\"SELECT_EDIT\" TEXT," + // 15: selectEdit
+                "\"UNIQUE_VALUE\" TEXT," + // 16: uniqueValue
+                "\"PRODUCT_TYPE_VALUE\" TEXT," + // 17: productTypeValue
+                "\"DESCRIPTION\" TEXT);"); // 18: description
     }
 
     /** Drops the underlying database table. */
@@ -127,6 +143,46 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
         if (sortBy != null) {
             stmt.bindString(11, sortBy);
         }
+ 
+        String checkTime = entity.getCheckTime();
+        if (checkTime != null) {
+            stmt.bindString(12, checkTime);
+        }
+ 
+        String sort = entity.getSort();
+        if (sort != null) {
+            stmt.bindString(13, sort);
+        }
+ 
+        String tabsName = entity.getTabsName();
+        if (tabsName != null) {
+            stmt.bindString(14, tabsName);
+        }
+ 
+        String accordFile = entity.getAccordFile();
+        if (accordFile != null) {
+            stmt.bindString(15, accordFile);
+        }
+ 
+        String selectEdit = entity.getSelectEdit();
+        if (selectEdit != null) {
+            stmt.bindString(16, selectEdit);
+        }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(17, uniqueValue);
+        }
+ 
+        String productTypeValue = entity.getProductTypeValue();
+        if (productTypeValue != null) {
+            stmt.bindString(18, productTypeValue);
+        }
+ 
+        String description = entity.getDescription();
+        if (description != null) {
+            stmt.bindString(19, description);
+        }
     }
 
     @Override
@@ -187,6 +243,46 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
         if (sortBy != null) {
             stmt.bindString(11, sortBy);
         }
+ 
+        String checkTime = entity.getCheckTime();
+        if (checkTime != null) {
+            stmt.bindString(12, checkTime);
+        }
+ 
+        String sort = entity.getSort();
+        if (sort != null) {
+            stmt.bindString(13, sort);
+        }
+ 
+        String tabsName = entity.getTabsName();
+        if (tabsName != null) {
+            stmt.bindString(14, tabsName);
+        }
+ 
+        String accordFile = entity.getAccordFile();
+        if (accordFile != null) {
+            stmt.bindString(15, accordFile);
+        }
+ 
+        String selectEdit = entity.getSelectEdit();
+        if (selectEdit != null) {
+            stmt.bindString(16, selectEdit);
+        }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(17, uniqueValue);
+        }
+ 
+        String productTypeValue = entity.getProductTypeValue();
+        if (productTypeValue != null) {
+            stmt.bindString(18, productTypeValue);
+        }
+ 
+        String description = entity.getDescription();
+        if (description != null) {
+            stmt.bindString(19, description);
+        }
     }
 
     @Override
@@ -207,7 +303,15 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // conclusion
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // checkPerson
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // checkDate
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // sortBy
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // sortBy
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // checkTime
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // sort
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // tabsName
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // accordFile
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // selectEdit
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // uniqueValue
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // productTypeValue
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18) // description
         );
         return entity;
     }
@@ -225,6 +329,14 @@ public class CheckFileBeanDao extends AbstractDao<CheckFileBean, Long> {
         entity.setCheckPerson(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setCheckDate(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setSortBy(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setCheckTime(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setSort(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setTabsName(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setAccordFile(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setSelectEdit(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setUniqueValue(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setProductTypeValue(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setDescription(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
      }
     
     @Override

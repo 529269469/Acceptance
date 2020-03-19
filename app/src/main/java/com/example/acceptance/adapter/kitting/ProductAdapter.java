@@ -66,6 +66,7 @@ public class ProductAdapter extends BaseAdapter {
     private Activity context;
     private List<CheckItemBean> list;
     private GVproAdapetr gVproAdapetr;
+    private AddPopupWindow addPopupWindow;
 
 
     public ProductAdapter(Activity context, List<CheckItemBean> list) {
@@ -269,29 +270,8 @@ public class ProductAdapter extends BaseAdapter {
         viewHolder.lv_file.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                AddPopupWindow addPopupWindow = new AddPopupWindow(context, view, fileBeanList.get(i).getId(), true);
-                addPopupWindow.setAddFile(new AddPopupWindow.AddFile() {
-                    @Override
-                    public void addfile1() {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        context.startActivityForResult(intent, 11);
-                    }
+                relevance.setaddResult(fileBeanList.get(i).getId(),view);
 
-                    @Override
-                    public void addfile2() {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        context.startActivityForResult(intent, 22);
-                    }
-
-                    @Override
-                    public void addResult() {
-
-                    }
-                });
 
             }
         });
@@ -299,7 +279,6 @@ public class ProductAdapter extends BaseAdapter {
 
         return view;
     }
-
 
     static class ViewHolder {
         @BindView(R.id.tv_name)
@@ -334,6 +313,7 @@ public class ProductAdapter extends BaseAdapter {
 
     public interface Relevance {
         void setRelevance(int pos, View view);
+        void setaddResult(String pos, View view);
     }
 
     private Relevance relevance;

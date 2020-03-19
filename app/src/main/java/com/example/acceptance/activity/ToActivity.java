@@ -308,7 +308,13 @@ public class ToActivity extends BaseActivity {
                 dataPackageBean.getModelSeriesId(),
                 dataPackageBean.getRepositoryId(),
                 dataPackageBean.getIsTemplate(),
-                dataPackageBean.getOwnerId());
+                dataPackageBean.getOwnerId(),
+                dataPackageBean.getProductTypeValue(),
+                dataPackageBean.getApplyCompany(),
+                dataPackageBean.getAcceptorUnit(),
+                dataPackageBean.getStage(),
+                dataPackageBean.getUniqueValue(),
+                dataPackageBean.getVersionInfo());
         dataPackageDBeanDao.insert(dataPackageDBean);
         CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
 
@@ -321,6 +327,15 @@ public class ToActivity extends BaseActivity {
             }
         }
 
+        FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+        if (isPath) {
+            List<FileBean> beans = fileBeanDao.queryBuilder()
+                    .where(FileBeanDao.Properties.DataPackageId.eq(dataPackageDBeans.get(0).getId()))
+                    .list();
+            for (int i = 0; i < beans.size(); i++) {
+                fileBeanDao.deleteByKey(beans.get(i).getUId());
+            }
+        }
         try {
 
             CheckApplyBean checkApplyBean = new CheckApplyBean(null,
@@ -335,8 +350,24 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getCheckApply().getPhone(),
                     dataPackageBean.getCheckApply().getConclusion(),
                     dataPackageBean.getCheckApply().getDescription(),
-                    dataPackageBean.getCheckApply().getDocTypeVal());
+                    dataPackageBean.getCheckApply().getDocTypeVal(),
+                    dataPackageBean.getCheckApply().getAcceptorUnit(),
+                    dataPackageBean.getCheckApply().getAcceptor(),
+                    dataPackageBean.getCheckApply().getAcceptorDept());
             checkApplyBeanDao.insert(checkApplyBean);
+
+            for (int i = 0; i <dataPackageBean.getCheckApply().getFileSet().getFile().size() ; i++) {
+                FileBean fileBean = new FileBean(null,
+                        dataPackageBean.getId(),
+                        dataPackageBean.getCheckApply().getId(),
+                        dataPackageBean.getCheckApply().getFileSet().getFile().get(i).getName(),
+                        dataPackageBean.getCheckApply().getFileSet().getFile().get(i).getPath(),
+                        dataPackageBean.getCheckApply().getFileSet().getFile().get(i).getType(),
+                        dataPackageBean.getCheckApply().getFileSet().getFile().get(i).getSecret(),
+                        dataPackageBean.getCheckApply().getFileSet().getFile().get(i).getDisabledSecret());
+                fileBeanDao.insert(fileBean);
+            }
+
         } catch (Exception o) {
 
         }
@@ -486,15 +517,7 @@ public class ToActivity extends BaseActivity {
                 relatedDocumentIdSetBeanDao.deleteByKey(beans.get(i).getUId());
             }
         }
-        FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-        if (isPath) {
-            List<FileBean> beans = fileBeanDao.queryBuilder()
-                    .where(FileBeanDao.Properties.DataPackageId.eq(dataPackageDBeans.get(0).getId()))
-                    .list();
-            for (int i = 0; i < beans.size(); i++) {
-                fileBeanDao.deleteByKey(beans.get(i).getUId());
-            }
-        }
+
 
         for (int i = 0; i < dataPackageBean.getCheckFileSet().getCheckFile().size(); i++) {
             CheckFileBean checkFileBean = new CheckFileBean(null,
@@ -507,7 +530,15 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getConclusion(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckPerson(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckDate(),
-                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getSortBy());
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getSortBy(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckTime(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getSort(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getTabsName(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getAccordFile(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getSelectEdit(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getUniqueValue(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getProductTypeValue(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getDescription());
             checkFileBeanDao.insert(checkFileBean);
 
             try {
@@ -539,7 +570,13 @@ public class ToActivity extends BaseActivity {
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckPerson(),
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsConclusion(),
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsTable(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getUniqueValue());
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getUniqueValue(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckTime(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getConclusionF(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckPersonF(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getSort(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckTimeF(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getTestTable());
                     checkGroupBeanDao.insert(checkGroupBean);
 
                     try {
@@ -731,7 +768,8 @@ public class ToActivity extends BaseActivity {
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getConfirmer(),
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getConfirmTime(),
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileId(),
-                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getUniqueValue());
+                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getUniqueValue(),
+                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getDescription());
                 unresolvedBeanDao.insert(unresolvedBean);
 
                 try {
@@ -776,8 +814,23 @@ public class ToActivity extends BaseActivity {
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getParentId(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getUniqueValue(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getTypeDisplay(),
-                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getSortBy());
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getSortBy(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getSort());
                 deliveryListBeanDao.insert(deliveryListBean);
+                try {
+                    for (int l = 0; l < dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getRelatedDocumentIdSet().getRelatedDocumentId().size(); l++) {
+                        RelatedDocumentIdSetBean relatedDocumentIdSetBean = new RelatedDocumentIdSetBean(null,
+                                dataPackageBean.getId(),
+                                dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getId(),
+                                dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getId(),
+                                dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getId(),
+                                dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getRelatedDocumentIdSet().getRelatedDocumentId().get(l));
+                        relatedDocumentIdSetBeanDao.insert(relatedDocumentIdSetBean);
+                    }
+                } catch (Exception o) {
+
+                }
+
             }
         } catch (Exception o) {
 

@@ -34,6 +34,12 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
         public final static Property IsConclusion = new Property(7, String.class, "isConclusion", false, "IS_CONCLUSION");
         public final static Property IsTable = new Property(8, String.class, "isTable", false, "IS_TABLE");
         public final static Property UniqueValue = new Property(9, String.class, "uniqueValue", false, "UNIQUE_VALUE");
+        public final static Property CheckTime = new Property(10, String.class, "checkTime", false, "CHECK_TIME");
+        public final static Property ConclusionF = new Property(11, String.class, "conclusionF", false, "CONCLUSION_F");
+        public final static Property CheckPersonF = new Property(12, String.class, "checkPersonF", false, "CHECK_PERSON_F");
+        public final static Property Sort = new Property(13, String.class, "sort", false, "SORT");
+        public final static Property CheckTimeF = new Property(14, String.class, "checkTimeF", false, "CHECK_TIME_F");
+        public final static Property TestTable = new Property(15, String.class, "testTable", false, "TEST_TABLE");
     }
 
 
@@ -58,7 +64,13 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
                 "\"CHECK_PERSON\" TEXT," + // 6: checkPerson
                 "\"IS_CONCLUSION\" TEXT," + // 7: isConclusion
                 "\"IS_TABLE\" TEXT," + // 8: isTable
-                "\"UNIQUE_VALUE\" TEXT);"); // 9: uniqueValue
+                "\"UNIQUE_VALUE\" TEXT," + // 9: uniqueValue
+                "\"CHECK_TIME\" TEXT," + // 10: checkTime
+                "\"CONCLUSION_F\" TEXT," + // 11: conclusionF
+                "\"CHECK_PERSON_F\" TEXT," + // 12: checkPersonF
+                "\"SORT\" TEXT," + // 13: sort
+                "\"CHECK_TIME_F\" TEXT," + // 14: checkTimeF
+                "\"TEST_TABLE\" TEXT);"); // 15: testTable
     }
 
     /** Drops the underlying database table. */
@@ -120,6 +132,36 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
         if (uniqueValue != null) {
             stmt.bindString(10, uniqueValue);
         }
+ 
+        String checkTime = entity.getCheckTime();
+        if (checkTime != null) {
+            stmt.bindString(11, checkTime);
+        }
+ 
+        String conclusionF = entity.getConclusionF();
+        if (conclusionF != null) {
+            stmt.bindString(12, conclusionF);
+        }
+ 
+        String checkPersonF = entity.getCheckPersonF();
+        if (checkPersonF != null) {
+            stmt.bindString(13, checkPersonF);
+        }
+ 
+        String sort = entity.getSort();
+        if (sort != null) {
+            stmt.bindString(14, sort);
+        }
+ 
+        String checkTimeF = entity.getCheckTimeF();
+        if (checkTimeF != null) {
+            stmt.bindString(15, checkTimeF);
+        }
+ 
+        String testTable = entity.getTestTable();
+        if (testTable != null) {
+            stmt.bindString(16, testTable);
+        }
     }
 
     @Override
@@ -175,6 +217,36 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
         if (uniqueValue != null) {
             stmt.bindString(10, uniqueValue);
         }
+ 
+        String checkTime = entity.getCheckTime();
+        if (checkTime != null) {
+            stmt.bindString(11, checkTime);
+        }
+ 
+        String conclusionF = entity.getConclusionF();
+        if (conclusionF != null) {
+            stmt.bindString(12, conclusionF);
+        }
+ 
+        String checkPersonF = entity.getCheckPersonF();
+        if (checkPersonF != null) {
+            stmt.bindString(13, checkPersonF);
+        }
+ 
+        String sort = entity.getSort();
+        if (sort != null) {
+            stmt.bindString(14, sort);
+        }
+ 
+        String checkTimeF = entity.getCheckTimeF();
+        if (checkTimeF != null) {
+            stmt.bindString(15, checkTimeF);
+        }
+ 
+        String testTable = entity.getTestTable();
+        if (testTable != null) {
+            stmt.bindString(16, testTable);
+        }
     }
 
     @Override
@@ -194,7 +266,13 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // checkPerson
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // isConclusion
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // isTable
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // uniqueValue
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // uniqueValue
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // checkTime
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // conclusionF
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // checkPersonF
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // sort
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // checkTimeF
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // testTable
         );
         return entity;
     }
@@ -211,6 +289,12 @@ public class CheckGroupBeanDao extends AbstractDao<CheckGroupBean, Long> {
         entity.setIsConclusion(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setIsTable(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setUniqueValue(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setCheckTime(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setConclusionF(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setCheckPersonF(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setSort(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setCheckTimeF(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setTestTable(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
      }
     
     @Override

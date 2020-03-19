@@ -37,9 +37,21 @@ public class DataPackageDBean {
     private String isTemplate;
     private String ownerId;
 
+    private String  productTypeValue;
+    private String  applyCompany;
+    private String  acceptorUnit;
+    private String  stage;
+    private String  uniqueValue;
+    private String  versionInfo;
 
 
-    @Generated(hash = 336491154)
+
+
+
+
+
+
+    @Generated(hash = 363898435)
     public DataPackageDBean(Long uId, String namePackage, String upLoadFile,
             String id, String name, String code, String type, String responseUnit,
             String modelCode, String productName, String productCode,
@@ -47,7 +59,9 @@ public class DataPackageDBean {
             String modelSeries, String modelSeriesName, String pkgTemplateId,
             String lifecycleStateId, String lifecycleStateIdentifier,
             String baseType, String modelSeriesId, String repositoryId,
-            String isTemplate, String ownerId) {
+            String isTemplate, String ownerId, String productTypeValue,
+            String applyCompany, String acceptorUnit, String stage,
+            String uniqueValue, String versionInfo) {
         this.uId = uId;
         this.namePackage = namePackage;
         this.upLoadFile = upLoadFile;
@@ -73,11 +87,22 @@ public class DataPackageDBean {
         this.repositoryId = repositoryId;
         this.isTemplate = isTemplate;
         this.ownerId = ownerId;
+        this.productTypeValue = productTypeValue;
+        this.applyCompany = applyCompany;
+        this.acceptorUnit = acceptorUnit;
+        this.stage = stage;
+        this.uniqueValue = uniqueValue;
+        this.versionInfo = versionInfo;
     }
 
     @Generated(hash = 1504690886)
     public DataPackageDBean() {
     }
+
+
+
+
+
     
 
 
@@ -279,5 +304,53 @@ public class DataPackageDBean {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public String getProductTypeValue() {
+        return this.productTypeValue;
+    }
+
+    public void setProductTypeValue(String productTypeValue) {
+        this.productTypeValue = productTypeValue;
+    }
+
+    public String getApplyCompany() {
+        return this.applyCompany;
+    }
+
+    public void setApplyCompany(String applyCompany) {
+        this.applyCompany = applyCompany;
+    }
+
+    public String getAcceptorUnit() {
+        return this.acceptorUnit;
+    }
+
+    public void setAcceptorUnit(String acceptorUnit) {
+        this.acceptorUnit = acceptorUnit;
+    }
+
+    public String getStage() {
+        return this.stage;
+    }
+
+    public void setStage(String stage) {
+        this.stage = stage;
+    }
+
+    public String getUniqueValue() {
+        return this.uniqueValue;
+    }
+
+    public void setUniqueValue(String uniqueValue) {
+        this.uniqueValue = uniqueValue;
+    }
+
+    public String getVersionInfo() {
+        return this.versionInfo;
+    }
+
+    public void setVersionInfo(String versionInfo) {
+        this.versionInfo = versionInfo;
     }
 }

@@ -54,6 +54,7 @@ import com.example.acceptance.greendao.db.FileBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanXDao;
 import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
+import com.example.acceptance.utils.DataUtils;
 import com.example.acceptance.utils.FileUtils;
 import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
@@ -123,7 +124,9 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
     private List<PropertyBean> propertyBeanArrayList = new ArrayList<>();
     private List<AcceptDeviceBean> acceptDeviceBeans = new ArrayList<>();
 
-     private String groupName="";
+    private String groupName = "";
+    private AddPopupWindow addPopupWindow1;
+
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
@@ -155,24 +158,24 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         id,
                         imgVideoParentId,
                         false + "",
-                        "照片AND视频", parentIdList.get(0).getId(),UUID.randomUUID().toString(),"其他",""+parentIdListSize.size());
+                        "照片AND视频", parentIdList.get(0).getId(), UUID.randomUUID().toString(), "其他", "" + parentIdListSize.size(), "");
                 deliveryListBeanDao.insert(deliveryListBean2);
             }
         } else {
             imgVideoId = System.currentTimeMillis() + "";
-            imgVideoParentId = System.currentTimeMillis() +"21";
+            imgVideoParentId = System.currentTimeMillis() + "21";
             DeliveryListBean deliveryListBean = new DeliveryListBean(null,
                     id,
                     imgVideoId,
                     true + "",
-                    "照片AND视频", "", UUID.randomUUID().toString(),"",""+parentIdListSize.size());
+                    "照片AND视频", "", UUID.randomUUID().toString(), "", "" + parentIdListSize.size(), "");
             deliveryListBeanDao.insert(deliveryListBean);
 
             DeliveryListBean deliveryListBean2 = new DeliveryListBean(null,
                     id,
                     imgVideoParentId,
                     false + "",
-                    "照片AND视频", imgVideoId,UUID.randomUUID().toString(),"其他",""+parentIdListSize.size());
+                    "照片AND视频", imgVideoId, UUID.randomUUID().toString(), "其他", "" + parentIdListSize.size(), "");
             deliveryListBeanDao.insert(deliveryListBean2);
         }
 
@@ -182,15 +185,15 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                 .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
                 .list();
         checkGroupId = checkGroupBeans.get(position).getId();
-        groupName= checkGroupBeans.get(position).getGroupName()+"确认人签字";
-        FileBeanDao fileBeanDao=MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-        List<FileBean> fileBeanList=fileBeanDao.queryBuilder()
+        groupName = checkGroupBeans.get(position).getGroupName() + "确认人签字";
+        FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+        List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                 .where(FileBeanDao.Properties.DataPackageId.eq(id))
                 .where(FileBeanDao.Properties.DocumentId.eq(checkGroupId))
                 .list();
-        if (!fileBeanList.isEmpty()){
+        if (!fileBeanList.isEmpty()) {
             Glide.with(getActivity())
-                    .load(new File(SPUtils.get(getActivity(), "path", "") + File.separator +fileBeanList.get(0).getPath()))
+                    .load(new File(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath()))
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(ivCheckPerson);
@@ -331,7 +334,13 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         tvSignature.getText().toString().trim(),
                         checkGroupBeans.get(0).getIsConclusion(),
                         checkGroupBeans.get(0).getIsTable(),
-                        checkGroupBeans.get(0).getUniqueValue());
+                        checkGroupBeans.get(0).getUniqueValue(),
+                        DataUtils.getData(),
+                        checkGroupBeans.get(0).getConclusionF(),
+                        checkGroupBeans.get(0).getCheckPersonF(),
+                        checkGroupBeans.get(0).getSort(),
+                        checkGroupBeans.get(0).getCheckTimeF(),
+                        checkGroupBeans.get(0).getTestTable());
                 checkGroupBeanDao.update(checkGroupBean);
             }
 
@@ -532,7 +541,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         CheckItemId,
                         tv_name.getText().toString().trim(),
                         optionsString,
-                        "",UUID.randomUUID().toString());
+                        "", UUID.randomUUID().toString());
                 checkItemBeanDao.insert(checkGroupBean);
 
                 PropertyBeanXDao propertyBeanXDao = MyApplication.getInstances().getPropertyXDaoSession().getPropertyBeanXDao();
@@ -570,6 +579,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
     public void setRelevance(int pos, View view) {
         showListDialog(pos, view);
     }
+
 
     private File cameraSavePath;
     private Uri uri;
@@ -609,7 +619,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
 
         tv_file.setOnClickListener(view1 -> {
             popupWindow.dismiss();
-            addPopupWindow = new AddPopupWindow2(getActivity(), tv_file, checkFileId,checkGroupId,list.get(pos).getId());
+            addPopupWindow = new AddPopupWindow2(getActivity(), tv_file, checkFileId, checkGroupId, list.get(pos).getId());
             addPopupWindow.setAddFile(new AddPopupWindow2.AddFile() {
                 @Override
                 public void addfile1() {
@@ -769,30 +779,30 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                             .skipMemoryCache(true)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .into(iv);
-                    FileBeanDao fileBeanDao=MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-                    List<FileBean> fileBeanList=fileBeanDao.queryBuilder()
+                    FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+                    List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                             .where(FileBeanDao.Properties.DataPackageId.eq(id))
                             .where(FileBeanDao.Properties.DocumentId.eq(checkGroupId))
                             .list();
 
-                    if (fileBeanList!=null&&!fileBeanList.isEmpty()){
+                    if (fileBeanList != null && !fileBeanList.isEmpty()) {
                         FileUtils.delFile(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath());
-                        FileBean fileBean=new FileBean(fileBeanList.get(0).getUId(),
+                        FileBean fileBean = new FileBean(fileBeanList.get(0).getUId(),
                                 id,
                                 checkGroupId,
                                 groupName,
                                 path,
                                 "主内容",
-                                "非密","");
+                                "非密", "");
                         fileBeanDao.update(fileBean);
-                    }else {
-                        FileBean fileBean=new FileBean(null,
+                    } else {
+                        FileBean fileBean = new FileBean(null,
                                 id,
                                 checkGroupId,
                                 groupName,
                                 path,
                                 "主内容",
-                                "非密","");
+                                "非密", "");
                         fileBeanDao.insert(fileBean);
                     }
 
@@ -809,6 +819,40 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
 
     }
 
+    @Override
+    public void setaddResult(String pos, View view) {
+        addPopupWindow1 = new AddPopupWindow(getActivity(), view, pos, true);
+        addPopupWindow1.setAddFile(new AddPopupWindow.AddFile() {
+            @Override
+            public void addfile1() {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(intent, 11);
+            }
+
+            @Override
+            public void addfile2() {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(intent, 22);
+            }
+
+            @Override
+            public void addResult() {
+                CheckItemBeanDao checkItemBeanDao = MyApplication.getInstances().getCheckItemDaoSession().getCheckItemBeanDao();
+                List<CheckItemBean> checkItemBeans = checkItemBeanDao.queryBuilder()
+                        .where(CheckItemBeanDao.Properties.DataPackageId.eq(id))
+                        .where(CheckItemBeanDao.Properties.CheckFileId.eq(checkFileId))
+                        .where(CheckItemBeanDao.Properties.CheckGroupId.eq(checkGroupId))
+                        .list();
+                list.clear();
+                list.addAll(checkItemBeans);
+                productAdapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -817,6 +861,11 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
             if (addPopupWindow != null) {
                 addPopupWindow.setResult(data, requestCode);
             }
+
+            if (addPopupWindow1 != null) {
+                addPopupWindow1.setResult(data, requestCode);
+            }
+
             if (requestCode == 2 || requestCode == 3) {
                 String photoPath = String.valueOf(cameraSavePath);
                 File file = new File(photoPath);
@@ -863,7 +912,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         file.getName(),
                         file.getName(),
                         "主内容",
-                        "非密","");
+                        "非密", "");
                 fileBeanDao.insert(fileBean);
 
                 CheckItemBeanDao checkItemBeanDao2 = MyApplication.getInstances().getCheckItemDaoSession().getCheckItemBeanDao();

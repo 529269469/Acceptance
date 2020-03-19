@@ -138,7 +138,10 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etPhone.getText().toString().trim(),
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
-                        checkApplyBeans.get(0).getDocTypeVal());
+                        checkApplyBeans.get(0).getDocTypeVal(),
+                        checkApplyBeans.get(0).getAcceptorUnit(),
+                        checkApplyBeans.get(0).getAcceptor(),
+                        checkApplyBeans.get(0).getAcceptorDept());
                 checkApplyBeanDao.update(checkApplyBean);
             }
 
@@ -226,7 +229,10 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etPhone.getText().toString().trim(),
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
-                        checkApplyBeans.get(0).getDocTypeVal());
+                        checkApplyBeans.get(0).getDocTypeVal(),
+                        checkApplyBeans.get(0).getAcceptorUnit(),
+                        checkApplyBeans.get(0).getAcceptor(),
+                        checkApplyBeans.get(0).getAcceptorDept());
                 checkApplyBeanDao.update(checkApplyBean);
             }
         });
@@ -323,7 +329,10 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etPhone.getText().toString().trim(),
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
-                        checkApplyBeans.get(0).getDocTypeVal());
+                        checkApplyBeans.get(0).getDocTypeVal(),
+                        checkApplyBeans.get(0).getAcceptorUnit(),
+                        checkApplyBeans.get(0).getAcceptor(),
+                        checkApplyBeans.get(0).getAcceptorDept());
                 checkApplyBeanDao.update(checkApplyBean);
                 ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
                 break;

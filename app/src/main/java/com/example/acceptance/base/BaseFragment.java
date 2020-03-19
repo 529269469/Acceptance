@@ -62,6 +62,16 @@ public abstract class BaseFragment<P extends IPresenter> extends LazyFragment {
     }
 
 
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(getUserVisibleHint()){
+            requestData();
+        }
+    }
+
+    public void requestData(){
+
+    }
 
 
     protected abstract void initEventAndData();

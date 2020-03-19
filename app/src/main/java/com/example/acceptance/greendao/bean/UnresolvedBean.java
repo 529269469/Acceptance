@@ -21,13 +21,19 @@ public class UnresolvedBean {
     private String fileId;
     private String uniqueValue;
 
+    private String description;
 
 
 
-    @Generated(hash = 1207301789)
+
+
+
+
+    @Generated(hash = 1185408291)
     public UnresolvedBean(Long uId, String dataPackageId, String id,
             String productCode, String question, String confirmer,
-            String confirmTime, String fileId, String uniqueValue) {
+            String confirmTime, String fileId, String uniqueValue,
+            String description) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -37,10 +43,14 @@ public class UnresolvedBean {
         this.confirmTime = confirmTime;
         this.fileId = fileId;
         this.uniqueValue = uniqueValue;
+        this.description = description;
     }
     @Generated(hash = 118033364)
     public UnresolvedBean() {
     }
+
+
+ 
 
 
 
@@ -98,6 +108,12 @@ public class UnresolvedBean {
     }
     public void setUniqueValue(String uniqueValue) {
         this.uniqueValue = uniqueValue;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

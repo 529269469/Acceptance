@@ -25,6 +25,7 @@ public abstract class LazyFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);

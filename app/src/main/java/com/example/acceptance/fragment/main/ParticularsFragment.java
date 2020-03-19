@@ -121,7 +121,13 @@ public class ParticularsFragment extends BaseFragment {
                         list.get(0).getModelSeriesId(),
                         list.get(0).getRepositoryId(),
                         list.get(0).getIsTemplate(),
-                        list.get(0).getOwnerId());
+                        list.get(0).getOwnerId(),
+                        list.get(0).getProductTypeValue(),
+                        list.get(0).getApplyCompany(),
+                        list.get(0).getAcceptorUnit(),
+                        list.get(0).getStage(),
+                        list.get(0).getUniqueValue(),
+                        list.get(0).getVersionInfo());
                 dataPackageDBeanDao.update(packageDBean);
             }
 
@@ -301,7 +307,13 @@ public class ParticularsFragment extends BaseFragment {
                         list.get(0).getModelSeriesId(),
                         list.get(0).getRepositoryId(),
                         list.get(0).getIsTemplate(),
-                        list.get(0).getOwnerId());
+                        list.get(0).getOwnerId(),
+                        list.get(0).getProductTypeValue(),
+                        list.get(0).getApplyCompany(),
+                        list.get(0).getAcceptorUnit(),
+                        list.get(0).getStage(),
+                        list.get(0).getUniqueValue(),
+                        list.get(0).getVersionInfo());
                 dataPackageDBeanDao.update(packageDBean);
 
             }

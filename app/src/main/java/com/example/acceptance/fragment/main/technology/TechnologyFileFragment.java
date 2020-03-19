@@ -137,7 +137,7 @@ public class TechnologyFileFragment extends BaseFragment {
                     id,
                     parentId,
                     true+"",
-                    "验收依据文件","", UUID.randomUUID().toString(),"","");
+                    "验收依据文件","", UUID.randomUUID().toString(),"","","");
             deliveryListBeanDao.insert(deliveryListBean);
         }
 

@@ -223,7 +223,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                         tvModelSeriesName.getText().toString().trim(),
                         "", "", "",
                         "", "", "",
-                        "", "");
+                        "", "", "", "", "",
+                        "", "", "");
                 dataPackageDBeanDao.insert(dataPackageDBean);
 
                 if (!StringUtils.isBlank(moban)) {
@@ -374,7 +375,10 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                     dataPackageBean.getCheckApply().getPhone(),
                     dataPackageBean.getCheckApply().getConclusion(),
                     dataPackageBean.getCheckApply().getDescription(),
-                    dataPackageBean.getCheckApply().getDocTypeVal());
+                    dataPackageBean.getCheckApply().getDocTypeVal(),
+                    dataPackageBean.getCheckApply().getAcceptorUnit(),
+                    dataPackageBean.getCheckApply().getAcceptor(),
+                    dataPackageBean.getCheckApply().getAcceptorDept());
             checkApplyBeanDao.insert(checkApplyBean);
         } catch (Exception o) {
 
@@ -456,7 +460,15 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getConclusion(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckPerson(),
                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckDate(),
-                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getSortBy());
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getSortBy(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckTime(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getSort(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getTabsName(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getAccordFile(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getSelectEdit(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getUniqueValue(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getProductTypeValue(),
+                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getDescription());
             checkFileBeanDao.insert(checkFileBean);
 
             try {
@@ -471,7 +483,13 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckPerson(),
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsConclusion(),
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getIsTable(),
-                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getUniqueValue());
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getUniqueValue(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckTime(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getConclusionF(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckPersonF(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getSort(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckTimeF(),
+                            dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getTestTable());
                     checkGroupBeanDao.insert(checkGroupBean);
 
                     try {
@@ -607,7 +625,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getConfirmer(),
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getConfirmTime(),
                         dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getFileId(),
-                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getUniqueValue());
+                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getUniqueValue(),
+                        dataPackageBean.getUnresolvedSet().getUnresolved().get(i).getDescription());
                 unresolvedBeanDao.insert(unresolvedBean);
 
                 try {
@@ -645,7 +664,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getParentId(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getUniqueValue(),
                         dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getTypeDisplay(),
-                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getSortBy());
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getSortBy(),
+                        dataPackageBean.getDeliveryLists().getDeliveryList().get(i).getSort());
                 deliveryListBeanDao.insert(deliveryListBean);
             }
         } catch (Exception o) {

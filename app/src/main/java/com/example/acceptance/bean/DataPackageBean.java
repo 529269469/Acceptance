@@ -49,6 +49,62 @@ public class DataPackageBean {
     private DeliveryListsBean DeliveryLists;
     private DocumentListSetBean DocumentListSet;
 
+    private String  productTypeValue;
+    private String  applyCompany;
+    private String  acceptorUnit;
+    private String  stage;
+    private String  uniqueValue;
+
+    private String  versionInfo;
+
+    public String getVersionInfo() {
+        return versionInfo;
+    }
+
+    public void setVersionInfo(String versionInfo) {
+        this.versionInfo = versionInfo;
+    }
+
+    public String getUniqueValue() {
+        return uniqueValue;
+    }
+
+    public void setUniqueValue(String uniqueValue) {
+        this.uniqueValue = uniqueValue;
+    }
+
+    public String getStage() {
+        return stage;
+    }
+
+    public void setStage(String stage) {
+        this.stage = stage;
+    }
+
+    public String getAcceptorUnit() {
+        return acceptorUnit;
+    }
+
+    public void setAcceptorUnit(String acceptorUnit) {
+        this.acceptorUnit = acceptorUnit;
+    }
+
+    public String getProductTypeValue() {
+        return productTypeValue;
+    }
+
+    public void setProductTypeValue(String productTypeValue) {
+        this.productTypeValue = productTypeValue;
+    }
+
+    public String getApplyCompany() {
+        return applyCompany;
+    }
+
+    public void setApplyCompany(String applyCompany) {
+        this.applyCompany = applyCompany;
+    }
+
     public String getOwnerId() {
         return ownerId;
     }
@@ -324,7 +380,42 @@ public class DataPackageBean {
         private String conclusion;
         private String description;
         private String docTypeVal;
+        private DocumentListSetBean.DocumentBean.FileSetBean FileSet;
+        private String acceptorUnit;
+        private String acceptor;
+        private String acceptorDept;
 
+        public String getAcceptorDept() {
+            return acceptorDept;
+        }
+
+        public void setAcceptorDept(String acceptorDept) {
+            this.acceptorDept = acceptorDept;
+        }
+
+        public String getAcceptor() {
+            return acceptor;
+        }
+
+        public void setAcceptor(String acceptor) {
+            this.acceptor = acceptor;
+        }
+
+        public DocumentListSetBean.DocumentBean.FileSetBean getFileSet() {
+            return FileSet;
+        }
+
+        public void setFileSet(DocumentListSetBean.DocumentBean.FileSetBean fileSet) {
+            FileSet = fileSet;
+        }
+
+        public String getAcceptorUnit() {
+            return acceptorUnit;
+        }
+
+        public void setAcceptorUnit(String acceptorUnit) {
+            this.acceptorUnit = acceptorUnit;
+        }
 
         public String getDocTypeVal() {
             return docTypeVal;
@@ -801,6 +892,79 @@ public class DataPackageBean {
             private String sortBy;
             private CheckGroupSetBean CheckGroupSet;
 
+            private String checkTime;
+            private String sort;
+            private String tabsName;
+            private String accordFile;
+            private String selectEdit;
+            private String uniqueValue;
+            private String productTypeValue;
+            private String description;
+
+            public String getDescription() {
+                return description;
+            }
+
+            public void setDescription(String description) {
+                this.description = description;
+            }
+
+            public String getProductTypeValue() {
+                return productTypeValue;
+            }
+
+            public void setProductTypeValue(String productTypeValue) {
+                this.productTypeValue = productTypeValue;
+            }
+
+            public String getUniqueValue() {
+                return uniqueValue;
+            }
+
+            public void setUniqueValue(String uniqueValue) {
+                this.uniqueValue = uniqueValue;
+            }
+
+            public String getSelectEdit() {
+                return selectEdit;
+            }
+
+            public void setSelectEdit(String selectEdit) {
+                this.selectEdit = selectEdit;
+            }
+
+            public String getAccordFile() {
+                return accordFile;
+            }
+
+            public void setAccordFile(String accordFile) {
+                this.accordFile = accordFile;
+            }
+
+            public String getTabsName() {
+                return tabsName;
+            }
+
+            public void setTabsName(String tabsName) {
+                this.tabsName = tabsName;
+            }
+
+            public String getSort() {
+                return sort;
+            }
+
+            public void setSort(String sort) {
+                this.sort = sort;
+            }
+
+            public String getCheckTime() {
+                return checkTime;
+            }
+
+            public void setCheckTime(String checkTime) {
+                this.checkTime = checkTime;
+            }
+
             public String getSortBy() {
                 return sortBy;
             }
@@ -928,6 +1092,62 @@ public class DataPackageBean {
                     private CheckItemSetBean CheckItemSet;
                     private AcceptDeviceSet AcceptDeviceSet;
                     private DocumentListSetBean.DocumentBean.FileSetBean FileSet;
+
+                    private String checkTime;
+                    private String conclusionF;
+                    private String checkPersonF;
+                    private String sort;
+
+                    private String checkTimeF;
+                    private String testTable;
+
+                    public String getTestTable() {
+                        return testTable;
+                    }
+
+                    public void setTestTable(String testTable) {
+                        this.testTable = testTable;
+                    }
+
+                    public String getCheckTimeF() {
+                        return checkTimeF;
+                    }
+
+                    public void setCheckTimeF(String checkTimeF) {
+                        this.checkTimeF = checkTimeF;
+                    }
+
+                    public String getSort() {
+                        return sort;
+                    }
+
+                    public void setSort(String sort) {
+                        this.sort = sort;
+                    }
+
+                    public String getCheckPersonF() {
+                        return checkPersonF;
+                    }
+
+                    public void setCheckPersonF(String checkPersonF) {
+                        this.checkPersonF = checkPersonF;
+                    }
+
+                    public String getConclusionF() {
+                        return conclusionF;
+                    }
+
+                    public void setConclusionF(String conclusionF) {
+                        this.conclusionF = conclusionF;
+                    }
+
+                    public String getCheckTime() {
+                        return checkTime;
+                    }
+
+                    public void setCheckTime(String checkTime) {
+                        this.checkTime = checkTime;
+                    }
 
                     public String getUniqueValue() {
                         return uniqueValue;
@@ -1166,6 +1386,25 @@ public class DataPackageBean {
                             private String uniqueValue;
                             private PropertySetBeanX PropertySet;
                             private RelatedDocumentIdSetBean RelatedDocumentIdSet;
+
+                            private String sort;
+                            private String description;
+
+                            public String getDescription() {
+                                return description;
+                            }
+
+                            public void setDescription(String description) {
+                                this.description = description;
+                            }
+
+                            public String getSort() {
+                                return sort;
+                            }
+
+                            public void setSort(String sort) {
+                                this.sort = sort;
+                            }
 
                             public String getUniqueValue() {
                                 return uniqueValue;
@@ -1499,6 +1738,16 @@ public class DataPackageBean {
             private String uniqueValue;
             private DocumentListSetBean.DocumentBean.FileSetBean FileSet;
 
+            private String description;
+
+            public String getDescription() {
+                return description;
+            }
+
+            public void setDescription(String description) {
+                this.description = description;
+            }
+
             public String getUniqueValue() {
                 return uniqueValue;
             }
@@ -1594,6 +1843,25 @@ public class DataPackageBean {
             private String uniqueValue;
             private String typeDisplay;
             private String sortBy;
+
+            private String sort;
+            private CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.RelatedDocumentIdSetBean RelatedDocumentIdSet;
+
+            public CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.RelatedDocumentIdSetBean getRelatedDocumentIdSet() {
+                return RelatedDocumentIdSet;
+            }
+
+            public void setRelatedDocumentIdSet(CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.RelatedDocumentIdSetBean relatedDocumentIdSet) {
+                RelatedDocumentIdSet = relatedDocumentIdSet;
+            }
+
+            public String getSort() {
+                return sort;
+            }
+
+            public void setSort(String sort) {
+                this.sort = sort;
+            }
 
             public String getTypeDisplay() {
                 return typeDisplay;

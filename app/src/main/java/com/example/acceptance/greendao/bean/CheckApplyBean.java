@@ -25,13 +25,18 @@ public class CheckApplyBean {
     private String description;
     private String docTypeVal;
 
+    private String acceptorUnit;
+    private String acceptor;
+    private String acceptorDept;
 
 
-    @Generated(hash = 1202944174)
+
+    @Generated(hash = 944161163)
     public CheckApplyBean(Long uId, String dataPackageId, String id, String name,
             String code, String contractCode, String contractName, String applicant,
             String applyCompany, String phone, String conclusion,
-            String description, String docTypeVal) {
+            String description, String docTypeVal, String acceptorUnit,
+            String acceptor, String acceptorDept) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -45,12 +50,15 @@ public class CheckApplyBean {
         this.conclusion = conclusion;
         this.description = description;
         this.docTypeVal = docTypeVal;
+        this.acceptorUnit = acceptorUnit;
+        this.acceptor = acceptor;
+        this.acceptorDept = acceptorDept;
     }
     @Generated(hash = 113687566)
     public CheckApplyBean() {
     }
 
-    
+
 
     public Long getUId() {
         return this.uId;
@@ -130,6 +138,24 @@ public class CheckApplyBean {
     }
     public void setDocTypeVal(String docTypeVal) {
         this.docTypeVal = docTypeVal;
+    }
+    public String getAcceptorUnit() {
+        return this.acceptorUnit;
+    }
+    public void setAcceptorUnit(String acceptorUnit) {
+        this.acceptorUnit = acceptorUnit;
+    }
+    public String getAcceptor() {
+        return this.acceptor;
+    }
+    public void setAcceptor(String acceptor) {
+        this.acceptor = acceptor;
+    }
+    public String getAcceptorDept() {
+        return this.acceptorDept;
+    }
+    public void setAcceptorDept(String acceptorDept) {
+        this.acceptorDept = acceptorDept;
     }
 
 

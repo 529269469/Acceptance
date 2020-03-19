@@ -37,6 +37,9 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
         public final static Property Conclusion = new Property(10, String.class, "conclusion", false, "CONCLUSION");
         public final static Property Description = new Property(11, String.class, "description", false, "DESCRIPTION");
         public final static Property DocTypeVal = new Property(12, String.class, "docTypeVal", false, "DOC_TYPE_VAL");
+        public final static Property AcceptorUnit = new Property(13, String.class, "acceptorUnit", false, "ACCEPTOR_UNIT");
+        public final static Property Acceptor = new Property(14, String.class, "acceptor", false, "ACCEPTOR");
+        public final static Property AcceptorDept = new Property(15, String.class, "acceptorDept", false, "ACCEPTOR_DEPT");
     }
 
 
@@ -64,7 +67,10 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
                 "\"PHONE\" TEXT," + // 9: phone
                 "\"CONCLUSION\" TEXT," + // 10: conclusion
                 "\"DESCRIPTION\" TEXT," + // 11: description
-                "\"DOC_TYPE_VAL\" TEXT);"); // 12: docTypeVal
+                "\"DOC_TYPE_VAL\" TEXT," + // 12: docTypeVal
+                "\"ACCEPTOR_UNIT\" TEXT," + // 13: acceptorUnit
+                "\"ACCEPTOR\" TEXT," + // 14: acceptor
+                "\"ACCEPTOR_DEPT\" TEXT);"); // 15: acceptorDept
     }
 
     /** Drops the underlying database table. */
@@ -141,6 +147,21 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
         if (docTypeVal != null) {
             stmt.bindString(13, docTypeVal);
         }
+ 
+        String acceptorUnit = entity.getAcceptorUnit();
+        if (acceptorUnit != null) {
+            stmt.bindString(14, acceptorUnit);
+        }
+ 
+        String acceptor = entity.getAcceptor();
+        if (acceptor != null) {
+            stmt.bindString(15, acceptor);
+        }
+ 
+        String acceptorDept = entity.getAcceptorDept();
+        if (acceptorDept != null) {
+            stmt.bindString(16, acceptorDept);
+        }
     }
 
     @Override
@@ -211,6 +232,21 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
         if (docTypeVal != null) {
             stmt.bindString(13, docTypeVal);
         }
+ 
+        String acceptorUnit = entity.getAcceptorUnit();
+        if (acceptorUnit != null) {
+            stmt.bindString(14, acceptorUnit);
+        }
+ 
+        String acceptor = entity.getAcceptor();
+        if (acceptor != null) {
+            stmt.bindString(15, acceptor);
+        }
+ 
+        String acceptorDept = entity.getAcceptorDept();
+        if (acceptorDept != null) {
+            stmt.bindString(16, acceptorDept);
+        }
     }
 
     @Override
@@ -233,7 +269,10 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // phone
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // conclusion
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // description
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // docTypeVal
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // docTypeVal
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // acceptorUnit
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // acceptor
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // acceptorDept
         );
         return entity;
     }
@@ -253,6 +292,9 @@ public class CheckApplyBeanDao extends AbstractDao<CheckApplyBean, Long> {
         entity.setConclusion(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setDescription(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setDocTypeVal(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setAcceptorUnit(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setAcceptor(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setAcceptorDept(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
      }
     
     @Override

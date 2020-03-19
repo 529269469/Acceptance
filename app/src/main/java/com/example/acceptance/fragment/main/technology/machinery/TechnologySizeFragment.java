@@ -40,6 +40,7 @@ import com.example.acceptance.greendao.db.CheckItemBeanDao;
 import com.example.acceptance.greendao.db.FileBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanDao;
 import com.example.acceptance.net.Contents;
+import com.example.acceptance.utils.DataUtils;
 import com.example.acceptance.utils.FileUtils;
 import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
@@ -117,7 +118,14 @@ public class TechnologySizeFragment extends BaseFragment implements View.OnClick
                         etConclusion.getText().toString().trim(),
                         tvSignature.getText().toString().trim(),
                         checkFileBeans.get(0).getCheckDate(),
-                        checkFileBeans.get(0).getSortBy());
+                        checkFileBeans.get(0).getSortBy(),checkFileBeans.get(0).getCheckTime(),
+                        checkFileBeans.get(0).getSort(),
+                        checkFileBeans.get(0).getTabsName(),
+                        checkFileBeans.get(0).getAccordFile(),
+                        checkFileBeans.get(0).getSelectEdit(),
+                        checkFileBeans.get(0).getUniqueValue(),
+                        checkFileBeans.get(0).getProductTypeValue(),
+                        checkFileBeans.get(0).getDescription());
                 checkFileBeanDao.update(checkFileBean);
             }
 
@@ -258,7 +266,7 @@ public class TechnologySizeFragment extends BaseFragment implements View.OnClick
                         tv_groupName.getText().toString().trim(),
                         "", "",
                         tv_isConclusion.isChecked() + "",
-                        tv_isTable.isChecked() + "", UUID.randomUUID().toString());
+                        tv_isTable.isChecked() + "", UUID.randomUUID().toString(), DataUtils.getData(),"","","","","");
                 checkGroupBeanDao.insert(checkGroupBean);
 
                 PropertyBeanDao propertyBeanDao = MyApplication.getInstances().getPropertyDaoSession().getPropertyBeanDao();
@@ -308,7 +316,14 @@ public class TechnologySizeFragment extends BaseFragment implements View.OnClick
                         etConclusion.getText().toString().trim(),
                         checkFileBeans.get(0).getCheckPerson(),
                         checkFileBeans.get(0).getCheckDate(),
-                        checkFileBeans.get(0).getSortBy());
+                        checkFileBeans.get(0).getSortBy(),checkFileBeans.get(0).getCheckTime(),
+                        checkFileBeans.get(0).getSort(),
+                        checkFileBeans.get(0).getTabsName(),
+                        checkFileBeans.get(0).getAccordFile(),
+                        checkFileBeans.get(0).getSelectEdit(),
+                        checkFileBeans.get(0).getUniqueValue(),
+                        checkFileBeans.get(0).getProductTypeValue(),
+                        checkFileBeans.get(0).getDescription());
                 checkFileBeanDao.update(checkFileBean);
                 ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
                 break;
@@ -547,7 +562,13 @@ public class TechnologySizeFragment extends BaseFragment implements View.OnClick
                         checkGroupBeans2.get(0).getCheckPerson(),
                         tv_isConclusion.isChecked() + "",
                         tv_isTable.isChecked() + "",
-                        checkGroupBeans2.get(0).getUniqueValue());
+                        checkGroupBeans2.get(0).getUniqueValue(),
+                        DataUtils.getData(),
+                        checkGroupBeans2.get(0).getConclusionF(),
+                        checkGroupBeans2.get(0).getCheckPersonF(),
+                        checkGroupBeans2.get(0).getSort(),
+                        checkGroupBeans2.get(0).getCheckTimeF(),
+                        checkGroupBeans2.get(0).getTestTable());
                 checkGroupBeanDao.update(checkGroupBean);
 
                 PropertyBeanDao propertyBeanDao = MyApplication.getInstances().getPropertyDaoSession().getPropertyBeanDao();

@@ -49,6 +49,12 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
         public final static Property RepositoryId = new Property(22, String.class, "repositoryId", false, "REPOSITORY_ID");
         public final static Property IsTemplate = new Property(23, String.class, "isTemplate", false, "IS_TEMPLATE");
         public final static Property OwnerId = new Property(24, String.class, "ownerId", false, "OWNER_ID");
+        public final static Property ProductTypeValue = new Property(25, String.class, "productTypeValue", false, "PRODUCT_TYPE_VALUE");
+        public final static Property ApplyCompany = new Property(26, String.class, "applyCompany", false, "APPLY_COMPANY");
+        public final static Property AcceptorUnit = new Property(27, String.class, "acceptorUnit", false, "ACCEPTOR_UNIT");
+        public final static Property Stage = new Property(28, String.class, "stage", false, "STAGE");
+        public final static Property UniqueValue = new Property(29, String.class, "uniqueValue", false, "UNIQUE_VALUE");
+        public final static Property VersionInfo = new Property(30, String.class, "versionInfo", false, "VERSION_INFO");
     }
 
 
@@ -88,7 +94,13 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
                 "\"MODEL_SERIES_ID\" TEXT," + // 21: modelSeriesId
                 "\"REPOSITORY_ID\" TEXT," + // 22: repositoryId
                 "\"IS_TEMPLATE\" TEXT," + // 23: isTemplate
-                "\"OWNER_ID\" TEXT);"); // 24: ownerId
+                "\"OWNER_ID\" TEXT," + // 24: ownerId
+                "\"PRODUCT_TYPE_VALUE\" TEXT," + // 25: productTypeValue
+                "\"APPLY_COMPANY\" TEXT," + // 26: applyCompany
+                "\"ACCEPTOR_UNIT\" TEXT," + // 27: acceptorUnit
+                "\"STAGE\" TEXT," + // 28: stage
+                "\"UNIQUE_VALUE\" TEXT," + // 29: uniqueValue
+                "\"VERSION_INFO\" TEXT);"); // 30: versionInfo
     }
 
     /** Drops the underlying database table. */
@@ -225,6 +237,36 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
         if (ownerId != null) {
             stmt.bindString(25, ownerId);
         }
+ 
+        String productTypeValue = entity.getProductTypeValue();
+        if (productTypeValue != null) {
+            stmt.bindString(26, productTypeValue);
+        }
+ 
+        String applyCompany = entity.getApplyCompany();
+        if (applyCompany != null) {
+            stmt.bindString(27, applyCompany);
+        }
+ 
+        String acceptorUnit = entity.getAcceptorUnit();
+        if (acceptorUnit != null) {
+            stmt.bindString(28, acceptorUnit);
+        }
+ 
+        String stage = entity.getStage();
+        if (stage != null) {
+            stmt.bindString(29, stage);
+        }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(30, uniqueValue);
+        }
+ 
+        String versionInfo = entity.getVersionInfo();
+        if (versionInfo != null) {
+            stmt.bindString(31, versionInfo);
+        }
     }
 
     @Override
@@ -355,6 +397,36 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
         if (ownerId != null) {
             stmt.bindString(25, ownerId);
         }
+ 
+        String productTypeValue = entity.getProductTypeValue();
+        if (productTypeValue != null) {
+            stmt.bindString(26, productTypeValue);
+        }
+ 
+        String applyCompany = entity.getApplyCompany();
+        if (applyCompany != null) {
+            stmt.bindString(27, applyCompany);
+        }
+ 
+        String acceptorUnit = entity.getAcceptorUnit();
+        if (acceptorUnit != null) {
+            stmt.bindString(28, acceptorUnit);
+        }
+ 
+        String stage = entity.getStage();
+        if (stage != null) {
+            stmt.bindString(29, stage);
+        }
+ 
+        String uniqueValue = entity.getUniqueValue();
+        if (uniqueValue != null) {
+            stmt.bindString(30, uniqueValue);
+        }
+ 
+        String versionInfo = entity.getVersionInfo();
+        if (versionInfo != null) {
+            stmt.bindString(31, versionInfo);
+        }
     }
 
     @Override
@@ -389,7 +461,13 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
             cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // modelSeriesId
             cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // repositoryId
             cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // isTemplate
-            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24) // ownerId
+            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // ownerId
+            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // productTypeValue
+            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // applyCompany
+            cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // acceptorUnit
+            cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28), // stage
+            cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29), // uniqueValue
+            cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30) // versionInfo
         );
         return entity;
     }
@@ -421,6 +499,12 @@ public class DataPackageDBeanDao extends AbstractDao<DataPackageDBean, Long> {
         entity.setRepositoryId(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
         entity.setIsTemplate(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
         entity.setOwnerId(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
+        entity.setProductTypeValue(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setApplyCompany(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
+        entity.setAcceptorUnit(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
+        entity.setStage(cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28));
+        entity.setUniqueValue(cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29));
+        entity.setVersionInfo(cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30));
      }
     
     @Override

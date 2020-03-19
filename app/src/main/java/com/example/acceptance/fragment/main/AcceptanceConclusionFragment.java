@@ -391,7 +391,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             tv_question.getText().toString().trim(),
                             tv_confirmer.getText().toString().trim(),
                             tv_confirmTime.getText().toString().trim(),
-                            unresolvedId, UUID.randomUUID().toString());
+                            unresolvedId, UUID.randomUUID().toString(),"");
                     unresolvedBeanDao.insert(unresolvedBean);
                 } else {
                     FileBeanDao fileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getFileBeanDao();
@@ -414,7 +414,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             tv_confirmer.getText().toString().trim(),
                             tv_confirmTime.getText().toString().trim(),
                             StringUtils.isBlank(beanList.get(pos).getFileId()) ? unresolvedId : beanList.get(pos).getFileId(),
-                            beanList.get(pos).getUniqueValue());
+                            beanList.get(pos).getUniqueValue(),"");
                     unresolvedBeanDao.update(unresolvedBean);
                 }
                 UnresolvedBeanDao unresolvedBeanDao2 = MyApplication.getInstances().getCheckUnresolvedDaoSession().getUnresolvedBeanDao();

@@ -129,7 +129,7 @@ public class AddPrijectPopupWindow extends PopupWindow {
                         deliveryId,
                         true+"",
                         projectStr,
-                        "", UUID.randomUUID().toString(),"",sortby);
+                        "", UUID.randomUUID().toString(),"",sortby,"");
                 deliveryListBeanDao.insert(deliveryListBean);
                 ToastUtils.getInstance().showTextToast(context,"添加成功");
             }else {
@@ -165,7 +165,7 @@ public class AddPrijectPopupWindow extends PopupWindow {
                         deliveryId,
                         "false",
                         projectStr,
-                        id,UUID.randomUUID().toString(),typeDisplay,sortby);
+                        id,UUID.randomUUID().toString(),typeDisplay,sortby,"");
                 deliveryListBeanDao.insert(deliveryListBean);
                 ToastUtils.getInstance().showTextToast(context,"添加成功");
             }
