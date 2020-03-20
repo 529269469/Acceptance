@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Switch;
@@ -19,6 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -28,6 +33,7 @@ import com.example.acceptance.adapter.AddZuAdapter;
 import com.example.acceptance.adapter.TbAdapter;
 import com.example.acceptance.base.BaseFragment;
 import com.example.acceptance.base.MyApplication;
+import com.example.acceptance.bean.TitleBean;
 import com.example.acceptance.greendao.bean.CheckFileBean;
 import com.example.acceptance.greendao.bean.CheckGroupBean;
 import com.example.acceptance.greendao.bean.CheckItemBean;
@@ -62,97 +68,45 @@ import butterknife.BindView;
 /**
  * 齐套性检查——产品齐套性检查
  */
-public class KittingProductFragment extends BaseFragment implements View.OnClickListener, KittingProduct2Fragment.OnDel, KittingProduct2Fragment.OnXiugai {
+public class KittingProductFragment extends BaseFragment implements KittingProduct2Fragment.OnDel, KittingProduct2Fragment.OnXiugai, Kitting2Adapter.OntvTb {
 
-    @BindView(R.id.tb)
-    TabLayout tb;
-    @BindView(R.id.vp)
-    ContentViewPager vp;
-    @BindView(R.id.et_conclusion)
-    EditText etConclusion;
-    @BindView(R.id.iv_checkPerson2)
-    ImageView ivCheckPerson2;
     @BindView(R.id.tv_add)
-    TextView tvAdd;
-    @BindView(R.id.tv_save)
-    TextView tvSave;
-    @BindView(R.id.tv_signature)
-    EditText tvSignature;
+    ImageView tvAdd;
+    @BindView(R.id.re_tb)
+    RecyclerView reTb;
+    @BindView(R.id.fl_vp)
+    FrameLayout flVp;
+
 
 
     private String id;
-    private List<String> listTitle = new ArrayList<>();
-    private List<Fragment> list = new ArrayList<>();
+    private List<TitleBean> list = new ArrayList<>();
     private String checkFileId;
     private List<CheckGroupBean> checkGroupBeans;
-    private TbAdapter adapter;
-    private KittingProduct2Fragment kittingProduct2Fragment;
     private String type;
-
+    private int pos;
+    private Kitting2Adapter adapter;
+    private KittingProduct2Fragment kittingProduct2Fragment;
+    private FragmentTransaction transaction;
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
         type = getArguments().getString("type");
+        pos= getArguments().getInt("pos");
+        adapter = new Kitting2Adapter(list,getActivity());
+        LinearLayoutManager manager=new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        reTb.setLayoutManager(manager);
+        reTb.setAdapter(adapter);
 
         addData();
-        adapter = new TbAdapter(getChildFragmentManager(), listTitle, list);
-        vp.setAdapter(adapter);
-        tb.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tb.setupWithViewPager(vp);
-        etConclusion.addTextChangedListener(textWatcher);
-        tvSignature.addTextChangedListener(textWatcher);
-        ivCheckPerson2.setOnClickListener(this);
-        tvSave.setOnClickListener(this);
+
         tvAdd.setOnClickListener(view ->
                 addPopup());
-
+        adapter.setOntvTb(this);
     }
 
-    private TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-            String words = editable.toString();
-            if (!StringUtils.isBlank(words)) {
-                CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
-                List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
-                        .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
-                        .where(CheckFileBeanDao.Properties.DocType.eq(Contents.齐套性检查))
-                        .list();
-                CheckFileBean checkFileBean = new CheckFileBean(checkFileBeans.get(0).getUId(),
-                        checkFileBeans.get(0).getDataPackageId(),
-                        checkFileBeans.get(0).getId(),
-                        checkFileBeans.get(0).getName(),
-                        checkFileBeans.get(0).getCode(),
-                        checkFileBeans.get(0).getDocType(),
-                        checkFileBeans.get(0).getProductType(),
-                        etConclusion.getText().toString().trim(),
-                        tvSignature.getText().toString().trim(),
-                        checkFileBeans.get(0).getCheckDate(),
-                        checkFileBeans.get(0).getSortBy(),
-                        checkFileBeans.get(0).getCheckTime(),
-                        checkFileBeans.get(0).getSort(),
-                        checkFileBeans.get(0).getTabsName(),
-                        checkFileBeans.get(0).getAccordFile(),
-                        checkFileBeans.get(0).getSelectEdit(),
-                        checkFileBeans.get(0).getUniqueValue(),
-                        checkFileBeans.get(0).getProductTypeValue(),
-                        checkFileBeans.get(0).getDescription());
-                checkFileBeanDao.update(checkFileBean);
-            }
-
-        }
-    };
-    private String checkFileName="齐套性检查确认人签字";
     private void addData() {
         CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
         List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
@@ -162,45 +116,39 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
 
         if (checkFileBeans != null && !checkFileBeans.isEmpty()) {
             checkFileId = checkFileBeans.get(0).getId();
-            FileBeanDao fileBeanDao=MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-            List<FileBean> fileBeanList=fileBeanDao.queryBuilder()
-                    .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                    .where(FileBeanDao.Properties.DocumentId.eq(checkFileId))
-                    .list();
-            if (!fileBeanList.isEmpty()){
-                Glide.with(getActivity())
-                        .load(new File(SPUtils.get(getActivity(), "path", "") + File.separator +fileBeanList.get(0).getPath()))
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .into(ivCheckPerson2);
-            }
-
             CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
             checkGroupBeans = checkGroupBeanDao.queryBuilder()
                     .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
                     .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
                     .list();
-            listTitle.clear();
             list.clear();
-            tvSignature.setText(checkFileBeans.get(0).getCheckPerson());
-            etConclusion.setText(checkFileBeans.get(0).getConclusion());
+            adapter.notifyDataSetChanged();
             for (int i = 0; i < checkGroupBeans.size(); i++) {
-                listTitle.add(checkGroupBeans.get(i).getGroupName());
-                kittingProduct2Fragment = new KittingProduct2Fragment();
-                kittingProduct2Fragment.setOnDel(this);
-                kittingProduct2Fragment.setOnXiugai(this);
-                Bundle bundle = new Bundle();
-                bundle.putString("id", id);
-                bundle.putString("checkFileId", checkFileId);
-                bundle.putString("type", type);
-                bundle.putString("type2", "齐套性检查");
-                bundle.putInt("position", i);
-                kittingProduct2Fragment.setArguments(bundle);
-                list.add(kittingProduct2Fragment);
+                if (i==0){
+                    list.add(new TitleBean(checkGroupBeans.get(i).getGroupName(),true));
+                }else {
+                    list.add(new TitleBean(checkGroupBeans.get(i).getGroupName(),false));
+                }
             }
+            list.add(new TitleBean("结论",false));
+
+            transaction =getChildFragmentManager().beginTransaction();
+            kittingProduct2Fragment = new KittingProduct2Fragment();
+            kittingProduct2Fragment.setOnDel(this);
+            kittingProduct2Fragment.setOnXiugai(this);
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            bundle.putString("checkFileId", checkFileId);
+            bundle.putInt("position", 0);
+            kittingProduct2Fragment.setArguments(bundle);
+            transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
+            transaction.commit();
+
         } else {
             checkFileId = System.currentTimeMillis() + "";
         }
+        adapter.notifyDataSetChanged();
+        reTb.scrollToPosition(0);
 
     }
 
@@ -300,10 +248,22 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                         propertyBeanDao.insert(propertyBean);
                     }
                 }
-                addData();
-                adapter.notifyDataSetChanged();
-                vp.setCurrentItem(list.size());
                 popupWindow.dismiss();
+                for (int i = 0; i < list.size(); i++) {
+                    list.get(i).setCheck(false);
+                }
+                list.add(list.size()-1,new TitleBean(tv_groupName.getText().toString().trim(),true));
+                adapter.notifyDataSetChanged();
+                reTb.scrollToPosition(list.size()-1);
+                transaction =getChildFragmentManager().beginTransaction();
+                kittingProduct2Fragment = new KittingProduct2Fragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("id", id);
+                bundle.putString("checkFileId", checkFileId);
+                bundle.putInt("position", list.size()-2);
+                kittingProduct2Fragment.setArguments(bundle);
+                transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
+                transaction.commit();
                 ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
             }
         });
@@ -313,142 +273,29 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_kitting_product;
+        return R.layout.fragment_kitting_product4;
     }
 
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_checkPerson2:
-                pathPopu(ivCheckPerson2);
-                break;
-            case R.id.tv_save:
-                CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
-                List<CheckFileBean> checkFileBeans = checkFileBeanDao.queryBuilder()
-                        .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
-                        .where(CheckFileBeanDao.Properties.DocType.eq(Contents.齐套性检查))
-                        .list();
-                CheckFileBean checkFileBean = new CheckFileBean(checkFileBeans.get(0).getUId(),
-                        checkFileBeans.get(0).getDataPackageId(),
-                        checkFileBeans.get(0).getId(),
-                        checkFileBeans.get(0).getName(),
-                        checkFileBeans.get(0).getCode(),
-                        checkFileBeans.get(0).getDocType(),
-                        checkFileBeans.get(0).getProductType(),
-                        etConclusion.getText().toString().trim(),
-                        checkFileBeans.get(0).getCheckPerson(),
-                        checkFileBeans.get(0).getCheckDate(),
-                        checkFileBeans.get(0).getSortBy(),
-                        checkFileBeans.get(0).getCheckTime(),
-                        checkFileBeans.get(0).getSort(),
-                        checkFileBeans.get(0).getTabsName(),
-                        checkFileBeans.get(0).getAccordFile(),
-                        checkFileBeans.get(0).getSelectEdit(),
-                        checkFileBeans.get(0).getUniqueValue(),
-                        checkFileBeans.get(0).getProductTypeValue(),
-                        checkFileBeans.get(0).getDescription());
-                checkFileBeanDao.update(checkFileBean);
-                ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
-                break;
-        }
-    }
-
-    private LinePathView mPathView;
-
-    private void pathPopu(ImageView iv) {
-        View poview = getLayoutInflater().inflate(R.layout.path_view, null);
-        PopupWindow popupWindow = new PopupWindow(poview);
-        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-        lp.alpha = 0.7f;
-        getActivity().getWindow().setAttributes(lp);
-        popupWindow.showAtLocation(iv, Gravity.TOP, 0, 80);
-
-        popupWindow.setOnDismissListener(() -> {
-            WindowManager.LayoutParams lp1 = getActivity().getWindow().getAttributes();
-            lp1.alpha = 1f;
-            getActivity().getWindow().setAttributes(lp1);
-        });
-
-        mPathView = poview.findViewById(R.id.path_view);
-        TextView mBtnClear = poview.findViewById(R.id.m_btn_clear);
-        TextView mBtnSave = poview.findViewById(R.id.m_btn_save);
-
-        //修改背景、笔宽、颜色
-        mPathView.setBackColor(Color.WHITE);
-        mPathView.setPaintWidth(10);
-        mPathView.setPenColor(Color.BLACK);
-        //清除
-        mBtnClear.setOnClickListener(v -> {
-            mPathView.clear();
-            mPathView.setBackColor(Color.WHITE);
-            mPathView.setPaintWidth(10);
-            mPathView.setPenColor(Color.BLACK);
-        });
-        //保存
-        String path = System.currentTimeMillis() + ".png";
-        mBtnSave.setOnClickListener(v -> {
-            if (mPathView.getTouched()) {
-                try {
-                    mPathView.save(SPUtils.get(getActivity(), "path", "") + File.separator + path, true, 100);
-                    Glide.with(getActivity())
-                            .load(new File(SPUtils.get(getActivity(), "path", "") + File.separator + path))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .into(iv);
-                    Toast.makeText(getActivity(), "签名成功~", Toast.LENGTH_SHORT).show();
-
-                    FileBeanDao fileBeanDao=MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
-                    List<FileBean> fileBeanList=fileBeanDao.queryBuilder()
-                            .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                            .where(FileBeanDao.Properties.DocumentId.eq(checkFileId))
-                            .list();
-                    if (fileBeanList!=null&&!fileBeanList.isEmpty()){
-                        FileUtils.delFile(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath());
-                        FileBean fileBean=new FileBean(fileBeanList.get(0).getUId(),
-                                id,
-                                checkFileId,
-                                checkFileName,
-                                path,
-                                "主内容",
-                                "非密","");
-                        fileBeanDao.update(fileBean);
-                    }else {
-                        FileBean fileBean=new FileBean(null,
-                                id,
-                                checkFileId,
-                                checkFileName,
-                                path,
-                                "主内容",
-                                "非密","");
-                        fileBeanDao.insert(fileBean);
-                    }
-
-                    popupWindow.dismiss();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Toast.makeText(getActivity(), "您没有签名~", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 
     @Override
     public void onDel(int position) {
+        if (list.get(position).getTitle().equals("结论")){
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("是否删除此检查组");
         builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
+                checkGroupBeans = checkGroupBeanDao.queryBuilder()
+                        .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
+                        .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
+                        .list();
+                if (checkGroupBeans.size()<=1){
+                    ToastUtils.getInstance().showTextToast(getActivity(),"不可全部删除");
+                    return;
+                }
                 List<CheckGroupBean> checkGroupBeanList = checkGroupBeanDao.queryBuilder()
                         .where(CheckGroupBeanDao.Properties.DataPackageId.eq(checkGroupBeans.get(position).getDataPackageId()))
                         .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkGroupBeans.get(position).getCheckFileId()))
@@ -468,13 +315,7 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
 
                 checkGroupBeanDao.deleteByKey(checkGroupBeans.get(position).getUId());
 
-                getActivity().startActivity(ChecklistActivity.openIntent(getContext(), true, type,id));
-                getActivity().finish();
-//                list.remove(position);
-//                listTitle.remove(position);
-//                adapter.notifyDataSetChanged();
-//                vp.setOffscreenPageLimit(0);
-//                vp.setCurrentItem(0);
+                addData();
             }
         });
 
@@ -629,12 +470,44 @@ public class KittingProductFragment extends BaseFragment implements View.OnClick
                 addData();
                 adapter.notifyDataSetChanged();
 
-                vp.setOffscreenPageLimit(0);
                 popupWindow.dismiss();
                 ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
             }
         });
 
 
+    }
+
+    @Override
+    public void setTvTb(int position) {
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setCheck(false);
+        }
+        list.get(position).setCheck(true);
+        adapter.notifyDataSetChanged();
+
+        transaction =getChildFragmentManager().beginTransaction();
+        if (list.get(position).getTitle().equals("结论")){
+            SignatureFragment signatureFragment = new SignatureFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            bundle.putString("type", type);
+            signatureFragment.setArguments(bundle);
+            transaction.replace(R.id.fl_vp, signatureFragment);
+        }else {
+            kittingProduct2Fragment = new KittingProduct2Fragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            bundle.putString("checkFileId", checkFileId);
+            bundle.putInt("position", position);
+            kittingProduct2Fragment.setArguments(bundle);
+            transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
+        }
+        transaction.commit();
+    }
+
+    @Override
+    public void setLongTvTb(int position) {
+        onDel(position);
     }
 }

@@ -38,7 +38,7 @@ public class TechnologyFragment extends BaseFragment {
     private TechnologySizeFragment technologySizeFragment;
     private String id;
     private boolean isDel;
-
+    private int pos;
     @Override
     protected void onVisible() {
         super.onVisible();
@@ -49,6 +49,7 @@ public class TechnologyFragment extends BaseFragment {
         Bundle bundle=new Bundle();
         bundle.putString("id", id);
         bundle.putString("type", "4");
+
         technologyFileFragment=new TechnologyFileFragment();
         technologyFileFragment.setArguments(bundle);
         technologySizeFragment=new TechnologySizeFragment();
@@ -64,12 +65,14 @@ public class TechnologyFragment extends BaseFragment {
     protected void initEventAndData() {
         id = getArguments().getString("id");
         isDel = getArguments().getBoolean("isDel");
+        pos= getArguments().getInt("pos");
         listTitle.add("依据文件检查");
         listTitle.add("技术类检查");
 
         Bundle bundle=new Bundle();
         bundle.putString("id", id);
         bundle.putString("type", "4");
+        bundle.putInt("pos", pos);
         technologyFileFragment=new TechnologyFileFragment();
         technologyFileFragment.setArguments(bundle);
         list.add(technologyFileFragment);

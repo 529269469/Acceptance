@@ -150,6 +150,16 @@ public class MainActivity extends BaseActivity {
         intent.putExtra("type",type);
         return intent;
     }
+
+    public static Intent openIntent(Context context,String id,boolean isDel,String type,int pos) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("id",id);
+        intent.putExtra("isDel",isDel);
+        intent.putExtra("type",type);
+        intent.putExtra("pos",pos);
+        return intent;
+    }
+    private int pos;
     private String id;
     private List<TitleBean> list = new ArrayList<>();
 
@@ -162,6 +172,7 @@ public class MainActivity extends BaseActivity {
         id=getIntent().getStringExtra("id");
         isDel=getIntent().getBooleanExtra("isDel",false);
         type=getIntent().getStringExtra("type");
+        pos = getIntent().getIntExtra("pos",0);
         ivGenduo.setOnClickListener(view -> {
             //显示侧滑菜单
             drawerLayout.openDrawer(GravityCompat.START);
@@ -195,6 +206,7 @@ public class MainActivity extends BaseActivity {
                     transaction = getSupportFragmentManager().beginTransaction();
                     kittingFragment = new KittingFragment();
                     bundle.putBoolean("isDel", isDel);
+                    bundle.putInt("pos", pos);
                     kittingFragment.setArguments(bundle);
                     transaction.replace(R.id.frame, kittingFragment);
                     transaction.commit();
@@ -204,6 +216,7 @@ public class MainActivity extends BaseActivity {
                     transaction = getSupportFragmentManager().beginTransaction();
                     courseFragment = new CourseFragment();
                     bundle.putBoolean("isDel", isDel);
+                    bundle.putInt("pos", pos);
                     courseFragment.setArguments(bundle);
                     transaction.replace(R.id.frame, courseFragment);
                     transaction.commit();
@@ -213,11 +226,13 @@ public class MainActivity extends BaseActivity {
                     transaction = getSupportFragmentManager().beginTransaction();
                     technologyFragment = new TechnologyFragment();
                     bundle.putBoolean("isDel", isDel);
+                    bundle.putInt("pos", pos);
                     technologyFragment.setArguments(bundle);
                     transaction.replace(R.id.frame, technologyFragment);
                     transaction.commit();
                     break;
             }
+            pos=0;
         }else {
             transaction = getSupportFragmentManager().beginTransaction();
             particularsFragment = new ParticularsFragment();

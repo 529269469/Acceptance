@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_40"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_add"
+            android:layout_width="@dimen/padding_100"
+            android:layout_height="@dimen/padding_30"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:background="@drawable/shape_text"
+            android:gravity="center"
+            android:text="添加检查租"
+            android:textColor="@color/color_5398F7" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tb"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/padding_10" />
+
+    </LinearLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

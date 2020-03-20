@@ -33,16 +33,16 @@ public class CourseFragment extends BaseFragment {
     private TbAdapter adapter;
     private List<String> listTitle=new ArrayList<>();
     private List<Fragment> list=new ArrayList<>();
-    private StandardFragment standardFragment;
+    private StandardFragment2 standardFragment;
     private String id;
 
+    private int pos;
     @Override
     protected void onVisible() {
         super.onVisible();
         listTitle.clear();
         listTitle.add("过程检查");
-
-        standardFragment=new StandardFragment();
+        standardFragment=new StandardFragment2();
         Bundle bundle=new Bundle();
         bundle.putString("id", id);
         bundle.putString("type", "3");
@@ -55,12 +55,14 @@ public class CourseFragment extends BaseFragment {
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
+        pos= getArguments().getInt("pos");
         listTitle.add("过程检查");
 
-        standardFragment=new StandardFragment();
+        standardFragment=new StandardFragment2();
         Bundle bundle=new Bundle();
         bundle.putString("id", id);
         bundle.putString("type", "3");
+        bundle.putInt("pos", pos);
         standardFragment.setArguments(bundle);
         list.add(standardFragment);
 

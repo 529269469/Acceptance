@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_FFFFFF"
+            android:orientation="vertical">
+
+
+            <View
+                android:layout_marginTop="@dimen/padding_10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/padding_1"
+                android:background="@color/color_000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_24"
+                android:background="@drawable/shape_ed2"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_10">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_24"
+                    android:layout_marginTop="@dimen/padding_20"
+                    android:layout_marginRight="@dimen/padding_24">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_20"
+                        android:text="检查结论"
+                        android:textColor="@color/color_333333" />
+
+                    <EditText
+                        android:id="@+id/et_conclusion"
+                        android:layout_width="700dp"
+                        android:layout_height="@dimen/padding_90"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@drawable/shape_edtext"
+                        android:gravity="top"
+                        android:paddingLeft="@dimen/padding_10"
+                        android:textSize="@dimen/text_font_14" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_24"
+                    android:layout_marginTop="@dimen/padding_20"
+                    android:layout_marginRight="@dimen/padding_24">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="检查人签名"
+                        android:textColor="@color/color_333333" />
+
+                    <ImageView
+                        android:id="@+id/iv_checkPerson2"
+                        android:layout_width="@dimen/padding_300"
+                        android:layout_height="@dimen/padding_90"
+                        android:layout_marginLeft="@dimen/padding_16"
+                        android:background="@drawable/shape_edtext"
+                        android:scaleType="fitXY" />
+
+
+                </LinearLayout>
+
+                <EditText
+                    android:background="@drawable/shape_edtext"
+                    android:id="@+id/tv_signature"
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:layout_marginLeft="@dimen/padding_110"
+                    android:layout_marginBottom="@dimen/padding_100"
+                    android:textColor="@color/color_333333"
+                    android:hint="请验收人签字"
+                    android:layout_width="@dimen/padding_200"
+                    android:layout_height="@dimen/padding_36"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

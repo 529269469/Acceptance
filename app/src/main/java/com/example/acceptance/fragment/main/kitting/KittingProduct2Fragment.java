@@ -129,10 +129,14 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
 
     @Override
     protected void initEventAndData() {
+        tvDel.setFocusable(true);
+        tvDel.setFocusableInTouchMode(true);
+        tvDel.requestFocus();
         id = getArguments().getString("id");
         checkFileId = getArguments().getString("checkFileId");
         position = getArguments().getInt("position");
         type = getArguments().getString("type");
+
         DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
         List<DeliveryListBean> parentIdList = deliveryListBeanDao.queryBuilder()
                 .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))

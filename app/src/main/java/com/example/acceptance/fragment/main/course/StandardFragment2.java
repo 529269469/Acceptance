@@ -5,55 +5,48 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.acceptance.R;
 import com.example.acceptance.activity.ChecklistActivity;
 import com.example.acceptance.adapter.AddZuAdapter;
 import com.example.acceptance.base.BaseFragment;
 import com.example.acceptance.base.MyApplication;
+import com.example.acceptance.bean.TitleBean;
+import com.example.acceptance.fragment.main.kitting.Kitting2Adapter;
 import com.example.acceptance.fragment.main.kitting.KittingAdapter;
 import com.example.acceptance.fragment.main.kitting.KittingProduct2Fragment;
 import com.example.acceptance.fragment.main.kitting.SignatureFragment;
 import com.example.acceptance.greendao.bean.CheckFileBean;
 import com.example.acceptance.greendao.bean.CheckGroupBean;
 import com.example.acceptance.greendao.bean.CheckItemBean;
-import com.example.acceptance.greendao.bean.FileBean;
 import com.example.acceptance.greendao.bean.PropertyBean;
 import com.example.acceptance.greendao.db.CheckFileBeanDao;
 import com.example.acceptance.greendao.db.CheckGroupBeanDao;
 import com.example.acceptance.greendao.db.CheckItemBeanDao;
-import com.example.acceptance.greendao.db.FileBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanDao;
 import com.example.acceptance.net.Contents;
 import com.example.acceptance.utils.DataUtils;
-import com.example.acceptance.utils.FileUtils;
-import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
-import com.example.acceptance.view.ContentViewPager;
-import com.example.acceptance.view.LinePathView;
 import com.example.acceptance.view.MyListView;
 import com.google.android.material.tabs.TabLayout;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -64,68 +57,43 @@ import butterknife.BindView;
  * 过程检查——电气产品——元器件，原材料，标准件检查
  */
 
-public class StandardFragment extends BaseFragment implements  KittingProduct2Fragment.OnDel, KittingProduct2Fragment.OnXiugai {
+public class StandardFragment2 extends BaseFragment implements KittingProduct2Fragment.OnDel, KittingProduct2Fragment.OnXiugai, Kitting2Adapter.OntvTb {
 
-    @BindView(R.id.tb)
-    TabLayout tb;
-    @BindView(R.id.vp)
-    ViewPager2 vp;
     @BindView(R.id.tv_add)
-    TextView tvAdd;
-
+    ImageView tvAdd;
+    @BindView(R.id.re_tb)
+    RecyclerView reTb;
+    @BindView(R.id.fl_vp)
+    FrameLayout flVp;
 
 
     private String id;
-    private List<Fragment> list = new ArrayList<>();
+    private List<TitleBean> list = new ArrayList<>();
     private String checkFileId;
     private List<CheckGroupBean> checkGroupBeans;
-    private KittingAdapter adapter;
     private KittingProduct2Fragment kittingProduct2Fragment;
+    private FragmentTransaction transaction;
     private String type;
     private int pos;
+    private Kitting2Adapter adapter;
+
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
         type = getArguments().getString("type");
-        pos= getArguments().getInt("pos");
+        pos = getArguments().getInt("pos");
+
+        adapter = new Kitting2Adapter(list,getActivity());
+        LinearLayoutManager manager=new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        reTb.setLayoutManager(manager);
+        reTb.setAdapter(adapter);
         addData();
-        adapter = new KittingAdapter(getActivity(), list);
-        vp.setAdapter(adapter);
-
-        tb.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                vp.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        tb.setTabMode(TabLayout.MODE_AUTO);
-
-        vp.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                tb.setScrollPosition(position,0,true);
-            }
-        });
-
-        vp.setOffscreenPageLimit(1);
-
-        if (pos>0){
-            vp.setCurrentItem(pos-1);
-        }
         tvAdd.setOnClickListener(view ->
                 addPopup());
+
+        adapter.setOntvTb(this);
+
 
     }
 
@@ -144,33 +112,34 @@ public class StandardFragment extends BaseFragment implements  KittingProduct2Fr
                     .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
                     .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
                     .list();
-            tb.removeAllTabs();
             list.clear();
-
+            adapter.notifyDataSetChanged();
             for (int i = 0; i < checkGroupBeans.size(); i++) {
-                tb.addTab(tb.newTab().setText(checkGroupBeans.get(i).getGroupName()));
-                kittingProduct2Fragment = new KittingProduct2Fragment();
-                kittingProduct2Fragment.setOnDel(this);
-                kittingProduct2Fragment.setOnXiugai(this);
-                Bundle bundle = new Bundle();
-                bundle.putString("id", id);
-                bundle.putString("checkFileId", checkFileId);
-                bundle.putInt("position", i);
-                kittingProduct2Fragment.setArguments(bundle);
-                list.add(kittingProduct2Fragment);
+                if (i==0){
+                    list.add(new TitleBean(checkGroupBeans.get(i).getGroupName(),true));
+                }else {
+                    list.add(new TitleBean(checkGroupBeans.get(i).getGroupName(),false));
+                }
             }
-            if (checkGroupBeans.size()>0){
-                tb.addTab(tb.newTab().setText("结论"));
-                SignatureFragment signatureFragment=new SignatureFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("id", id);
-                bundle.putString("type", type);
-                signatureFragment.setArguments(bundle);
-                list.add(signatureFragment);
-            }
+            list.add(new TitleBean("结论",false));
+
+            transaction =getChildFragmentManager().beginTransaction();
+            kittingProduct2Fragment = new KittingProduct2Fragment();
+            kittingProduct2Fragment.setOnDel(this);
+            kittingProduct2Fragment.setOnXiugai(this);
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            bundle.putString("checkFileId", checkFileId);
+            bundle.putInt("position", 0);
+            kittingProduct2Fragment.setArguments(bundle);
+            transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
+            transaction.commit();
+
         } else {
             checkFileId = System.currentTimeMillis() + "";
         }
+        adapter.notifyDataSetChanged();
+        reTb.scrollToPosition(0);
 
     }
 
@@ -239,7 +208,7 @@ public class StandardFragment extends BaseFragment implements  KittingProduct2Fr
                         tv_groupName.getText().toString().trim(),
                         "", "",
                         tv_isConclusion.isChecked() + "",
-                        tv_isTable.isChecked() + "", UUID.randomUUID().toString(), DataUtils.getData(),"","","","","");
+                        tv_isTable.isChecked() + "", UUID.randomUUID().toString(), DataUtils.getData(), "", "", "", "", "");
                 checkGroupBeanDao.insert(checkGroupBean);
 
                 PropertyBeanDao propertyBeanDao = MyApplication.getInstances().getPropertyDaoSession().getPropertyBeanDao();
@@ -252,8 +221,22 @@ public class StandardFragment extends BaseFragment implements  KittingProduct2Fr
                 }
 
                 popupWindow.dismiss();
-                getActivity().startActivity(ChecklistActivity.openIntent(getContext(), true, type,id,list.size()));
-                getActivity().finish();
+                for (int i = 0; i < list.size(); i++) {
+                    list.get(i).setCheck(false);
+                }
+                list.add(list.size()-1,new TitleBean(tv_groupName.getText().toString().trim(),true));
+                adapter.notifyDataSetChanged();
+                reTb.scrollToPosition(list.size()-1);
+                transaction =getChildFragmentManager().beginTransaction();
+                kittingProduct2Fragment = new KittingProduct2Fragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("id", id);
+                bundle.putString("checkFileId", checkFileId);
+                bundle.putInt("position", list.size()-2);
+                kittingProduct2Fragment.setArguments(bundle);
+                transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
+                transaction.commit();
+
                 ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
             }
         });
@@ -263,17 +246,30 @@ public class StandardFragment extends BaseFragment implements  KittingProduct2Fr
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_kitting_product3;
+        return R.layout.fragment_kitting_product4;
     }
 
     @Override
     public void onDel(int position) {
+        if (list.get(position).getTitle().equals("结论")){
+            return;
+        }
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("是否删除此检查组");
         builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
+                checkGroupBeans = checkGroupBeanDao.queryBuilder()
+                        .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
+                        .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
+                        .list();
+                if (checkGroupBeans.size()<=1){
+                    ToastUtils.getInstance().showTextToast(getActivity(),"不可全部删除");
+                    return;
+                }
                 List<CheckGroupBean> checkGroupBeanList = checkGroupBeanDao.queryBuilder()
                         .where(CheckGroupBeanDao.Properties.DataPackageId.eq(checkGroupBeans.get(position).getDataPackageId()))
                         .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkGroupBeans.get(position).getCheckFileId()))
@@ -293,13 +289,7 @@ public class StandardFragment extends BaseFragment implements  KittingProduct2Fr
 
                 checkGroupBeanDao.deleteByKey(checkGroupBeans.get(position).getUId());
 
-                getActivity().startActivity(ChecklistActivity.openIntent(getContext(), true, type,id));
-                getActivity().finish();
-//                list.remove(position);
-//                listTitle.remove(position);
-//                adapter.notifyDataSetChanged();
-//                vp.setOffscreenPageLimit(0);
-//                vp.setCurrentItem(0);
+                addData();
             }
         });
 
@@ -406,7 +396,7 @@ public class StandardFragment extends BaseFragment implements  KittingProduct2Fr
                     tv_isConclusion.isChecked() + "",
                     tv_isTable.isChecked() + "",
                     checkGroupBeans2.get(0).getUniqueValue()
-                    , DataUtils.getData(),"","","","","");
+                    , DataUtils.getData(), "", "", "", "", "");
             checkGroupBeanDao.update(checkGroupBean);
 
             PropertyBeanDao propertyBeanDao1 = MyApplication.getInstances().getPropertyDaoSession().getPropertyBeanDao();
@@ -444,13 +434,46 @@ public class StandardFragment extends BaseFragment implements  KittingProduct2Fr
             }
 
             addData();
-            adapter.notifyDataSetChanged();
 
-            vp.setCurrentItem(0);
+
             popupWindow.dismiss();
             ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
         });
 
 
+    }
+
+    @Override
+    public void setTvTb(int position) {
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setCheck(false);
+        }
+        list.get(position).setCheck(true);
+        adapter.notifyDataSetChanged();
+
+        transaction =getChildFragmentManager().beginTransaction();
+        if (list.get(position).getTitle().equals("结论")){
+            SignatureFragment signatureFragment = new SignatureFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            bundle.putString("type", type);
+            signatureFragment.setArguments(bundle);
+            transaction.replace(R.id.fl_vp, signatureFragment);
+        }else {
+            kittingProduct2Fragment = new KittingProduct2Fragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            bundle.putString("checkFileId", checkFileId);
+            bundle.putInt("position", position);
+            kittingProduct2Fragment.setArguments(bundle);
+            transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
+        }
+        transaction.commit();
+
+    }
+
+    @Override
+    public void setLongTvTb(int position) {
+        onDel(position);
     }
 }

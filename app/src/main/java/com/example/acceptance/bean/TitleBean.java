@@ -12,6 +12,11 @@ public class TitleBean {
         this.title = title;
     }
 
+    public TitleBean(String title, boolean isCheck) {
+        this.title = title;
+        this.isCheck = isCheck;
+    }
+
     public String getTitle() {
         return title;
     }

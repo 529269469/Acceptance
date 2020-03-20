@@ -46,15 +46,25 @@ public class ChecklistActivity extends BaseActivity {
         return intent;
     }
 
+    public static Intent openIntent(Context context, boolean isDel, String type, String id,int pos) {
+        Intent intent = new Intent(context, ChecklistActivity.class);
+        intent.putExtra("isDel", isDel);
+        intent.putExtra("type", type);
+        intent.putExtra("id", id);
+        intent.putExtra("pos", pos);
+        return intent;
+    }
+
     private ChecklistAdapter checklistAdapter;
     private List<DataPackageDBean> list = new ArrayList<>();
-
+    private int pos;
     @Override
     protected void initView() {
         ivGenduo.setOnClickListener(view -> finish());
         isDel = getIntent().getBooleanExtra("isDel", false);
         type = getIntent().getStringExtra("type");
         id = getIntent().getStringExtra("id");
+        pos = getIntent().getIntExtra("pos",0);
         DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
         List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.loadAll();
 
@@ -63,7 +73,8 @@ public class ChecklistActivity extends BaseActivity {
         lvChecklist.setAdapter(checklistAdapter);
 
         if (isDel) {
-            startActivity(MainActivity.openIntent(ChecklistActivity.this, id, true, type));
+            startActivity(MainActivity.openIntent(ChecklistActivity.this, id, true, type,pos));
+            pos=0;
             finish();
         }
         lvChecklist.setOnItemClickListener((adapterView, view, i, l) -> {
