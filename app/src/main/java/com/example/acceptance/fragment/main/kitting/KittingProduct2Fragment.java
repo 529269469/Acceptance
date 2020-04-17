@@ -568,6 +568,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         .where(CheckItemBeanDao.Properties.CheckFileId.eq(checkFileId))
                         .where(CheckItemBeanDao.Properties.CheckGroupId.eq(checkGroupId))
                         .list();
+
                 list.clear();
                 list.addAll(checkItemBeans);
                 productAdapter.notifyDataSetChanged();
