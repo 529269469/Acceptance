@@ -63,7 +63,7 @@ import java.util.List;
 public class DaoUtils {
 
 
-    public static void setDao(String id) {
+    public static void setDao( String id,String password) {
         XStream xStream = new XStream();
 
         /**
@@ -419,6 +419,7 @@ public class DaoUtils {
                     checkItemBean.setUniqueValue(checkItemBeans.get(k).getUniqueValue());
                     checkItemBean.setSort(checkItemBeans.get(k).getSort());
                     checkItemBean.setDescription(checkItemBeans.get(k).getDescription());
+                    checkItemBean.setRelate(checkItemBeans.get(k).getRelate());
                     DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX propertySetBeanX=
                             new DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX();
                     List<DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX.PropertyBeanX> Property=new ArrayList<>();
@@ -794,10 +795,15 @@ public class DaoUtils {
         File file=new File(dataPackageDBeans.get(0).getUpLoadFile());
 
         try {
-//            deleteFile(new File(Environment.getExternalStorageDirectory()+"/数据包" + "/" + dataPackageDBeans.get(0).getCode()+".zip"));
 
-            IOUtil.getZipFile(file.listFiles(),Environment.getExternalStorageDirectory()+"/数据包" + "/" + dataPackageDBeans.get(0).getCode()+".zip");
-//            ZipUtils2.ZipFolder(dataPackageDBeans.get(0).getUpLoadFile() , Environment.getExternalStorageDirectory()+"/数据包" + "/" + dataPackageDBeans.get(0).getCode()+".zip");
+            IOUtil.getZipFile(file.listFiles(),Environment.getExternalStorageDirectory()+"/数据包" + "/"+dataPackageDBeans.get(0).getCode()+"/" + dataPackageDBeans.get(0).getCode()+".zip");
+
+            CompressOperate_zip4j compressOperate_zip4j=new CompressOperate_zip4j();
+            compressOperate_zip4j.compressZip4j(Environment.getExternalStorageDirectory()+"/数据包" + "/"+dataPackageDBeans.get(0).getCode()+"/" + dataPackageDBeans.get(0).getCode()+".zip",
+                    Environment.getExternalStorageDirectory()+"/数据包" + "/" + dataPackageDBeans.get(0).getCode()+".zip",
+                    password);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1254,6 +1260,7 @@ public class DaoUtils {
                     checkItemBean.setOptions(checkItemBeans.get(k).getOptions());
                     checkItemBean.setSelected("");
                     checkItemBean.setUniqueValue(checkItemBeans.get(k).getUniqueValue());
+
                     DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX propertySetBeanX=
                             new DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX();
                     List<DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX.PropertyBeanX> Property=new ArrayList<>();

@@ -107,6 +107,9 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
     TextView tvSave;
     @BindView(R.id.tv_signature)
     EditText tvSignature;
+    @BindView(R.id.iv_XX)
+    ImageView iv_XX;
+
     private PopupWindow popupWindow;
     private ProductAdapter productAdapter;
     private String id;
@@ -196,6 +199,11 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                 .where(FileBeanDao.Properties.DocumentId.eq(checkGroupId))
                 .list();
         if (!fileBeanList.isEmpty()) {
+            if (StringUtils.isBlank(fileBeanList.get(0).getPath())){
+                iv_XX.setVisibility(View.GONE);
+            }else {
+                iv_XX.setVisibility(View.VISIBLE);
+            }
             Glide.with(getActivity())
                     .load(new File(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath()))
                     .skipMemoryCache(true)
@@ -300,6 +308,9 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
         tvAdd.setOnClickListener(this);
         tvAdd2.setOnClickListener(this);
         tvSave.setOnClickListener(this);
+        iv_XX.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -370,6 +381,31 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
             case R.id.tv_add2:
                 addAcceptDevicea(true, 0);
                 break;
+            case R.id.iv_XX:
+                FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+                List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
+                        .where(FileBeanDao.Properties.DataPackageId.eq(id))
+                        .where(FileBeanDao.Properties.DocumentId.eq(checkGroupId))
+                        .list();
+                Glide.with(getActivity())
+                        .load("")
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(ivCheckPerson);
+                if (fileBeanList != null && !fileBeanList.isEmpty()) {
+                    FileUtils.delFile(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath());
+                    FileBean fileBean = new FileBean(fileBeanList.get(0).getUId(),
+                            id,
+                            checkGroupId,
+                            "",
+                            "",
+                            "主内容",
+                            "非密", "");
+                    fileBeanDao.update(fileBean);
+                }
+                iv_XX.setVisibility(View.GONE);
+                break;
+
         }
     }
 
@@ -545,7 +581,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         CheckItemId,
                         tv_name.getText().toString().trim(),
                         optionsString,
-                        "", UUID.randomUUID().toString(),list.size()+1+"","");
+                        "", UUID.randomUUID().toString(),list.size()+1+"","","");
                 checkItemBeanDao.insert(checkGroupBean);
 
                 PropertyBeanXDao propertyBeanXDao = MyApplication.getInstances().getPropertyXDaoSession().getPropertyBeanXDao();
@@ -811,7 +847,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         fileBeanDao.insert(fileBean);
                     }
 
-
+                    iv_XX.setVisibility(View.VISIBLE);
                     Toast.makeText(getActivity(), "签名成功~", Toast.LENGTH_SHORT).show();
                     popupWindow.dismiss();
                 } catch (IOException e) {

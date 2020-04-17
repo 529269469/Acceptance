@@ -5,14 +5,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -62,7 +68,11 @@ import com.example.acceptance.greendao.db.PropertyBeanXDao;
 import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
 import com.example.acceptance.greendao.db.UnresolvedBeanDao;
 import com.example.acceptance.loding.LoadingView;
+import com.example.acceptance.utils.CompressOperate_zip4j;
+import com.example.acceptance.utils.DaoUtils;
 import com.example.acceptance.utils.SPUtils;
+import com.example.acceptance.utils.StringUtils;
+import com.example.acceptance.utils.ToastUtils;
 import com.example.acceptance.utils.ZipUtils2;
 import com.example.acceptance.view.MyListView;
 import com.thoughtworks.xstream.XStream;
@@ -101,16 +111,20 @@ public class ToActivity extends BaseActivity {
     private boolean isPath = false;
 
     @SuppressLint("HandlerLeak")
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     helpCenterLoadingPrgbar.setVisibility(View.VISIBLE);
                     break;
                 case 2:
                     helpCenterLoadingPrgbar.setVisibility(View.GONE);
+                    break;
+                case 3:
+                    helpCenterLoadingPrgbar.setVisibility(View.GONE);
+                    ToastUtils.getInstance().showTextToast(ToActivity.this,"密码错误");
                     break;
 
             }
@@ -118,12 +132,14 @@ public class ToActivity extends BaseActivity {
         }
     };
 
+
+    private String password="";
     @Override
     protected void initView() {
         ivGenduo.setOnClickListener(view -> finish());
 
         File files = new File(Environment.getExternalStorageDirectory() + "/数据包");
-        if (!files.exists()){
+        if (!files.exists()) {
             files.mkdirs();
         }
         File[] subFile = files.listFiles();
@@ -148,16 +164,72 @@ public class ToActivity extends BaseActivity {
                     List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
                             .where(DataPackageDBeanDao.Properties.NamePackage.eq(list.get(i).getName()))
                             .list();
+                    View poview = getLayoutInflater().inflate(R.layout.moban, null);
+                    PopupWindow daochu = new PopupWindow(poview);
+                    daochu.setHeight(300);
+                    daochu.setWidth(600);
+                    daochu.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                    daochu.setOutsideTouchable(true);
+                    daochu.setFocusable(true);
+                    WindowManager.LayoutParams lp = getWindow().getAttributes();
+                    lp.alpha = 0.7f;
+                    getWindow().setAttributes(lp);
+                    daochu.showAtLocation(lvChecklist, Gravity.CENTER,0,0);
 
-                    if (dataPackageDBeans != null && !dataPackageDBeans.isEmpty()) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ToActivity.this);
-                        builder.setTitle("数据包已存在，是否覆盖");
-                        builder.setPositiveButton("覆盖！！", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                isPath = true;
+                    daochu.setOnDismissListener(() -> {
+                        WindowManager.LayoutParams lp1 = getWindow().getAttributes();
+                        lp1.alpha = 1f;
+                        getWindow().setAttributes(lp1);
+                    });
+
+                    EditText edit_name=poview.findViewById(R.id.edit_name);
+                    TextView tv_no=poview.findViewById(R.id.tv_no);
+                    TextView tv_yes=poview.findViewById(R.id.tv_yes);
+                    TextView tv_title=poview.findViewById(R.id.tv_title);
+                    tv_title.setText("请输入加密密码");
+
+                    tv_no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            daochu.dismiss();
+                        }
+                    });
+                    tv_yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            daochu.dismiss();
+                            password=edit_name.getText().toString().trim();
+                            if (dataPackageDBeans != null && !dataPackageDBeans.isEmpty()) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ToActivity.this);
+                                builder.setTitle("数据包已存在，是否覆盖");
+                                builder.setPositiveButton("覆盖！！", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        isPath = true;
+                                        handler.sendEmptyMessage(1);
+                                        new Thread() {
+                                            @Override
+                                            public void run() {
+                                                getJieya(list.get(i).getPath());
+                                                //需要在子线程中处理的逻辑
+                                            }
+                                        }.start();
+
+                                    }
+                                });
+                                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        isPath = false;
+                                    }
+                                });
+                                builder.show();
+
+                            } else {
+                                isPath = false;
                                 handler.sendEmptyMessage(1);
-                                new Thread(){
+                                new Thread() {
                                     @Override
                                     public void run() {
                                         getJieya(list.get(i).getPath());
@@ -165,30 +237,10 @@ public class ToActivity extends BaseActivity {
                                     }
                                 }.start();
 
-
-
                             }
-                        });
-                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                isPath = false;
-                            }
-                        });
-                        builder.show();
+                        }
+                    });
 
-                    } else {
-                        isPath = false;
-                        handler.sendEmptyMessage(1);
-                        new Thread(){
-                            @Override
-                            public void run() {
-                                getJieya(list.get(i).getPath());
-                                //需要在子线程中处理的逻辑
-                            }
-                        }.start();
-
-                    }
 
 
                 }
@@ -207,13 +259,41 @@ public class ToActivity extends BaseActivity {
             Log.e("TAG", "upLoadFileName: " + upLoadFileName);
             String upLoadFile = upLoadFilePath.substring(0, upLoadFilePath.length() - 4);
             Log.e("TAG", "upLoadFile: " + upLoadFile);
+
             try {
-                ZipUtils2.UnZipFolder(upLoadFilePath, upLoadFile);
+                CompressOperate_zip4j compressOperate_zip4j = new CompressOperate_zip4j();
+                compressOperate_zip4j.uncompressZip4j(upLoadFilePath, upLoadFile, password);
+
+                int eee=compressOperate_zip4j.uncompressZip4j(upLoadFile + "/" + upLoadFileName, upLoadFile, password);
+                //casic12345
+                Log.e("TAG", "eee: "+eee);
+
+                if (eee==0){
+                    deleteFile(new File(upLoadFile + "/" + upLoadFileName));
+                    Log.e("TAG", "getJieya: "+upLoadFile + "/" + upLoadFileName );
+                    filePath(upLoadFile, upLoadFileName);
+                }else {
+                    handler.sendEmptyMessage(3);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            filePath(upLoadFile, upLoadFileName);
 
+
+        }
+    }
+
+    //flie：要删除的文件夹的所在位置
+    private static void deleteFile(File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                File f = files[i];
+                deleteFile(f);
+            }
+            file.delete();//如要保留文件夹，只删除文件，请注释这行
+        } else if (file.exists()) {
+            file.delete();
         }
     }
 
@@ -356,7 +436,7 @@ public class ToActivity extends BaseActivity {
                     dataPackageBean.getCheckApply().getAcceptorDept());
             checkApplyBeanDao.insert(checkApplyBean);
 
-            for (int i = 0; i <dataPackageBean.getCheckApply().getFileSet().getFile().size() ; i++) {
+            for (int i = 0; i < dataPackageBean.getCheckApply().getFileSet().getFile().size(); i++) {
                 FileBean fileBean = new FileBean(null,
                         dataPackageBean.getId(),
                         dataPackageBean.getCheckApply().getId(),
@@ -432,7 +512,7 @@ public class ToActivity extends BaseActivity {
             }
 
         }
-        if (dataPackageBean.getApplyItemSet()!=null&&dataPackageBean.getApplyItemSet().getApplyItem()!=null&&dataPackageBean.getApplyItemSet().getApplyItem().size()!=0){
+        if (dataPackageBean.getApplyItemSet() != null && dataPackageBean.getApplyItemSet().getApplyItem() != null && dataPackageBean.getApplyItemSet().getApplyItem().size() != 0) {
             for (int i = 0; i < dataPackageBean.getApplyItemSet().getApplyItem().size(); i++) {
                 ApplyItemBean applyItemBean = new ApplyItemBean(null,
                         dataPackageBean.getId(),
@@ -545,7 +625,7 @@ public class ToActivity extends BaseActivity {
             checkFileBeanDao.insert(checkFileBean);
 
             try {
-                for (int j = 0; j <dataPackageBean.getCheckFileSet().getCheckFile().get(i).getFileSet().getFile().size() ; j++) {
+                for (int j = 0; j < dataPackageBean.getCheckFileSet().getCheckFile().get(i).getFileSet().getFile().size(); j++) {
                     FileBean fileBean = new FileBean(null,
                             dataPackageBean.getId(),
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getId(),
@@ -556,7 +636,7 @@ public class ToActivity extends BaseActivity {
                             dataPackageBean.getCheckFileSet().getCheckFile().get(i).getFileSet().getFile().get(j).getDisabledSecret());
                     fileBeanDao.insert(fileBean);
                 }
-            }catch (Exception io){
+            } catch (Exception io) {
 
             }
 
@@ -583,7 +663,7 @@ public class ToActivity extends BaseActivity {
                     checkGroupBeanDao.insert(checkGroupBean);
 
                     try {
-                        for (int k = 0; k <dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getFileSet().getFile().size() ; k++) {
+                        for (int k = 0; k < dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getFileSet().getFile().size(); k++) {
                             FileBean fileBean = new FileBean(null,
                                     dataPackageBean.getId(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getId(),
@@ -594,7 +674,7 @@ public class ToActivity extends BaseActivity {
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getFileSet().getFile().get(k).getDisabledSecret());
                             fileBeanDao.insert(fileBean);
                         }
-                    }catch (Exception io){
+                    } catch (Exception io) {
 
                     }
 
@@ -646,7 +726,8 @@ public class ToActivity extends BaseActivity {
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getUniqueValue(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSort(),
-                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getDescription());
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getDescription(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getRelate());
                             checkItemBeanDao.insert(checkItemBean);
 
                             try {
@@ -720,7 +801,7 @@ public class ToActivity extends BaseActivity {
         checkVerdBeanDao.insert(checkVerdBean);
 
         try {
-            for (int k = 0; k <dataPackageBean.getCheckVerd().getFileSet().getFile().size() ; k++) {
+            for (int k = 0; k < dataPackageBean.getCheckVerd().getFileSet().getFile().size(); k++) {
                 FileBean fileBean = new FileBean(null,
                         dataPackageBean.getId(),
                         dataPackageBean.getCheckVerd().getId(),
@@ -731,7 +812,7 @@ public class ToActivity extends BaseActivity {
                         dataPackageBean.getCheckVerd().getFileSet().getFile().get(k).getDisabledSecret());
                 fileBeanDao.insert(fileBean);
             }
-        }catch (Exception io){
+        } catch (Exception io) {
 
         }
 
@@ -876,8 +957,8 @@ public class ToActivity extends BaseActivity {
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getInfoUrl(),
                             dataPackageBean.getDocumentListSet().getDocument().get(i).getUniqueValue());
                     documentBeanDao.insert(documentBean);
-                }catch (Exception ex){}
-
+                } catch (Exception ex) {
+                }
 
 
                 try {
@@ -892,7 +973,7 @@ public class ToActivity extends BaseActivity {
                                 dataPackageBean.getDocumentListSet().getDocument().get(i).getFileSet().getFile().get(j).getDisabledSecret());
                         fileBeanDao.insert(fileBean);
                     }
-                }catch (Exception ex){
+                } catch (Exception ex) {
 
                 }
 

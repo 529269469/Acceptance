@@ -22,12 +22,15 @@ public class CheckItemBean {
     private String uniqueValue;
     private String sort;
     private String description;
+    private String relate;
 
 
-    @Generated(hash = 349371578)
+
+    @Generated(hash = 1980801197)
     public CheckItemBean(Long uId, String dataPackageId, String checkFileId,
             String checkGroupId, String id, String name, String options,
-            String selected, String uniqueValue, String sort, String description) {
+            String selected, String uniqueValue, String sort, String description,
+            String relate) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.checkFileId = checkFileId;
@@ -39,10 +42,12 @@ public class CheckItemBean {
         this.uniqueValue = uniqueValue;
         this.sort = sort;
         this.description = description;
+        this.relate = relate;
     }
     @Generated(hash = 1394073385)
     public CheckItemBean() {
     }
+
 
     
     public Long getUId() {
@@ -110,6 +115,12 @@ public class CheckItemBean {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public String getRelate() {
+        return this.relate;
+    }
+    public void setRelate(String relate) {
+        this.relate = relate;
     }
 
 

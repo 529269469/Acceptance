@@ -69,7 +69,8 @@ public class SignatureFragment extends BaseFragment implements View.OnClickListe
     ImageView ivCheckPerson2;
     @BindView(R.id.tv_signature)
     EditText tvSignature;
-
+    @BindView(R.id.iv_XX)
+    ImageView iv_XX;
 
     private String id;
     private List<String> listTitle = new ArrayList<>();
@@ -89,7 +90,7 @@ public class SignatureFragment extends BaseFragment implements View.OnClickListe
         etConclusion.addTextChangedListener(textWatcher);
         ivCheckPerson2.setOnClickListener(this);
 
-
+        iv_XX.setOnClickListener(this);
     }
 
     private String docType = "";
@@ -122,6 +123,11 @@ public class SignatureFragment extends BaseFragment implements View.OnClickListe
                     .list();
 
             if (!fileBeanList.isEmpty()) {
+                if (StringUtils.isBlank(fileBeanList.get(0).getPath())){
+                    iv_XX.setVisibility(View.GONE);
+                }else {
+                    iv_XX.setVisibility(View.VISIBLE);
+                }
                 Glide.with(getActivity())
                         .load(new File(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath()))
                         .skipMemoryCache(true)
@@ -202,6 +208,30 @@ public class SignatureFragment extends BaseFragment implements View.OnClickListe
             case R.id.iv_checkPerson2:
                 pathPopu(ivCheckPerson2);
                 break;
+            case R.id.iv_XX:
+                FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+                List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
+                        .where(FileBeanDao.Properties.DataPackageId.eq(id))
+                        .where(FileBeanDao.Properties.DocumentId.eq(checkFileId))
+                        .list();
+                Glide.with(getActivity())
+                        .load("")
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(ivCheckPerson2);
+                if (fileBeanList != null && !fileBeanList.isEmpty()) {
+                    FileUtils.delFile(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath());
+                    FileBean fileBean = new FileBean(fileBeanList.get(0).getUId(),
+                            id,
+                            checkFileId,
+                            "",
+                            "",
+                            "主内容",
+                            "非密", "");
+                    fileBeanDao.update(fileBean);
+                }
+                iv_XX.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -280,7 +310,7 @@ public class SignatureFragment extends BaseFragment implements View.OnClickListe
                         fileBeanDao.insert(fileBean);
                     }
                     popupWindow.dismiss();
-
+                    iv_XX.setVisibility(View.VISIBLE);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

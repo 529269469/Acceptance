@@ -101,6 +101,8 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
     TextView tvAdd2;
     @BindView(R.id.tv_signature)
     EditText tv_signature;
+    @BindView(R.id.iv_XX)
+    ImageView iv_XX;
 
     private PopupWindow popupWindow;
     private LinePathView mPathView;
@@ -150,6 +152,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
 
         }
     };
+    private String checkVerdBeansId;
 
     @Override
     protected void initEventAndData() {
@@ -157,6 +160,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
         ivSignature.setOnClickListener(this);
         tvSave.setOnClickListener(this);
         tvAdd2.setOnClickListener(this);
+        iv_XX.setOnClickListener(this);
         CheckVerdBeanDao checkVerdBeanDao = MyApplication.getInstances().getCheckVerdDaoSession().getCheckVerdBeanDao();
         List<CheckVerdBean> checkVerdBeans = checkVerdBeanDao.queryBuilder()
                 .where(CheckVerdBeanDao.Properties.DataPackageId.eq(id))
@@ -185,13 +189,18 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
         etJConclusion.setText(checkFileBeans3.get(0).getConclusion());
 
         tv_signature.addTextChangedListener(textWatcher);
-
+        checkVerdBeansId = checkVerdBeans.get(0).getId();
         FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
         List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                 .where(FileBeanDao.Properties.DataPackageId.eq(id))
-                .where(FileBeanDao.Properties.DocumentId.eq(checkVerdBeans.get(0).getId()))
+                .where(FileBeanDao.Properties.DocumentId.eq(checkVerdBeansId))
                 .list();
         if (!fileBeanList.isEmpty() && !StringUtils.isBlank(fileBeanList.get(0).getPath())) {
+            if (StringUtils.isBlank(fileBeanList.get(0).getPath())){
+                iv_XX.setVisibility(View.GONE);
+            }else {
+                iv_XX.setVisibility(View.VISIBLE);
+            }
             Glide.with(getActivity())
                     .load(new File(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath()))
                     .skipMemoryCache(true)
@@ -261,6 +270,30 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                 break;
             case R.id.tv_add2:
                 addUnresolvedSet(true, 0);
+                break;
+            case R.id.iv_XX:
+                FileBeanDao fileBeanDao = MyApplication.getInstances().getFileDaoSession().getFileBeanDao();
+                List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
+                        .where(FileBeanDao.Properties.DataPackageId.eq(id))
+                        .where(FileBeanDao.Properties.DocumentId.eq(checkVerdBeansId))
+                        .list();
+                Glide.with(getActivity())
+                        .load("")
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(ivSignature);
+                if (fileBeanList != null && !fileBeanList.isEmpty()) {
+                    FileUtils.delFile(SPUtils.get(getActivity(), "path", "") + File.separator + fileBeanList.get(0).getPath());
+                    FileBean fileBean = new FileBean(fileBeanList.get(0).getUId(),
+                            id,
+                            checkVerdBeansId,
+                            "",
+                            "",
+                            "主内容",
+                            "非密", "");
+                    fileBeanDao.update(fileBean);
+                }
+                iv_XX.setVisibility(View.GONE);
                 break;
         }
     }
@@ -573,7 +606,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 "非密","");
                         fileBeanDao.insert(fileBean);
                     }
-
+                    iv_XX.setVisibility(View.VISIBLE);
 
                     popupWindow.dismiss();
                 } catch (IOException e) {

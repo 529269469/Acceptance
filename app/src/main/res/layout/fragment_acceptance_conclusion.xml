@@ -282,6 +282,14 @@
                 android:background="@drawable/shape_edtext"
                 android:layout_width="@dimen/padding_300"
                 android:layout_height="@dimen/padding_90"/>
+            <ImageView
+                android:visibility="gone"
+                android:background="@drawable/del"
+                android:layout_marginLeft="-15dp"
+                android:scaleType="fitXY"
+                android:id="@+id/iv_XX"
+                android:layout_width="@dimen/padding_30"
+                android:layout_height="@dimen/padding_30" />
         </LinearLayout>
 
         <EditText

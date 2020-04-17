@@ -1450,6 +1450,15 @@ public class DataPackageBean {
 
                             private String sort;
                             private String description;
+                            private String relate;
+
+                            public String getRelate() {
+                                return relate;
+                            }
+
+                            public void setRelate(String relate) {
+                                this.relate = relate;
+                            }
 
                             public String getDescription() {
                                 return description;

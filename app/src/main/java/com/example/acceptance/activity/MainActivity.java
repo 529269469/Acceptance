@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,6 +44,7 @@ import com.example.acceptance.fragment.main.TaskFragment;
 import com.example.acceptance.fragment.main.course.CourseFragment;
 import com.example.acceptance.fragment.main.kitting.KittingFragment;
 import com.example.acceptance.fragment.main.technology.TechnologyFragment;
+import com.example.acceptance.utils.CompressOperate_zip4j;
 import com.example.acceptance.utils.DaoUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
@@ -376,15 +378,53 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                handler.sendEmptyMessage(1);
-                new Thread(){
+                View poview = getLayoutInflater().inflate(R.layout.moban, null);
+                PopupWindow daochu = new PopupWindow(poview);
+                daochu.setHeight(300);
+                daochu.setWidth(600);
+                daochu.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                daochu.setOutsideTouchable(true);
+                daochu.setFocusable(true);
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 0.7f;
+                getWindow().setAttributes(lp);
+                daochu.showAtLocation(ivGenduo, Gravity.CENTER,0,0);
+
+                daochu.setOnDismissListener(() -> {
+                    WindowManager.LayoutParams lp1 = getWindow().getAttributes();
+                    lp1.alpha = 1f;
+                    getWindow().setAttributes(lp1);
+                });
+
+                EditText edit_name=poview.findViewById(R.id.edit_name);
+                TextView tv_no=poview.findViewById(R.id.tv_no);
+                TextView tv_yes=poview.findViewById(R.id.tv_yes);
+                TextView tv_title=poview.findViewById(R.id.tv_title);
+                tv_title.setText("请输入加密密码");
+
+                tv_no.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void run() {
-                        DaoUtils.setDao(id);
-                        handler.sendEmptyMessage(2);
-                        //需要在子线程中处理的逻辑
+                    public void onClick(View view) {
+                        daochu.dismiss();
                     }
-                }.start();
+                });
+                tv_yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        handler.sendEmptyMessage(1);
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                DaoUtils.setDao(id,edit_name.getText().toString().trim());
+                                handler.sendEmptyMessage(2);
+                                //需要在子线程中处理的逻辑
+                            }
+                        }.start();
+                    }
+                });
+
+
+
 
             }
         });

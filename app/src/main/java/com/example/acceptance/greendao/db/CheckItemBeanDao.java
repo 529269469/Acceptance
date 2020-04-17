@@ -35,6 +35,7 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         public final static Property UniqueValue = new Property(8, String.class, "uniqueValue", false, "UNIQUE_VALUE");
         public final static Property Sort = new Property(9, String.class, "sort", false, "SORT");
         public final static Property Description = new Property(10, String.class, "description", false, "DESCRIPTION");
+        public final static Property Relate = new Property(11, String.class, "relate", false, "RELATE");
     }
 
 
@@ -60,7 +61,8 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
                 "\"SELECTED\" TEXT," + // 7: selected
                 "\"UNIQUE_VALUE\" TEXT," + // 8: uniqueValue
                 "\"SORT\" TEXT," + // 9: sort
-                "\"DESCRIPTION\" TEXT);"); // 10: description
+                "\"DESCRIPTION\" TEXT," + // 10: description
+                "\"RELATE\" TEXT);"); // 11: relate
     }
 
     /** Drops the underlying database table. */
@@ -127,6 +129,11 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         if (description != null) {
             stmt.bindString(11, description);
         }
+ 
+        String relate = entity.getRelate();
+        if (relate != null) {
+            stmt.bindString(12, relate);
+        }
     }
 
     @Override
@@ -187,6 +194,11 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         if (description != null) {
             stmt.bindString(11, description);
         }
+ 
+        String relate = entity.getRelate();
+        if (relate != null) {
+            stmt.bindString(12, relate);
+        }
     }
 
     @Override
@@ -207,7 +219,8 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // selected
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // uniqueValue
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // sort
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // description
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // description
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11) // relate
         );
         return entity;
     }
@@ -225,6 +238,7 @@ public class CheckItemBeanDao extends AbstractDao<CheckItemBean, Long> {
         entity.setUniqueValue(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setSort(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setDescription(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setRelate(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
      }
     
     @Override
