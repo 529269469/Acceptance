@@ -283,15 +283,14 @@ public class DaoUtils {
             checkFileBean.setName(checkFileBeans.get(i).getName());
             checkFileBean.setCheckDate(checkFileBeans.get(i).getCheckDate());
             checkFileBean.setSortBy(checkFileBeans.get(i).getSortBy());
-
-            checkFileBean.setCheckTime(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setSort(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setTabsName(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setAccordFile(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setSelectEdit(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setUniqueValue(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setProductTypeValue(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setDescription(checkFileBeans.get(i).getSortBy());
+            checkFileBean.setCheckTime(checkFileBeans.get(i).getCheckTime());
+            checkFileBean.setSort(checkFileBeans.get(i).getSort());
+            checkFileBean.setTabsName(checkFileBeans.get(i).getTabsName());
+            checkFileBean.setAccordFile(checkFileBeans.get(i).getAccordFile());
+            checkFileBean.setSelectEdit(checkFileBeans.get(i).getSelectEdit());
+            checkFileBean.setUniqueValue(checkFileBeans.get(i).getUniqueValue());
+            checkFileBean.setProductTypeValue(checkFileBeans.get(i).getProductTypeValue());
+            checkFileBean.setDescription(checkFileBeans.get(i).getDescription());
 
 
             DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean fileSetBean=
@@ -418,6 +417,8 @@ public class DaoUtils {
                     checkItemBean.setOptions(checkItemBeans.get(k).getOptions());
                     checkItemBean.setSelected(checkItemBeans.get(k).getSelected());
                     checkItemBean.setUniqueValue(checkItemBeans.get(k).getUniqueValue());
+                    checkItemBean.setSort(checkItemBeans.get(k).getSort());
+                    checkItemBean.setDescription(checkItemBeans.get(k).getDescription());
                     DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX propertySetBeanX=
                             new DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX();
                     List<DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX.PropertyBeanX> Property=new ArrayList<>();
@@ -544,6 +545,7 @@ public class DaoUtils {
             checkVerdBean.setqConclusion(checkVerdBeans.get(i).getQConclusion());
             checkVerdBean.setCheckPersonId(checkVerdBeans.get(i).getCheckPersonId());
             checkVerdBean.setCheckDate(checkVerdBeans.get(i).getCheckDate());
+            checkVerdBean.setyConclusion(checkVerdBeans.get(i).getYConclusion());
             xStream.alias("checkVerd", DataPackageBean.CheckVerdBean.class);//为类名节点重命名
             xStream.useAttributeFor(DataPackageBean.CheckVerdBean.class, "id");
 
@@ -1147,15 +1149,14 @@ public class DaoUtils {
             checkFileBean.setProductType(checkFileBeans.get(i).getProductType());
             checkFileBean.setCheckDate(checkFileBeans.get(i).getCheckDate());
             checkFileBean.setSortBy(checkFileBeans.get(i).getSortBy());
-
-            checkFileBean.setCheckTime(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setSort(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setTabsName(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setAccordFile(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setSelectEdit(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setUniqueValue(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setProductTypeValue(checkFileBeans.get(i).getSortBy());
-            checkFileBean.setDescription(checkFileBeans.get(i).getSortBy());
+            checkFileBean.setCheckTime(checkFileBeans.get(i).getCheckTime());
+            checkFileBean.setSort(checkFileBeans.get(i).getSort());
+            checkFileBean.setTabsName(checkFileBeans.get(i).getTabsName());
+            checkFileBean.setAccordFile(checkFileBeans.get(i).getAccordFile());
+            checkFileBean.setSelectEdit(checkFileBeans.get(i).getSelectEdit());
+            checkFileBean.setUniqueValue(checkFileBeans.get(i).getUniqueValue());
+            checkFileBean.setProductTypeValue(checkFileBeans.get(i).getProductTypeValue());
+            checkFileBean.setDescription(checkFileBeans.get(i).getDescription());
 
             DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean fileSetBean=
                     new DataPackageBean.DocumentListSetBean.DocumentBean.FileSetBean();
@@ -1253,7 +1254,6 @@ public class DaoUtils {
                     checkItemBean.setOptions(checkItemBeans.get(k).getOptions());
                     checkItemBean.setSelected("");
                     checkItemBean.setUniqueValue(checkItemBeans.get(k).getUniqueValue());
-
                     DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX propertySetBeanX=
                             new DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX();
                     List<DataPackageBean.CheckFileSetBean.CheckFileBean.CheckGroupSetBean.CheckGroupBean.CheckItemSetBean.CheckItemBean.PropertySetBeanX.PropertyBeanX> Property=new ArrayList<>();
@@ -1356,6 +1356,7 @@ public class DaoUtils {
             checkVerdBean.setqConclusion("");
             checkVerdBean.setCheckPersonId(checkVerdBeans.get(i).getCheckPersonId());
             checkVerdBean.setCheckDate(checkVerdBeans.get(i).getCheckDate());
+            checkVerdBean.setyConclusion("");
             xStream.alias("checkVerd", DataPackageBean.CheckVerdBean.class);//为类名节点重命名
             xStream.useAttributeFor(DataPackageBean.CheckVerdBean.class, "id");
         }

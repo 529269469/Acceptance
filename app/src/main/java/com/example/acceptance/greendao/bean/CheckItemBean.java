@@ -20,14 +20,14 @@ public class CheckItemBean {
     private String options;
     private String selected;
     private String uniqueValue;
+    private String sort;
+    private String description;
 
 
-
-
-    @Generated(hash = 1367611056)
+    @Generated(hash = 349371578)
     public CheckItemBean(Long uId, String dataPackageId, String checkFileId,
             String checkGroupId, String id, String name, String options,
-            String selected, String uniqueValue) {
+            String selected, String uniqueValue, String sort, String description) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.checkFileId = checkFileId;
@@ -37,14 +37,14 @@ public class CheckItemBean {
         this.options = options;
         this.selected = selected;
         this.uniqueValue = uniqueValue;
+        this.sort = sort;
+        this.description = description;
     }
     @Generated(hash = 1394073385)
     public CheckItemBean() {
     }
 
-
-
-
+    
     public Long getUId() {
         return this.uId;
     }
@@ -98,6 +98,18 @@ public class CheckItemBean {
     }
     public void setUniqueValue(String uniqueValue) {
         this.uniqueValue = uniqueValue;
+    }
+    public String getSort() {
+        return this.sort;
+    }
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+    public String getDescription() {
+        return this.description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 

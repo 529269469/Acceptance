@@ -37,6 +37,7 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
         public final static Property DocTypeVal = new Property(10, String.class, "docTypeVal", false, "DOC_TYPE_VAL");
         public final static Property CheckPersonId = new Property(11, String.class, "checkPersonId", false, "CHECK_PERSON_ID");
         public final static Property CheckDate = new Property(12, String.class, "checkDate", false, "CHECK_DATE");
+        public final static Property YConclusion = new Property(13, String.class, "yConclusion", false, "Y_CONCLUSION");
     }
 
 
@@ -64,7 +65,8 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
                 "\"CHECK_PERSON\" TEXT," + // 9: checkPerson
                 "\"DOC_TYPE_VAL\" TEXT," + // 10: docTypeVal
                 "\"CHECK_PERSON_ID\" TEXT," + // 11: checkPersonId
-                "\"CHECK_DATE\" TEXT);"); // 12: checkDate
+                "\"CHECK_DATE\" TEXT," + // 12: checkDate
+                "\"Y_CONCLUSION\" TEXT);"); // 13: yConclusion
     }
 
     /** Drops the underlying database table. */
@@ -141,6 +143,11 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
         if (checkDate != null) {
             stmt.bindString(13, checkDate);
         }
+ 
+        String yConclusion = entity.getYConclusion();
+        if (yConclusion != null) {
+            stmt.bindString(14, yConclusion);
+        }
     }
 
     @Override
@@ -211,6 +218,11 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
         if (checkDate != null) {
             stmt.bindString(13, checkDate);
         }
+ 
+        String yConclusion = entity.getYConclusion();
+        if (yConclusion != null) {
+            stmt.bindString(14, yConclusion);
+        }
     }
 
     @Override
@@ -233,7 +245,8 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // checkPerson
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // docTypeVal
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // checkPersonId
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // checkDate
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // checkDate
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // yConclusion
         );
         return entity;
     }
@@ -253,6 +266,7 @@ public class CheckVerdBeanDao extends AbstractDao<CheckVerdBean, Long> {
         entity.setDocTypeVal(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setCheckPersonId(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setCheckDate(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setYConclusion(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
      }
     
     @Override

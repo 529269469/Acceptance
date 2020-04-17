@@ -142,7 +142,8 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             tv_signature.getText().toString().trim(),
                             checkVerdBeans.get(0).getDocTypeVal(),
                             checkVerdBeans.get(0).getCheckPersonId(),
-                            checkVerdBeans.get(0).getCheckDate());
+                            checkVerdBeans.get(0).getCheckDate(),
+                            checkVerdBeans.get(0).getYConclusion());
                     checkVerdBeanDao.update(checkVerdBean);
                 }
             }
@@ -521,7 +522,8 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 tv_signature.getText().toString().trim(),
                                 checkVerdBeans.get(0).getDocTypeVal(),
                                 checkVerdBeans.get(0).getCheckPersonId(),
-                                checkVerdBeans.get(0).getCheckDate());
+                                checkVerdBeans.get(0).getCheckDate(),
+                                checkVerdBeans.get(0).getYConclusion());
                         checkVerdBeanDao.update(checkVerdBean);
                         List<FileBean> fileBeanList = fileBeanDao.queryBuilder()
                                 .where(FileBeanDao.Properties.DataPackageId.eq(id))
@@ -559,7 +561,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                                 etGConclusion.getText().toString().trim(),
                                 etJConclusion.getText().toString().trim(),
                                 "",
-                                SPUtils.get(getActivity(), "path", "") + File.separator + path, "","","");
+                                SPUtils.get(getActivity(), "path", "") + File.separator + path, "","","","");
                         checkVerdBeanDao.insert(checkVerdBean);
 
                         FileBean fileBean = new FileBean(null,

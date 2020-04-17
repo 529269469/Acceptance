@@ -432,25 +432,28 @@ public class ToActivity extends BaseActivity {
             }
 
         }
-        for (int i = 0; i < dataPackageBean.getApplyItemSet().getApplyItem().size(); i++) {
-            ApplyItemBean applyItemBean = new ApplyItemBean(null,
-                    dataPackageBean.getId(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getId(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductCodeName(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductCode(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductStatus(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getCheckCount(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsPureCheck(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsArmyCheck(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsCompleteChoice(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsCompleteRoutine(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsSatisfyRequire(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getDescription(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductName(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getPassCheck(),
-                    dataPackageBean.getApplyItemSet().getApplyItem().get(i).getUniqueValue());
-            applyItemBeanDao.insert(applyItemBean);
+        if (dataPackageBean.getApplyItemSet()!=null&&dataPackageBean.getApplyItemSet().getApplyItem()!=null&&dataPackageBean.getApplyItemSet().getApplyItem().size()!=0){
+            for (int i = 0; i < dataPackageBean.getApplyItemSet().getApplyItem().size(); i++) {
+                ApplyItemBean applyItemBean = new ApplyItemBean(null,
+                        dataPackageBean.getId(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getId(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductCodeName(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductCode(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductStatus(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getCheckCount(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsPureCheck(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsArmyCheck(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsCompleteChoice(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsCompleteRoutine(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getIsSatisfyRequire(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getDescription(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getProductName(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getPassCheck(),
+                        dataPackageBean.getApplyItemSet().getApplyItem().get(i).getUniqueValue());
+                applyItemBeanDao.insert(applyItemBean);
+            }
         }
+
 
         CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
         if (isPath) {
@@ -641,7 +644,9 @@ public class ToActivity extends BaseActivity {
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getName(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getOptions(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected(),
-                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getUniqueValue());
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getUniqueValue(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSort(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getDescription());
                             checkItemBeanDao.insert(checkItemBean);
 
                             try {
@@ -710,7 +715,8 @@ public class ToActivity extends BaseActivity {
                 dataPackageBean.getCheckVerd().getCheckPerson(),
                 dataPackageBean.getCheckVerd().getDocTypeVal(),
                 dataPackageBean.getCheckVerd().getCheckPersonId(),
-                dataPackageBean.getCheckVerd().getCheckDate());
+                dataPackageBean.getCheckVerd().getCheckDate(),
+                dataPackageBean.getCheckVerd().getyConclusion());
         checkVerdBeanDao.insert(checkVerdBean);
 
         try {

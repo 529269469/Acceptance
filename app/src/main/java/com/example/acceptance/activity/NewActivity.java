@@ -536,7 +536,9 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getName(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getOptions(),
                                     dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSelected(),
-                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getUniqueValue());
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getUniqueValue(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getSort(),
+                                    dataPackageBean.getCheckFileSet().getCheckFile().get(i).getCheckGroupSet().getCheckGroup().get(j).getCheckItemSet().getCheckItem().get(k).getDescription());
                             checkItemBeanDao.insert(checkItemBean);
 
                             try {
@@ -597,7 +599,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                 dataPackageBean.getCheckVerd().getCheckPerson(),
                 dataPackageBean.getCheckVerd().getDocTypeVal(),
                 dataPackageBean.getCheckVerd().getCheckPersonId(),
-                dataPackageBean.getCheckVerd().getCheckDate());
+                dataPackageBean.getCheckVerd().getCheckDate(),
+                dataPackageBean.getCheckVerd().getyConclusion());
         checkVerdBeanDao.insert(checkVerdBean);
 
         CheckUnresolvedBeanDao checkUnresolvedBeanDao = MyApplication.getInstances().getCheckUnresolvedDaoSession().getCheckUnresolvedBeanDao();

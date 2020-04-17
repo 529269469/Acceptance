@@ -24,13 +24,15 @@ public class CheckVerdBean {
     private String docTypeVal;
     private String checkPersonId;
     private String checkDate;
+    private String yConclusion;
 
 
-    @Generated(hash = 1322017854)
+
+    @Generated(hash = 1082600316)
     public CheckVerdBean(Long uId, String dataPackageId, String id, String name,
             String code, String qConclusion, String gConclusion, String jConclusion,
             String conclusion, String checkPerson, String docTypeVal,
-            String checkPersonId, String checkDate) {
+            String checkPersonId, String checkDate, String yConclusion) {
         this.uId = uId;
         this.dataPackageId = dataPackageId;
         this.id = id;
@@ -44,10 +46,12 @@ public class CheckVerdBean {
         this.docTypeVal = docTypeVal;
         this.checkPersonId = checkPersonId;
         this.checkDate = checkDate;
+        this.yConclusion = yConclusion;
     }
     @Generated(hash = 1115678058)
     public CheckVerdBean() {
     }
+
     
     
     public Long getUId() {
@@ -127,5 +131,11 @@ public class CheckVerdBean {
     }
     public void setCheckDate(String checkDate) {
         this.checkDate = checkDate;
+    }
+    public String getYConclusion() {
+        return this.yConclusion;
+    }
+    public void setYConclusion(String yConclusion) {
+        this.yConclusion = yConclusion;
     }
 }

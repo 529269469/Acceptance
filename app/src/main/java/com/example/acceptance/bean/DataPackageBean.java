@@ -901,6 +901,16 @@ public class DataPackageBean {
             private String productTypeValue;
             private String description;
 
+            private CheckItemRelateSetBean CheckItemRelateSet;
+
+            public CheckItemRelateSetBean getCheckItemRelateSet() {
+                return CheckItemRelateSet;
+            }
+
+            public void setCheckItemRelateSet(CheckItemRelateSetBean checkItemRelateSet) {
+                CheckItemRelateSet = checkItemRelateSet;
+            }
+
             public String getDescription() {
                 return description;
             }
@@ -1053,6 +1063,57 @@ public class DataPackageBean {
 
             public void setCheckGroupSet(CheckGroupSetBean CheckGroupSet) {
                 this.CheckGroupSet = CheckGroupSet;
+            }
+
+            public static class CheckItemRelateSetBean {
+
+                @XStreamImplicit(itemFieldName = "CheckItemRelate")
+                private List<CheckItemRelateBean> CheckItemRelate;
+
+                public List<CheckItemRelateBean> getCheckItemRelate() {
+                    return CheckItemRelate;
+                }
+
+                public void setCheckItemRelate(List<CheckItemRelateBean> checkItemRelate) {
+                    CheckItemRelate = checkItemRelate;
+                }
+
+                public static class CheckItemRelateBean {
+                    /** 检查项id */
+                    private String targetId;
+
+                    /** 关联的检查项id */
+                    private String relateItemId;
+
+                    /** 选项 */
+                    private String selected;
+
+
+                    public String getTargetId() {
+                        return targetId;
+                    }
+
+                    public void setTargetId(String targetId) {
+                        this.targetId = targetId;
+                    }
+
+                    public String getRelateItemId() {
+                        return relateItemId;
+                    }
+
+                    public void setRelateItemId(String relateItemId) {
+                        this.relateItemId = relateItemId;
+                    }
+
+                    public String getSelected() {
+                        return selected;
+                    }
+
+                    public void setSelected(String selected) {
+                        this.selected = selected;
+                    }
+                }
+
             }
 
             public static class CheckGroupSetBean {
@@ -1548,7 +1609,16 @@ public class DataPackageBean {
         private String docTypeVal;
         private String checkPersonId;
         private String checkDate;
+        private String yConclusion;
         private DocumentListSetBean.DocumentBean.FileSetBean FileSet;
+
+        public String getyConclusion() {
+            return yConclusion;
+        }
+
+        public void setyConclusion(String yConclusion) {
+            this.yConclusion = yConclusion;
+        }
 
         public String getCheckDate() {
             return checkDate;

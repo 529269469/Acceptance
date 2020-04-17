@@ -545,7 +545,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         CheckItemId,
                         tv_name.getText().toString().trim(),
                         optionsString,
-                        "", UUID.randomUUID().toString());
+                        "", UUID.randomUUID().toString(),list.size()+1+"","");
                 checkItemBeanDao.insert(checkGroupBean);
 
                 PropertyBeanXDao propertyBeanXDao = MyApplication.getInstances().getPropertyXDaoSession().getPropertyBeanXDao();
