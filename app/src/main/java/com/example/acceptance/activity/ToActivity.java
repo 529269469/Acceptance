@@ -164,6 +164,9 @@ public class ToActivity extends BaseActivity {
                     List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
                             .where(DataPackageDBeanDao.Properties.NamePackage.eq(list.get(i).getName()))
                             .list();
+
+
+
                     View poview = getLayoutInflater().inflate(R.layout.moban, null);
                     PopupWindow daochu = new PopupWindow(poview);
                     daochu.setHeight(300);
@@ -188,56 +191,50 @@ public class ToActivity extends BaseActivity {
                     TextView tv_title=poview.findViewById(R.id.tv_title);
                     tv_title.setText("请输入加密密码");
 
-                    tv_no.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            daochu.dismiss();
-                        }
-                    });
-                    tv_yes.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            daochu.dismiss();
-                            password=edit_name.getText().toString().trim();
-                            if (dataPackageDBeans != null && !dataPackageDBeans.isEmpty()) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(ToActivity.this);
-                                builder.setTitle("数据包已存在，是否覆盖");
-                                builder.setPositiveButton("覆盖！！", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        isPath = true;
-                                        handler.sendEmptyMessage(1);
-                                        new Thread() {
-                                            @Override
-                                            public void run() {
-                                                getJieya(list.get(i).getPath());
-                                                //需要在子线程中处理的逻辑
-                                            }
-                                        }.start();
+                    tv_no.setOnClickListener(view1 -> daochu.dismiss());
 
-                                    }
-                                });
-                                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                    tv_yes.setOnClickListener(view12 -> {
+                        daochu.dismiss();
+                        password=edit_name.getText().toString().trim();
 
-                                        isPath = false;
-                                    }
-                                });
-                                builder.show();
+                        if (dataPackageDBeans != null && !dataPackageDBeans.isEmpty()) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ToActivity.this);
+                            builder.setTitle("数据包已存在，是否覆盖");
+                            builder.setPositiveButton("覆盖！！", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    isPath = true;
+                                    handler.sendEmptyMessage(1);
+                                    new Thread() {
+                                        @Override
+                                        public void run() {
+                                            getJieya(list.get(i).getPath());
+                                            //需要在子线程中处理的逻辑
+                                        }
+                                    }.start();
 
-                            } else {
-                                isPath = false;
-                                handler.sendEmptyMessage(1);
-                                new Thread() {
-                                    @Override
-                                    public void run() {
-                                        getJieya(list.get(i).getPath());
-                                        //需要在子线程中处理的逻辑
-                                    }
-                                }.start();
+                                }
+                            });
+                            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                            }
+                                    isPath = false;
+                                }
+                            });
+                            builder.show();
+
+                        } else {
+                            isPath = false;
+                            handler.sendEmptyMessage(1);
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    getJieya(list.get(i).getPath());
+                                    //需要在子线程中处理的逻辑
+                                }
+                            }.start();
+
                         }
                     });
 

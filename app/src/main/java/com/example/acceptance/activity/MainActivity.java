@@ -406,11 +406,13 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         daochu.dismiss();
+                        handler.sendEmptyMessage(2);
                     }
                 });
                 tv_yes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        daochu.dismiss();
                         handler.sendEmptyMessage(1);
                         new Thread(){
                             @Override
