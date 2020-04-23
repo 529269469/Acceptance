@@ -52,9 +52,6 @@ public class CompressOperate_zip4j {
                 compressZip4j(filePath,zipFilePath,password);
             }
             if (sourceFile.isDirectory()) {
-                //  File[] files = sourceFile.listFiles();
-                //  ArrayList<File> arrayList = new ArrayList<File>();
-                //  Collections.addAll(arrayList, files);
                 zipFile.addFolder(sourceFile, zipParameters);
             } else {
                 zipFile.addFile(sourceFile, zipParameters);

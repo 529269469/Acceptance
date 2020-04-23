@@ -48,7 +48,7 @@ public class IOUtil {
     }
     /**
      * 将1个文件压缩
-     * @param fileList 待压缩的文件列表
+     * @param file 待压缩的文件列表
      * @param zipFileName 压缩文件名
      * @return 返回压缩好的文件
      * @throws IOException

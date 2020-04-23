@@ -88,79 +88,52 @@ public class MainActivity extends BaseActivity {
     private DeliveryFragment deliveryFragment;
     private TaskFragment taskFragment;
     private TechnologyFragment technologyFragment;
-//    private void hide(FragmentTransaction transaction) {
-//        if (kittingFragment != null) {
-//            transaction.hide(kittingFragment);
-//        }
-//        if (courseFragment != null) {
-//            transaction.hide(courseFragment);
-//        }
-//        if (acceptanceConclusionFragment != null) {
-//            transaction.hide(acceptanceConclusionFragment);
-//        }
-//        if (legacyFragment != null) {
-//            transaction.hide(legacyFragment);
-//        }
-//        if (deliveryFragment != null) {
-//            transaction.hide(deliveryFragment);
-//        }
-//        if (taskFragment != null) {
-//            transaction.hide(taskFragment);
-//        }
-//        if (technologyFragment != null) {
-//            transaction.hide(technologyFragment);
-//        }
-//        if (particularsFragment != null) {
-//            transaction.hide(particularsFragment);
-//        }
-//        if (applyForFragment != null) {
-//            transaction.hide(applyForFragment);
-//        }
-//    }
+
     private boolean isDel;
     private String type;
 
 
     @SuppressLint("HandlerLeak")
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     help_loading.setVisibility(View.VISIBLE);
                     break;
                 case 2:
                     help_loading.setVisibility(View.GONE);
-                    ToastUtils.getInstance().showTextToast(MainActivity.this,"数据包已导出");
-                    MainActivity.this.startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                    ToastUtils.getInstance().showTextToast(MainActivity.this, "数据包已导出");
+                    MainActivity.this.startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
                     break;
                 case 3:
                     help_loading.setVisibility(View.GONE);
-                    ToastUtils.getInstance().showTextToast(MainActivity.this,"模板已导出");
+                    ToastUtils.getInstance().showTextToast(MainActivity.this, "模板已导出");
                     break;
             }
 
         }
     };
 
-    public static Intent openIntent(Context context,String id,boolean isDel,String type) {
+    public static Intent openIntent(Context context, String id, boolean isDel, String type) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("id",id);
-        intent.putExtra("isDel",isDel);
-        intent.putExtra("type",type);
+        intent.putExtra("id", id);
+        intent.putExtra("isDel", isDel);
+        intent.putExtra("type", type);
         return intent;
     }
 
-    public static Intent openIntent(Context context,String id,boolean isDel,String type,int pos) {
+    public static Intent openIntent(Context context, String id, boolean isDel, String type, int pos) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("id",id);
-        intent.putExtra("isDel",isDel);
-        intent.putExtra("type",type);
-        intent.putExtra("pos",pos);
+        intent.putExtra("id", id);
+        intent.putExtra("isDel", isDel);
+        intent.putExtra("type", type);
+        intent.putExtra("pos", pos);
         return intent;
     }
+
     private int pos;
     private String id;
     private List<TitleBean> list = new ArrayList<>();
@@ -171,10 +144,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        id=getIntent().getStringExtra("id");
-        isDel=getIntent().getBooleanExtra("isDel",false);
-        type=getIntent().getStringExtra("type");
-        pos = getIntent().getIntExtra("pos",0);
+        id = getIntent().getStringExtra("id");
+        isDel = getIntent().getBooleanExtra("isDel", false);
+        type = getIntent().getStringExtra("type");
+        pos = getIntent().getIntExtra("pos", 0);
         ivGenduo.setOnClickListener(view -> {
             //显示侧滑菜单
             drawerLayout.openDrawer(GravityCompat.START);
@@ -183,7 +156,6 @@ public class MainActivity extends BaseActivity {
         tvOperation.setOnClickListener(view -> {
             operation();
         });
-
 
         tvTuichu.setText("详情信息");
         list.add(new TitleBean("详情信息"));
@@ -200,9 +172,8 @@ public class MainActivity extends BaseActivity {
         gvOne.setAdapter(titleAdapter);
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
-        if (isDel){
-//            hide(transaction);
-            switch (type){
+        if (isDel) {
+            switch (type) {
                 case "2":
                     tvTuichu.setText("齐套性检查");
                     transaction = getSupportFragmentManager().beginTransaction();
@@ -234,8 +205,8 @@ public class MainActivity extends BaseActivity {
                     transaction.commit();
                     break;
             }
-            pos=0;
-        }else {
+            pos = 0;
+        } else {
             transaction = getSupportFragmentManager().beginTransaction();
             particularsFragment = new ParticularsFragment();
             particularsFragment.setArguments(bundle);
@@ -253,99 +224,52 @@ public class MainActivity extends BaseActivity {
             list.get(position).setCheck(true);
             titleAdapter.notifyDataSetChanged();
             transaction = getSupportFragmentManager().beginTransaction();
-//            hide(transaction);
 
             switch (position) {
                 case 0://详情信息
-//                    if ( particularsFragment == null){
-                        particularsFragment = new ParticularsFragment();
+                    particularsFragment = new ParticularsFragment();
                     particularsFragment.setArguments(bundle);
-                        transaction.replace(R.id.frame, particularsFragment);
-//                    }else {
-//                        particularsFragment.setUserVisibleHint(true);
-//                        transaction.show(particularsFragment);
-//                    }
-
+                    transaction.replace(R.id.frame, particularsFragment);
                     break;
                 case 1://验收申请
-//                    if (applyForFragment == null){
-                        applyForFragment = new ApplyForFragment();
-                        applyForFragment.setArguments(bundle);
-                        transaction.replace(R.id.frame, applyForFragment);
-//                    }else {
-//                        applyForFragment.setUserVisibleHint(true);
-//                        transaction.show(applyForFragment);
-//                    }
+                    applyForFragment = new ApplyForFragment();
+                    applyForFragment.setArguments(bundle);
+                    transaction.replace(R.id.frame, applyForFragment);
                     break;
                 case 2://验收任务单
-//                    if (taskFragment == null){
-                        taskFragment = new TaskFragment();
-                        taskFragment.setArguments(bundle);
-                        transaction.replace(R.id.frame, taskFragment);
-//                    }else {
-//                        taskFragment.setUserVisibleHint(true);
-//                        transaction.show(taskFragment);
-//                    }
+                    taskFragment = new TaskFragment();
+                    taskFragment.setArguments(bundle);
+                    transaction.replace(R.id.frame, taskFragment);
                     break;
                 case 3://齐套性检查
-//                    if (kittingFragment ==null){
-                        kittingFragment = new KittingFragment();
-                        kittingFragment.setArguments(bundle);
-                        transaction.replace(R.id.frame, kittingFragment);
-//                    }else {
-//                        kittingFragment.setUserVisibleHint(true);
-//                        transaction.show(kittingFragment);
-//                    }
+                    kittingFragment = new KittingFragment();
+                    kittingFragment.setArguments(bundle);
+                    transaction.replace(R.id.frame, kittingFragment);
                     break;
                 case 4://过程检查
-//                    if (courseFragment == null){
-                        courseFragment = new CourseFragment();
-                        courseFragment.setArguments(bundle);
-                        transaction.replace(R.id.frame, courseFragment);
-//                    }else {
-//                        courseFragment.setUserVisibleHint(true);
-//                        transaction.show(courseFragment);
-//                    }
+                    courseFragment = new CourseFragment();
+                    courseFragment.setArguments(bundle);
+                    transaction.replace(R.id.frame, courseFragment);
                     break;
                 case 5://技术类检查
-//                    if (technologyFragment == null){
-                        technologyFragment = new TechnologyFragment();
-                        technologyFragment.setArguments(bundle);
-                        transaction.replace(R.id.frame, technologyFragment);
-//                    }else {
-//                        technologyFragment.setUserVisibleHint(true);
-//                        transaction.show(technologyFragment);
-//                    }
+                    technologyFragment = new TechnologyFragment();
+                    technologyFragment.setArguments(bundle);
+                    transaction.replace(R.id.frame, technologyFragment);
                     break;
                 case 6://验收结论
-//                    if (acceptanceConclusionFragment == null){
-                        acceptanceConclusionFragment = new AcceptanceConclusionFragment();
-                        acceptanceConclusionFragment.setArguments(bundle);
-                        transaction.replace(R.id.frame, acceptanceConclusionFragment);
-//                    }else {
-//                        acceptanceConclusionFragment.setUserVisibleHint(true);
-//                        transaction.show(acceptanceConclusionFragment);
-//                    }
+                    acceptanceConclusionFragment = new AcceptanceConclusionFragment();
+                    acceptanceConclusionFragment.setArguments(bundle);
+                    transaction.replace(R.id.frame, acceptanceConclusionFragment);
                     break;
                 case 7://验收遗留问题落实
-//                    if (legacyFragment == null){
-                        legacyFragment = new LegacyFragment();
-                        legacyFragment.setArguments(bundle);
-                        transaction.replace(R.id.frame, legacyFragment);
-//                    }else {
-//                        legacyFragment.setUserVisibleHint(true);
-//                        transaction.show(legacyFragment);
-//                    }
+                    legacyFragment = new LegacyFragment();
+                    legacyFragment.setArguments(bundle);
+                    transaction.replace(R.id.frame, legacyFragment);
                     break;
                 case 8://交付清单
-//                    if (deliveryFragment == null){
-                        deliveryFragment = new DeliveryFragment();
-                        deliveryFragment.setArguments(bundle);
-                        transaction.replace(R.id.frame, deliveryFragment);
-//                    }else {
-//                        deliveryFragment.setUserVisibleHint(true);
-//                        transaction.show(deliveryFragment);
-//                    }
+                    deliveryFragment = new DeliveryFragment();
+                    deliveryFragment.setArguments(bundle);
+                    transaction.replace(R.id.frame, deliveryFragment);
                     break;
             }
             transaction.commit();
@@ -371,8 +295,8 @@ public class MainActivity extends BaseActivity {
             lp1.alpha = 1f;
             getWindow().setAttributes(lp1);
         });
-        TextView tv_daochu1=poview.findViewById(R.id.tv_daochu1);
-        TextView tv_daochu2=poview.findViewById(R.id.tv_daochu2);
+        TextView tv_daochu1 = poview.findViewById(R.id.tv_daochu1);
+        TextView tv_daochu2 = poview.findViewById(R.id.tv_daochu2);
 
         tv_daochu1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -388,7 +312,7 @@ public class MainActivity extends BaseActivity {
                 WindowManager.LayoutParams lp = getWindow().getAttributes();
                 lp.alpha = 0.7f;
                 getWindow().setAttributes(lp);
-                daochu.showAtLocation(ivGenduo, Gravity.CENTER,0,0);
+                daochu.showAtLocation(ivGenduo, Gravity.CENTER, 0, 0);
 
                 daochu.setOnDismissListener(() -> {
                     WindowManager.LayoutParams lp1 = getWindow().getAttributes();
@@ -396,10 +320,10 @@ public class MainActivity extends BaseActivity {
                     getWindow().setAttributes(lp1);
                 });
 
-                EditText edit_name=poview.findViewById(R.id.edit_name);
-                TextView tv_no=poview.findViewById(R.id.tv_no);
-                TextView tv_yes=poview.findViewById(R.id.tv_yes);
-                TextView tv_title=poview.findViewById(R.id.tv_title);
+                EditText edit_name = poview.findViewById(R.id.edit_name);
+                TextView tv_no = poview.findViewById(R.id.tv_no);
+                TextView tv_yes = poview.findViewById(R.id.tv_yes);
+                TextView tv_title = poview.findViewById(R.id.tv_title);
                 tv_title.setText("请输入加密密码");
 
                 tv_no.setOnClickListener(new View.OnClickListener() {
@@ -414,18 +338,16 @@ public class MainActivity extends BaseActivity {
                     public void onClick(View view) {
                         daochu.dismiss();
                         handler.sendEmptyMessage(1);
-                        new Thread(){
+                        new Thread() {
                             @Override
                             public void run() {
-                                DaoUtils.setDao(id,edit_name.getText().toString().trim());
+                                DaoUtils.setDao(id, edit_name.getText().toString().trim());
                                 handler.sendEmptyMessage(2);
                                 //需要在子线程中处理的逻辑
                             }
                         }.start();
                     }
                 });
-
-
 
 
             }
@@ -453,7 +375,7 @@ public class MainActivity extends BaseActivity {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = 0.7f;
         getWindow().setAttributes(lp);
-        daochu.showAtLocation(tvOperation, Gravity.CENTER,0,0);
+        daochu.showAtLocation(tvOperation, Gravity.CENTER, 0, 0);
 
         daochu.setOnDismissListener(() -> {
             WindowManager.LayoutParams lp1 = getWindow().getAttributes();
@@ -461,9 +383,9 @@ public class MainActivity extends BaseActivity {
             getWindow().setAttributes(lp1);
         });
 
-        EditText edit_name=poview.findViewById(R.id.edit_name);
-        TextView tv_no=poview.findViewById(R.id.tv_no);
-        TextView tv_yes=poview.findViewById(R.id.tv_yes);
+        EditText edit_name = poview.findViewById(R.id.edit_name);
+        TextView tv_no = poview.findViewById(R.id.tv_no);
+        TextView tv_yes = poview.findViewById(R.id.tv_yes);
 
         tv_no.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -474,20 +396,20 @@ public class MainActivity extends BaseActivity {
         tv_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (StringUtils.isBlank(edit_name.getText().toString().trim())){
-                    ToastUtils.getInstance().showTextToast(MainActivity.this,"请输入模板名称");
+                if (StringUtils.isBlank(edit_name.getText().toString().trim())) {
+                    ToastUtils.getInstance().showTextToast(MainActivity.this, "请输入模板名称");
                     return;
                 }
-                File file=new File(Environment.getExternalStorageDirectory()+"/模板");
-                if (!file.exists()){
+                File file = new File(Environment.getExternalStorageDirectory() + "/模板");
+                if (!file.exists()) {
                     file.mkdirs();
                 }
                 daochu.dismiss();
                 handler.sendEmptyMessage(1);
-                new Thread(){
+                new Thread() {
                     @Override
                     public void run() {
-                        DaoUtils.setmoban(id,edit_name.getText().toString().trim());
+                        DaoUtils.setmoban(id, edit_name.getText().toString().trim());
                         handler.sendEmptyMessage(3);
                         //需要在子线程中处理的逻辑
                     }
@@ -561,7 +483,6 @@ public class MainActivity extends BaseActivity {
 
         }
     }
-
 
 
 }
