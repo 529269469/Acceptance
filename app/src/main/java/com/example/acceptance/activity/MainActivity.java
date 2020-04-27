@@ -322,6 +322,8 @@ public class MainActivity extends BaseActivity {
 
                 EditText edit_name = poview.findViewById(R.id.edit_name);
                 TextView tv_no = poview.findViewById(R.id.tv_no);
+                TextView tv_name = poview.findViewById(R.id.tv_name);
+                tv_name.setText("密码");
                 TextView tv_yes = poview.findViewById(R.id.tv_yes);
                 TextView tv_title = poview.findViewById(R.id.tv_title);
                 tv_title.setText("请输入加密密码");

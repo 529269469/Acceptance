@@ -139,9 +139,9 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
                         checkApplyBeans.get(0).getDocTypeVal(),
-                        checkApplyBeans.get(0).getAcceptorUnit(),
-                        checkApplyBeans.get(0).getAcceptor(),
-                        checkApplyBeans.get(0).getAcceptorDept());
+                        etLiaison.getText().toString().trim(),
+                        etApplyCompany2.getText().toString().trim(),
+                        etApplyCompany3.getText().toString().trim());
                 checkApplyBeanDao.update(checkApplyBean);
             }
 
@@ -167,6 +167,10 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
         etPhone.setText(checkApplyBean.getPhone());
         etConclusion.setText(checkApplyBean.getConclusion());
         etDescription.setText(checkApplyBean.getDescription());
+        etLiaison.setText(checkApplyBean.getAcceptorUnit());
+        etApplyCompany2.setText(checkApplyBean.getAcceptor());
+        etApplyCompany3.setText(checkApplyBean.getAcceptorDept());
+
 
         ApplyItemBeanDao applyItemBeanDao = MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
         List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()
@@ -199,7 +203,9 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
         etPhone.setText(checkApplyBean.getPhone());
         etConclusion.setText(checkApplyBean.getConclusion());
         etDescription.setText(checkApplyBean.getDescription());
-
+        etLiaison.setText(checkApplyBean.getAcceptorUnit());
+        etApplyCompany2.setText(checkApplyBean.getAcceptor());
+        etApplyCompany3.setText(checkApplyBean.getAcceptorDept());
 
         gridAdapter = new GridAdapter(gridList, getActivity());
         gv_conclusion.setAdapter(gridAdapter);
@@ -230,9 +236,9 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                         etConclusion.getText().toString().trim(),
                         etDescription.getText().toString().trim(),
                         checkApplyBeans.get(0).getDocTypeVal(),
-                        checkApplyBeans.get(0).getAcceptorUnit(),
-                        checkApplyBeans.get(0).getAcceptor(),
-                        checkApplyBeans.get(0).getAcceptorDept());
+                        etLiaison.getText().toString().trim(),
+                        etApplyCompany2.getText().toString().trim(),
+                        etApplyCompany3.getText().toString().trim());
                 checkApplyBeanDao.update(checkApplyBean);
             }
         });
@@ -252,6 +258,9 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
         etPhone.addTextChangedListener(textWatcher);
         etConclusion.addTextChangedListener(textWatcher);
         etDescription.addTextChangedListener(textWatcher);
+        etLiaison.addTextChangedListener(textWatcher);
+        etApplyCompany2.addTextChangedListener(textWatcher);
+        etApplyCompany3.addTextChangedListener(textWatcher);
 
         tv_add.setOnClickListener(this);
         tv_save.setOnClickListener(this);
@@ -305,37 +314,6 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_add:
                 addPopup(false, 0);
                 break;
-            case R.id.tv_save:
-                CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
-                List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
-                        .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
-                        .list();
-                StringBuffer gridStringBuffer = new StringBuffer();
-                for (int i = 0; i < gridList.size(); i++) {
-                    gridStringBuffer.append(gridList.get(i)).append(",");
-                }
-                if (!StringUtils.isBlank(gridStringBuffer.toString())) {
-                    gridString = gridStringBuffer.toString().substring(0, gridStringBuffer.toString().length() - 1);
-                }
-                CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
-                        checkApplyBeans.get(0).getDataPackageId(),
-                        checkApplyBeans.get(0).getId(),
-                        checkApplyBeans.get(0).getName(),
-                        checkApplyBeans.get(0).getCode(),
-                        checkApplyBeans.get(0).getContractCode(),
-                        checkApplyBeans.get(0).getContractName(),
-                        etApplicant.getText().toString().trim(),
-                        etApplyCompany.getText().toString().trim(),
-                        etPhone.getText().toString().trim(),
-                        etConclusion.getText().toString().trim(),
-                        etDescription.getText().toString().trim(),
-                        checkApplyBeans.get(0).getDocTypeVal(),
-                        checkApplyBeans.get(0).getAcceptorUnit(),
-                        checkApplyBeans.get(0).getAcceptor(),
-                        checkApplyBeans.get(0).getAcceptorDept());
-                checkApplyBeanDao.update(checkApplyBean);
-                ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
-                break;
             case R.id.tv_paizhao:
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 cameraSavePath = new File(SPUtils.get(getActivity(), "path", "") + "/" + System.currentTimeMillis() + ".jpg");
@@ -349,39 +327,7 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
-//            photoPath = String.valueOf(cameraSavePath);
-//            gridList.add(photoPath);
-//            gridAdapter.notifyDataSetChanged();
-//            Log.e("拍照返回图片路径:", photoPath);
-//
-//            CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
-//            List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
-//                    .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
-//                    .list();
-//            StringBuffer gridStringBuffer=new StringBuffer();
-//            for (int i = 0; i < gridList.size(); i++) {
-//                gridStringBuffer.append(gridList.get(i)).append(",");
-//            }
-//            if (!StringUtils.isBlank(gridStringBuffer.toString())){
-//                gridString=gridStringBuffer.toString().substring(0,gridStringBuffer.toString().length()-1);
-//            }
-//            CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
-//                    checkApplyBeans.get(0).getDataPackageId(),
-//                    checkApplyBeans.get(0).getId(),
-//                    checkApplyBeans.get(0).getName(),
-//                    checkApplyBeans.get(0).getCode(),
-//                    checkApplyBeans.get(0).getContractCode(),
-//                    checkApplyBeans.get(0).getContractName(),
-//                    etApplicant.getText().toString().trim(),
-//                    etApplyCompany.getText().toString().trim(),
-//                    etPhone.getText().toString().trim(),
-//                    etConclusion.getText().toString().trim(),
-//                    etDescription.getText().toString().trim(),
-//                    checkApplyBeans.get(0).getDocTypeVal());
-//            checkApplyBeanDao.update(checkApplyBean);
-//            ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
-//        }
+
     }
 
     private void addPopup(boolean isAdd, int position) {

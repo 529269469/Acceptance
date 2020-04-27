@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,7 +71,6 @@ import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
 import com.example.acceptance.utils.ZipUtils2;
-import com.example.acceptance.view.MyListView;
 import com.thoughtworks.xstream.XStream;
 
 import java.io.BufferedReader;
@@ -86,7 +85,6 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class NewActivity extends BaseActivity implements View.OnClickListener {
 
@@ -295,7 +293,7 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
         });
 
         List<String> list = new ArrayList<>();
-        MyListView lv_moban = poview.findViewById(R.id.lv_moban);
+        ListView lv_moban = poview.findViewById(R.id.lv_moban);
         String[] ss = str.split(",");
         for (int i = 0; i < ss.length; i++) {
             list.add(ss[i]);
@@ -745,7 +743,7 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
 
 
         List<PackageBean> list = new ArrayList<>();
-        MyListView lv_moban = poview.findViewById(R.id.lv_moban);
+        ListView lv_moban = poview.findViewById(R.id.lv_moban);
         File files = new File(Environment.getExternalStorageDirectory() + "/模板");
         File[] subFile = files.listFiles();
         for (int i = 0; i < subFile.length; i++) {

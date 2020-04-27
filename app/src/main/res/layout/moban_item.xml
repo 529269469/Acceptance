@@ -13,7 +13,7 @@
         android:layout_width="@dimen/padding_100"
         android:layout_height="@dimen/padding_40"/>
 
-    <com.example.acceptance.view.MyListView
+    <ListView
         android:id="@+id/lv_moban"
         android:layout_gravity="center_horizontal"
         android:layout_width="@dimen/padding_300"
