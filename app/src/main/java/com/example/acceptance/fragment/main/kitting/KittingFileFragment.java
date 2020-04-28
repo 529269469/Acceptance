@@ -124,20 +124,23 @@ public class KittingFileFragment extends BaseFragment {
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
-        DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
         DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
-        List<DeliveryListBean> deliveryListBeanList = deliveryListBeanDao.queryBuilder()
+
+        DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
+        List<DeliveryListBean> parentIdList = deliveryListBeanDao.queryBuilder()
+                .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
                 .where(DeliveryListBeanDao.Properties.Project.eq("验收依据文件"))
                 .list();
-        if (deliveryListBeanList != null && !deliveryListBeanList.isEmpty()) {
-            parentId = deliveryListBeanList.get(0).getId();
-        } else {
-            parentId = System.currentTimeMillis() + "";
-            DeliveryListBean deliveryListBean = new DeliveryListBean(null,
+
+        if (parentIdList!=null&&!parentIdList.isEmpty()){
+            parentId = parentIdList.get(0).getId();
+        }else {
+            parentId=System.currentTimeMillis() + "";
+            DeliveryListBean deliveryListBean=new DeliveryListBean(null,
                     id,
                     parentId,
-                    true + "",
-                    "验收依据文件", "", UUID.randomUUID().toString(),"","","");
+                    true+"",
+                    "验收依据文件","", UUID.randomUUID().toString(),"","","");
             deliveryListBeanDao.insert(deliveryListBean);
         }
 

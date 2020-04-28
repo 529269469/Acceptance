@@ -20,7 +20,40 @@ import java.io.FileOutputStream;
  */
 public class FileUtils {
 
+    public static String createDir(String dirPath){
+        //因为文件夹可能有多层，比如:  a/b/c/ff.txt  需要先创建a文件夹，然后b文件夹然后...
+        try{
+            File file=new File(dirPath);
+            if(file.getParentFile().exists()){
+                file.mkdir();
+                return file.getAbsolutePath();
+            }
+            else {
+                createDir(file.getParentFile().getAbsolutePath());
+                file.mkdir();
+            }
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return dirPath;
+    }
+
+    public static String createFile(File file){
+        try{
+            if(file.getParentFile().exists()){
+                file.createNewFile();
+            }
+            else {
+                //创建目录之后再创建文件
+                createDir(file.getParentFile().getAbsolutePath());
+                file.createNewFile();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
 
 
     public static boolean copyFile(String oldPath$Name, String newPath$Name) {

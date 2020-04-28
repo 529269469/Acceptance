@@ -94,7 +94,7 @@ public class CompressOperate_zip4j {
 
         try {
             zipFile = new ZipFile(zipFile_);
-            zipFile.setFileNameCharset("GBK");  //设置编码格式（支持中文）
+//            zipFile.setFileNameCharset("GBK");  //设置编码格式（支持中文）
             if (!zipFile.isValidZipFile()){     //检查输入的zip文件是否是有效的zip文件
                 throw new ZipException("压缩文件不合法,可能被损坏.");
             }

@@ -165,7 +165,12 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         id,
                         imgVideoParentId,
                         false + "",
-                        "照片AND视频", parentIdList.get(0).getId(), UUID.randomUUID().toString(), "其他", "" + parentIdListSize.size(), "");
+                        "照片AND视频",
+                        parentIdList.get(0).getId(),
+                        UUID.randomUUID().toString(),
+                        "其他",
+                        parentIdListSize.size() + "",
+                        parentIdListSize.size() + "");
                 deliveryListBeanDao.insert(deliveryListBean2);
             }
         } else {
@@ -175,14 +180,14 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                     id,
                     imgVideoId,
                     true + "",
-                    "照片AND视频", "", UUID.randomUUID().toString(), "", "" + parentIdListSize.size(), "");
+                    "照片AND视频", "", UUID.randomUUID().toString(), "", "1" + parentIdListSize.size(), "1");
             deliveryListBeanDao.insert(deliveryListBean);
 
             DeliveryListBean deliveryListBean2 = new DeliveryListBean(null,
                     id,
                     imgVideoParentId,
                     false + "",
-                    "照片AND视频", imgVideoId, UUID.randomUUID().toString(), "其他", "" + parentIdListSize.size(), "");
+                    "照片AND视频", imgVideoId, UUID.randomUUID().toString(), "其他", "1" + parentIdListSize.size(), "1");
             deliveryListBeanDao.insert(deliveryListBean2);
         }
 
@@ -199,9 +204,9 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                 .where(FileBeanDao.Properties.DocumentId.eq(checkGroupId))
                 .list();
         if (!fileBeanList.isEmpty()) {
-            if (StringUtils.isBlank(fileBeanList.get(0).getPath())){
+            if (StringUtils.isBlank(fileBeanList.get(0).getPath())) {
                 iv_XX.setVisibility(View.GONE);
-            }else {
+            } else {
                 iv_XX.setVisibility(View.VISIBLE);
             }
             Glide.with(getActivity())
@@ -581,7 +586,7 @@ public class KittingProduct2Fragment extends BaseFragment implements View.OnClic
                         CheckItemId,
                         tv_name.getText().toString().trim(),
                         optionsString,
-                        "", UUID.randomUUID().toString(),list.size()+1+"","","");
+                        "", UUID.randomUUID().toString(), list.size() + 1 + "", "", "");
                 checkItemBeanDao.insert(checkGroupBean);
 
                 PropertyBeanXDao propertyBeanXDao = MyApplication.getInstances().getPropertyXDaoSession().getPropertyBeanXDao();

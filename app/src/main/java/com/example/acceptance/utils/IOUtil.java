@@ -76,8 +76,10 @@ public class IOUtil {
      */
     public static File getZipFile(File[] fileList, String zipFileName) throws IOException {
         File zipFile = getFile("", zipFileName);
+
         // 文件输出流
         FileOutputStream outputStream = getFileStream(zipFile);
+
         // 压缩流
         ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream);
 

@@ -112,6 +112,9 @@ public class MainActivity extends BaseActivity {
                     help_loading.setVisibility(View.GONE);
                     ToastUtils.getInstance().showTextToast(MainActivity.this, "模板已导出");
                     break;
+                case 4:
+                    help_loading.setVisibility(View.GONE);
+                    break;
             }
 
         }
@@ -332,7 +335,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         daochu.dismiss();
-                        handler.sendEmptyMessage(2);
+                        handler.sendEmptyMessage(4);
                     }
                 });
                 tv_yes.setOnClickListener(new View.OnClickListener() {

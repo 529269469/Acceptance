@@ -103,16 +103,14 @@ public class StandardFragment2 extends BaseFragment implements KittingProduct2Fr
                 .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
                 .where(CheckFileBeanDao.Properties.DocType.eq(Contents.过程检查))
                 .list();
-
+        list.clear();
         if (checkFileBeans != null && !checkFileBeans.isEmpty()) {
             checkFileId = checkFileBeans.get(0).getId();
-
             CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
             checkGroupBeans = checkGroupBeanDao.queryBuilder()
                     .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
                     .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
                     .list();
-            list.clear();
             adapter.notifyDataSetChanged();
             for (int i = 0; i < checkGroupBeans.size(); i++) {
                 if (i==0){
@@ -121,23 +119,24 @@ public class StandardFragment2 extends BaseFragment implements KittingProduct2Fr
                     list.add(new TitleBean(checkGroupBeans.get(i).getGroupName(),false));
                 }
             }
-            list.add(new TitleBean("结论",false));
-
-            transaction =getChildFragmentManager().beginTransaction();
-            kittingProduct2Fragment = new KittingProduct2Fragment();
-            kittingProduct2Fragment.setOnDel(this);
-            kittingProduct2Fragment.setOnXiugai(this);
-            Bundle bundle = new Bundle();
-            bundle.putString("id", id);
-            bundle.putString("checkFileId", checkFileId);
-            bundle.putInt("position", 0);
-            kittingProduct2Fragment.setArguments(bundle);
-            transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
-            transaction.commit();
-
+            if (list.size()>0) {
+                transaction = getChildFragmentManager().beginTransaction();
+                kittingProduct2Fragment = new KittingProduct2Fragment();
+                kittingProduct2Fragment.setOnDel(this);
+                kittingProduct2Fragment.setOnXiugai(this);
+                Bundle bundle = new Bundle();
+                bundle.putString("id", id);
+                bundle.putString("checkFileId", checkFileId);
+                bundle.putInt("position", 0);
+                kittingProduct2Fragment.setArguments(bundle);
+                transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
+                transaction.commit();
+            }
         } else {
             checkFileId = System.currentTimeMillis() + "";
         }
+
+        list.add(new TitleBean("结论",false));
         adapter.notifyDataSetChanged();
         reTb.scrollToPosition(0);
 

@@ -1162,6 +1162,16 @@ public class DataPackageBean {
                     private String checkTimeF;
                     private String testTable;
 
+                    private CheckItemRelateSetBean CheckItemRelateSet;
+
+                    public CheckItemRelateSetBean getCheckItemRelateSet() {
+                        return CheckItemRelateSet;
+                    }
+
+                    public void setCheckItemRelateSet(CheckItemRelateSetBean checkItemRelateSet) {
+                        CheckItemRelateSet = checkItemRelateSet;
+                    }
+
                     public String getTestTable() {
                         return testTable;
                     }
@@ -1319,6 +1329,15 @@ public class DataPackageBean {
                             private String accuracy;
                             private String certificate;
                             private String description;
+                            private String uniqueValue;
+
+                            public String getUniqueValue() {
+                                return uniqueValue;
+                            }
+
+                            public void setUniqueValue(String uniqueValue) {
+                                this.uniqueValue = uniqueValue;
+                            }
 
                             public String getId() {
                                 return id;

@@ -89,13 +89,14 @@ public class TechnologySizeFragment extends BaseFragment implements KittingProdu
     private Kitting2Adapter adapter;
     private KittingProduct2Fragment kittingProduct2Fragment;
     private FragmentTransaction transaction;
+
     @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
         type = getArguments().getString("type");
-        pos= getArguments().getInt("pos");
-        adapter = new Kitting2Adapter(list,getActivity());
-        LinearLayoutManager manager=new LinearLayoutManager(getActivity());
+        pos = getArguments().getInt("pos");
+        adapter = new Kitting2Adapter(list, getActivity());
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         reTb.setLayoutManager(manager);
         reTb.setAdapter(adapter);
@@ -113,40 +114,40 @@ public class TechnologySizeFragment extends BaseFragment implements KittingProdu
                 .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
                 .where(CheckFileBeanDao.Properties.DocType.eq(Contents.技术类检查))
                 .list();
+        list.clear();
         if (checkFileBeans != null && !checkFileBeans.isEmpty()) {
             checkFileId = checkFileBeans.get(0).getId();
-
             CheckGroupBeanDao checkGroupBeanDao = MyApplication.getInstances().getCheckGroupDaoSession().getCheckGroupBeanDao();
             checkGroupBeans = checkGroupBeanDao.queryBuilder()
                     .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
                     .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
                     .list();
-            list.clear();
             adapter.notifyDataSetChanged();
             for (int i = 0; i < checkGroupBeans.size(); i++) {
-                if (i==0){
-                    list.add(new TitleBean(checkGroupBeans.get(i).getGroupName(),true));
-                }else {
-                    list.add(new TitleBean(checkGroupBeans.get(i).getGroupName(),false));
+                if (i == 0) {
+                    list.add(new TitleBean(checkGroupBeans.get(i).getGroupName(), true));
+                } else {
+                    list.add(new TitleBean(checkGroupBeans.get(i).getGroupName(), false));
                 }
             }
-            list.add(new TitleBean("结论",false));
 
-            transaction =getChildFragmentManager().beginTransaction();
-            kittingProduct2Fragment = new KittingProduct2Fragment();
-            kittingProduct2Fragment.setOnDel(this);
-            kittingProduct2Fragment.setOnXiugai(this);
-            Bundle bundle = new Bundle();
-            bundle.putString("id", id);
-            bundle.putString("checkFileId", checkFileId);
-            bundle.putInt("position", 0);
-            kittingProduct2Fragment.setArguments(bundle);
-            transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
-            transaction.commit();
-
+            if (list.size() > 0) {
+                transaction = getChildFragmentManager().beginTransaction();
+                kittingProduct2Fragment = new KittingProduct2Fragment();
+                kittingProduct2Fragment.setOnDel(this);
+                kittingProduct2Fragment.setOnXiugai(this);
+                Bundle bundle = new Bundle();
+                bundle.putString("id", id);
+                bundle.putString("checkFileId", checkFileId);
+                bundle.putInt("position", 0);
+                kittingProduct2Fragment.setArguments(bundle);
+                transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
+                transaction.commit();
+            }
         } else {
             checkFileId = System.currentTimeMillis() + "";
         }
+        list.add(new TitleBean("结论", false));
         adapter.notifyDataSetChanged();
         reTb.scrollToPosition(0);
 
@@ -232,15 +233,15 @@ public class TechnologySizeFragment extends BaseFragment implements KittingProdu
                 for (int i = 0; i < list.size(); i++) {
                     list.get(i).setCheck(false);
                 }
-                list.add(list.size()-1,new TitleBean(tv_groupName.getText().toString().trim(),true));
+                list.add(list.size() - 1, new TitleBean(tv_groupName.getText().toString().trim(), true));
                 adapter.notifyDataSetChanged();
-                reTb.scrollToPosition(list.size()-1);
-                transaction =getChildFragmentManager().beginTransaction();
+                reTb.scrollToPosition(list.size() - 1);
+                transaction = getChildFragmentManager().beginTransaction();
                 kittingProduct2Fragment = new KittingProduct2Fragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("id", id);
                 bundle.putString("checkFileId", checkFileId);
-                bundle.putInt("position", list.size()-2);
+                bundle.putInt("position", list.size() - 2);
                 kittingProduct2Fragment.setArguments(bundle);
                 transaction.replace(R.id.fl_vp, kittingProduct2Fragment);
                 transaction.commit();
@@ -269,8 +270,8 @@ public class TechnologySizeFragment extends BaseFragment implements KittingProdu
                         .where(CheckGroupBeanDao.Properties.DataPackageId.eq(id))
                         .where(CheckGroupBeanDao.Properties.CheckFileId.eq(checkFileId))
                         .list();
-                if (checkGroupBeans.size()<=1){
-                    ToastUtils.getInstance().showTextToast(getActivity(),"不可全部删除");
+                if (checkGroupBeans.size() <= 1) {
+                    ToastUtils.getInstance().showTextToast(getActivity(), "不可全部删除");
                     return;
                 }
                 List<CheckGroupBean> checkGroupBeanList = checkGroupBeanDao.queryBuilder()
@@ -469,15 +470,15 @@ public class TechnologySizeFragment extends BaseFragment implements KittingProdu
         list.get(position).setCheck(true);
         adapter.notifyDataSetChanged();
 
-        transaction =getChildFragmentManager().beginTransaction();
-        if (list.get(position).getTitle().equals("结论")){
+        transaction = getChildFragmentManager().beginTransaction();
+        if (list.get(position).getTitle().equals("结论")) {
             SignatureFragment signatureFragment = new SignatureFragment();
             Bundle bundle = new Bundle();
             bundle.putString("id", id);
             bundle.putString("type", type);
             signatureFragment.setArguments(bundle);
             transaction.replace(R.id.fl_vp, signatureFragment);
-        }else {
+        } else {
             kittingProduct2Fragment = new KittingProduct2Fragment();
             Bundle bundle = new Bundle();
             bundle.putString("id", id);

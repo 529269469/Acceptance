@@ -29,9 +29,11 @@ import com.example.acceptance.base.BaseFragment;
 import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.greendao.bean.ApplyItemBean;
 import com.example.acceptance.greendao.bean.CheckApplyBean;
+import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.bean.FileBean;
 import com.example.acceptance.greendao.db.ApplyItemBeanDao;
 import com.example.acceptance.greendao.db.CheckApplyBeanDao;
+import com.example.acceptance.greendao.db.DataPackageDBeanDao;
 import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
@@ -126,87 +128,77 @@ public class ApplyForFragment extends BaseFragment implements View.OnClickListen
                 if (!StringUtils.isBlank(gridStringBuffer.toString())) {
                     gridString = gridStringBuffer.toString().substring(0, gridStringBuffer.toString().length() - 1);
                 }
-                CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
-                        checkApplyBeans.get(0).getDataPackageId(),
-                        checkApplyBeans.get(0).getId(),
-                        checkApplyBeans.get(0).getName(),
-                        checkApplyBeans.get(0).getCode(),
-                        checkApplyBeans.get(0).getContractCode(),
-                        checkApplyBeans.get(0).getContractName(),
-                        etApplicant.getText().toString().trim(),
-                        etApplyCompany.getText().toString().trim(),
-                        etPhone.getText().toString().trim(),
-                        etConclusion.getText().toString().trim(),
-                        etDescription.getText().toString().trim(),
-                        checkApplyBeans.get(0).getDocTypeVal(),
-                        etLiaison.getText().toString().trim(),
-                        etApplyCompany2.getText().toString().trim(),
-                        etApplyCompany3.getText().toString().trim());
-                checkApplyBeanDao.update(checkApplyBean);
+                if (checkApplyBeans!=null&&checkApplyBeans.size()>0){
+                    CheckApplyBean checkApplyBean = new CheckApplyBean(checkApplyBeans.get(0).getUId(),
+                            checkApplyBeans.get(0).getDataPackageId(),
+                            checkApplyBeans.get(0).getId(),
+                            checkApplyBeans.get(0).getName(),
+                            checkApplyBeans.get(0).getCode(),
+                            checkApplyBeans.get(0).getContractCode(),
+                            checkApplyBeans.get(0).getContractName(),
+                            etApplicant.getText().toString().trim(),
+                            etApplyCompany.getText().toString().trim(),
+                            etPhone.getText().toString().trim(),
+                            etConclusion.getText().toString().trim(),
+                            etDescription.getText().toString().trim(),
+                            checkApplyBeans.get(0).getDocTypeVal(),
+                            etLiaison.getText().toString().trim(),
+                            etApplyCompany2.getText().toString().trim(),
+                            etApplyCompany3.getText().toString().trim());
+                    checkApplyBeanDao.update(checkApplyBean);
+                }else {
+                    DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+                    List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
+                            .where(DataPackageDBeanDao.Properties.Id.eq(id))
+                            .list();
+                    CheckApplyBean checkApplyBean = new CheckApplyBean(null,
+                            dataPackageDBeans.get(0).getId(),
+                            dataPackageDBeans.get(0).getId(),
+                            dataPackageDBeans.get(0).getName(),
+                            dataPackageDBeans.get(0).getCode(),
+                            dataPackageDBeans.get(0).getProductCode(),
+                            dataPackageDBeans.get(0).getProductName(),
+                            etApplicant.getText().toString().trim(),
+                            etApplyCompany.getText().toString().trim(),
+                            etPhone.getText().toString().trim(),
+                            etConclusion.getText().toString().trim(),
+                            etDescription.getText().toString().trim(),
+                            "",
+                            etLiaison.getText().toString().trim(),
+                            etApplyCompany2.getText().toString().trim(),
+                            etApplyCompany3.getText().toString().trim());
+                    checkApplyBeanDao.insert(checkApplyBean);
+                }
+
             }
 
         }
     };
 
-    @Override
-    protected void onVisible() {
-        super.onVisible();
-        CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
-        List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
-                .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
-                .list();
-
-        CheckApplyBean checkApplyBean = checkApplyBeans.get(0);
-        tvCode.setText("编号：" + checkApplyBean.getCode());
-        tvName.setText("名称：" + checkApplyBean.getName());
-        tvContractCode.setText("合同编号：" + checkApplyBean.getContractCode());
-        tvContractName.setText("合同名称：" + checkApplyBean.getContractName());
-
-        etApplyCompany.setText(checkApplyBean.getApplyCompany());
-        etApplicant.setText(checkApplyBean.getApplicant());
-        etPhone.setText(checkApplyBean.getPhone());
-        etConclusion.setText(checkApplyBean.getConclusion());
-        etDescription.setText(checkApplyBean.getDescription());
-        etLiaison.setText(checkApplyBean.getAcceptorUnit());
-        etApplyCompany2.setText(checkApplyBean.getAcceptor());
-        etApplyCompany3.setText(checkApplyBean.getAcceptorDept());
-
-
-        ApplyItemBeanDao applyItemBeanDao = MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
-        List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()
-                .where(ApplyItemBeanDao.Properties.DataPackageId.eq(id))
-                .list();
-        list.clear();
-        list.addAll(applyItemBeans);
-        applyForAdapter.notifyDataSetChanged();
-
-    }
 
     @Override
     protected void initEventAndData() {
-        Bundle bundle = getArguments();
-        id = bundle.getString("id");
-
+        id = getArguments().getString("id");
         CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
         List<CheckApplyBean> checkApplyBeans = checkApplyBeanDao.queryBuilder()
                 .where(CheckApplyBeanDao.Properties.DataPackageId.eq(id))
                 .list();
+        if (checkApplyBeans != null && checkApplyBeans.size() > 0) {
+            CheckApplyBean checkApplyBean = checkApplyBeans.get(0);
+            tvCode.setText("编号：" + checkApplyBean.getCode());
+            tvName.setText("名称：" + checkApplyBean.getName());
+            tvContractCode.setText("合同编号：" + checkApplyBean.getContractCode());
+            tvContractName.setText("合同名称：" + checkApplyBean.getContractName());
 
-        CheckApplyBean checkApplyBean = checkApplyBeans.get(0);
-        tvCode.setText("编号：" + checkApplyBean.getCode());
-        tvName.setText("名称：" + checkApplyBean.getName());
-        tvContractCode.setText("合同编号：" + checkApplyBean.getContractCode());
-        tvContractName.setText("合同名称：" + checkApplyBean.getContractName());
-
-        etApplyCompany.setText(checkApplyBean.getApplyCompany());
-        etApplicant.setText(checkApplyBean.getApplicant());
-        etPhone.setText(checkApplyBean.getPhone());
-        etConclusion.setText(checkApplyBean.getConclusion());
-        etDescription.setText(checkApplyBean.getDescription());
-        etLiaison.setText(checkApplyBean.getAcceptorUnit());
-        etApplyCompany2.setText(checkApplyBean.getAcceptor());
-        etApplyCompany3.setText(checkApplyBean.getAcceptorDept());
-
+            etApplyCompany.setText(checkApplyBean.getApplyCompany());
+            etApplicant.setText(checkApplyBean.getApplicant());
+            etPhone.setText(checkApplyBean.getPhone());
+            etConclusion.setText(checkApplyBean.getConclusion());
+            etDescription.setText(checkApplyBean.getDescription());
+            etLiaison.setText(checkApplyBean.getAcceptorUnit());
+            etApplyCompany2.setText(checkApplyBean.getAcceptor());
+            etApplyCompany3.setText(checkApplyBean.getAcceptorDept());
+        }
         gridAdapter = new GridAdapter(gridList, getActivity());
         gv_conclusion.setAdapter(gridAdapter);
         gridAdapter.setOnDel(new GridAdapter.OnDel() {

@@ -147,6 +147,26 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                             checkVerdBeans.get(0).getCheckDate(),
                             checkVerdBeans.get(0).getYConclusion());
                     checkVerdBeanDao.update(checkVerdBean);
+                }else {
+                    DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+                    List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
+                            .where(DataPackageDBeanDao.Properties.Id.eq(id))
+                            .list();
+                    CheckVerdBean checkVerdBean = new CheckVerdBean(null,
+                            dataPackageDBeans.get(0).getId(),
+                            dataPackageDBeans.get(0).getId(),
+                            dataPackageDBeans.get(0).getName(),
+                            dataPackageDBeans.get(0).getCode(),
+                            etQConclusion.getText().toString().trim(),
+                            etGConclusion.getText().toString().trim(),
+                            etJConclusion.getText().toString().trim(),
+                            "",
+                            tv_signature.getText().toString().trim(),
+                            "",
+                            "",
+                            "",
+                            "");
+                    checkVerdBeanDao.insert(checkVerdBean);
                 }
             }
 
@@ -165,6 +185,9 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
         List<CheckVerdBean> checkVerdBeans = checkVerdBeanDao.queryBuilder()
                 .where(CheckVerdBeanDao.Properties.DataPackageId.eq(id))
                 .list();
+        if (checkVerdBeans!=null&&checkVerdBeans.size()>0){
+
+
 
         tvCode.setText("编号：" + checkVerdBeans.get(0).getCode());
         tvName.setText("名称：" + checkVerdBeans.get(0).getName());
@@ -177,6 +200,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                 .where(CheckFileBeanDao.Properties.DocType.eq(Contents.齐套性检查))
                 .list();
         etQConclusion.setText(checkFileBeans1.get(0).getConclusion());
+
         List<CheckFileBean> checkFileBeans2 = checkFileBeanDao.queryBuilder()
                 .where(CheckFileBeanDao.Properties.DataPackageId.eq(id))
                 .where(CheckFileBeanDao.Properties.DocType.eq(Contents.过程检查))
@@ -254,7 +278,7 @@ public class AcceptanceConclusionFragment extends BaseFragment implements View.O
                 return true;
             }
         });
-
+        }
     }
 
     @Override

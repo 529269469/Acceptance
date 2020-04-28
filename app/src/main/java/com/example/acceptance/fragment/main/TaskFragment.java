@@ -25,10 +25,12 @@ import com.example.acceptance.base.MyApplication;
 import com.example.acceptance.greendao.bean.ApplyDeptBean;
 import com.example.acceptance.greendao.bean.ApplyItemBean;
 import com.example.acceptance.greendao.bean.CheckTaskBean;
+import com.example.acceptance.greendao.bean.DataPackageDBean;
 import com.example.acceptance.greendao.db.ApplyDeptBeanDao;
 import com.example.acceptance.greendao.db.ApplyItemBeanDao;
 import com.example.acceptance.greendao.db.CheckApplyBeanDao;
 import com.example.acceptance.greendao.db.CheckTaskBeanDao;
+import com.example.acceptance.greendao.db.DataPackageDBeanDao;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
 import com.example.acceptance.view.MyListView;
@@ -81,7 +83,7 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
     private String id;
     private ApplyDeptAdapter applyDeptAdapter;
 
-    private TextWatcher textWatcher=new TextWatcher() {
+    private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -94,27 +96,50 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String words= editable.toString();
+            String words = editable.toString();
             if (!StringUtils.isBlank(words)) {
                 CheckTaskBeanDao checkTaskBeanDao = MyApplication.getInstances().getCheckTaskDaoSession().getCheckTaskBeanDao();
                 List<CheckTaskBean> checkTaskBeans = checkTaskBeanDao.queryBuilder()
                         .where(CheckTaskBeanDao.Properties.DataPackageId.eq(id))
                         .list();
-                CheckTaskBean checkTaskBean=new CheckTaskBean(checkTaskBeans.get(0).getUId(),
-                        checkTaskBeans.get(0).getDataPackageId(),
-                        checkTaskBeans.get(0).getId(),
-                        checkTaskBeans.get(0).getName(),
-                        checkTaskBeans.get(0).getCode(),
-                        tvIssuer.getText().toString().trim(),
-                        tvIssueDept.getText().toString().trim(),
-                        tvAccepter.getText().toString().trim(),
-                        tvAcceptDate.getText().toString().trim(),
-                        tvCheckDate.getText().toString().trim(),
-                        tvApplicant.getText().toString().trim(),
-                        tvApplyCompany.getText().toString().trim(),
-                        tvPhone.getText().toString().trim(),
-                        checkTaskBeans.get(0).getDocTypeVal());
-                checkTaskBeanDao.update(checkTaskBean);
+
+                if (checkTaskBeans != null && checkTaskBeans.size() > 0) {
+                    CheckTaskBean checkTaskBean = new CheckTaskBean(checkTaskBeans.get(0).getUId(),
+                            checkTaskBeans.get(0).getDataPackageId(),
+                            checkTaskBeans.get(0).getId(),
+                            checkTaskBeans.get(0).getName(),
+                            checkTaskBeans.get(0).getCode(),
+                            tvIssuer.getText().toString().trim(),
+                            tvIssueDept.getText().toString().trim(),
+                            tvAccepter.getText().toString().trim(),
+                            tvAcceptDate.getText().toString().trim(),
+                            tvCheckDate.getText().toString().trim(),
+                            tvApplicant.getText().toString().trim(),
+                            tvApplyCompany.getText().toString().trim(),
+                            tvPhone.getText().toString().trim(),
+                            checkTaskBeans.get(0).getDocTypeVal());
+                    checkTaskBeanDao.update(checkTaskBean);
+                } else {
+                    DataPackageDBeanDao dataPackageDBeanDao = MyApplication.getInstances().getDataPackageDaoSession().getDataPackageDBeanDao();
+                    List<DataPackageDBean> dataPackageDBeans = dataPackageDBeanDao.queryBuilder()
+                            .where(DataPackageDBeanDao.Properties.Id.eq(id))
+                            .list();
+                    CheckTaskBean checkTaskBean = new CheckTaskBean(null,
+                            dataPackageDBeans.get(0).getId(),
+                            dataPackageDBeans.get(0).getId(),
+                            dataPackageDBeans.get(0).getName(),
+                            dataPackageDBeans.get(0).getCode(),
+                            tvIssuer.getText().toString().trim(),
+                            tvIssueDept.getText().toString().trim(),
+                            tvAccepter.getText().toString().trim(),
+                            tvAcceptDate.getText().toString().trim(),
+                            tvCheckDate.getText().toString().trim(),
+                            tvApplicant.getText().toString().trim(),
+                            tvApplyCompany.getText().toString().trim(),
+                            tvPhone.getText().toString().trim(),
+                            "");
+                    checkTaskBeanDao.insert(checkTaskBean);
+                }
             }
 
         }
@@ -122,63 +147,44 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
 
 
     @Override
-    protected void onVisible() {
-        super.onVisible();
-        CheckTaskBeanDao checkTaskBeanDao = MyApplication.getInstances().getCheckTaskDaoSession().getCheckTaskBeanDao();
-        List<CheckTaskBean> checkTaskBeans = checkTaskBeanDao.queryBuilder()
-                .where(CheckTaskBeanDao.Properties.DataPackageId.eq(id))
-                .list();
-        CheckTaskBean checkTaskBean = checkTaskBeans.get(0);
-        tvCode.setText("编号：" + checkTaskBean.getCode());
-        tvName.setText("名称：" + checkTaskBean.getName());
-        tvIssuer.setText(checkTaskBean.getIssuer());
-        tvAccepter.setText(checkTaskBean.getAccepter());
-        tvApplyCompany.setText(checkTaskBean.getApplyCompany());
-        tvPhone.setText(checkTaskBean.getPhone());
-        tvIssueDept.setText(checkTaskBean.getIssueDept());
-        tvAcceptDate.setText(checkTaskBean.getAcceptDate());
-        tvApplicant.setText(checkTaskBean.getApplicant());
-        tvCheckDate.setText(checkTaskBean.getCheckDate());
-
-        ApplyItemBeanDao applyItemBeanDao = MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
-        List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()
-                .where(ApplyItemBeanDao.Properties.DataPackageId.eq(id))
-                .list();
-        list.clear();
-        list.addAll(applyItemBeans);
-        applyForAdapter.notifyDataSetChanged();
-
-
-        ApplyDeptBeanDao applyDeptBeanDao=MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
-        List<ApplyDeptBean> applyDeptBeans=applyDeptBeanDao.queryBuilder()
-                .where(ApplyDeptBeanDao.Properties.DataPackageId.eq(id))
-                .where(ApplyDeptBeanDao.Properties.CheckTaskId.eq(checkTaskBeans.get(0).getId()))
-                .list();
-        list2.clear();
-        list2.addAll(applyDeptBeans);
-        applyDeptAdapter.notifyDataSetChanged();
-
-    }
-
-    @Override
     protected void initEventAndData() {
         id = getArguments().getString("id");
-
         CheckTaskBeanDao checkTaskBeanDao = MyApplication.getInstances().getCheckTaskDaoSession().getCheckTaskBeanDao();
         List<CheckTaskBean> checkTaskBeans = checkTaskBeanDao.queryBuilder()
                 .where(CheckTaskBeanDao.Properties.DataPackageId.eq(id))
                 .list();
-        CheckTaskBean checkTaskBean = checkTaskBeans.get(0);
-        tvCode.setText("编号：" + checkTaskBean.getCode());
-        tvName.setText("名称：" + checkTaskBean.getName());
-        tvIssuer.setText(checkTaskBean.getIssuer());
-        tvAccepter.setText(checkTaskBean.getAccepter());
-        tvApplyCompany.setText(checkTaskBean.getApplyCompany());
-        tvPhone.setText(checkTaskBean.getPhone());
-        tvIssueDept.setText(checkTaskBean.getIssueDept());
-        tvAcceptDate.setText(checkTaskBean.getAcceptDate());
-        tvApplicant.setText(checkTaskBean.getApplicant());
-        tvCheckDate.setText(checkTaskBean.getCheckDate());
+        if (checkTaskBeans != null && checkTaskBeans.size() > 0) {
+            CheckTaskBean checkTaskBean = checkTaskBeans.get(0);
+            tvCode.setText("编号：" + checkTaskBean.getCode());
+            tvName.setText("名称：" + checkTaskBean.getName());
+            tvIssuer.setText(checkTaskBean.getIssuer());
+            tvAccepter.setText(checkTaskBean.getAccepter());
+            tvApplyCompany.setText(checkTaskBean.getApplyCompany());
+            tvPhone.setText(checkTaskBean.getPhone());
+            tvIssueDept.setText(checkTaskBean.getIssueDept());
+            tvAcceptDate.setText(checkTaskBean.getAcceptDate());
+            tvApplicant.setText(checkTaskBean.getApplicant());
+            tvCheckDate.setText(checkTaskBean.getCheckDate());
+
+            ApplyItemBeanDao applyItemBeanDao = MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
+            List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()
+                    .where(ApplyItemBeanDao.Properties.DataPackageId.eq(id))
+                    .list();
+            list.addAll(applyItemBeans);
+            applyForAdapter = new ApplyForAdapter(getActivity(), list);
+            lvList.setAdapter(applyForAdapter);
+
+
+            ApplyDeptBeanDao applyDeptBeanDao = MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
+            List<ApplyDeptBean> applyDeptBeans = applyDeptBeanDao.queryBuilder()
+                    .where(ApplyDeptBeanDao.Properties.DataPackageId.eq(id))
+                    .where(ApplyDeptBeanDao.Properties.CheckTaskId.eq(checkTaskBeans.get(0).getId()))
+                    .list();
+
+            list2.addAll(applyDeptBeans);
+            applyDeptAdapter = new ApplyDeptAdapter(getActivity(), list2);
+            lvList2.setAdapter(applyDeptAdapter);
+        }
 
         tvIssuer.addTextChangedListener(textWatcher);
         tvAccepter.addTextChangedListener(textWatcher);
@@ -188,14 +194,6 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
         tvAcceptDate.addTextChangedListener(textWatcher);
         tvApplicant.addTextChangedListener(textWatcher);
         tvCheckDate.addTextChangedListener(textWatcher);
-
-        ApplyItemBeanDao applyItemBeanDao = MyApplication.getInstances().getApplyItemDaoSession().getApplyItemBeanDao();
-        List<ApplyItemBean> applyItemBeans = applyItemBeanDao.queryBuilder()
-                .where(ApplyItemBeanDao.Properties.DataPackageId.eq(id))
-                .list();
-        list.addAll(applyItemBeans);
-        applyForAdapter = new ApplyForAdapter(getActivity(), list);
-        lvList.setAdapter(applyForAdapter);
 
         tvSave.setOnClickListener(this);
         tvAdd.setOnClickListener(this);
@@ -235,20 +233,10 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
             }
         });
 
-
-        ApplyDeptBeanDao applyDeptBeanDao=MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
-        List<ApplyDeptBean> applyDeptBeans=applyDeptBeanDao.queryBuilder()
-                .where(ApplyDeptBeanDao.Properties.DataPackageId.eq(id))
-                .where(ApplyDeptBeanDao.Properties.CheckTaskId.eq(checkTaskBeans.get(0).getId()))
-                .list();
-        list2.addAll(applyDeptBeans);
-        applyDeptAdapter = new ApplyDeptAdapter(getActivity(),list2);
-        lvList2.setAdapter(applyDeptAdapter);
-
         lvList2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                addPopup2(true,i);
+                addPopup2(true, i);
             }
         });
 
@@ -260,7 +248,7 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                 builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ApplyDeptBeanDao applyDeptBeanDao=MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
+                        ApplyDeptBeanDao applyDeptBeanDao = MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
                         applyDeptBeanDao.deleteByKey(list2.get(i).getUId());
                         list2.remove(i);
                         applyDeptAdapter.notifyDataSetChanged();
@@ -277,6 +265,7 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                 return true;
             }
         });
+
     }
 
     @Override
@@ -286,13 +275,13 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.tv_save:
                 CheckTaskBeanDao checkTaskBeanDao = MyApplication.getInstances().getCheckTaskDaoSession().getCheckTaskBeanDao();
                 List<CheckTaskBean> checkTaskBeans = checkTaskBeanDao.queryBuilder()
                         .where(CheckTaskBeanDao.Properties.DataPackageId.eq(id))
                         .list();
-                CheckTaskBean checkTaskBean=new CheckTaskBean(checkTaskBeans.get(0).getUId(),
+                CheckTaskBean checkTaskBean = new CheckTaskBean(checkTaskBeans.get(0).getUId(),
                         checkTaskBeans.get(0).getDataPackageId(),
                         checkTaskBeans.get(0).getId(),
                         checkTaskBeans.get(0).getName(),
@@ -307,13 +296,13 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                         tvPhone.getText().toString().trim(),
                         checkTaskBeans.get(0).getDocTypeVal());
                 checkTaskBeanDao.update(checkTaskBean);
-                ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
+                ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
                 break;
             case R.id.tv_add:
-                addPopup(false,0);
+                addPopup(false, 0);
                 break;
             case R.id.tv_add2:
-                addPopup2(false,0);
+                addPopup2(false, 0);
                 break;
         }
     }
@@ -336,9 +325,9 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
             getActivity().getWindow().setAttributes(lp1);
         });
 
-        EditText tv_department=view.findViewById(R.id.tv_department);
-        EditText tv_acceptor=view.findViewById(R.id.tv_acceptor);
-        TextView tv_popup_save=view.findViewById(R.id.tv_popup_save);
+        EditText tv_department = view.findViewById(R.id.tv_department);
+        EditText tv_acceptor = view.findViewById(R.id.tv_acceptor);
+        TextView tv_popup_save = view.findViewById(R.id.tv_popup_save);
         if (isAdd) {
             tv_department.setText(list2.get(position).getDepartment());
             tv_acceptor.setText(list2.get(position).getAcceptor());
@@ -352,14 +341,14 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                         .where(CheckTaskBeanDao.Properties.DataPackageId.eq(id))
                         .list();
 
-                ApplyDeptBeanDao applyDeptBeanDao=MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
+                ApplyDeptBeanDao applyDeptBeanDao = MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
                 if (isAdd) {
                     ApplyDeptBean applyItemBean = new ApplyDeptBean(list2.get(position).getUId(),
                             list2.get(position).getDataPackageId(),
                             list2.get(position).getCheckTaskId(),
                             list2.get(position).getId(),
                             tv_department.getText().toString().trim(),
-                            tv_acceptor.getText().toString().trim() ,
+                            tv_acceptor.getText().toString().trim(),
                             list2.get(position).getOther());
                     applyDeptBeanDao.update(applyItemBean);
                 } else {
@@ -368,12 +357,12 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                             checkTaskBeans.get(0).getId(),
                             System.currentTimeMillis() + "",
                             tv_department.getText().toString().trim(),
-                            tv_acceptor.getText().toString().trim() ,
+                            tv_acceptor.getText().toString().trim(),
                             "");
                     applyDeptBeanDao.insert(applyItemBean);
                 }
 
-                List<ApplyDeptBean> applyDeptBeans=applyDeptBeanDao.queryBuilder()
+                List<ApplyDeptBean> applyDeptBeans = applyDeptBeanDao.queryBuilder()
                         .where(ApplyDeptBeanDao.Properties.DataPackageId.eq(id))
                         .where(ApplyDeptBeanDao.Properties.CheckTaskId.eq(checkTaskBeans.get(0).getId()))
                         .list();
@@ -381,7 +370,7 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                 list2.addAll(applyDeptBeans);
                 applyDeptAdapter.notifyDataSetChanged();
                 popupWindow.dismiss();
-                ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
+                ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
             }
         });
 
@@ -425,39 +414,39 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
             tv_productCode.setText(list.get(position).getProductCode());
             tv_productStatus.setText(list.get(position).getProductStatus());
             tv_description.setText(list.get(position).getDescription());
-            if (!StringUtils.isBlank(list.get(position).getIsPureCheck())&&list.get(position).getIsPureCheck().equals("true")) {
+            if (!StringUtils.isBlank(list.get(position).getIsPureCheck()) && list.get(position).getIsPureCheck().equals("true")) {
                 tv_isPureCheck.setChecked(true);
             } else {
                 tv_isPureCheck.setChecked(false);
             }
-            if (!StringUtils.isBlank(list.get(position).getIsArmyCheck())&&list.get(position).getIsArmyCheck().equals("true")) {
+            if (!StringUtils.isBlank(list.get(position).getIsArmyCheck()) && list.get(position).getIsArmyCheck().equals("true")) {
                 tv_isArmyCheck.setChecked(true);
             } else {
                 tv_isArmyCheck.setChecked(false);
             }
-            if (!StringUtils.isBlank(list.get(position).getIsCompleteChoice())&&list.get(position).getIsCompleteChoice().equals("true")) {
+            if (!StringUtils.isBlank(list.get(position).getIsCompleteChoice()) && list.get(position).getIsCompleteChoice().equals("true")) {
                 tv_isCompleteChoice.setChecked(true);
             } else {
                 tv_isCompleteChoice.setChecked(false);
             }
-            if (!StringUtils.isBlank(list.get(position).getIsCompleteRoutine())&&list.get(position).getIsCompleteRoutine().equals("true")) {
+            if (!StringUtils.isBlank(list.get(position).getIsCompleteRoutine()) && list.get(position).getIsCompleteRoutine().equals("true")) {
                 tv_isCompleteRoutine.setChecked(true);
             } else {
                 tv_isCompleteRoutine.setChecked(false);
             }
 
-            if (!StringUtils.isBlank(list.get(position).getIsSatisfyRequire())&&list.get(position).getIsSatisfyRequire().equals("true")) {
+            if (!StringUtils.isBlank(list.get(position).getIsSatisfyRequire()) && list.get(position).getIsSatisfyRequire().equals("true")) {
                 tv_isSatisfyRequire.setChecked(true);
             } else {
                 tv_isSatisfyRequire.setChecked(false);
             }
-            if (!StringUtils.isBlank(list.get(position).getCheckCount())){
+            if (!StringUtils.isBlank(list.get(position).getCheckCount())) {
                 String[] checkCoun = list.get(position).getCheckCount().split("/");
                 try {
                     tv_checkCount.setText(checkCoun[0]);
                     tv_checkCount2.setText(checkCoun[1]);
                     tv_checkCount3.setText(checkCoun[2]);
-                }catch (Exception o){
+                } catch (Exception o) {
 
                 }
 
@@ -513,7 +502,7 @@ public class TaskFragment extends BaseFragment implements View.OnClickListener {
                 list.addAll(applyItemBeans);
                 applyForAdapter.notifyDataSetChanged();
                 popupWindow.dismiss();
-                ToastUtils.getInstance().showTextToast(getActivity(),"保存成功");
+                ToastUtils.getInstance().showTextToast(getActivity(), "保存成功");
             }
         });
 

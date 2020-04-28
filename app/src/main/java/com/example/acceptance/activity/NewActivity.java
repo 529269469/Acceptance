@@ -66,7 +66,9 @@ import com.example.acceptance.greendao.db.PropertyBeanDao;
 import com.example.acceptance.greendao.db.PropertyBeanXDao;
 import com.example.acceptance.greendao.db.RelatedDocumentIdSetBeanDao;
 import com.example.acceptance.greendao.db.UnresolvedBeanDao;
+import com.example.acceptance.net.Contents;
 import com.example.acceptance.utils.DataUtils;
+import com.example.acceptance.utils.FileUtils;
 import com.example.acceptance.utils.SPUtils;
 import com.example.acceptance.utils.StringUtils;
 import com.example.acceptance.utils.ToastUtils;
@@ -190,8 +192,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.bt_yes:
-                if (StringUtils.isBlank(tvCode.getText().toString().trim())){
-                    ToastUtils.getInstance().showTextToast(this,"编号不能为空");
+                if (StringUtils.isBlank(tvCode.getText().toString().trim())) {
+                    ToastUtils.getInstance().showTextToast(this, "编号不能为空");
                     return;
                 }
 
@@ -244,6 +246,11 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
 
 
                 } else {
+                    input2();
+                    FileUtils.createDir(Environment.getExternalStorageDirectory() + "/数据包/" + tvCode.getText().toString().trim());
+                    File file1=new File(Environment.getExternalStorageDirectory() + "/数据包/" + tvCode.getText().toString().trim()+"/DataPackage.xml");
+                    FileUtils.createFile(file1);
+
                     startActivity(MainActivity.openIntent(NewActivity.this, id, false, ""));
                     finish();
                 }
@@ -253,21 +260,21 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
                 mobanPo();
                 break;
             case R.id.tv_type2:
-                String type= (String) SPUtils.get(this,"PacketType","");
-                if (!StringUtils.isBlank(type)){
-                    typePo(tvType,type);
+                String type = (String) SPUtils.get(this, "PacketType", "");
+                if (!StringUtils.isBlank(type)) {
+                    typePo(tvType, type);
                 }
                 break;
             case R.id.tv_responseUnit2:
-                String type2= (String) SPUtils.get(this,"DutyType","");
-                if (!StringUtils.isBlank(type2)){
-                    typePo(tvResponseUnit,type2);
+                String type2 = (String) SPUtils.get(this, "DutyType", "");
+                if (!StringUtils.isBlank(type2)) {
+                    typePo(tvResponseUnit, type2);
                 }
                 break;
             case R.id.tv_productType2:
-                String type3= (String) SPUtils.get(this,"ProductType","");
-                if (!StringUtils.isBlank(type3)){
-                    typePo(tvProductType,type3);
+                String type3 = (String) SPUtils.get(this, "ProductType", "");
+                if (!StringUtils.isBlank(type3)) {
+                    typePo(tvProductType, type3);
                 }
                 break;
         }
@@ -329,6 +336,131 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    String docType = "";
+
+    private void input2() {
+        CheckApplyBeanDao checkApplyBeanDao = MyApplication.getInstances().getCheckApplyDaoSession().getCheckApplyBeanDao();
+
+        CheckApplyBean checkApplyBean = new CheckApplyBean(null,
+                    id,
+                    System.currentTimeMillis() + "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "");
+            checkApplyBeanDao.insert(checkApplyBean);
+
+
+        CheckTaskBeanDao checkTaskBeanDao = MyApplication.getInstances().getCheckTaskDaoSession().getCheckTaskBeanDao();
+
+        CheckTaskBean checkTaskBean = new CheckTaskBean(null,
+                id,
+                System.currentTimeMillis() + "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "");
+        checkTaskBeanDao.insert(checkTaskBean);
+
+        ApplyDeptBeanDao applyDeptBeanDao = MyApplication.getInstances().getApplyDeptDaoSession().getApplyDeptBeanDao();
+
+            ApplyDeptBean applyDeptBean = new ApplyDeptBean(null,
+                    id,
+                    System.currentTimeMillis() + "",
+                    System.currentTimeMillis() + "",
+                    "",
+                    "",
+                    "");
+            applyDeptBeanDao.insert(applyDeptBean);
+
+
+        CheckFileBeanDao checkFileBeanDao = MyApplication.getInstances().getCheckFileDaoSession().getCheckFileBeanDao();
+
+        for (int i = 0; i < 3; i++) {
+            String checkFileId = System.currentTimeMillis() + "";
+
+            switch (i) {
+                case 0:
+                    docType = Contents.齐套性检查;
+                    break;
+                case 1:
+                    docType = Contents.过程检查;
+                    break;
+                case 2:
+                    docType = Contents.技术类检查;
+                    break;
+            }
+
+            CheckFileBean checkFileBean = new CheckFileBean(null,
+                    id,
+                    checkFileId,
+                    "",
+                    "",
+                    docType,
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "");
+            checkFileBeanDao.insert(checkFileBean);
+
+
+        }
+
+
+        CheckVerdBeanDao checkVerdBeanDao = MyApplication.getInstances().getCheckVerdDaoSession().getCheckVerdBeanDao();
+        CheckVerdBean checkVerdBean = new CheckVerdBean(null,
+                id,
+                System.currentTimeMillis() + "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "");
+        checkVerdBeanDao.insert(checkVerdBean);
+
+        CheckUnresolvedBeanDao checkUnresolvedBeanDao = MyApplication.getInstances().getCheckUnresolvedDaoSession().getCheckUnresolvedBeanDao();
+
+        CheckUnresolvedBean checkUnresolvedBean = new CheckUnresolvedBean(null,
+                id,
+                System.currentTimeMillis() + "",
+                "",
+                "",
+                "");
+        checkUnresolvedBeanDao.insert(checkUnresolvedBean);
+
+
+    }
 
     private void input(File subFile, String upLoadFileName, String upLoadFile) {
         String content = "";
@@ -721,7 +853,6 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-
     private void mobanPo() {
         View poview = getLayoutInflater().inflate(R.layout.moban_item, null);
         PopupWindow daochu = new PopupWindow(poview);
@@ -747,8 +878,8 @@ public class NewActivity extends BaseActivity implements View.OnClickListener {
         File files = new File(Environment.getExternalStorageDirectory() + "/模板");
         File[] subFile = files.listFiles();
         for (int i = 0; i < subFile.length; i++) {
-            if (!subFile[i].exists()||subFile[i].length()==0){
-                ToastUtils.getInstance().showTextToast(this,"模板错误");
+            if (!subFile[i].exists() || subFile[i].length() == 0) {
+                ToastUtils.getInstance().showTextToast(this, "模板错误");
                 return;
             }
             String filename = subFile[i].getName();

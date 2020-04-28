@@ -123,12 +123,12 @@ public class TechnologyFileFragment extends BaseFragment {
 
         DocumentBeanDao documentBeanDao = MyApplication.getInstances().getDocumentDaoSession().getDocumentBeanDao();
 
-
         DeliveryListBeanDao deliveryListBeanDao = MyApplication.getInstances().getDeliveryListDaoSession().getDeliveryListBeanDao();
         List<DeliveryListBean> parentIdList = deliveryListBeanDao.queryBuilder()
                 .where(DeliveryListBeanDao.Properties.DataPackageId.eq(id))
                 .where(DeliveryListBeanDao.Properties.Project.eq("验收依据文件"))
                 .list();
+
         if (parentIdList!=null&&!parentIdList.isEmpty()){
             parentId = parentIdList.get(0).getId();
         }else {
